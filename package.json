@@ -1,0 +1,15 @@
+{
+  "name": "0verSchool",
+  "description": "0verSchool",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "build": "node_modules/harp/bin/harp compile . dist",
+    "serve": "node_modules/harp/bin/harp server"
+  },
+  "author": "0verseas",
+  "license": "MIT",
+  "devDependencies": {
+    "harp": "^0.23.0"
+  }
+}
