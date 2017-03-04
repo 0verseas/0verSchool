@@ -1,0 +1,7 @@
+{
+	"login": {
+		"account": "Account", 
+		"password": "Password", 
+		"loginBtn": "Login"
+	}
+}
