@@ -7,5 +7,13 @@
 	"global": {
 		"siteName": "0verseas no 簡章系統", 
 		"logoutBtn": "Logout"
+	}, 
+	"index": {
+		"schoolAccountSetting": "schoolAccountSetting", 
+		"formSurvey": "formSurvey", 
+		"personalInfo": "personalInfo", 
+		"download": "download", 
+		"history": "history", 
+		"singUp": "singUp"
 	}
 }

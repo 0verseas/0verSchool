@@ -7,5 +7,13 @@
 	"global": {
 		"siteName": "海聯 no 簡章系統", 
 		"logoutBtn": "登出"
+	}, 
+	"index": {
+		"schoolAccountSetting": "學校帳戶設定", 
+		"formSurvey": "簡章調查", 
+		"personalInfo": "個人申請資料下載、審核與回覆", 
+		"download": "下載當年度錄取學生資料", 
+		"history": "查詢歷年錄取學生資料", 
+		"singUp": "教育展報名系統"
 	}
 }
