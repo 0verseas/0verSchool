@@ -20,7 +20,48 @@ consumes:
 produces:
 - "application/json"
 paths:
-  /users:
+  /users/login:
+    post:
+      description: "Returns cookie if login success. Check https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#parameterObject"
+      operationId: "user_login"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "email"
+        in: "formData"
+        description: "login mail"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "formData"
+        description: "login password"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "user response"
+          schema:
+            $ref: "#/definitions/userModel"
+        default:
+          description: "unexpected error"
+          schema:
+            $ref: "#/definitions/errorModel"
+  /users/logout:
+    get:
+      description: "user logout"
+      operationId: "user_logout"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "user response"
+          schema:
+            $ref: "#/definitions/userModel"
+        default:
+          description: "unexpected error"
+          schema:
+            $ref: "#/definitions/errorModel"
+  /users/:
     get:
       description: "回傳使用者列表"
       operationId: "find_users"
@@ -44,204 +85,245 @@ paths:
           schema:
             $ref: "#/definitions/errorModel"
       x-swagger-router-controller: "Default"
-  /keywords:
+  /users/me:
     get:
-      description: "Returns all keywords from the system that the user has access\
-        \ to"
-      operationId: "findKeyword"
+      description: "Returns self data"
+      operationId: "find_user_me"
       produces:
       - "application/json"
-      - "application/xml"
-      - "text/xml"
-      - "text/html"
-      parameters:
-      - name: "latitude"
-        in: "query"
-        description: "Latitude of current location"
-        required: true
-        type: "number"
-        format: "float"
-      - name: "longitude"
-        in: "query"
-        description: "Longititude of current location"
-        required: true
-        type: "number"
-        format: "float"
-      - name: "radius"
-        in: "query"
-        description: "Radius of current view"
-        required: true
-        type: "number"
-        format: "float"
       responses:
         200:
-          description: "keywords response"
+          description: "user response"
           schema:
-            $ref: "#/definitions/keywordEntry"
+            $ref: "#/definitions/userModel"
         default:
           description: "unexpected error"
           schema:
             $ref: "#/definitions/errorModel"
-      x-swagger-router-controller: "Default"
-  /news:
-    get:
-      description: "Returns all news from the system that the user has access to (for\
-        \ Rich Client)"
-      operationId: "findNews"
+    patch:
+      description: "Patch self data"
+      operationId: "patch_user_me"
       produces:
       - "application/json"
-      - "application/xml"
-      - "text/xml"
-      - "text/html"
       parameters:
-      - name: "latitude"
-        in: "query"
-        description: "Latitude of current location"
-        required: true
-        type: "number"
-        format: "float"
-      - name: "longitude"
-        in: "query"
-        description: "Longititude of current location"
-        required: true
-        type: "number"
-        format: "float"
-      - name: "radius"
-        in: "query"
-        description: "Radius of current view"
-        required: true
-        type: "number"
-        format: "float"
-      responses:
-        200:
-          description: "news response"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/newsEntry"
-        default:
-          description: "unexpected error"
-          schema:
-            $ref: "#/definitions/errorModel"
-      x-swagger-router-controller: "Default"
-  /news/category/{category}:
-    get:
-      description: "Returns all news with keyword from the system that the user has\
-        \ access to"
-      operationId: "findNewsByCategory"
-      produces:
-      - "application/json"
-      - "application/xml"
-      - "text/xml"
-      - "text/html"
-      parameters:
-      - name: "category"
-        in: "path"
-        description: "News in which keyword"
+      - name: "email"
+        in: "formData"
+        description: "login mail"
         required: true
         type: "string"
-      - name: "latitude"
-        in: "query"
-        description: "Latitude of current location"
-        required: true
-        type: "number"
-        format: "float"
-      - name: "longitude"
-        in: "query"
-        description: "Longititude of current location"
-        required: true
-        type: "number"
-        format: "float"
-      - name: "radius"
-        in: "query"
-        description: "Radius of current view"
-        required: true
-        type: "number"
-        format: "float"
-      responses:
-        200:
-          description: "news response"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/newsEntry"
-        default:
-          description: "unexpected error"
-          schema:
-            $ref: "#/definitions/errorModel"
-      x-swagger-router-controller: "Default"
-  /news/keyword/{keyword}:
-    get:
-      description: "Returns all news with keyword from the system that the user has\
-        \ access to"
-      operationId: "findNewsByKeyword"
-      produces:
-      - "application/json"
-      - "application/xml"
-      - "text/xml"
-      - "text/html"
-      parameters:
-      - name: "keyword"
-        in: "path"
-        description: "News in which keyword"
+      - name: "password"
+        in: "formData"
+        description: "login password"
         required: true
         type: "string"
-      - name: "latitude"
-        in: "query"
-        description: "Latitude of current location"
-        required: true
-        type: "number"
-        format: "float"
-      - name: "longitude"
-        in: "query"
-        description: "Longititude of current location"
-        required: true
-        type: "number"
-        format: "float"
-      - name: "radius"
-        in: "query"
-        description: "Radius of current view"
-        required: true
-        type: "number"
-        format: "float"
       responses:
         200:
-          description: "news response"
+          description: "user response"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/newsEntry"
+            $ref: "#/definitions/userModel"
         default:
           description: "unexpected error"
           schema:
             $ref: "#/definitions/errorModel"
       x-swagger-router-controller: "Default"
-  /news/{id}:
+  /users/{id}:
     get:
-      description: "Returns a news based on a single ID"
-      operationId: "findNewsById"
+      description: "Returns a user based on a single ID"
+      operationId: "find_user_by_id"
       produces:
       - "application/json"
-      - "application/xml"
-      - "text/xml"
-      - "text/html"
       parameters:
       - name: "id"
         in: "path"
-        description: "ID of news to fetch"
+        description: "ID of user to fetch"
         required: true
         type: "integer"
         format: "int64"
       responses:
         200:
-          description: "news response"
+          description: "user response"
           schema:
-            $ref: "#/definitions/newsEntry"
+            $ref: "#/definitions/userModel"
+        default:
+          description: "unexpected error"
+          schema:
+            $ref: "#/definitions/errorModel"
+    patch:
+      description: "Patch user by id"
+      operationId: "patch_user_by_id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of user to patch"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "email"
+        in: "formData"
+        description: "login mail"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "formData"
+        description: "login password"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "user response"
+          schema:
+            $ref: "#/definitions/userModel"
+        default:
+          description: "unexpected error"
+          schema:
+            $ref: "#/definitions/errorModel"
+    delete:
+      description: "Delete user by id"
+      operationId: "delete_user_by_id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of user to de;lete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "user response"
+          schema:
+            $ref: "#/definitions/userModel"
         default:
           description: "unexpected error"
           schema:
             $ref: "#/definitions/errorModel"
       x-swagger-router-controller: "Default"
+  /school/{id}:
+    get:
+      description: "Returns a school based on a single ID"
+      operationId: "find_school_by_id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of school to fetch"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "school response"
+          schema:
+            $ref: "#/definitions/userModel"
+        default:
+          description: "unexpected error"
+          schema:
+            $ref: "#/definitions/errorModel"
+    patch:
+      description: "Patch school by id"
+      operationId: "patch_school_by_id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of school to patch"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "fullname"
+        in: "formData"
+        description: "full name"
+        required: true
+        type: "string"
+      - name: "desciption"
+        in: "formData"
+        description: "introduction"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "user response"
+          schema:
+            $ref: "#/definitions/userModel"
+        default:
+          description: "unexpected error"
+          schema:
+            $ref: "#/definitions/errorModel"
+    post:
+      description: "create new dept under school"
+      operationId: "create_dept"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of school to fetch"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "title"
+        in: "formData"
+        description: "dept title"
+        required: true
+        type: "string"
+      - name: "desc"
+        in: "formData"
+        description: "dept intro"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "user response"
+          schema:
+            $ref: "#/definitions/userModel"
+        default:
+          description: "unexpected error"
+          schema:
+            $ref: "#/definitions/errorModel"
+      x-swagger-router-controller: "Default"
+  /school/{id}/{dept_id}:
+    patch:
+      description: "Patch school by id"
+      operationId: "patch_dept_by_id"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of school to patch"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "dept_id"
+        in: "path"
+        description: "ID of dept to patch"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "fullname"
+        in: "formData"
+        description: "full name"
+        required: true
+        type: "string"
+      - name: "desciption"
+        in: "formData"
+        description: "introduction"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "user response"
+          schema:
+            $ref: "#/definitions/userModel"
+        default:
+          description: "unexpected error"
+          schema:
+            $ref: "#/definitions/errorModel"
 definitions:
   userModel:
     type: "object"
