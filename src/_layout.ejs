@@ -11,6 +11,7 @@
 
 	<!-- Bootstrap core CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
 	<!-- Custom styles for this template -->
 	<link href="css/<%= current.source %>.css" rel="stylesheet">
@@ -30,15 +31,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 	<script src="lib/i18next-1.11.2.min.js"></script>
+	<script src="js/app.js"></script>
 	<script src="js/<%= current.source %>.js"></script>
-	<script>
-		const lng = localStorage.language || 'ch';
-		$.i18n.init({
-			lng, 
-			debug: true
-		}, function() {
-			$(document).i18n();
-		});
-	</script>
 </body>
 </html>
