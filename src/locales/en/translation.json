@@ -3,5 +3,9 @@
 		"account": "User", 
 		"password": "Pass", 
 		"loginBtn": "Login"
+	}, 
+	"global": {
+		"siteName": "0verseas no 簡章系統", 
+		"logoutBtn": "Logout"
 	}
 }

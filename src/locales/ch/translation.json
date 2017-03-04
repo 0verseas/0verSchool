@@ -3,5 +3,9 @@
 		"account": "帳號", 
 		"password": "密碼", 
 		"loginBtn": "登入"
+	}, 
+	"global": {
+		"siteName": "海聯 no 簡章系統", 
+		"logoutBtn": "登出"
 	}
 }

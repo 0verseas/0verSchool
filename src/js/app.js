@@ -23,9 +23,14 @@ var App = (_ => {
 		});
 	}
 
+	function checkLogin(callback) {
+		callback();
+	}
+
 	_init();
 
 	return {
-		changeLanguage
+		changeLanguage, 
+		checkLogin
 	}
 })();
