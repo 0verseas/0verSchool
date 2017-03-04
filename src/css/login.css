@@ -1,0 +1,8 @@
+#login {
+	margin-top: 87px;
+}
+
+#login #btn-login {
+	width: 100%;
+	cursor: pointer;
+}
