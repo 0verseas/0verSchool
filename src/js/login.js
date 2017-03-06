@@ -11,8 +11,9 @@ var Login = (_ => {
 	**/
 	$loginCard.on('click.login', '#btn-login', _handleLogin);
 	$loginCard.on('keydown.login', 'input', _handleLogin);
-	$loginCard.on('click.toChinese', '.btn-ch', () => {App.changeLanguage('ch')});
-	$loginCard.on('click.toEnglish', '.btn-en', () => {App.changeLanguage('en')});
+	// for i18n
+	// $loginCard.on('click.toChinese', '.btn-ch', () => {App.changeLanguage('ch')});
+	// $loginCard.on('click.toEnglish', '.btn-en', () => {App.changeLanguage('en')});
 	$window.on('resize', _handleResize);
 
 	function _handleLogin(e) {

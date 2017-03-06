@@ -8,8 +8,9 @@ var Header = (_ => {
 	/**
 	 * bind event
 	**/
-	$nav.on('click.toChinese', '.btn-ch', () => {App.changeLanguage('ch')});
-	$nav.on('click.toEnglish', '.btn-en', () => {App.changeLanguage('en')});
+	// for i18n
+	// $nav.on('click.toChinese', '.btn-ch', () => {App.changeLanguage('ch')});
+	// $nav.on('click.toEnglish', '.btn-en', () => {App.changeLanguage('en')});
 	$nav.on('click.logout', '#btn-logout', _handleLogout);
 
 	function _handleLogout() {
