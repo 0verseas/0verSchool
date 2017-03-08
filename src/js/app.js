@@ -3,10 +3,6 @@ var App = (_ => {
 	/**
 	 * init
 	 */
-	checkLogin(function() {
-		// TODO: if no login => redirect
-		console.log('check login~~');
-	});
 
 	_setLanguage();
 	

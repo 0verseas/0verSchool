@@ -4,7 +4,12 @@ var Header = (_ => {
 	 * cache DOM
 	**/
 	const $nav = $('#nav');
-
+	
+	/**
+	 * init
+	 */
+	_getUser();
+	
 	/**
 	 * bind event
 	**/
@@ -19,10 +24,9 @@ var Header = (_ => {
 
 	function _getUser() {
 		App.checkLogin(function() {
-			$nav.find('#userName').text('uuuser')
+			// TODO: if no login -> redirect
+			$nav.find('#userName').text('uuuser');
 		});
 	}
-
-	_getUser();
 
 })();
