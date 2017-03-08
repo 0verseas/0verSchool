@@ -15,5 +15,26 @@
 		"download": "下載當年度錄取學生資料", 
 		"history": "查詢歷年錄取學生資料", 
 		"singUp": "教育展報名系統"
+	}, 
+	"schoolUser": {
+		"schoolUserList": "承辦人員清單", 
+		"list": {
+			"name": "姓名", 
+			"email": "信箱", 
+			"org": "處室", 
+			"tel": "電話"
+		}, 
+		"addSchoolUserModal": {
+			"addUser": "新增承辦人員", 
+			"school": "學校", 
+			"cname": "中文姓名", 
+			"ename": "英文姓名", 
+			"email": "信箱", 
+			"pass": "密碼", 
+			"org": "處室", 
+			"tel": "電話", 
+			"cancel": "取消", 
+			"confirm": "確定"
+		}
 	}
 }
