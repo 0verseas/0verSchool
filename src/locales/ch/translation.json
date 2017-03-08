@@ -26,6 +26,7 @@
 		}, 
 		"addSchoolUserModal": {
 			"addUser": "新增承辦人員", 
+			"editUser": "編輯承辦人員", 
 			"school": "學校", 
 			"cname": "中文姓名", 
 			"ename": "英文姓名", 

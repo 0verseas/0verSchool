@@ -16,18 +16,13 @@ var SchoolUser = (_ => {
 	/**
 	 * bind event
 	 */
-	$titleRow.on('click.addSchoolUser', '.btn-openAddSchoolUserModal', _addSchoolUser);
 	$listTable.on('click.edit', '.schoolUser .btn-edit', _handleEdit);
 	$listTable.on('click.delete', '.schoolUser .btn-delete', _handleDelete);
 	$(window).on('resize', _handleResize);
-
-	function _addSchoolUser() {
-		// open modal
-		$('#modal-addSchoolUser').modal();
-	}
-
+	
 	function _handleEdit() {
-		console.log('editttt');
+		console.log('edit');
+		// TODO: get user detail info
 	}
 
 	function _handleDelete() {
@@ -54,7 +49,7 @@ var SchoolUser = (_ => {
 					<td>${val.org}</td>
 					<td>${val.tel}</td>
 					<td>
-						<button class="btn btn-warning btn-edit">
+						<button class="btn btn-warning btn-edit" data-toggle="modal" data-target="#modal-editSchoolUser">
 							<i class="fa fa-pencil" aria-hidden="true"></i>
 						</button> 
 						<button class="btn btn-danger btn-delete">

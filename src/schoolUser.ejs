@@ -3,7 +3,7 @@
 		<div id="title" class="col-lg-12">
 			<span id="schoolName">國立暨南國際大學~~~</span>
 			<span data-i18n="schoolUser.schoolUserList"><!-- 承辦人員清單 --></span>
-			<button class="btn btn-primary btn-sm btn-openAddSchoolUserModal">
+			<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-addSchoolUser">
 				<i class="fa fa-plus" aria-hidden="true"></i>
 			</button>  
 		</div>
@@ -21,20 +21,20 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="schoolUser">
+					<!-- <tr class="schoolUser">
 						<td>蔡英文</td>
 						<td>abcde@gmail.com</td>
 						<td>海外聯招</td>
 						<td>1234567#1234</td>
 						<td>
-							<button class="btn btn-warning btn-edit">
+							<button class="btn btn-warning btn-edit" data-toggle="modal" data-target="#modal-editSchoolUser">
 								<i class="fa fa-pencil" aria-hidden="true"></i>
 							</button> 
 							<button class="btn btn-danger btn-delete">
 								<i class="fa fa-trash-o" aria-hidden="true"></i>
 							</button>
 						</td>
-					</tr>
+					</tr> -->
 				</tbody>
 			</table>
 		</div>
@@ -46,6 +46,67 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="addSchoolUserModalLabel" data-i18n="schoolUser.addSchoolUserModal.addUser"><!-- 新增承辦人員 --></h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group row">
+					<label class="col-2 col-form-label" data-i18n="schoolUser.addSchoolUserModal.school"><!-- 學校 --></label>
+					<div class="col-10">
+						<input class="form-control" type="text" disabled />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="" class="col-2 col-form-label" data-i18n="schoolUser.addSchoolUserModal.cname"><!-- 中文姓名 --></label>
+					<div class="col-10">
+						<input class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="" class="col-2 col-form-label" data-i18n="schoolUser.addSchoolUserModal.ename"><!-- 英文姓名 --></label>
+					<div class="col-10">
+						<input class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="" class="col-2 col-form-label" data-i18n="schoolUser.addSchoolUserModal.email"><!-- 信箱 --></label>
+					<div class="col-10">
+						<input class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="" class="col-2 col-form-label" data-i18n="schoolUser.addSchoolUserModal.pass"><!-- 密碼 --></label>
+					<div class="col-10">
+						<input class="form-control" type="password" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="" class="col-2 col-form-label" data-i18n="schoolUser.addSchoolUserModal.org"><!-- 處室 --></label>
+					<div class="col-10">
+						<input class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="" class="col-2 col-form-label" data-i18n="schoolUser.addSchoolUserModal.tel"><!-- 電話 --></label>
+					<div class="col-10">
+						<input class="form-control" type="text" />
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal" data-i18n="schoolUser.addSchoolUserModal.cancel"><!-- 取消 --></button>
+				<button type="button" class="btn btn-primary" data-i18n="schoolUser.addSchoolUserModal.confirm"><!-- 新增 --></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modal-editSchoolUser" tabindex="-1" role="dialog" aria-labelledby="editSchoolUserModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="editSchoolUserModalLabel" data-i18n="schoolUser.addSchoolUserModal.editUser"><!-- 編輯承辦人員 --></h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
