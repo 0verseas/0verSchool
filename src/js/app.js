@@ -1,8 +1,14 @@
 var App = (_ => {
 	
-	function _init() {
-		_setLanguage();
-	}
+	/**
+	 * init
+	 */
+	checkLogin(function() {
+		// TODO: if no login => redirect
+		console.log('check login~~');
+	});
+
+	_setLanguage();
 	
 	function _setLanguage() {
 		!localStorage.language && (localStorage.language = 'ch');
@@ -26,8 +32,6 @@ var App = (_ => {
 	function checkLogin(callback) {
 		callback();
 	}
-
-	_init();
 
 	return {
 		changeLanguage, 

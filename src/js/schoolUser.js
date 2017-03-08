@@ -34,7 +34,7 @@ var SchoolUser = (_ => {
 		var list = [
 			{
 				name: '蔡英文', 
-				emali: 'abcde@gmail.com', 
+				email: 'abcde@gmail.com', 
 				org: '海外聯招', 
 				tel: '1234567#1234'
 			}

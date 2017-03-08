@@ -11,7 +11,7 @@ var Index = (_ => {
 
 	function _checkPermission() {
 		// check permission than redirect to 
-		// /user or /school user
+		// /user or /schoolUser
 		console.log('ccccheck')
 	}
 

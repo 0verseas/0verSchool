@@ -1,0 +1,8 @@
+#page-user #userForm {
+	margin-top: 70px;
+}
+
+#page-user #btn-updateUser {
+	width: 100%;
+	cursor: pointer;
+}

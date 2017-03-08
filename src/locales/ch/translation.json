@@ -37,5 +37,18 @@
 			"cancel": "取消", 
 			"confirm": "確定"
 		}
+	}, 
+	"user": {
+		"title": "編輯個人資料", 
+		"form": {
+			"school": "學校", 
+			"cname": "中文姓名", 
+			"ename": "英文姓名", 
+			"email": "信箱", 
+			"pass": "密碼", 
+			"org": "處室", 
+			"tel": "電話", 
+			"update": "更新"
+		}
 	}
 }
