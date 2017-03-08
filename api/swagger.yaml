@@ -218,7 +218,7 @@ paths:
         200:
           description: "school response"
           schema:
-            $ref: "#/definitions/userModel"
+            $ref: "#/definitions/schoolModel"
         default:
           description: "unexpected error"
           schema:
@@ -249,7 +249,7 @@ paths:
         200:
           description: "user response"
           schema:
-            $ref: "#/definitions/userModel"
+            $ref: "#/definitions/schoolModel"
         default:
           description: "unexpected error"
           schema:
@@ -280,7 +280,7 @@ paths:
         200:
           description: "user response"
           schema:
-            $ref: "#/definitions/userModel"
+            $ref: "#/definitions/schoolModel"
         default:
           description: "unexpected error"
           schema:
@@ -333,39 +333,55 @@ definitions:
       id:
         type: "integer"
         format: "int64"
+      user_type:
+        type: "string" # schools, students, overseas ...
       email:
         type: "string"
-      location:
-        $ref: "#/definitions/location"
-      keywords:
-        type: "array"
-        items:
-          type: "string"
-      timestamp:
+      chinese_name:
         type: "string"
-        format: "date-time"
-      source:
+      eng_name:
         type: "string"
-      source_site:
+      password:
         type: "string"
-      category:
-        type: "array"
-        items:
-          type: "string"
-      positive:
-        type: "boolean"
-  newsEntry:
+      school_users:
+        $ref: "#/definitions/school_users"
+      student:
+        $ref: "#/definitions/students"
+      login_log:
+        $ref: "#/definitions/log"
+  school_users:
     type: "object"
     required:
-    - "category"
-    - "id"
-    - "keywords"
-    - "location"
-    - "positive"
+    - "school_code"
+    properties:
+      school_code:
+        type: "integer" # 目前學校代碼是 0~FF
+        format: "hexadecimal"
+      school_name:
+        type: "string"
+      organization:
+        type: "string" # 哪個處室
+      office_phone:
+        type: "string" # 分機用#分隔
+      school_permissions:
+        $ref: "#/definitions/school_permissions"
+  school_permissions:
+    type: "object"
+    required:
+    - "edit_synopsis"
+    properties:
+      admin:
+        type: "boolean"
+      add_users:
+        type: "boolean"
+      edit_synopsis:
+        type: "boolean"
+  students: # 嗯先不要管學生
+    type: "object"
+    required:
     - "source"
     - "source_site"
     - "timestamp"
-    - "title"
     properties:
       id:
         type: "integer"
@@ -391,6 +407,121 @@ definitions:
           type: "string"
       positive:
         type: "boolean"
+  log:
+    type: "object"
+    required:
+    - "source"
+    - "source_site"
+    - "timestamp"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      title:
+        type: "string"
+      location:
+        $ref: "#/definitions/location"
+      keywords:
+        type: "array"
+        items:
+          type: "string"
+      timestamp:
+        type: "string"
+        format: "date-time"
+      source:
+        type: "string"
+      source_site:
+        type: "string"
+      category:
+        type: "array"
+        items:
+          type: "string"
+      positive:
+        type: "boolean"
+  schoolModel:
+    type: "object"
+    required:
+    - "id"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      school_code:
+        type: "integer" # 00 ~ FF
+        format: "hexadecimal"
+      type:
+        type: "string" # {public, private} {university, university of tech}
+      chinese_name:
+        type: "string"
+      english_name:
+        type: "string"
+      address:
+        type: "string"
+      eng_address:
+        type: "string"
+      phone:
+        type: "string"
+      fax:
+        type: "string"
+      homepage:
+        type: "string"
+      organization:
+        type: "string" # 學校承辦單位 (簡章需要印出)
+      undergraduate_memo:
+        type: "string"
+      master_memo:
+        type: "string" # 研究所備註 (不曉得要不要分碩士博士)
+      associate_memo:
+        type: "string" # 香港二年制副學士備註
+      overseas_bs_limit:
+        type: "integer" # 大學部僑生可用總量
+      overseas_master_limit:
+        type: "integer" # 碩士班僑生可用總量
+      overseas_phd_limit:
+        type: "integer" # 博士班僑生可用總量
+      bs_not_reach:
+        type: "integer" # 本國學生學士班未招足名額
+      master_not_reach:
+        type: "integer" # 本國學生碩士班未招足名額
+      phd_not_reach:
+        type: "integer" # 本國學生博士班未招足名額
+      bs_add:
+        type: "integer" # 教育部核定學士班擴增名額
+      master_add:
+        type: "integer" # 教育部核定碩士班擴增名額
+      phd_add:
+        type: "integer" # 教育部核定博士班擴增名額
+      i11l_bs_limit:
+        type: "integer" # 大學部外生可用總量
+      i11l_master_limit:
+        type: "integer" # 碩士班外生可用總量
+      i11l_phd_limit:
+        type: "integer" # 博士班外生可用總量
+      sort_order:
+        type: "integer" # 簡章排列順序
+      five_year_allowed:
+        type: "boolean" # 允許中五學制學生就讀，大學同等學力認定標準第8條第2項
+      five_year_prepare:
+        type: "boolean" # 於限期內訂定學則供中五學制學生就讀
+      five_year_confirmed_by:
+        type: "integer" # school_code
+        format: "hexadecimal"
+      five_year_rule:
+        type: "string" # 允許中五生就讀之學則
+      approve_no:
+        type: "string" # 教育部自招核定文號
+      self_limit:
+        type: "integer" # 學士班自招總額、含醫學牙醫中醫
+      two_year_tech:
+        type: "boolean" # 是否有二技日間學制
+      dorm_info:
+        type: "string" # 宿舍資訊
+      scholarship_info:
+        type: "string" # 僑生專屬獎學金資訊 (原本有提供宿舍、獎學金的欄位)
+      scholarship_dept:
+        type: "string" # 負責僑生專屬獎學金處室
+      scholarship_url:
+        type: "string" # 僑生專屬獎學金網址
   location:
     type: "object"
     required:
