@@ -11,6 +11,7 @@ var SchoolUser = (_ => {
 	 */
 	_checkPermission();
 	_handleResize();
+	_setSchoolName();
 	_getSchoolUserList();
 
 	/**
@@ -27,6 +28,11 @@ var SchoolUser = (_ => {
 
 	function _handleDelete() {
 		console.log('deleteeee');
+	}
+
+	function _setSchoolName() {
+		let schoolName = App.getUserInfo().school;
+		$titleRow.find('#schoolName').text(schoolName);
 	}
 
 	function _getSchoolUserList() {

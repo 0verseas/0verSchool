@@ -3,7 +3,7 @@ var App = (_ => {
 	/**
 	 * init
 	 */
-
+	let _userInfo = {};
 	_setLanguage();
 	
 	function _setLanguage() {
@@ -26,11 +26,28 @@ var App = (_ => {
 	}
 
 	function checkLogin(callback) {
-		callback();
+		// TODO: if logged in 
+		// save user info
+		_userInfo = {
+			cname: 'userrr', 
+			ename: 'enameuserrr', 
+			school: '國立暨南國際大學', 
+			email: 'eeemail@emai.l', 
+			org: '海外聯招', 
+			tel: '1234567#1234', 
+			admin: true
+		}
+		console.log(_userInfo);
+		callback(_userInfo);
+	}
+
+	function getUserInfo() {
+		return _userInfo;
 	}
 
 	return {
 		changeLanguage, 
-		checkLogin
+		checkLogin, 
+		getUserInfo
 	}
 })();

@@ -23,9 +23,9 @@ var Header = (_ => {
 	}
 
 	function _getUser() {
-		App.checkLogin(function() {
+		App.checkLogin(function(data) {
 			// TODO: if no login -> redirect
-			$nav.find('#userName').text('uuuser');
+			$nav.find('#userName').text(data.cname);
 		});
 	}
 

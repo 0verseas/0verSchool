@@ -10,9 +10,13 @@ var Index = (_ => {
 	$btnSchoolAccountSetting.on('click', _checkPermission);
 
 	function _checkPermission() {
-		// check permission than redirect to 
+		// TODO: check permission than redirect to 
 		// /user or /schoolUser
-		console.log('ccccheck')
-	}
+		console.log('ccccheck');
+		if(App.getUserInfo().admin) {
+			location.href = '/schoolUser';
+		} else 
+			location.href = '/user';
+		}
 
 })();

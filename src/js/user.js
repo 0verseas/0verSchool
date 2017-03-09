@@ -3,12 +3,13 @@ var User = (_ => {
 	 * cache DOM
 	 */
 	$userPage = $('#page-user');
-	$updateBtn = $userPage.find('#btn-updateUser');
+	$userForm = $userPage.find('#userForm');
+	$updateBtn = $userForm.find('#btn-updateUser');
 	
 	/**
 	 * init
 	 */
-	_getUserInfo();
+	_setUserInfo();
 
 	/**
 	 * bind event
@@ -19,8 +20,16 @@ var User = (_ => {
 		console.log('updateeeee');
 	}
 
-	function _getUserInfo() {
+	function _setUserInfo() {
 		// TODO: get user info
+		let userInfo = App.getUserInfo();
+		for(let key in userInfo) {
+			console.log(key)
+			let $input = $userForm.find(`input#${key}`);
+			if($input.length) {
+				$input.val(userInfo[key]);
+			}
+		}
 	}
 
 })();
