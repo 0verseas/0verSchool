@@ -45,9 +45,13 @@ var SchoolUser = (_ => {
 				tel: '1234567#1234'
 			}
 		]
+		_renderSchoolUserList(list);
+	}
 
+	function _renderSchoolUserList(list) {
 		$listTable
 			.find('tbody')
+			.html('')
 			.append(list.map((val, i) => $(
 				`<tr class="schoolUser">
 					<td>${val.name}</td>
