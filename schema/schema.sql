@@ -34,7 +34,7 @@ create table deptgroupcode /* 學群類別 */
 ( 
     /*部分欄位是提供給官網顯示用，必須保留欄位為code,decription,academy*/
     code char(2) not null, /* 代碼 */
-    description varchar(20) not null, /* 學群名稱 */
+    description varchar(200) not null, /* 學群名稱 */
     academy varchar(20) not null, /* 所屬學院別 */
     departments varchar(1000) null default null, /* 相關科系說明 */
     career varchar(1000) null default null, /* 未來可就職相關職業 */
