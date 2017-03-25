@@ -15,5 +15,8 @@
 		"download": "下載當年度錄取學生資料", 
 		"history": "查詢歷年錄取學生資料", 
 		"singUp": "教育展報名系統"
+	}, 
+	"regulation": {
+		"title": "學校資料設定"
 	}
 }
