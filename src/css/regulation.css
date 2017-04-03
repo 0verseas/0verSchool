@@ -1,8 +1,29 @@
-#page-regulation #title {
-	padding-top: 30px;
-	padding-bottom: 30px;
+#page-regulation {
+	margin-top: 30px;
+}
+
+#page-regulation .title {
+	margin-bottom: 0;
 	font-size: 20px;
 	font-weight: bold;
+	cursor: pointer;
+	transition: all .2s;
+}
+
+#page-regulation .title:hover {
+	background: #f6f6f6;
+}
+
+#page-regulation .title .icon-arrow {
+	transition: all .2s;
+}
+
+#page-regulation .title.active {
+	margin-bottom: 30px;
+}
+
+#page-regulation .title.active .icon-arrow {
+	transform: rotate(90deg);
 }
 
 #page-regulation #schoolForm {
@@ -19,4 +40,18 @@
 	margin-left: 5px;
 	margin-right: 5px;
 	cursor: pointer;
+}
+
+#page-regulation #deptForm {
+	padding-bottom: 50px;
+}
+
+#page-regulation #deptForm #table-deptList {
+	margin-top: 10px;
+}
+
+#page-regulation #deptForm #table-deptList thead th {
+	vertical-align: middle;
+	text-align: center;
+	line-height: 5px;
 }

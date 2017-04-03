@@ -1,6 +1,9 @@
 <div class="container" id="page-regulation">
 	<div class="row">
-		<div class="col-lg-12" id="title" data-i18n="regulation.title"><!-- 學校資料設定 --></div>
+		<div class="col-lg-12 title active" data-content="schoolForm">
+			<i class="fa fa-chevron-right icon-arrow" aria-hidden="true"></i>
+			<span data-i18n="regulation.title.schoolForm"><!-- 學校資料設定 --></span>
+		</div>
 	</div>
 	<div class="row">
 		<div class="col-lg-11 offset-lg-1">
@@ -169,6 +172,62 @@
 						<button id="btn-save" class="btn btn-primary" data-i18n="global.saveBtn"><!-- 儲存 --></button>
 					</div>
 				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-12 title" data-content="deptForm">
+			<i class="fa fa-chevron-right icon-arrow" aria-hidden="true"></i>
+			<span data-i18n="regulation.title.deptForm"><!-- 系所資料設定 --></span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-11 offset-lg-1">
+			<div id="deptForm" style="display: none">
+				<button id="btn-addDept" class="btn btn-primary">
+					<i class="fa fa-plus" aria-hidden="true"></i>
+					<span data-i18n="regulation.deptForm.addDept"></span>
+				</button>
+				<table id="table-deptList" class="table table-bordered">
+					<thead>
+						<tr>
+							<th rowspan="2">類組</th>
+							<th rowspan="2">系所名稱</th>
+							<th colspan="3">招生名額</th>
+							<th rowspan="2">備註</th>
+							<th rowspan="2"></th>
+							<th rowspan="2"></th>
+						</tr>
+						<tr>
+							<th>聯合分發</th>
+							<th>個人申請</th>
+							<th>自招</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>第一類組</td>
+							<td>資訊管理學系</td>
+							<td>10</td>
+							<td>1</td>
+							<td>-</td>
+							<td></td>
+							<td><i class="fa fa-pencil" aria-hidden="true"></i></td>
+							<td><i class="fa fa-trash" aria-hidden="true"></i></td>
+						</tr>
+						<tr>
+							<td>第一類組</td>
+							<td>資訊管理學系</td>
+							<td>10</td>
+							<td>1</td>
+							<td>-</td>
+							<td></td>
+							<td><i class="fa fa-pencil" aria-hidden="true"></i></td>
+							<td><i class="fa fa-trash" aria-hidden="true"></i></td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>

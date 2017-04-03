@@ -19,7 +19,10 @@
 		"singUp": "教育展報名系統"
 	}, 
 	"regulation": {
-		"title": "學校資料設定", 
+		"title": {
+			"schoolForm": "學校資料設定", 
+			"deptForm": "系所資料設定"	
+		}, 
 		"schoolForm": {
 			"code": "學校代碼", 
 			"type": "類型", 
@@ -53,6 +56,9 @@
 					"dormInfo": "宿舍說明(英文)"
 				}
 			}
+		}, 
+		"deptForm": {
+			"addDept": "新增系所"
 		}
 	}
 }
