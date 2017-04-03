@@ -17,6 +17,40 @@
 		"singUp": "教育展報名系統"
 	}, 
 	"regulation": {
-		"title": "學校資料設定"
+		"title": "學校資料設定", 
+		"schoolForm": {
+			"code": "學校代碼", 
+			"type": "類型", 
+			"isSuspend": "是否停招", 
+			"phone": "學校聯絡電話", 
+			"fax": "學校傳真電話", 
+			"url": "學校網站網址", 
+			"systems": "學制資料", 
+			"scholarshipUrl": "僑生專屬獎學金說明網址", 
+			"sortOrder": "學校顯示排序", 
+			"fiveYearAllowed": "[中五]我可以招呢", 
+			"fiveYearPrepare": "[中五]我準備招了喔", 
+			"fiveYearConfirmedBy": "[中五]？(school code)", 
+			"fiveYearRule": "[中五]給海聯看的學則", 
+			"approveNo": "自招核定文號", 
+			"locale": {
+				"ch": {
+					"title": "學校名稱(中文)", 
+					"address": "學校地址(中文)", 
+					"orgnization": "學校負責僑生事務的承辦單位(中文)", 
+					"scholarshipInfo": "獎學金說明(中文)", 
+					"scholarshipDept": "獎學金負責單位(中文)", 
+					"dormInfo": "宿舍說明(中文)"
+				}, 
+				"en": {
+					"title": "學校名稱(英文)", 
+					"address": "學校地址(英文)",
+					"orgnization": "學校負責僑生事務的承辦單位(英文)",
+					"scholarshipInfo": "獎學金說明(英文)", 
+					"scholarshipDept": "獎學金負責單位(英文)", 
+					"dormInfo": "宿舍說明(英文)"
+				}
+			}
+		}
 	}
 }

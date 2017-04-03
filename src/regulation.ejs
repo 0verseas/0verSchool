@@ -6,21 +6,161 @@
 		<div class="col-lg-11 offset-lg-1">
 			<div id="schoolForm">
 				<div class="form-group row">
-					<label class="col-2 col-form-label" data-i18n="schoolUser.addSchoolUserModal.school"><!-- 學校 --></label>
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.code"><!-- 學校代碼 --></label>
 					<div class="col-10">
-						<input class="form-control" type="text" />
+						<input id="code" class="form-control" type="text" />
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="col-2 col-form-label" data-i18n="schoolUser.addSchoolUserModal.school"><!-- 學校 --></label>
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.type"><!-- 類型 --></label>
 					<div class="col-10">
-						<input class="form-control" type="text" />
+						<input id="type" class="form-control" type="text" />
 					</div>
 				</div>
 				<div class="form-group row">
-					<label class="col-2 col-form-label" data-i18n="schoolUser.addSchoolUserModal.school"><!-- 學校 --></label>
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.phone"><!-- 學校聯絡電話 --></label>
 					<div class="col-10">
-						<input class="form-control" type="text" />
+						<input id="phone" class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.fax"><!-- 學校傳真電話 --></label>
+					<div class="col-10">
+						<input id="fax" class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.url"><!-- 學校網站網址 --></label>
+					<div class="col-10">
+						<input id="url" class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.systems"><!-- 學制資料 --></label>
+					<div class="col-10">
+						<input id="systems" class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.scholarshipUrl"><!-- 僑生專屬獎學金說明網址 --></label>
+					<div class="col-10">
+						<input id="scholarshipUrl" class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.sortOrder"><!-- 學校顯示排序 --></label>
+					<div class="col-10">
+						<input id="sortOrder" class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.fiveYearConfirmedBy"><!-- [中五]？(school code) --></label>
+					<div class="col-10">
+						<input id="fiveYearConfirmedBy" class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.fiveYearRule"><!-- [中五]給海聯看的學則 --></label>
+					<div class="col-10">
+						<input id="fiveYearRule" class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.approveNo"><!-- 自招核定文號 --></label>
+					<div class="col-10">
+						<input id="approveNo" class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.locale.ch.title"><!-- 學校名稱(中文) --></label>
+					<div class="col-10">
+						<input id="chTitle" class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.locale.en.title"><!-- 學校名稱(英文) --></label>
+					<div class="col-10">
+						<input id="enTitle" class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.locale.ch.address"><!-- 學校地址(中文) --></label>
+					<div class="col-10">
+						<input id="chAddress" class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.locale.en.address"><!-- 學校地址(英文) --></label>
+					<div class="col-10">
+						<input id="enAddress" class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.locale.ch.orgnization"><!-- 學校負責僑生事務的承辦單位(中文) --></label>
+					<div class="col-10">
+						<input id="chOrgnization" class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.locale.en.orgnization"><!-- 學校負責僑生事務的承辦單位(英文) --></label>
+					<div class="col-10">
+						<input id="enOrgnization" class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.locale.ch.scholarshipInfo"><!-- 獎學金說明(中文) --></label>
+					<div class="col-10">
+						<input id="chScholarshipInfo" class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.locale.en.scholarshipInfo"><!-- 獎學金說明(英文) --></label>
+					<div class="col-10">
+						<input id="enScholarshipInfo" class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.locale.ch.scholarshipDept"><!-- 獎學金負責單位(中文) --></label>
+					<div class="col-10">
+						<input id="chScholarshipDept" class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.locale.en.scholarshipDept"><!-- 獎學金負責單位(英文) --></label>
+					<div class="col-10">
+						<input id="enScholarshipDept" class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.locale.ch.dormInfo"><!-- 宿舍說明(中文) --></label>
+					<div class="col-10">
+						<input id="chDormInfo" class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-2 col-form-label" data-i18n="regulation.schoolForm.locale.en.dormInfo"><!-- 宿舍說明(英文) --></label>
+					<div class="col-10">
+						<input id="enDormInfo" class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-10 offset-md-2">
+						<div class="row">
+							<div class="col-4">
+								<input id="isSuspend" class="" type="checkbox" />
+								<label class="col-form-label" data-i18n="regulation.schoolForm.isSuspend"><!-- 是否停招 --></label>
+							</div>
+
+							<div class="col-4">
+								<input id="fiveYearAllowed" class="" type="checkbox" />
+								<label class="col-form-label" data-i18n="regulation.schoolForm.fiveYearAllowed"><!-- [中五]我可以招呢 --></label>
+							</div>
+
+							<div class="col-4">
+								<input id="fiveYearPrepare" class="" type="checkbox" />
+								<label class="col-form-label" data-i18n="regulation.schoolForm.fiveYearPrepare"><!-- [中五]我準備招了喔 --></label>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
