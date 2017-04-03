@@ -4,3 +4,19 @@
 	font-size: 20px;
 	font-weight: bold;
 }
+
+#page-regulation #schoolForm {
+	padding-bottom: 50px;
+}
+
+#page-regulation #schoolForm #buttonRow {
+	display: flex;
+}
+
+#page-regulation #schoolForm #buttonRow #btn-save, 
+#page-regulation #schoolForm #buttonRow #btn-reset {
+	flex: 1;
+	margin-left: 5px;
+	margin-right: 5px;
+	cursor: pointer;
+}

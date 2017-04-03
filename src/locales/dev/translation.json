@@ -6,7 +6,9 @@
 	}, 
 	"global": {
 		"siteName": "海聯 no 簡章系統", 
-		"logoutBtn": "登出"
+		"logoutBtn": "登出", 
+		"saveBtn": "儲存", 
+		"resetBtn": "重設"
 	}, 
 	"index": {
 		"schoolAccountSetting": "學校帳戶設定", 
