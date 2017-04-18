@@ -7,6 +7,8 @@ var Regulation = (_ => {
 	$schoolForm = $regulationPage.find('#schoolForm');
 	$saveBtn = $schoolForm.find('#btn-save');
 	$resetBtn = $schoolForm.find('#btn-reset');
+	$deptForm = $regulationPage.find('#deptForm');
+	$addDeptBtn = $deptForm.find('#btn-addDept');
 
 	/**
 	 * init

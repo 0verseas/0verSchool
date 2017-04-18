@@ -46,6 +46,10 @@
 	padding-bottom: 50px;
 }
 
+#page-regulation #deptForm #btn-addDept {
+	cursor: pointer;
+}
+
 #page-regulation #deptForm #table-deptList {
 	margin-top: 10px;
 }

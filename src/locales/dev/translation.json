@@ -8,7 +8,8 @@
 		"siteName": "海聯 no 簡章系統",
 		"logoutBtn": "登出",
 		"saveBtn": "儲存",
-		"resetBtn": "重設"
+		"resetBtn": "重設", 
+		"addBtn": "新增"
 	},
 	"index": {
 		"schoolAccountSetting": "學校帳戶設定",
@@ -59,7 +60,12 @@
 			}
 		},
 		"deptForm": {
-			"addDept": "新增系所"
+			"addDept": "新增系所", 
+			"addDeptModal": {
+				"title": "新增系所", 
+				"deptName": "系所名稱", 
+				"editor": "編輯者"
+			}
 		}
 	}
 }
