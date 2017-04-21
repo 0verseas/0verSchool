@@ -59,3 +59,8 @@
 	text-align: center;
 	line-height: 5px;
 }
+
+#page-regulation #deptForm #table-deptList .btn-editDept, 
+#page-regulation #deptForm #table-deptList .btn-delDept {
+	cursor: pointer;
+}

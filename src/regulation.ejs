@@ -134,8 +134,8 @@
 							<th rowspan="2">系所名稱</th>
 							<th colspan="3">招生名額</th>
 							<th rowspan="2">備註</th>
-							<th rowspan="2"></th>
-							<th rowspan="2"></th>
+							<th rowspan="2" style="width: 50px;"></th>
+							<th rowspan="2" style="width: 50px;"></th>
 						</tr>
 						<tr>
 							<th>聯合分發</th>
@@ -151,18 +151,12 @@
 							<td>1</td>
 							<td>-</td>
 							<td></td>
-							<td><i class="fa fa-pencil" aria-hidden="true"></i></td>
-							<td><i class="fa fa-trash" aria-hidden="true"></i></td>
-						</tr>
-						<tr>
-							<td>第一類組</td>
-							<td>資訊管理學系</td>
-							<td>10</td>
-							<td>1</td>
-							<td>-</td>
-							<td></td>
-							<td><i class="fa fa-pencil" aria-hidden="true"></i></td>
-							<td><i class="fa fa-trash" aria-hidden="true"></i></td>
+							<td>
+								<button class="btn btn-default btn-editDept" data-toggle="modal" data-target="#modal-editDept"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+							</td>
+							<td>
+								<button class="btn btn-default btn-delDept"><i class="fa fa-trash" aria-hidden="true"></i></button>
+							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -196,6 +190,164 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" data-i18n="global.addBtn"><!-- 新增 --></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="modal-editDept" class="modal fade">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" data-i18n="regulation.deptForm.editDeptModal.title"><!-- 編輯系所 --></h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label for="id" data-i18n="regulation.deptForm.editDeptModal.id"><!-- 系所代碼 --></label>
+					<input type="text" class="form-control" id="id" disabled>
+				</div>
+				<div class="form-group">
+					<label for="oldcode" data-i18n="regulation.deptForm.editDeptModal.oldcode"><!-- 讀卡代碼 --></label>
+					<input type="text" class="form-control" id="oldcode" disabled>
+				</div>
+				<div class="form-group">
+					<label for="lastoffer" data-i18n="regulation.deptForm.editDeptModal.lastoffer"><!-- 去年聯合分發錄取名額 --></label>
+					<input type="text" class="form-control" id="lastoffer" disabled>
+				</div>
+				<div class="form-group">
+					<label for="reason" data-i18n="regulation.deptForm.editDeptModal.reason"><!-- 減招原因 --></label>
+					<input type="text" class="form-control" id="reason">
+				</div>
+				<div class="form-group">
+					<label for="lastyearamount" data-i18n="regulation.deptForm.editDeptModal.lastyearamount"><!-- 去年聯合分發名額（只有學士班有聯合分發） --></label>
+					<input type="text" class="form-control" id="lastyearamount" disabled>
+				</div>
+				<div class="form-group">
+					<label for="amount" data-i18n="regulation.deptForm.editDeptModal.amount"><!-- 聯合分發名額（只有學士班有聯合分發） --></label>
+					<input type="number" class="form-control" id="amount">
+				</div>
+				<div class="form-group">
+					<label for="selfamount" data-i18n="regulation.deptForm.editDeptModal.selfamount"><!-- 個人申請名額 --></label>
+					<input type="number" class="form-control" id="selfamount">
+				</div>
+				<div class="form-group row">
+					<div class="col-12">
+						<input id="recurit_self" class="" type="checkbox" />
+						<label for="recurit_self" class="col-form-label" data-i18n="regulation.deptForm.editDeptModal.recurit_self"><!-- 是否有自招 --></label>
+					</div>
+				</div>
+				<div class="form-group col-11 offset-1">
+					<label for="selfschool" data-i18n="regulation.deptForm.editDeptModal.selfschool"><!-- 自招名額 --></label>
+					<input type="number" class="form-control" id="selfschool">
+				</div>
+				<div class="form-group row">
+					<div class="col-12">
+						<input id="specialclass" class="" type="checkbox" />
+						<label for="specialclass" class="col-form-label" data-i18n="regulation.deptForm.editDeptModal.specialclass"><!-- 是否招收僑生專班 --></label>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-12">
+						<input id="specialclass_foriegn" class="" type="checkbox" />
+						<label for="specialclass_foriegn" class="col-form-label" data-i18n="regulation.deptForm.editDeptModal.specialclass_foriegn"><!-- 是否招收外生專班 --></label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="type" data-i18n="regulation.deptForm.editDeptModal.type"><!-- 特殊系所 --></label>
+					<input type="text" class="form-control" id="type">
+				</div>
+				<div class="form-group">
+					<label for="sex" data-i18n="regulation.deptForm.editDeptModal.sex"><!-- 性別限制 --></label>
+					<input type="text" class="form-control" id="sex">
+				</div>
+				<div class="form-group">
+					<label for="sortorder" data-i18n="regulation.deptForm.editDeptModal.sortorder"><!-- 輸出排序 --></label>
+					<input type="number" class="form-control" id="sortorder">
+				</div>
+				<div class="form-group">
+					<label for="afterbirth" data-i18n="regulation.deptForm.editDeptModal.afterbirth"><!-- 限...之後出生 --></label>
+					<input type="date" class="form-control" id="afterbirth">
+				</div>
+				<div class="form-group">
+					<label for="beforebirth" data-i18n="regulation.deptForm.editDeptModal.beforebirth"><!-- 限...之前出生 --></label>
+					<input type="date" class="form-control" id="beforebirth">
+				</div>
+				<div class="form-group">
+					<label for="deptgroup" data-i18n="regulation.deptForm.editDeptModal.deptgroup"><!-- 18大學群代碼 --></label>
+					<input type="text" class="form-control" id="deptgroup">
+				</div>
+				<div class="form-group">
+					<label for="deptgroup_2" data-i18n="regulation.deptForm.editDeptModal.deptgroup_2"><!-- 次要18大學群代碼 --></label>
+					<input type="text" class="form-control" id="deptgroup_2">
+				</div>
+				<div class="form-group row">
+					<div class="col-12">
+						<input id="engTaught" class="" type="checkbox" />
+						<label for="engTaught" class="col-form-label" data-i18n="regulation.deptForm.editDeptModal.engTaught"><!-- 全英文授課 --></label>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-12">
+						<input id="Disabilities" class="" type="checkbox" />
+						<label for="Disabilities" class="col-form-label" data-i18n="regulation.deptForm.editDeptModal.Disabilities"><!-- 是否招收身障學生 --></label>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-12">
+						<input id="WoBuHwei" class="" type="checkbox" />
+						<label for="WoBuHwei" class="col-form-label" data-i18n="regulation.deptForm.editDeptModal.WoBuHwei"><!-- 是否招收不具華文基礎學生 --></label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="evaluation" data-i18n="regulation.deptForm.editDeptModal.evaluation"><!-- 系所評鑑等級 --></label>
+					<input type="text" class="form-control" id="evaluation">
+				</div>
+				<div class="form-group">
+					<label for="chDeptName" data-i18n="regulation.deptForm.editDeptModal.locale.ch.deptName"><!-- 系所名稱 --></label>
+					<input type="text" class="form-control" id="chDeptName">
+				</div>
+				<div class="form-group">
+					<label for="enDeptName" data-i18n="regulation.deptForm.editDeptModal.locale.en.deptName"><!-- 系所英文名稱 --></label>
+					<input type="text" class="form-control" id="enDeptName">
+				</div>
+				<div class="form-group">
+					<label for="chChoicememo" data-i18n="regulation.deptForm.editDeptModal.locale.ch.choicememo"><!-- 選系說明 --></label>
+					<input type="text" class="form-control" id="chChoicememo">
+				</div>
+				<div class="form-group">
+					<label for="enChoicememo" data-i18n="regulation.deptForm.editDeptModal.locale.en.choicememo"><!-- 選系英文說明 --></label>
+					<input type="text" class="form-control" id="enChoicememo">
+				</div>
+				<div class="form-group">
+					<label for="chDocmemo" data-i18n="regulation.deptForm.editDeptModal.locale.ch.docmemo"><!-- 書審說明 --></label>
+					<input type="text" class="form-control" id="chDocmemo">
+				</div>
+				<div class="form-group">
+					<label for="enDocmemo" data-i18n="regulation.deptForm.editDeptModal.locale.en.docmemo"><!-- 書審英文說明 --></label>
+					<input type="text" class="form-control" id="enDocmemo">
+				</div>
+				<div class="form-group">
+					<label for="chDeptmemo" data-i18n="regulation.deptForm.editDeptModal.locale.ch.deptmemo"><!-- 備註 --></label>
+					<input type="text" class="form-control" id="chDeptmemo">
+				</div>
+				<div class="form-group">
+					<label for="enDeptmemo" data-i18n="regulation.deptForm.editDeptModal.locale.en.deptmemo"><!-- 英文備註 --></label>
+					<input type="text" class="form-control" id="enDeptmemo">
+				</div>
+				<div class="form-group">
+					<label for="chUrl" data-i18n="regulation.deptForm.editDeptModal.locale.ch.url"><!-- 系網站網址 --></label>
+					<input type="text" class="form-control" id="chUrl">
+				</div>
+				<div class="form-group">
+					<label for="enUrl" data-i18n="regulation.deptForm.editDeptModal.locale.en.url"><!-- 英文系網站網址 --></label>
+					<input type="text" class="form-control" id="enUrl">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-i18n="global.saveBtn"><!-- 儲存 --></button>
 			</div>
 		</div>
 	</div>

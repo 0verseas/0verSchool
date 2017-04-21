@@ -65,6 +65,47 @@
 				"title": "新增系所", 
 				"deptName": "系所名稱", 
 				"editor": "編輯者"
+			}, 
+			"editDeptModal": {
+				"title": "編輯系所", 
+				"id": "系所代碼", 
+				"oldcode": "讀卡代碼", 
+				"lastoffer": "去年聯合分發錄取名額", 
+				"reason": "減招原因", 
+				"lastyearamount": "去年聯合分發名額（只有學士班有聯合分發）", 
+				"amount": "聯合分發名額（只有學士班有聯合分發）", 
+				"selfamount": "個人申請名額", 
+				"recurit_self": "是否有自招", 
+				"selfschool": "自招名額", 
+				"specialclass": "是否招收僑生專班",
+				"specialclass_foriegn": "是否招收外生專班",
+				"type": "特殊系所", 
+				"sex": "性別限制", 
+				"sortorder": "輸出排序", 
+				"afterbirth": "限...之後出生", 
+				"beforebirth": "限...之前出生", 
+				"deptgroup": "18大學群代碼", 
+				"deptgroup_2": "次要18大學群代碼", 
+				"engTaught": "全英文授課", 
+				"Disabilities": "是否招收身障學生",
+				"WoBuHwei": "是否招收不具華文基礎學生",
+				"evaluation": "系所評鑑等級", 
+				"locale": {
+					"ch": {
+						"deptName": "系所名稱", 
+						"choicememo": "選系說明", 
+						"docmemo": "書審說明", 
+						"deptmemo": "備註", 
+						"url": "系網站網址"
+					}, 
+					"en": {
+						"deptName": "系所英文名稱", 
+						"choicememo": "選系英文說明", 
+						"docmemo": "書審英文說明", 
+						"deptmemo": "英文備註", 
+						"url": "英文系網站網址"
+					}
+				}
 			}
 		}
 	}

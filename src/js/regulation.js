@@ -21,6 +21,7 @@ var Regulation = (_ => {
 	$saveBtn.on('click', _handleSave);
 	$resetBtn.on('click', _getSchoolInfo);
 	$titles.on('click', _handleToggleContent);
+	$deptForm.on('click.editDept', '.btn-editDept', _setDeptInfo)
 	
 	function _getSchoolInfo() {
 
@@ -28,6 +29,10 @@ var Regulation = (_ => {
 
 	function _handleSave() {
 
+	}
+
+	function _setDeptInfo() {
+		console.log('1')
 	}
 
 	function _handleToggleContent() {
