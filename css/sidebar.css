@@ -12,12 +12,15 @@
 }
 
 #btn-toggle {
-	position: absolute;
+	position: fixed;
 	left: 10px;
-	top: -25px;
+	top: 10px;
 	cursor: pointer;
 	border: 0px !important;
 	display: none;
+	z-index: 11;
+	color: #f3f3f3;
+	background: #777777;
 }
 
 #pageContent {
@@ -33,11 +36,17 @@
 		left: -100%;
 		transition: left .5s;
 		z-index: 10;
+		padding-bottom: 50px;
 	}
 
 	#sidebarWrap.open {
-		position: absolute;
+		position: fixed;
 		left: 0% !important;
+		top: 0;
+		height: 100vh;
+		padding-top: 40px;
+		overflow: auto;
+		box-shadow: 1px 1px 5px 0px #777;
 	}
 
 	#btn-toggle {
