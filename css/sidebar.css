@@ -1,0 +1,7 @@
+#sidebar #menu .list-group-item {
+	border: 0px solid !important;
+}
+#sidebar #menu .list-group-item.active {
+	border-radius: 10px !important;
+}
+

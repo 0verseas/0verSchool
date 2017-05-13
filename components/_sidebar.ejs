@@ -3,40 +3,42 @@
 		return current.source == page ? 'active' : '';
 	}
 %>
-
-<div class="row">
-	<div class="col-3">
-		LOGO
+<div id="sidebar">
+	<div class="row">
+		<div class="col-3">
+			<img src="http://www.overseas.ncnu.edu.tw/film/images/logo2014.png" alt="overseas" width="100%">
+		</div>
+		<div class="col-9 text-sm">
+			<small>海外聯招會委員學校平台</small><br />
+			簡章調查系統
+		</div>
 	</div>
-	<div class="col-9">
-		海外聯招會委員學校平台<br />
-		簡章調查系統
+	<hr />
+	<div class="row">
+		<div class="col-12">
+			<div id="menu" class="list-group">
+				<a href="#" class="list-group-item list-group-item-action <%= isActive('index') %>">最新消息</a>
+				<a href="#" class="list-group-item list-group-item-action <%= isActive('') %>">學校資料</a>
+				<a href="#" class="list-group-item list-group-item-action <%= isActive('') %>">系所資料</a>
+				<a href="#" class="list-group-item list-group-item-action <%= isActive('') %>">學士班</a>
+				<a href="#" class="list-group-item list-group-item-action <%= isActive('') %>">碩士班</a>
+				<a href="#" class="list-group-item list-group-item-action <%= isActive('') %>">博士班</a>
+				<a href="#" class="list-group-item list-group-item-action <%= isActive('') %>">港二技</a>
+				<a href="#" class="list-group-item list-group-item-action <%= isActive('') %>">學士班、港二技</a>
+				<a href="#" class="list-group-item list-group-item-action <%= isActive('') %>">碩士班</a>
+				<a href="#" class="list-group-item list-group-item-action <%= isActive('') %>">博士班</a>
+				<a href="#" class="list-group-item list-group-item-action <%= isActive('') %>">帳號管理</a>
+			</div>
+		</div>
 	</div>
-</div>
-<hr />
-<div class="row">
-	<div class="col-12">
-		<div class="list-group">
-			<a href="#" class="list-group-item list-group-item-action <%= isActive('index') %>">最新消息</a>
-			<a href="#" class="list-group-item list-group-item-action <%= isActive('') %>">學校資料</a>
-			<a href="#" class="list-group-item list-group-item-action <%= isActive('') %>">系所資料</a>
-			<a href="#" class="list-group-item list-group-item-action <%= isActive('') %>">學士班</a>
-			<a href="#" class="list-group-item list-group-item-action <%= isActive('') %>">碩士班</a>
-			<a href="#" class="list-group-item list-group-item-action <%= isActive('') %>">博士班</a>
-			<a href="#" class="list-group-item list-group-item-action <%= isActive('') %>">港二技</a>
-			<a href="#" class="list-group-item list-group-item-action <%= isActive('') %>">學士班、港二技</a>
-			<a href="#" class="list-group-item list-group-item-action <%= isActive('') %>">碩士班</a>
-			<a href="#" class="list-group-item list-group-item-action <%= isActive('') %>">博士班</a>
-			<a href="#" class="list-group-item list-group-item-action <%= isActive('') %>">帳號管理</a>
+	<hr />
+	<div class="row">
+		<div class="col-12">
+			<h5>帳號資訊</h5>
+			<div>國立暨南國際大學</div>
+			<div>吳富悅</div><br />
+			<button class="btn btn-secondary btn-block">登出</button>
 		</div>
 	</div>
 </div>
-<hr />
-<div class="row">
-	<div class="col-12">
-		<h5>帳號資訊</h5>
-		<div>國立暨南國際大學</div>
-		<div>吳富悅</div>
-		<button class="btn btn-secondary btn-block">登出</button>
-	</div>
-</div>
+<link rel="stylesheet" href="css/sidebar.css">
