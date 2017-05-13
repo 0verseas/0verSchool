@@ -10,3 +10,33 @@
 #sidebar #menu .list-group-item.active {
 	border-radius: 10px !important;
 }
+
+#btn-toggle {
+	position: absolute;
+	left: 10px;
+	top: -25px;
+	cursor: pointer;
+	border: 0px !important;
+	display: none;
+}
+
+@media screen and (max-width: 767px) {
+	#sidebarWrap {
+		background: #fff;
+		width: 190px !important;
+		max-width: 50% !important;
+		position: absolute;
+		left: -100%;
+		transition: left .5s;
+		z-index: 1;
+	}
+
+	#sidebarWrap.open {
+		position: absolute;
+		left: 0% !important;
+	}
+
+	#btn-toggle {
+		display: inherit;
+	}
+}
