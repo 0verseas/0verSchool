@@ -17,7 +17,12 @@
 </head>
 <body>
 	<div id="app" class="container-fluid">
-		<%- partial("components/_sidebar")%>
+		<% if (current.source != 'login') { -%>
+			<%- partial("components/_sidebar")%>
+		<% } else { -%>
+			<%- partial("login")%>
+		<% } -%>
+		
 	</div>
 	<script src="js/<%= current.source %>.js"></script>
 </body>
