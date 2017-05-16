@@ -18,11 +18,114 @@
 <body>
 	<div id="app" class="container-fluid">
 		<% if (current.source != 'login') { -%>
-			<%- partial("components/_sidebar")%>
+		<%- partial("components/_sidebar")%>
 		<% } else { -%>
-			<%- partial("login")%>
-		<% } -%>
-		
+		<%- partial("login")%>
+		<% } -%>	
+	</div>
+	<!-- Modal: edit account -->
+	<div id="modal-editAccount" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">編輯帳號</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<form>
+							<div class="row">
+								<div class="form-group col-6">
+									<div class="input-group">
+										<span class="input-group-addon">帳號</span>
+										<input type="text" class="form-control" disabled>
+									</div>
+								</div>
+								<div class="form-group col-6">
+									<div>
+										<label><input type="checkbox"> 是否為管理員？</label>
+									</div>
+									<div>
+										<label><input type="checkbox"> 是否停權？</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-6">
+									<label for="">中文姓名</label>
+									<input type="text" class="form-control">
+								</div>
+								<div class="form-group col-6">
+									<label for="">英文姓名</label>
+									<input type="text" class="form-control">
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-12">
+									<label for="">電子郵件</label>
+									<input type="email" class="form-control">
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-6">
+									<label for="">所屬單位</label>
+									<input type="text" class="form-control">
+								</div>
+								<div class="form-group col-6">
+									<label for="">聯絡電話</label>
+									<input type="text" class="form-control">
+								</div>
+							</div>
+							<hr />
+							<h5>編輯權限</h5>
+							<!-- Nav tabs -->
+							<ul class="nav nav-tabs" role="tablist">
+								<li class="nav-item">
+									<a class="nav-link active" data-toggle="tab" href="#" role="tab">學士班</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="tab" href="#" role="tab">碩士班</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="tab" href="#" role="tab">博士班</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="tab" href="#" role="tab">港二技</a>
+								</li>
+							</ul>
+
+							<!-- Tab panes -->
+							<div class="tab-content">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>啟用</th>
+											<th>系所名稱</th>
+											<th>上次編輯時間</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<input type="checkbox" />
+											</td>
+											<td>歷史學系</td>
+											<td>03月15日 18:56:23 (2017)</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary">儲存</button>
+				</div>
+			</div>
+		</div>
 	</div>
 	<script src="js/<%= current.source %>.js"></script>
 </body>
