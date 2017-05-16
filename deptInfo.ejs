@@ -1,0 +1,96 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap-sortable/2.0.0/bootstrap-sortable.min.css">
+
+<h2>學制資訊</h2>
+<form>
+	<div class="form-group">
+		<label for="">中文備註</label>
+		<textarea type="text" class="form-control" rows="6">
+一、校址：文學院、理學院、社會科學院、工學院、生物資源暨農學院、管理學院、生命科學院、電機資訊學 院及法律學院位於台北市羅斯福路4段1號、哲學系及人類學系位於台北市思源街18號、醫學院位於台北市仁 愛路1段1號、公共衛生學院位於台北市徐州路17號。二、電話：文學院、理學院、工學院、生物資源暨農學 院、管理學院、生命科學院、電機資訊學院(02)33663366、社會科學院(02)33668300、政治學系 (02)33668450、經濟學系(02)33668440、法律學院(02)33668900 、醫學院(02)23123456、公共衛生學院 (02)33668012。 
+		</textarea>
+	</div>
+	<div class="form-group">
+		<label for="">英文備註</label>
+		<textarea type="text" class="form-control" rows="6">
+It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+		</textarea>
+	</div>
+</form>
+
+<div class="row">
+	<div class="col-md-7 col-6">
+		<h2>系所列表</h2>
+	</div>
+	<div class="col-md-5 col-6 text-right">
+		<form>
+			<div class="form-group">
+				<input onkeyup="deptFilter()" id="dept-filter-input" class="form-control" type="text" placeholder="搜尋">
+			</div>
+		</form>
+	</div>
+</div>
+
+<table id="dept-list" class="table table-hover sortable">
+	<thead>
+		<tr>
+			<th data-defaultsign='nospan'></th>
+			<th>#</th>
+			<th>代碼</th>
+			<th>名稱</th>
+			<th>狀態</th>
+			<th>上次編輯者</th>
+			<th>上次編輯時間</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><i class="fa fa-pencil" aria-hidden="true"></i></td>
+			<td>0</td>
+			<td>5HW01</td>
+			<td>
+				<div>歷史學系</div>
+				<div>history</div>
+			</td>
+			<td>編輯中</td>
+			<td>吳和融</td>
+			<td>03月15日 18:56:23 (2017)</td>
+		</tr>
+		<tr>
+			<td><i class="fa fa-pencil" aria-hidden="true"></i></td>
+			<td>1</td>
+			<td>5HW02</td>
+			<td>
+				<div>資訊管理學系</div>
+				<div>Information Management</div>
+			</td>
+			<td>已送出</td>
+			<td>吳和融</td>
+			<td>03月15日 18:56:23 (2017)</td>
+		</tr>
+		<tr>
+			<td><i class="fa fa-pencil" aria-hidden="true"></i></td>
+			<td>2</td>
+			<td>5HW03</td>
+			<td>
+				<div>資訊管理學系</div>
+				<div>Information Management</div>
+			</td>
+			<td>已確認</td>
+			<td>吳和融</td>
+			<td>03月15日 17:56:23 (2017)</td>
+		</tr>
+		<tr>
+			<td><i class="fa fa-pencil" aria-hidden="true"></i></td>
+			<td>3</td>
+			<td>5HW04</td>
+			<td>
+				<div>資訊管理學系</div>
+				<div>Information Management</div>
+			</td>
+			<td>編輯中</td>
+			<td>吳和融</td>
+			<td>03月15日 18:56:23 (2016)</td>
+		</tr>
+	</tbody>
+</table>
+
+<script src="https://cdn.jsdelivr.net/bootstrap-sortable/2.0.0/bootstrap-sortable.min.js"></script>

@@ -1,0 +1,11 @@
+.table > tbody > tr > td {
+     vertical-align: middle;
+}
+
+.fa-pencil {
+	color: grey;
+}
+
+.fa-pencil:hover{
+	color: black;
+}
