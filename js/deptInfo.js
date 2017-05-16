@@ -1,24 +1,34 @@
-function deptFilter() {
-	let input, filter, table, tr, code, name, i;
-  input = document.getElementById("dept-filter-input");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("dept-list");
-  tr = table.getElementsByTagName("tr");
+var Sidebar = (function () {
+	/**
+	 * cache DOM
+	 */
 
-  for (i = 0; i < tr.length; i++) {
-    code = tr[i].getElementsByTagName("td")[2]; // 代碼
-    name = tr[i].getElementsByTagName("td")[3]; // 名稱
+	$deptFilterInput = $('#dept-filter-input');
+	$deptList = $('#dept-list');
 
-    if (code || name) {
-      if (code.innerHTML.toUpperCase().indexOf(filter) > -1 || name.innerHTML.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    } 
-  }
-}
+	/**
+	 * bind event
+	 */
 
-$(document).ready(function() {
-    $('#dept-list').DataTable();
-} );
+	$deptFilterInput.on('keyup', _filterDeptInput);
+
+	function _filterDeptInput(e){
+		let filter = $deptFilterInput.val().toUpperCase();
+		var tr = $deptList.find('tr');
+
+		for (i = 0; i < tr.length; i++) {
+			let code = tr[i].getElementsByTagName("td")[2]; // 代碼
+			let name = tr[i].getElementsByTagName("td")[3]; // 名稱
+
+			if (code || name) {
+				if (code.innerHTML.toUpperCase().indexOf(filter) > -1 || name.innerHTML.toUpperCase().indexOf(filter) > -1) {
+					tr[i].style.display = "";
+				} else {
+					tr[i].style.display = "none";
+				}
+			} 
+		}
+	}
+
+})();
+
