@@ -1,4 +1,4 @@
-var Sidebar = (function () {
+var deptInfoBache = (function () {
 	/**
 	 * cache DOM
 	 */
