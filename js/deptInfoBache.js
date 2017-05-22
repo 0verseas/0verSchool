@@ -1,4 +1,5 @@
 var deptInfoBache = (function () {
+
 	/**
 	 * cache DOM
 	 */
@@ -23,7 +24,7 @@ var deptInfoBache = (function () {
 	$bachelorDistribution.on('keyup', _computeBachelorTotalPeople);
 	$addReviewItemBtn.on('click', _addReviewItemRow);
 
-	function _filterDeptInput(e) {
+	function _filterDeptInput(e) { // 「系所列表」搜尋過濾列表
 		let filter = $deptFilterInput.val().toUpperCase();
 		var tr = $deptList.find('tr');
 
@@ -41,16 +42,16 @@ var deptInfoBache = (function () {
 		}
 	}
 
-	function _handleEditDeptInfo() {
+	function _handleEditDeptInfo() { // 系所列表 Modal 觸發
 		$editDeptInfoModal.modal();
 	}
 
-	function _computeBachelorTotalPeople() {
+	function _computeBachelorTotalPeople() { // 「聯招人數（學士專用）」自動計算
 		var totalPeople = Number($bachelorPersonalApply.val()) + Number($bachelorDistribution.val());
 		$bachelorTotalPeople.val(totalPeople);
 	}
 
-	function _addReviewItemRow() {
+	function _addReviewItemRow() { // 新增審查的項目
 		var $newReviewItemRow = $(`
 			<div class="row">
 				<div class="form-group col-sm-4">
