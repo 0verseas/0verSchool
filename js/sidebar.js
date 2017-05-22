@@ -5,12 +5,14 @@ var Sidebar = (function () {
 	$toggleBtn = $('#btn-toggle');
 	$sidebarWrap = $('#sidebarWrap');
 	$editAccountBtn = $sidebarWrap.find('#btn-editAccount');
+	$logoutBtn = $('#btn-logout');
 
 	/**
 	 * bind event
 	 */
 	$toggleBtn.on('click', _toggleSidebar);
-	$editAccountBtn.on('click', _handleEditAccount)
+	$editAccountBtn.on('click', _handleEditAccount);
+	$logoutBtn.on('click', _logout);
 
 	function _toggleSidebar() {
 		$sidebarWrap.toggleClass('open');
@@ -18,6 +20,20 @@ var Sidebar = (function () {
 
 	function _handleEditAccount() {
 		accountEditModal.open();
+	}
+
+	function _logout() {
+		fetch('http://localhost:8000/api/users/logout', {
+			method: "POST"
+		}).then(function(res) {
+			if(res.ok) {
+				window.location.href = '/school/login.html'
+			} else {
+				throw res.status;
+			}
+		}).catch(function(err) {
+			console.log("error: " + err);
+		})
 	}
 
 })();
