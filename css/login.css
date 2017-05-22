@@ -8,6 +8,11 @@ body {
 	border-bottom: .05rem solid #e5e5e5;
 }
 
+#errMsg {
+	color: red;
+	text-align: center;
+}
+
 @media screen and (min-width: 48em) {
 	.header {
 		margin-bottom: 2rem;
