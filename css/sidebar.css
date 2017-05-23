@@ -2,6 +2,11 @@
 	border: 0px solid !important;
 }
 
+#sidebar #menu .list-group-item.category {
+	cursor: default !important;
+	background-color: initial !important;
+}
+
 #sidebar #menu .list-group-item.sub {
 	font-size: 10px;
 	padding-left: 30px;
