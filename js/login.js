@@ -33,7 +33,7 @@ var login = (function () {
 
 		var loginForm = {
 			username: username,
-			password: sha3_256(password)
+			password: sha256(password)
 		}
 
 		fetch('http://localhost:8000/users/login', {
