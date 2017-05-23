@@ -38,14 +38,7 @@ var login = (function () {
 			password: sha256(password)
 		}
 
-		fetch('https://api.overseas.ncnu.edu.tw/users/login', {
-			method: "POST",
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			credentials: 'include',
-			body: JSON.stringify(loginForm)
-		}).then(function(res) {
+		User.login(loginForm).then(function(res) {
 			if(res.ok) {
 				return res.json();
 			} else {
@@ -62,9 +55,7 @@ var login = (function () {
 	}
 
 	function _getStatus() {
-		fetch('https://api.overseas.ncnu.edu.tw/users/login', {
-			credentials: 'include'
-		}).then(function(res) {
+		User.isLogin().then(function(res) {
 			if(res.ok) {
 				return res.json();
 			} else {
