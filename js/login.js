@@ -7,21 +7,33 @@ var login = (function () {
 	$username = $('#username');
 	$password = $('#password');
 	$loginBtn = $('#btn-login');
-	$errMsg = $('#errMsg')
+	$errMsg = $('#errMsg');
 
 	/**
 	 * bind event
 	 */
 
 	$loginBtn.on('click', _login);
+	$password.on('keydown', _login);
 
 	// 登入：
 	// 200: 跳轉至 /school
 	// 401: 顯示錯誤訊息
-	function _login() {
+	function _login(e) {
+		if (e.type == 'keydown' && e.keyCode != 13) {
+			return;
+		}
+
+		var username = $username.val();
+		var password = $password.val();
+
+		if (!username || !password) {
+			return;
+		}
+
 		var loginForm = {
-			username: $username.val(),
-			password: $password.val()
+			username: username,
+			password: sha3_256(password)
 		}
 
 		fetch('http://localhost:8000/api/users/login', {
@@ -41,7 +53,7 @@ var login = (function () {
 			window.location.href = '/school/'
 		}).catch(function(err) {
 			if (err == 401) {
-				$errMsg.text('帳號密碼錯誤。');
+				$errMsg.finish().show().text('帳號密碼錯誤。').fadeOut(1500);
 			}
 		})
 	}
