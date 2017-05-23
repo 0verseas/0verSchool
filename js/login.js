@@ -36,7 +36,7 @@ var login = (function () {
 			password: sha3_256(password)
 		}
 
-		fetch('http://localhost:8000/api/users/login', {
+		fetch('http://localhost:8000/users/login', {
 			method: "POST",
 			headers: {
 				'Content-Type': 'application/json'
