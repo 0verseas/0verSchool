@@ -55,7 +55,7 @@ var Sidebar = (function () {
 
 	function _showUserInfo(userInfo) {
 		$userName.text(userInfo.name);
-		// 我拿不到隸屬學校rrrrrrrr
+		$userSchool.text(userInfo.school_editor.school.title);
 	}
 
 })();
