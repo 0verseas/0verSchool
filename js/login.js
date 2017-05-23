@@ -8,6 +8,7 @@ var login = (function () {
 	$password = $('#password');
 	$loginBtn = $('#btn-login');
 	$errMsg = $('#errMsg');
+	$getStatus = $('#getStatus');
 
 	/**
 	 * bind event
@@ -15,6 +16,7 @@ var login = (function () {
 
 	$loginBtn.on('click', _login);
 	$password.on('keydown', _login);
+	$getStatus.on('click', _getStatus);
 
 	// 登入：
 	// 200: 跳轉至 /school
@@ -36,11 +38,12 @@ var login = (function () {
 			password: sha256(password)
 		}
 
-		fetch('http://localhost:8000/users/login', {
+		fetch('https://api.overseas.ncnu.edu.tw/users/login', {
 			method: "POST",
 			headers: {
 				'Content-Type': 'application/json'
 			},
+			credentials: 'include',
 			body: JSON.stringify(loginForm)
 		}).then(function(res) {
 			if(res.ok) {
@@ -55,6 +58,22 @@ var login = (function () {
 			if (err == 401) {
 				$errMsg.finish().show().text('帳號密碼錯誤。').fadeOut(1500);
 			}
+		})
+	}
+
+	function _getStatus() {
+		fetch('https://api.overseas.ncnu.edu.tw/users/login', {
+			credentials: 'include'
+		}).then(function(res) {
+			if(res.ok) {
+				return res.json();
+			} else {
+				throw res
+			}
+		}).then(function(json) {
+			console.log(json);
+		}).catch(function(err) {
+			console.log(err);
 		})
 	}
 

@@ -23,8 +23,9 @@ var Sidebar = (function () {
 	}
 
 	function _logout() {
-		fetch('http://localhost:8000/api/users/logout', {
-			method: "POST"
+		fetch('https://api.overseas.ncnu.edu.tw/users/logout', {
+			method: "POST",
+			credentials: 'include'
 		}).then(function(res) {
 			if(res.ok) {
 				window.location.href = '/school/login.html'
