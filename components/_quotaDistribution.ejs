@@ -1,0 +1,200 @@
+<link rel="stylesheet" href="css/quotaDistribution.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap-sortable/2.0.0/bootstrap-sortable.min.css">
+<div class="row">
+	<div class="col-12">
+		<h3 class="float-left">學士班名額分配</h3>
+		<span id="badge-status" class="badge badge-success">已確認</span>
+		<span class='float-right'>
+			上次編輯：吳和融<br />03月15日 18:56:23 (2017)
+		</span>
+	</div>
+</div>
+<hr />
+<div class="row">
+	<div class="col-3">
+		<div class="form-group">
+			<small id="" class="form-text text-muted">本年度可招生總量</small>
+			<input type="text" class="form-control" disabled>
+		</div>
+	</div>
+	<span class="operator">＝</span>
+	<div class="col-2">
+		<div class="form-group">
+			<small id="" class="form-text text-muted">去年招生名額 * 10%</small>
+			<input type="text" class="form-control" disabled>
+		</div>
+	</div>
+	<span class="operator">＋</span>
+	<div class="col-2">
+		<div class="form-group">
+			<small id="" class="form-text text-danger">去年本地生招生缺額數*</small>
+			<input type="text" class="form-control">
+		</div>
+	</div>
+	<span class="operator">＋</span>
+	<div class="col-2">
+		<div class="form-group">
+			<small id="" class="form-text text-muted">本年度教育部核准擴增名額</small>
+			<input type="text" class="form-control" disabled>
+		</div>
+	</div>
+</div>
+<!-- 碩博only -->
+<div class="row masterOnly phdOnly hide">
+	<div class="col-3">
+		<div class="form-group">
+			<small id="" class="form-text text-muted">本年度欲招募總量</small>
+			<input type="text" class="form-control" disabled>
+		</div>
+	</div>
+	<span class="operator">＝</span>
+	<div class="col-2">
+		<div class="form-group">
+			<small id="" class="form-text text-muted">本年度聯招小計</small>
+			<input type="text" class="form-control" disabled>
+		</div>
+	</div>
+	<span class="operator">＋</span>
+	<div class="col-2">
+		<div class="form-group">
+			<small id="" class="form-text text-muted">本年度自招小計</small>
+			<input type="text" class="form-control" disabled>
+		</div>
+	</div>
+</div>
+<!-- 學二only -->
+<div class="row bacheOnly twoYearOnly hide">
+	<div class="col-3">
+		<div class="form-group">
+			<small id="" class="form-text text-muted">本年度欲招募總量</small>
+			<input type="text" class="form-control" disabled>
+		</div>
+	</div>
+	<span class="operator">＝</span>
+	<div class="col-1">
+		<div class="form-group">
+			<small id="" class="form-text text-muted">學士班個人申請</small>
+			<input type="text" class="form-control bg-info" disabled>
+		</div>
+	</div>
+	<span class="operator">＋</span>
+	<div class="col-1">
+		<div class="form-group">
+			<small id="" class="form-text text-muted">學士班聯合分發</small>
+			<input type="text" class="form-control bg-info">
+		</div>
+	</div>
+	<span class="operator">＋</span>
+	<div class="col-1">
+		<div class="form-group">
+			<small id="" class="form-text text-muted">港二技個人申請</small>
+			<input type="text" class="form-control bg-info" disabled>
+		</div>
+	</div>
+	<span class="operator">＋</span>
+	<div class="col-1">
+		<div class="form-group">
+			<small id="" class="form-text text-muted">學士班自招</small>
+			<input type="text" class="form-control bg-success" disabled>
+		</div>
+	</div>
+	<span class="operator">＋</span>
+	<div class="col-1">
+		<div class="form-group">
+			<small id="" class="form-text text-muted">港二技自招</small>
+			<input type="text" class="form-control bg-success" disabled>
+		</div>
+	</div>
+</div>
+<!-- 學二only -->
+<div class="row bacheOnly twoYearOnly hide">
+	<span>　</span>
+	<div class="col-3 offset-3">
+		<div class="form-group">
+			<small id="" class="form-text text-muted">本年度聯招小計</small>
+			<input type="text" class="form-control bg-info" disabled>
+		</div>
+	</div>
+	<span>　　　</span>
+	<div class="col-2">
+		<div class="form-group">
+			<small id="" class="form-text text-muted">本年度自招小計</small>
+			<input type="text" class="form-control bg-success" disabled>
+		</div>
+	</div>
+</div>
+<!-- 學士only -->
+<div class="row mt-5 bacheOnly hide">
+	<div class="col-12">
+		<h3>系所列表</h3>
+		<table id="dept-list" class="table table-hover sortable">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>代碼</th>
+					<th>名稱</th>
+					<th>個人申請人數</th>
+					<th>聯合分發人數</th>
+					<th>自招人數</th>
+					<th>系所總量</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>0</td>
+					<td>5HW01</td>
+					<td>
+						<div>歷史學系</div>
+						<div>history</div>
+					</td>
+					<td>4</td>
+					<td>5</td>
+					<td>3</td>
+					<td>12</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<!-- 碩博二only -->
+<div class="row mt-5 masterOnly phdOnly twoYearOnly hide">
+	<div class="col-12">
+		<h3>系所列表</h3>
+		<table id="dept-list" class="table table-hover sortable">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>代碼</th>
+					<th>名稱</th>
+					<th>聯招人數</th>
+					<th>自招人數</th>
+					<th>系所總量</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>0</td>
+					<td>5HW01</td>
+					<td>
+						<div>歷史學系</div>
+						<div>history</div>
+					</td>
+					<td>4</td>
+					<td>5</td>
+					<td>9</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="row">
+	<div class="col-12 text-center">
+		<button class="btn btn-success">
+			儲存
+		</button>
+		<button class="btn btn-primary">
+			送出
+		</button>
+	</div>
+</div>
+<script src="https://cdn.jsdelivr.net/bootstrap-sortable/2.0.0/bootstrap-sortable.min.js"></script>

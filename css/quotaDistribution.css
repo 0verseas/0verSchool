@@ -1,0 +1,6 @@
+.bacheOnly.hide, 
+.twoYearOnly.hide,
+.masterOnly.hide, 
+.phdOnly.hide {
+	display: none;
+}
