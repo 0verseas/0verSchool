@@ -83,28 +83,26 @@
 					宿舍
 				</div>
 				<div class="card-block">
-					<form>
-						<div class="row">
-							<div class="form-group col-6">
-								<div class="input-group">
-									<span class="input-group-addon"><input type="checkbox"></span>
-									<input type="text" class="form-control" value="是否提供宿舍*" disabled>
-								</div>
+					<div class="row">
+						<div class="form-group col-6">
+							<div class="input-group">
+								<span class="input-group-addon"><input id="hasDorm" type="checkbox"></span>
+								<input type="text" class="form-control" value="是否提供宿舍*" disabled>
 							</div>
 						</div>
-						<div class="row">
-							<div class="form-group col-12">
-								<label for="">宿舍中文說明</label>
-								<input type="text" class="form-control">
-							</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-12">
+							<label for="">宿舍中文說明</label>
+							<input id="dormInfo" type="text" class="form-control">
 						</div>
-						<div class="row">
-							<div class="form-group col-12">
-								<label for="">宿舍英文說明</label>
-								<input type="text" class="form-control">
-							</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-12">
+							<label for="">宿舍英文說明</label>
+							<input id="dormEngInfo" type="text" class="form-control">
 						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -117,36 +115,34 @@
 					僑生專屬獎學金
 				</div>
 				<div class="card-block">
-					<form>
-						<div class="row">
-							<div class="form-group col-6">
-								<div class="input-group">
-									<span class="input-group-addon"><input type="checkbox"></span>
-									<input type="text" class="form-control" value="是否提供僑生專屬獎學金*" disabled>
-								</div>
+					<div class="row">
+						<div class="form-group col-6">
+							<div class="input-group">
+								<span class="input-group-addon"><input id="hasScholarship" type="checkbox"></span>
+								<input type="text" class="form-control" value="是否提供僑生專屬獎學金*" disabled>
 							</div>
 						</div>
-						<div class="row">
-							<div class="form-group col-6">
-								<label for="">獎學金負責單位中文名稱</label>
-								<input type="text" class="form-control">
-							</div>
-							<div class="form-group col-6">
-								<label for="">獎學金負責單位英文名稱</label>
-								<input type="text" class="form-control">
-							</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-6">
+							<label for="">獎學金負責單位中文名稱</label>
+							<input id="scholarshipDept" type="text" class="form-control">
 						</div>
-						<div class="row">
-							<div class="form-group col-6">
-								<label for="">僑生專屬獎學金中文說明網址</label>
-								<input type="text" class="form-control">
-							</div>
-							<div class="form-group col-6">
-								<label for="">僑生專屬獎學金英文說明網址</label>
-								<input type="text" class="form-control">
-							</div>
+						<div class="form-group col-6">
+							<label for="">獎學金負責單位英文名稱</label>
+							<input id="engScholarshipDept" type="text" class="form-control">
 						</div>
-					</form>
+					</div>
+					<div class="row">
+						<div class="form-group col-6">
+							<label for="">僑生專屬獎學金中文說明網址</label>
+							<input id="scholarshipUrl" type="text" class="form-control">
+						</div>
+						<div class="form-group col-6">
+							<label for="">僑生專屬獎學金英文說明網址</label>
+							<input id="engScholarshipUrl" type="text" class="form-control">
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -158,28 +154,26 @@
 					中五生招收
 				</div>
 				<div class="card-block">
-					<form>
-						<div class="row">
-							<div class="form-group col-6">
-								<div class="input-group">
-									<span class="input-group-addon"><input type="checkbox"></span>
-									<input type="text" class="form-control" value="是否招收中五生*" disabled>
-								</div>
+					<div class="row">
+						<div class="form-group col-6">
+							<div class="input-group">
+								<span class="input-group-addon"><input id="hasFiveYearStudentAllowed" type="checkbox"></span>
+								<input type="text" class="form-control" value="是否招收中五生*" disabled>
 							</div>
 						</div>
-						<div class="row">
-							<div class="form-group col-12">
-								<label for="">學則*</label>
-								<textarea type="text" class="form-control"></textarea>
-							</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-12">
+							<label for="">學則*</label>
+							<textarea id="ruleOfFiveYearStudent" type="text" class="form-control" rows="3"></textarea>
 						</div>
-						<div class="row">
-							<div class="form-group col-12">
-								<label for="">學則文件電子檔</label>
-								<input type="file" class="form-control">
-							</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-12">
+							<label for="">學則文件電子檔</label>
+							<input id="ruleDocOfFiveYearStudent" type="file" class="form-control">
 						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -191,28 +185,26 @@
 					單獨招收僑生（自招）
 				</div>
 				<div class="card-block">
-					<form>
-						<div class="row">
-							<div class="form-group col-6">
-								<div class="input-group">
-									<span class="input-group-addon"><input type="checkbox"></span>
-									<input type="text" class="form-control" value="是否單獨招收僑生（自招）*" disabled>
-								</div>
+					<div class="row">
+						<div class="form-group col-6">
+							<div class="input-group">
+								<span class="input-group-addon"><input id="hasSelfEnrollment" type="checkbox"></span>
+								<input type="text" class="form-control" value="是否單獨招收僑生（自招）*" disabled>
 							</div>
 						</div>
-						<div class="row">
-							<div class="form-group col-12">
-								<label for="">自招核定文號</label>
-								<input type="text" class="form-control">
-							</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-12">
+							<label for="">自招核定文號</label>
+							<input id="approvalNoOfSelfEnrollment" type="text" class="form-control">
 						</div>
-						<div class="row">
-							<div class="form-group col-12">
-								<label for="">自招核定公文電子檔</label>
-								<input type="file" class="form-control">
-							</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-12">
+							<label for="">自招核定公文電子檔</label>
+							<input id="approvalDocOfSelfEnrollment" type="file" class="form-control">
 						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>

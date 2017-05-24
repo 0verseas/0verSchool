@@ -23,6 +23,24 @@ var schoolInfo = (function () {
 	$engAddress = $schoolInfoForm.find('#engAddress');
 	$organization = $schoolInfoForm.find('#organization');
 	$engOrganization = $schoolInfoForm.find('#engOrganization');
+	// 宿舍
+	$hasDorm = $schoolInfoForm.find('#hasDorm');
+	$dormInfo = $schoolInfoForm.find('#dormInfo');
+	$dormEngInfo = $schoolInfoForm.find('#dormEngInfo');
+	// 僑生專屬獎學金
+	$hasScholarship = $schoolInfoForm.find('#hasScholarship');
+	$scholarshipDept = $schoolInfoForm.find('#scholarshipDept');
+	$engScholarshipDept = $schoolInfoForm.find('#engScholarshipDept');
+	$scholarshipUrl = $schoolInfoForm.find('#scholarshipUrl');
+	$engScholarshipUrl = $schoolInfoForm.find('#engScholarshipUrl');
+	// 中五生招收
+	$hasFiveYearStudentAllowed = $schoolInfoForm.find('#hasFiveYearStudentAllowed');
+	$ruleOfFiveYearStudent = $schoolInfoForm.find('#ruleOfFiveYearStudent');
+	$ruleDocOfFiveYearStudent = $schoolInfoForm.find('#ruleDocOfFiveYearStudent');
+	// 單獨招收僑生（自招）
+	$hasSelfEnrollment = $schoolInfoForm.find('#hasSelfEnrollment');
+	$approvalNoOfSelfEnrollment = $schoolInfoForm.find('#approvalNoOfSelfEnrollment');
+	$approvalDocOfSelfEnrollment = $schoolInfoForm.find('#approvalDocOfSelfEnrollment');
 
 	/**
 	 * bind event
@@ -55,6 +73,22 @@ var schoolInfo = (function () {
 		$engAddress.val(schoolData.eng_address);
 		$organization.val(schoolData.organization);
 		$engOrganization.val(schoolData.eng_organization);
+		// 宿舍
+		$hasDorm.prop("checked", schoolData.has_dorm);
+		$dormInfo.val(schoolData.dorm_info);
+		$dormEngInfo.val(schoolData.eng_dorm_info);
+		// 僑生專屬獎學金
+		$hasScholarship.prop("checked", schoolData.has_scholarship);
+		$scholarshipDept.val(schoolData.scholarship_dept);
+		$engScholarshipDept.val(schoolData.eng_scholarship_dept);
+		$scholarshipUrl.val(schoolData.scholarship_url);
+		$engScholarshipUrl.val(schoolData.eng_scholarship_url);
+		// 中五生招收
+		$hasFiveYearStudentAllowed.prop("checked", schoolData.has_five_year_student_allowed);
+		$ruleOfFiveYearStudent.text(schoolData.rule_of_five_year_student);
+		// 單獨招收僑生（自招）
+		$hasSelfEnrollment.prop("checked", schoolData.has_self_enrollment);
+		$approvalNoOfSelfEnrollment.val(schoolData.approval_no_of_self_enrollment);
 	}
 
 	function _getSchoolData() {
@@ -70,7 +104,6 @@ var schoolInfo = (function () {
 			_placedReviewInfo(json);
 			_placedSchoolInfoData(json);
 		}).catch(function(err) {
-			alert("您沒有權限。");
 			window.location.href = '/school/'
 		})
 	}
