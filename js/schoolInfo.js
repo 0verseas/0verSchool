@@ -1,5 +1,7 @@
 var schoolInfo = (function () {
 
+	_getSchoolData();
+
 	/**
 	 * cache DOM
 	 */
@@ -46,11 +48,36 @@ var schoolInfo = (function () {
 	 * bind event
 	 */
 
+	$hasDorm.on("change", _switchDormStatus);
+	$hasScholarship.on("change", _switchScholarshipStatus);
+	$hasFiveYearStudentAllowed.on("change", _switchFiveYearStudentStatus);
+	$hasSelfEnrollment.on("change", _switchSelfEnrollmentStatus);
 
+	function _switchDormStatus() { // 切換「宿舍」狀態
+		$dormInfo.prop('disabled', !$hasDorm.prop('checked'));
+		$dormEngInfo.prop('disabled', !$hasDorm.prop('checked'));
+	}
+
+	function _switchScholarshipStatus() { // 切換「僑生專屬獎學金」狀態
+		$scholarshipDept.prop('disabled', !$hasScholarship.prop('checked'));
+		$engScholarshipDept.prop('disabled', !$hasScholarship.prop('checked'));
+		$scholarshipUrl.prop('disabled', !$hasScholarship.prop('checked'));
+		$engScholarshipUrl.prop('disabled', !$hasScholarship.prop('checked'));
+	}
+
+	function _switchFiveYearStudentStatus() { // 切換「中五生招收」狀態
+		$ruleOfFiveYearStudent.prop('disabled', !$hasFiveYearStudentAllowed.prop('checked'));
+		$ruleDocOfFiveYearStudent.prop('disabled', !$hasFiveYearStudentAllowed.prop('checked'));
+	}
+
+	function _switchSelfEnrollmentStatus() { // 切換「單獨招收僑生（自招）」狀態
+		$approvalNoOfSelfEnrollment.prop('disabled', !$hasSelfEnrollment.prop('checked'));
+		$approvalDocOfSelfEnrollment.prop('disabled', !$hasSelfEnrollment.prop('checked'));
+	}
 
 	function _placedReviewInfo(schoolData) {
-		// 狀態為 `editing` 以及有被審閱過，則顯示審閱建議
-		// 狀態為 `confirmed`(通過) 、 `waiting`(已 commit 待檢驗) 則不須顯示審閱建議
+		// 狀態為 `editing` 以及「有被審閱過」，則顯示審閱建議。
+		// 狀態為 `confirmed`(通過) 、 `waiting`(已 commit 待檢驗) 則不須顯示審閱建議。
 		if (schoolData.info_status === "editing" && schoolData.review_by !== null) {
 			$reviewInfo.show("slow");
 			$reviewBy.val(schoolData.review_by);
@@ -60,8 +87,7 @@ var schoolInfo = (function () {
 	}
 
 	function _placedSchoolInfoData(schoolData) {
-		// 學校資料
-		console.log(schoolData);
+		// 擺放學校資料
 		$schoolId.val(schoolData.id);
 		$title.val(schoolData.title);
 		$engTitle.val(schoolData.eng_title);
@@ -101,13 +127,23 @@ var schoolInfo = (function () {
 				throw res
 			}
 		}).then(function(json) {
+			// 處理擺放學校資料、顯示審閱結果
 			_placedReviewInfo(json);
 			_placedSchoolInfoData(json);
+			return json.info_status
+		}).then(function(infoStatus) {
+			// 編輯狀態若為「等待審閱」或「審閱成功」，則 鎖住 編輯畫面。
+			if (infoStatus === 'waiting' || infoStatus === 'confirmed') {
+				$schoolInfoForm.find(':input').prop('disabled', true);
+			} else {
+				_switchDormStatus();
+				_switchScholarshipStatus();
+				_switchFiveYearStudentStatus();
+				_switchSelfEnrollmentStatus();
+			}
 		}).catch(function(err) {
 			window.location.href = '/school/'
 		})
 	}
-
-	return _getSchoolData();
 
 })();
