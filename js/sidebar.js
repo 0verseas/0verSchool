@@ -29,7 +29,7 @@ var Sidebar = (function () {
 		_showUserInfo(json);
 	}).catch(function (err) {
 		if (err == 401) {
-			location.href = '/school/login.html';
+			location.replace('/school/login.html');
 		}
 	});
 
@@ -44,7 +44,7 @@ var Sidebar = (function () {
 	function _logout() {
 		User.logout().then(function(res) {
 			if(res.ok) {
-				window.location.href = '/school/login.html'
+				window.location.replace('/school/login.html');
 			} else {
 				throw res.status;
 			}
