@@ -10,6 +10,20 @@ var schoolInfo = (function () {
 	$reviewAt = $reviewInfo.find('#reviewAt');
 	$reviewMemo = $reviewInfo.find('#reviewMemo');
 
+	// 學校資料
+	$schoolInfoForm = $('#form-schoolInfo');
+	$schoolId = $schoolInfoForm.find('#schoolId');
+	$title = $schoolInfoForm.find('#title');
+	$engTitle = $schoolInfoForm.find('#engTitle');
+	$phone = $schoolInfoForm.find('#phone');
+	$fax = $schoolInfoForm.find('#fax');
+	$url = $schoolInfoForm.find('#url');
+	$engUrl = $schoolInfoForm.find('#engUrl');
+	$address = $schoolInfoForm.find('#address');
+	$engAddress = $schoolInfoForm.find('#engAddress');
+	$organization = $schoolInfoForm.find('#organization');
+	$engOrganization = $schoolInfoForm.find('#engOrganization');
+
 	/**
 	 * bind event
 	 */
@@ -29,6 +43,18 @@ var schoolInfo = (function () {
 
 	function _placedSchoolInfoData(schoolData) {
 		// 學校資料
+		console.log(schoolData);
+		$schoolId.val(schoolData.id);
+		$title.val(schoolData.title);
+		$engTitle.val(schoolData.eng_title);
+		$phone.val(schoolData.phone);
+		$fax.val(schoolData.fax);
+		$url.val(schoolData.url);
+		$engUrl.val(schoolData.eng_url);
+		$address.val(schoolData.address);
+		$engAddress.val(schoolData.eng_address);
+		$organization.val(schoolData.organization);
+		$engOrganization.val(schoolData.eng_organization);
 	}
 
 	function _getSchoolData() {
