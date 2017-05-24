@@ -19,19 +19,7 @@ var Sidebar = (function () {
 	/**
 	 * init
 	 */
-	User.isLogin().then(function (res) {
-		if(res.ok) {
-			return res.json();
-		} else {
-			throw res.status;
-		}
-	}).then(function (json) {
-		_showUserInfo(json);
-	}).catch(function (err) {
-		if (err == 401) {
-			location.replace('/school/login.html');
-		}
-	});
+	_showUserInfo();
 
 	function _toggleSidebar() {
 		$sidebarWrap.toggleClass('open');
@@ -53,7 +41,12 @@ var Sidebar = (function () {
 		})
 	}
 
-	function _showUserInfo(userInfo) {
+	function _showUserInfo() {
+		var userInfo = User.getUserInfo();
+		if (!userInfo) {
+			setTimeout(_showUserInfo, 1);
+			return;
+		}
 		$userName.text(userInfo.name);
 		$userSchool.text(userInfo.school_editor.school.title);
 	}
