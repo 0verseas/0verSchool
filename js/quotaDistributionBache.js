@@ -73,11 +73,19 @@ var quotaDistirbutionBache = (function () {
 	function _setStatus(status) {
 		switch (status) {
 			case 'waiting':
+				$statusBadge.addClass('badge-warning').text('已送出');
+				// TODO: lock input
 				break;
 			case 'confirmed':
+				$statusBadge.addClass('badge-success').text('已確認');
+				// TODO: lock input
 				break;
 			case 'editing':
 				$statusBadge.addClass('badge-danger').text('編輯中');
+				break;
+			case 'returned':
+				$statusBadge.addClass('badge-danger').text('編輯中');
+				// TODO: show review comment
 				break;
 		}
 	}
@@ -86,8 +94,40 @@ var quotaDistirbutionBache = (function () {
 
 	}
 
-	function _setDeptList() {
-
+	function _setDeptList(list) {
+		$deptList .find('tbody') .html('');
+		for (let dept of list) {
+			var {
+				id,
+				title,
+				sort_order,
+				title,
+				eng_title,
+				admission_selection_quota,
+				admission_placement_quota,
+				has_self_enrollment,
+				self_enrollment_quota
+			} = dept;
+			var total = (+admission_selection_quota) + (+admission_placement_quota) + (+self_enrollment_quota || 0);
+			
+			$deptList
+				.find('tbody')
+				.append(`
+					<tr class="dept" data-id="${id}">
+						<td>${sort_order}</td>
+						<td>${id}</td>
+						<td>
+							<div>${title}</div>
+							<div>${eng_title}</div>
+						</td>
+						<td><input type="number" class="form-control editableQuota required admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
+						<td><input type="number" class="form-control editableQuota required admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
+						<td class="text-center"><input type="checkbox" class="isSelf" checked="${has_self_enrollment}" ></td>
+						<td><input type="number" class="form-control editableQuota required self_enrollment_quota" value="${self_enrollment_quota || 0}" /></td>
+						<td class="total">${total}</td>
+					</tr>
+				`);
+		}
 	}
 
 })();
