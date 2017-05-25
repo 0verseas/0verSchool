@@ -5,9 +5,14 @@ var quotaDistirbutionBache = (function () {
 	var $page = $('#pageContent');
 	var $statusBadge = $page.find('#badge-status');
 
+	// dept list
+	var $deptList = $page.find('#table-bacheDeptList');
+
 	/**
 	 * bind event
 	 */
+	// 是否自招的 checkbox
+	$deptList.on('click.toggleSelf', '.dept .isSelf', _handleToggleCheck);
 	
 	/**
 	 * init
@@ -15,6 +20,23 @@ var quotaDistirbutionBache = (function () {
 	// show bache only
 	$page.find('.bacheOnly').removeClass('hide');
 	_setData();
+
+	function _handleToggleCheck() {
+		var $this = $(this);
+		var checked = $this.is(':checked');
+		if (checked) {
+			$this.parents('.dept')
+				.find('.self_enrollment_quota')
+				.attr('disabled', false)
+				.addClass('required');
+		} else {
+			$this.parents('.dept')
+				.find('.self_enrollment_quota')
+				.attr('disabled', true)
+				.removeClass('required')
+				.val(0);
+		}
+	}
 
 	function _setData() {
 		fetch('https://api.overseas.ncnu.edu.tw/schools/me/systems/bachelor/histories/latest?data_type=quota', {

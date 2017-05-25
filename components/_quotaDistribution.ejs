@@ -127,7 +127,7 @@
 <div class="row mt-5 bacheOnly hide">
 	<div class="col-12">
 		<h3>系所列表</h3>
-		<table id="dept-list" class="table table-hover sortable">
+		<table id="table-bacheDeptList" class="table table-hover sortable">
 			<thead>
 				<tr>
 					<th>#</th>
@@ -135,22 +135,24 @@
 					<th>名稱</th>
 					<th>個人申請人數</th>
 					<th>聯合分發人數</th>
+					<th>是否自招</th>
 					<th>自招人數</th>
 					<th>系所總量</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
+				<tr class="dept">
 					<td>0</td>
 					<td>5HW01</td>
 					<td>
 						<div>歷史學系</div>
 						<div>history</div>
 					</td>
-					<td>4</td>
-					<td>5</td>
-					<td>3</td>
-					<td>12</td>
+					<td><input type="number" class="form-control editableQuota required" /></td>
+					<td><input type="number" class="form-control editableQuota required" /></td>
+					<td class="text-center"><input type="checkbox" class="isSelf"></td>
+					<td><input type="number" class="form-control editableQuota required self_enrollment_quota" /></td>
+					<td class="total">12</td>
 				</tr>
 			</tbody>
 		</table>
