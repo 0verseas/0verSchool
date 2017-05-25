@@ -31,7 +31,7 @@ var quotaDistirbutionBache = (function () {
 				.find('.self_enrollment_quota')
 				.attr('disabled', false)
 				.addClass('required');
-			_handleQuotaChange($this);
+			_handleQuotaChange.call($this[0]);
 		} else {
 			$this.parents('.dept')
 				.find('.self_enrollment_quota')
