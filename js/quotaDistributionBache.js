@@ -109,7 +109,7 @@ var quotaDistirbutionBache = (function () {
 				self_enrollment_quota
 			} = dept;
 			var total = (+admission_selection_quota) + (+admission_placement_quota) + (+self_enrollment_quota || 0);
-			
+
 			$deptList
 				.find('tbody')
 				.append(`
@@ -120,10 +120,10 @@ var quotaDistirbutionBache = (function () {
 							<div>${title}</div>
 							<div>${eng_title}</div>
 						</td>
-						<td><input type="number" class="form-control editableQuota required admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
-						<td><input type="number" class="form-control editableQuota required admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
+						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
+						<td><input type="number" min="0" class="form-control editableQuota required admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
 						<td class="text-center"><input type="checkbox" class="isSelf" checked="${has_self_enrollment}" ></td>
-						<td><input type="number" class="form-control editableQuota required self_enrollment_quota" value="${self_enrollment_quota || 0}" /></td>
+						<td><input type="number" min="0" class="form-control editableQuota required self_enrollment_quota" value="${self_enrollment_quota || 0}" /></td>
 						<td class="total">${total}</td>
 					</tr>
 				`);
