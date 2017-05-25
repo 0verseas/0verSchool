@@ -2,7 +2,7 @@ var quotaDistributionMaster = (function () {
 	/**
 	 * cacheDOM
 	 */
-	$page = $('#pageContent');
+	var $page = $('#pageContent');
 
 	/**
 	 * bind event

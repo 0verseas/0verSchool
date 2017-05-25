@@ -2,12 +2,12 @@ var Sidebar = (function () {
 	/**
 	 * cache DOM
 	 */
-	$toggleBtn = $('#btn-toggle');
-	$sidebarWrap = $('#sidebarWrap');
-	$editAccountBtn = $sidebarWrap.find('#btn-editAccount');
-	$logoutBtn = $sidebarWrap.find('#btn-logout');
-	$userSchool = $sidebarWrap.find('#userSchool');
-	$userName = $sidebarWrap.find('#userName');
+	var $toggleBtn = $('#btn-toggle');
+	var $sidebarWrap = $('#sidebarWrap');
+	var $editAccountBtn = $sidebarWrap.find('#btn-editAccount');
+	var $logoutBtn = $sidebarWrap.find('#btn-logout');
+	var $userSchool = $sidebarWrap.find('#userSchool');
+	var $userName = $sidebarWrap.find('#userName');
 
 	/**
 	 * bind event

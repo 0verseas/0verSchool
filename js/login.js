@@ -4,11 +4,11 @@ var login = (function () {
 	 * cache DOM
 	 */
 
-	$username = $('#username');
-	$password = $('#password');
-	$loginBtn = $('#btn-login');
-	$errMsg = $('#errMsg');
-	$getStatus = $('#getStatus');
+	var $username = $('#username');
+	var $password = $('#password');
+	var $loginBtn = $('#btn-login');
+	var $errMsg = $('#errMsg');
+	var $getStatus = $('#getStatus');
 
 	/**
 	 * bind event

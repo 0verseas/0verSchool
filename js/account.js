@@ -2,7 +2,7 @@ var account = (function () {
 	/**
 	 * cache DOM
 	 */
-	$pageContent = $('#pageContent');
+	var $pageContent = $('#pageContent');
 	
 	/**
 	 * bind event

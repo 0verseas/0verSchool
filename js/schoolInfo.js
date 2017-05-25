@@ -7,42 +7,42 @@ var schoolInfo = (function () {
 	 */
 
 	// 審閱建議
-	$reviewInfo = $('#reviewInfo');
-	$reviewBy = $reviewInfo.find('#reviewBy');
-	$reviewAt = $reviewInfo.find('#reviewAt');
-	$reviewMemo = $reviewInfo.find('#reviewMemo');
+	var $reviewInfo = $('#reviewInfo');
+	var $reviewBy = $reviewInfo.find('#reviewBy');
+	var $reviewAt = $reviewInfo.find('#reviewAt');
+	var $reviewMemo = $reviewInfo.find('#reviewMemo');
 
 	// 學校資料
-	$schoolInfoForm = $('#form-schoolInfo');
-	$schoolId = $schoolInfoForm.find('#schoolId');
-	$title = $schoolInfoForm.find('#title');
-	$engTitle = $schoolInfoForm.find('#engTitle');
-	$phone = $schoolInfoForm.find('#phone');
-	$fax = $schoolInfoForm.find('#fax');
-	$url = $schoolInfoForm.find('#url');
-	$engUrl = $schoolInfoForm.find('#engUrl');
-	$address = $schoolInfoForm.find('#address');
-	$engAddress = $schoolInfoForm.find('#engAddress');
-	$organization = $schoolInfoForm.find('#organization');
-	$engOrganization = $schoolInfoForm.find('#engOrganization');
+	var $schoolInfoForm = $('#form-schoolInfo');
+	var $schoolId = $schoolInfoForm.find('#schoolId');
+	var $title = $schoolInfoForm.find('#title');
+	var $engTitle = $schoolInfoForm.find('#engTitle');
+	var $phone = $schoolInfoForm.find('#phone');
+	var $fax = $schoolInfoForm.find('#fax');
+	var $url = $schoolInfoForm.find('#url');
+	var $engUrl = $schoolInfoForm.find('#engUrl');
+	var $address = $schoolInfoForm.find('#address');
+	var $engAddress = $schoolInfoForm.find('#engAddress');
+	var $organization = $schoolInfoForm.find('#organization');
+	var $engOrganization = $schoolInfoForm.find('#engOrganization');
 	// 宿舍
-	$hasDorm = $schoolInfoForm.find('#hasDorm');
-	$dormInfo = $schoolInfoForm.find('#dormInfo');
-	$dormEngInfo = $schoolInfoForm.find('#dormEngInfo');
+	var $hasDorm = $schoolInfoForm.find('#hasDorm');
+	var $dormInfo = $schoolInfoForm.find('#dormInfo');
+	var $dormEngInfo = $schoolInfoForm.find('#dormEngInfo');
 	// 僑生專屬獎學金
-	$hasScholarship = $schoolInfoForm.find('#hasScholarship');
-	$scholarshipDept = $schoolInfoForm.find('#scholarshipDept');
-	$engScholarshipDept = $schoolInfoForm.find('#engScholarshipDept');
-	$scholarshipUrl = $schoolInfoForm.find('#scholarshipUrl');
-	$engScholarshipUrl = $schoolInfoForm.find('#engScholarshipUrl');
+	var $hasScholarship = $schoolInfoForm.find('#hasScholarship');
+	var $scholarshipDept = $schoolInfoForm.find('#scholarshipDept');
+	var $engScholarshipDept = $schoolInfoForm.find('#engScholarshipDept');
+	var $scholarshipUrl = $schoolInfoForm.find('#scholarshipUrl');
+	var $engScholarshipUrl = $schoolInfoForm.find('#engScholarshipUrl');
 	// 中五生招收
-	$hasFiveYearStudentAllowed = $schoolInfoForm.find('#hasFiveYearStudentAllowed');
-	$ruleOfFiveYearStudent = $schoolInfoForm.find('#ruleOfFiveYearStudent');
-	$ruleDocOfFiveYearStudent = $schoolInfoForm.find('#ruleDocOfFiveYearStudent');
+	var $hasFiveYearStudentAllowed = $schoolInfoForm.find('#hasFiveYearStudentAllowed');
+	var $ruleOfFiveYearStudent = $schoolInfoForm.find('#ruleOfFiveYearStudent');
+	var $ruleDocOfFiveYearStudent = $schoolInfoForm.find('#ruleDocOfFiveYearStudent');
 	// 單獨招收僑生（自招）
-	$hasSelfEnrollment = $schoolInfoForm.find('#hasSelfEnrollment');
-	$approvalNoOfSelfEnrollment = $schoolInfoForm.find('#approvalNoOfSelfEnrollment');
-	$approvalDocOfSelfEnrollment = $schoolInfoForm.find('#approvalDocOfSelfEnrollment');
+	var $hasSelfEnrollment = $schoolInfoForm.find('#hasSelfEnrollment');
+	var $approvalNoOfSelfEnrollment = $schoolInfoForm.find('#approvalNoOfSelfEnrollment');
+	var $approvalDocOfSelfEnrollment = $schoolInfoForm.find('#approvalDocOfSelfEnrollment');
 
 	/**
 	 * bind event

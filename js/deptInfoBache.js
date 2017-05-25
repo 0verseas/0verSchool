@@ -4,15 +4,15 @@ var deptInfoBache = (function () {
 	 * cache DOM
 	 */
 
-	$deptFilterInput = $('#dept-filter-input');
-	$deptList = $('#dept-list');
-	$editDeptInfoBtn = $('.btn-editDeptInfo');
-	$editDeptInfoModal = $('#editDeptInfoModal');
-	$bachelorTotalPeople = $('#bachelorTotalPeople');
-	$bachelorPersonalApply = $('#bachelorPersonalApply');
-	$bachelorDistribution = $('#bachelorDistribution');
-	$addReviewItemBtn = $('#btn-addReviewItem');
-	$reviewItemsForm = $('#form-reviewItems');
+	var $deptFilterInput = $('#dept-filter-input');
+	var $deptList = $('#dept-list');
+	var $editDeptInfoBtn = $('.btn-editDeptInfo');
+	var $editDeptInfoModal = $('#editDeptInfoModal');
+	var $bachelorTotalPeople = $('#bachelorTotalPeople');
+	var $bachelorPersonalApply = $('#bachelorPersonalApply');
+	var $bachelorDistribution = $('#bachelorDistribution');
+	var $addReviewItemBtn = $('#btn-addReviewItem');
+	var $reviewItemsForm = $('#form-reviewItems');
 
 	/**
 	 * bind event
