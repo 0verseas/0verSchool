@@ -6,7 +6,11 @@ var quotaDistirbutionBache = (function () {
 	var $statusBadge = $page.find('#badge-status');
 
 	//quota
-	$quota_admission_selection_quota = $page.find('.quota.admission_selection_quota');
+	$quota_allowTotal = $page.find('.quota.allowTotal'); // 本年度可招生總量
+	$quota_last_year_admission_amount = $page.find('.quota.last_year_admission_amount'); // 去年招生名額 * 10%
+	$quota_last_year_surplus_admission_quota = $page.find('.quota.last_year_surplus_admission_quota'); // 去年本地生招生缺額數*
+	$quota_ratify_expanded_quota = $page.find('.quota.ratify_expanded_quota'); // 本年度教育部核准擴增名額
+	$quota_admission_selection_quota = $page.find('.quota.admission_selection_quota'); // 學士班個人申請
 
 	// dept list
 	var $deptList = $page.find('#table-bacheDeptList');
@@ -98,8 +102,16 @@ var quotaDistirbutionBache = (function () {
 		}
 	}
 
-	function _setQuota() {
-		
+	function _setQuota(data) {
+		var {
+			last_year_admission_amount,
+			last_year_surplus_admission_quota,
+			ratify_expanded_quota
+		} = data;
+		$quota_last_year_admission_amount.val(last_year_admission_amount);
+		$quota_last_year_surplus_admission_quota.val(last_year_surplus_admission_quota);
+		$quota_ratify_expanded_quota.val(ratify_expanded_quota);
+		_updateAllowTotal();
 	}
 
 	function _setDeptList(list) {
@@ -145,6 +157,13 @@ var quotaDistirbutionBache = (function () {
 			sum += +$(deptRow).find('.admission_selection_quota').val();
 		});
 		$quota_admission_selection_quota.val(sum);
+	}
+
+	function _updateAllowTotal() {
+		var sum = +($quota_last_year_admission_amount.val()) + 
+			+($quota_last_year_surplus_admission_quota.val()) + 
+			+($quota_ratify_expanded_quota.val());
+		$quota_allowTotal.val(sum);
 	}
 
 })();
