@@ -76,13 +76,13 @@ var schoolInfo = (function () {
 	}
 
 	function _placedReviewInfo(schoolData) {
-		// 狀態為 `editing` 以及「有被審閱過」，則顯示審閱建議。
+		// 狀態為 `editing`(編輯中) 以及 `returned`(被退回)，則顯示審閱建議。
 		// 狀態為 `confirmed`(通過) 、 `waiting`(已 commit 待檢驗) 則不須顯示審閱建議。
-		if (schoolData.info_status === "editing" && schoolData.review_by !== null) {
+		if (schoolData.info_status === "editing" && schoolData.last_returned_data !== null || schoolData.info_status === "returned") {
 			$reviewInfo.show("slow");
-			$reviewBy.val(schoolData.review_by);
-			$reviewAt.text(schoolData.review_at);
-			$reviewMemo.text(schoolData.review_memo);
+			$reviewBy.val(schoolData.last_returned_data.review_by);
+			$reviewAt.text(schoolData.last_returned_data.review_at);
+			$reviewMemo.text(schoolData.last_returned_data.review_memo);
 		}
 	}
 
@@ -142,7 +142,7 @@ var schoolInfo = (function () {
 				_switchSelfEnrollmentStatus();
 			}
 		}).catch(function(err) {
-			window.location.href = '/school/'
+			console.log(err);
 		})
 	}
 
