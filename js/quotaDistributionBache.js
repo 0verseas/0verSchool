@@ -5,6 +5,9 @@ var quotaDistirbutionBache = (function () {
 	var $page = $('#pageContent');
 	var $statusBadge = $page.find('#badge-status');
 
+	//quota
+	$quota_admission_selection_quota = $page.find('.quota.admission_selection_quota');
+
 	// dept list
 	var $deptList = $page.find('#table-bacheDeptList');
 
@@ -49,6 +52,11 @@ var quotaDistirbutionBache = (function () {
 			sum += +$(input).val() || 0;
 		});
 		$this.parents('.dept').find('.total').text(sum);
+
+		// update sum admission_selection_quota
+		if ($this.hasClass('admission_selection_quota')) {
+			_updateAdmissionSelectionQuotaSum();
+		}
 	}
 
 	function _setData() {
@@ -91,7 +99,7 @@ var quotaDistirbutionBache = (function () {
 	}
 
 	function _setQuota() {
-
+		
 	}
 
 	function _setDeptList(list) {
@@ -128,6 +136,15 @@ var quotaDistirbutionBache = (function () {
 					</tr>
 				`);
 		}
+		_updateAdmissionSelectionQuotaSum();
+	}
+
+	function _updateAdmissionSelectionQuotaSum() {
+		var sum = 0;
+		$deptList.find('.dept').each(function (i, deptRow) {
+			sum += +$(deptRow).find('.admission_selection_quota').val();
+		});
+		$quota_admission_selection_quota.val(sum);
 	}
 
 })();
