@@ -1,5 +1,9 @@
 var schoolInfo = (function () {
 
+	/**
+	 * init
+	 */
+
 	_getSchoolData();
 
 	/**
@@ -43,6 +47,9 @@ var schoolInfo = (function () {
 	var $hasSelfEnrollment = $schoolInfoForm.find('#hasSelfEnrollment');
 	var $approvalNoOfSelfEnrollment = $schoolInfoForm.find('#approvalNoOfSelfEnrollment');
 	var $approvalDocOfSelfEnrollment = $schoolInfoForm.find('#approvalDocOfSelfEnrollment');
+	// Button
+	var $saveBtn = $schoolInfoForm.find('#btn-save');
+	var $commitBtn = $schoolInfoForm.find('#btn-commit');
 
 	/**
 	 * bind event
@@ -52,6 +59,8 @@ var schoolInfo = (function () {
 	$hasScholarship.on("change", _switchScholarshipStatus);
 	$hasFiveYearStudentAllowed.on("change", _switchFiveYearStudentStatus);
 	$hasSelfEnrollment.on("change", _switchSelfEnrollmentStatus);
+	$saveBtn.on("click", _saveSchoolInfo);
+	$commitBtn.on("click", _commitSchoolInfo);
 
 	function _switchDormStatus() { // 切換「宿舍」狀態
 		$dormInfo.prop('disabled', !$hasDorm.prop('checked'));
@@ -73,6 +82,77 @@ var schoolInfo = (function () {
 	function _switchSelfEnrollmentStatus() { // 切換「單獨招收僑生（自招）」狀態
 		$approvalNoOfSelfEnrollment.prop('disabled', !$hasSelfEnrollment.prop('checked'));
 		$approvalDocOfSelfEnrollment.prop('disabled', !$hasSelfEnrollment.prop('checked'));
+	}
+
+	function _getFormData() {
+		var data = {
+			'address': $address.val(),
+			'eng_address': $engAddress.val(),
+			'organization': $organization.val(),
+			'eng_organization': $engOrganization.val(),
+			'url': $url.val(),
+			'eng_url': $engUrl.val(),
+			'phone': $phone.val(),
+			'fax': $fax.val(),
+			'has_dorm' : $hasDorm.prop('checked'),
+			'dorm_info' : $dormInfo.val(),
+			'eng_dorm_info' : $dormEngInfo.val(),
+			'has_scholarship' : $hasScholarship.prop('checked'),
+			'scholarship_dept' : $scholarshipDept.val(),
+			'eng_scholarship_dept' : $engScholarshipDept.val(),
+			'scholarship_url' : $scholarshipUrl.val(),
+			'eng_scholarship_url' : $engScholarshipUrl.val(),
+			'has_five_year_student_allowed' : $hasFiveYearStudentAllowed.prop('checked'),
+			'rule_of_five_year_student' : $ruleOfFiveYearStudent.val(),
+			'has_self_enrollment' : $hasSelfEnrollment.prop('checked'),
+			'approval_no_of_self_enrollment' : $approvalNoOfSelfEnrollment.val()
+		}
+		if (!data.has_dorm) {delete data.dorm_info; delete data.eng_dorm_info}
+		if (!data.has_scholarship) {delete data.scholarship_dept; delete data.eng_scholarship_dept; delete data.scholarship_url; delete data.eng_scholarship_url;}
+		if (!data.has_five_year_student_allowed) {delete data.rule_of_five_year_student;}
+		if (!data.has_self_enrollment) {delete data.approval_no_of_self_enrollment;}
+		return data;
+	}
+
+	function _saveSchoolInfo() {
+
+		var sendData = _getFormData();
+		sendData['action'] = 'save';
+
+		fetch('https://api.overseas.ncnu.edu.tw/schools/me/histories', {
+			credentials: 'include',
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(sendData)
+		}).then(function(res) {
+			if(!res.ok) {
+				throw res
+			}
+		}).catch(function(err) {
+			console.log(err);
+		})
+	}
+
+	function _commitSchoolInfo() {
+		var sendData = _getFormData();
+		sendData['action'] = 'commit';
+
+		fetch('https://api.overseas.ncnu.edu.tw/schools/me/histories', {
+			credentials: 'include',
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(sendData)
+		}).then(function(res) {
+			if(!res.ok) {
+				throw res
+			}
+		}).catch(function(err) {
+			console.log(err);
+		})
 	}
 
 	function _placedReviewInfo(schoolData) {
