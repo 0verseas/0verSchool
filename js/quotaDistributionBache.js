@@ -22,6 +22,7 @@ var quotaDistirbutionBache = (function () {
 	$deptList.on('click.toggleSelf', '.dept .isSelf', _handleToggleCheck);
 	// 填數字算總額
 	$deptList.on('change.sumTotal', '.dept .editableQuota', _handleQuotaChange);
+	$quota_last_year_surplus_admission_quota.on('change', _updateAllowTotal);
 	
 	/**
 	 * init
