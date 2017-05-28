@@ -13,6 +13,9 @@ var quotaDistirbutionBache = (function () {
 	$quota_admission_selection_quota = $page.find('.quota.admission_selection_quota'); // 學士班個人申請
 	$quota_admission_placement_quota = $page.find('.quota.admission_placement_quota'); // 學士班聯合分發
 	$quota_self_enrollment_quota = $page.find('.quota.self_enrollment_quota'); // 學士班自招
+	$quota_wantTotal = $page.find('.quota.wantTotal'); // 本年度欲招募總量
+	$quota_admissionSum = $page.find('.quota.admissionSum'); // 本年度聯招小計
+	$quota_selfSum = $page.find('.quota.selfSum'); // 本年度自招小計
 
 	// dept list
 	var $deptList = $page.find('#table-bacheDeptList');
@@ -64,6 +67,8 @@ var quotaDistirbutionBache = (function () {
 		var quotaType = $this.data('type');
 		if (quotaType) {
 			_updateQuotaSum(quotaType);
+			// TODO: update admissionSum / selfSum
+			_updateWnatTotal();
 		}
 	}
 
@@ -155,6 +160,8 @@ var quotaDistirbutionBache = (function () {
 		_updateQuotaSum('admission_selection_quota');
 		_updateQuotaSum('admission_placement_quota');
 		_updateQuotaSum('self_enrollment_quota');
+		// TODO: update admissionSum / selfSum
+		_updateWnatTotal();
 	}
 
 	function _updateQuotaSum(type) {
@@ -175,6 +182,12 @@ var quotaDistirbutionBache = (function () {
 			+($quota_last_year_surplus_admission_quota.val()) + 
 			+($quota_ratify_expanded_quota.val());
 		$quota_allowTotal.val(sum);
+	}
+
+	function _updateWnatTotal() {
+		var sum = +($quota_admissionSum.val()) +
+			+($quota_selfSum.val());
+		$quota_wantTotal.val(sum);
 	}
 
 })();
