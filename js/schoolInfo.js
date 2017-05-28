@@ -47,6 +47,7 @@ var schoolInfo = (function () {
 	var $hasSelfEnrollment = $schoolInfoForm.find('#hasSelfEnrollment');
 	var $approvalNoOfSelfEnrollment = $schoolInfoForm.find('#approvalNoOfSelfEnrollment');
 	var $approvalDocOfSelfEnrollment = $schoolInfoForm.find('#approvalDocOfSelfEnrollment');
+
 	// Button
 	var $saveBtn = $schoolInfoForm.find('#btn-save');
 	var $commitBtn = $schoolInfoForm.find('#btn-commit');
@@ -84,80 +85,84 @@ var schoolInfo = (function () {
 		$approvalDocOfSelfEnrollment.prop('disabled', !$hasSelfEnrollment.prop('checked'));
 	}
 
+
+	// 整理 form 資料
 	function _getFormData() {
-		var data = {
-			'address': $address.val(),
-			'eng_address': $engAddress.val(),
-			'organization': $organization.val(),
-			'eng_organization': $engOrganization.val(),
-			'url': $url.val(),
-			'eng_url': $engUrl.val(),
-			'phone': $phone.val(),
-			'fax': $fax.val(),
-			'has_dorm' : $hasDorm.prop('checked'),
-			'dorm_info' : $dormInfo.val(),
-			'eng_dorm_info' : $dormEngInfo.val(),
-			'has_scholarship' : $hasScholarship.prop('checked'),
-			'scholarship_dept' : $scholarshipDept.val(),
-			'eng_scholarship_dept' : $engScholarshipDept.val(),
-			'scholarship_url' : $scholarshipUrl.val(),
-			'eng_scholarship_url' : $engScholarshipUrl.val(),
-			'has_five_year_student_allowed' : $hasFiveYearStudentAllowed.prop('checked'),
-			'rule_of_five_year_student' : $ruleOfFiveYearStudent.val(),
-			'has_self_enrollment' : $hasSelfEnrollment.prop('checked'),
-			'approval_no_of_self_enrollment' : $approvalNoOfSelfEnrollment.val()
+
+		var data = new FormData();
+		data.append('address', $address.val());
+		data.append('eng_address', $engAddress.val());
+		data.append('organization', $organization.val());
+		data.append('eng_organization', $engOrganization.val());
+		data.append('url', $url.val());
+		data.append('eng_url', $engUrl.val());
+		data.append('phone', $phone.val());
+		data.append('fax', $fax.val());
+		data.append('has_dorm', +$hasDorm.prop('checked'));
+		data.append('has_scholarship', +$hasScholarship.prop('checked'));
+		data.append('has_five_year_student_allowed', +$hasFiveYearStudentAllowed.prop('checked'));
+		data.append('has_self_enrollment', +$hasSelfEnrollment.prop('checked'));
+
+		if ($hasDorm.prop('checked')) {
+			data.append('dorm_info', $dormInfo.val());
+			data.append('eng_dorm_info', $dormEngInfo.val());
 		}
-		if (!data.has_dorm) {delete data.dorm_info; delete data.eng_dorm_info}
-		if (!data.has_scholarship) {delete data.scholarship_dept; delete data.eng_scholarship_dept; delete data.scholarship_url; delete data.eng_scholarship_url;}
-		if (!data.has_five_year_student_allowed) {delete data.rule_of_five_year_student;}
-		if (!data.has_self_enrollment) {delete data.approval_no_of_self_enrollment;}
-		return data;
+		if ($hasScholarship.prop('checked')) {
+			data.append('scholarship_dept', $scholarshipDept.val());
+			data.append('eng_scholarship_dept', $engScholarshipDept.val());
+			data.append('scholarship_url', $scholarshipUrl.val());
+			data.append('eng_scholarship_url', $engScholarshipUrl.val());
+		}
+		if ($hasFiveYearStudentAllowed.prop('checked')) {
+			data.append('rule_of_five_year_student', $ruleOfFiveYearStudent.val());
+			data.append('rule_doc_of_five_year_student', $ruleDocOfFiveYearStudent.prop('files')[0]);
+		}
+		if ($hasSelfEnrollment.prop('checked')) {
+	    data.append('approval_no_of_self_enrollment', $url.val());
+	    data.append('approval_doc_of_self_enrollment', $approvalDocOfSelfEnrollment.prop('files')[0]);
+		}
+    return data;
 	}
 
 	function _saveSchoolInfo() {
 
 		var sendData = _getFormData();
-		sendData['action'] = 'save';
+		sendData.append('action', 'save');
 
-		fetch('https://api.overseas.ncnu.edu.tw/schools/me/histories', {
-			credentials: 'include',
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(sendData)
-		}).then(function(res) {
-			if(!res.ok) {
-				throw res
-			}
-		}).catch(function(err) {
-			console.log(err);
-		})
+    fetch('https://api.overseas.ncnu.edu.tw/schools/me/histories', {
+      method: 'POST',
+      body: sendData,
+      credentials: 'include'
+    }).then(function(res) {
+      if(!res.ok) {
+        throw res
+      }
+    }).catch(function(err) {
+      console.log(err);
+    })
 	}
 
 	function _commitSchoolInfo() {
 		var sendData = _getFormData();
-		sendData['action'] = 'commit';
+		sendData.append('action', 'commit');
 
 		fetch('https://api.overseas.ncnu.edu.tw/schools/me/histories', {
-			credentials: 'include',
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(sendData)
-		}).then(function(res) {
-			if(!res.ok) {
-				throw res
-			}
-		}).catch(function(err) {
-			console.log(err);
-		})
+      method: 'POST',
+      body: sendData,
+      credentials: 'include'
+    }).then(function(res) {
+      if(!res.ok) {
+        throw res
+      }
+    }).catch(function(err) {
+      console.log(err);
+    })
 	}
 
+	// 擺放審閱建議
 	function _placedReviewInfo(schoolData) {
 		// 狀態為 `editing`(編輯中) 以及 `returned`(被退回)，則顯示審閱建議。
-		// 狀態為 `confirmed`(通過) 、 `waiting`(已 commit 待檢驗) 則不須顯示審閱建議。
+		// 狀態為 `confirmed`(通過) 、 `waiting`(已 commit 待檢驗) 則不須顯示審閱建議。（預設不顯示）
 		if (schoolData.info_status === "editing" && schoolData.last_returned_data !== null || schoolData.info_status === "returned") {
 			$reviewInfo.show("slow");
 			$reviewBy.val(schoolData.last_returned_data.review_by);
@@ -166,8 +171,8 @@ var schoolInfo = (function () {
 		}
 	}
 
+	// 擺放學校資料
 	function _placedSchoolInfoData(schoolData) {
-		// 擺放學校資料
 		$schoolId.val(schoolData.id);
 		$title.val(schoolData.title);
 		$engTitle.val(schoolData.eng_title);
@@ -197,6 +202,7 @@ var schoolInfo = (function () {
 		$approvalNoOfSelfEnrollment.val(schoolData.approval_no_of_self_enrollment);
 	}
 
+	// init
 	function _getSchoolData() {
 		fetch('https://api.overseas.ncnu.edu.tw/schools/me/histories/latest', {
 			credentials: 'include'
