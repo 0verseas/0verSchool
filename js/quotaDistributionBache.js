@@ -63,7 +63,7 @@ var quotaDistirbutionBache = (function () {
 		// update sum admission_selection_quota / admission_placement_quota / self_enrollment_quota
 		var quotaType = $this.data('type');
 		if (quotaType) {
-			_updateQoutaSum(quotaType);
+			_updateQuotaSum(quotaType);
 		}
 	}
 
@@ -152,12 +152,12 @@ var quotaDistirbutionBache = (function () {
 					</tr>
 				`);
 		}
-		_updateQoutaSum('admission_selection_quota');
-		_updateQoutaSum('admission_placement_quota');
-		_updateQoutaSum('self_enrollment_quota');
+		_updateQuotaSum('admission_selection_quota');
+		_updateQuotaSum('admission_placement_quota');
+		_updateQuotaSum('self_enrollment_quota');
 	}
 
-	function _updateQoutaSum(type) {
+	function _updateQuotaSum(type) {
 		var $ele = {
 			admission_selection_quota: $quota_admission_selection_quota,
 			admission_placement_quota: $quota_admission_placement_quota,
