@@ -4,6 +4,7 @@ var quotaDistirbutionBache = (function () {
 	 */
 	var $page = $('#pageContent');
 	var $statusBadge = $page.find('#badge-status');
+	var $btn = $page.find('#btn-save, #btn-commit');
 
 	//quota
 	$quota_allowTotal = $page.find('.quota.allowTotal'); // 本年度可招生總量
@@ -28,6 +29,8 @@ var quotaDistirbutionBache = (function () {
 	// 填數字算總額
 	$deptList.on('change.sumTotal', '.dept .editableQuota', _handleQuotaChange);
 	$quota_last_year_surplus_admission_quota.on('change', _updateAllowTotal);
+	// save/commit
+	$btn.on('click', _handleSaveOrCommit);
 	
 	/**
 	 * init
@@ -43,13 +46,13 @@ var quotaDistirbutionBache = (function () {
 			$this.parents('.dept')
 				.find('.self_enrollment_quota')
 				.attr('disabled', false)
-				.addClass('required');
+				.addClass('requried');
 			_handleQuotaChange.call($this[0]);
 		} else {
 			$this.parents('.dept')
 				.find('.self_enrollment_quota')
 				.attr('disabled', true)
-				.removeClass('required')
+				.removeClass('requried')
 				.val(0);
 			_handleQuotaChange.call($this[0]);
 		}
@@ -70,6 +73,64 @@ var quotaDistirbutionBache = (function () {
 			// TODO: update admissionSum / selfSum
 			_updateWnatTotal();
 		}
+	}
+
+	function _handleSaveOrCommit() {
+		var action = $(this).data('action');
+		if (!_checkForm()) {
+			alert('輸入有誤');
+			return;
+		}
+
+		var departments = $deptList.find('.dept').map(function (i, deptRow) {
+			let $deptRow = $(deptRow);
+			return {
+				id: $deptRow.data('id'),
+				has_self_enrollment: $deptRow.find('.isSelf').is(':checked'),
+				self_enrollment_quota: +$deptRow.find('.self_enrollment_quota').val(),
+				admission_selection_quota: +$deptRow.find('.admission_selection_quota').val(),
+				admission_placement_quota: +$deptRow.find('.admission_placement_quota').val(),
+				decrease_reason_of_admission_placement: null // TODO: check if need decrease_reason_of_admission_placement
+			};
+		});
+
+		fetch('https://api.overseas.ncnu.edu.tw/schools/me/systems/bachelor/histories', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			}, 
+			credentials: 'include', 
+			body: JSON.stringify({
+				data_type: 'quota',
+				action: action,
+				last_year_surplus_admission_quota: +$quota_last_year_surplus_admission_quota.val(),
+				departments: departments
+			})
+		}).then(function (res) {
+			if(res.ok) {
+				return res.json();
+			} else {
+				throw res
+			}
+		}).then(function (json) {
+			console.log(json);
+			// TODO: 給點反應
+		}).catch(function (err) {
+			console.error(err);
+		});
+	}
+
+	function _checkForm() {
+		var $inputs = $page.find('input.requried');
+		var valid = true;
+		for (let input of $inputs) {
+			if (!$(input).val() || $(input).val() < 0) {
+				$(input).focus();
+				valid = false;
+				break;
+			}
+		}
+		return valid;
 	}
 
 	function _setData() {
@@ -149,10 +210,10 @@ var quotaDistirbutionBache = (function () {
 							<div>${title}</div>
 							<div>${eng_title}</div>
 						</td>
-						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
-						<td><input type="number" min="0" class="form-control editableQuota required admission_placement_quota" data-type="admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
+						<td><input type="number" min="0" class="form-control editableQuota requried admission_selection_quota" data-type="admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
+						<td><input type="number" min="0" class="form-control editableQuota requried admission_placement_quota" data-type="admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
 						<td class="text-center"><input type="checkbox" class="isSelf" checked="${has_self_enrollment}" ></td>
-						<td><input type="number" min="0" class="form-control editableQuota required self_enrollment_quota" data-type="self_enrollment_quota" value="${self_enrollment_quota || 0}" /></td>
+						<td><input type="number" min="0" class="form-control editableQuota requried self_enrollment_quota" data-type="self_enrollment_quota" value="${self_enrollment_quota || 0}" /></td>
 						<td class="total">${total}</td>
 					</tr>
 				`);
