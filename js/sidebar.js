@@ -8,6 +8,7 @@ var Sidebar = (function () {
 	var $logoutBtn = $sidebarWrap.find('#btn-logout');
 	var $userSchool = $sidebarWrap.find('#userSchool');
 	var $userName = $sidebarWrap.find('#userName');
+	var $roleBadge = $sidebarWrap.find('#badge-role');
 
 	/**
 	 * bind event
@@ -47,6 +48,8 @@ var Sidebar = (function () {
 			setTimeout(_showUserInfo, 1);
 			return;
 		}
+		var role = userInfo.school_editor.has_admin ? '管理員' : '編輯';
+		$roleBadge.text(role);
 		$userName.text(userInfo.name);
 		$userSchool.text(userInfo.school_editor.school.title);
 	}
