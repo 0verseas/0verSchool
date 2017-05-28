@@ -11,6 +11,8 @@ var quotaDistirbutionBache = (function () {
 	$quota_last_year_surplus_admission_quota = $page.find('.quota.last_year_surplus_admission_quota'); // 去年本地生招生缺額數*
 	$quota_ratify_expanded_quota = $page.find('.quota.ratify_expanded_quota'); // 本年度教育部核准擴增名額
 	$quota_admission_selection_quota = $page.find('.quota.admission_selection_quota'); // 學士班個人申請
+	$quota_admission_placement_quota = $page.find('.quota.admission_placement_quota'); // 學士班聯合分發
+	$quota_self_enrollment_quota = $page.find('.quota.self_enrollment_quota'); // 學士班自招
 
 	// dept list
 	var $deptList = $page.find('#table-bacheDeptList');
@@ -58,9 +60,10 @@ var quotaDistirbutionBache = (function () {
 		});
 		$this.parents('.dept').find('.total').text(sum);
 
-		// update sum admission_selection_quota
-		if ($this.hasClass('admission_selection_quota')) {
-			_updateAdmissionSelectionQuotaSum();
+		// update sum admission_selection_quota / admission_placement_quota / self_enrollment_quota
+		var quotaType = $this.data('type');
+		if (quotaType) {
+			_updateQuotaSum(quotaType);
 		}
 	}
 
@@ -141,23 +144,30 @@ var quotaDistirbutionBache = (function () {
 							<div>${title}</div>
 							<div>${eng_title}</div>
 						</td>
-						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
-						<td><input type="number" min="0" class="form-control editableQuota required admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
+						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
+						<td><input type="number" min="0" class="form-control editableQuota required admission_placement_quota" data-type="admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
 						<td class="text-center"><input type="checkbox" class="isSelf" checked="${has_self_enrollment}" ></td>
-						<td><input type="number" min="0" class="form-control editableQuota required self_enrollment_quota" value="${self_enrollment_quota || 0}" /></td>
+						<td><input type="number" min="0" class="form-control editableQuota required self_enrollment_quota" data-type="self_enrollment_quota" value="${self_enrollment_quota || 0}" /></td>
 						<td class="total">${total}</td>
 					</tr>
 				`);
 		}
-		_updateAdmissionSelectionQuotaSum();
+		_updateQuotaSum('admission_selection_quota');
+		_updateQuotaSum('admission_placement_quota');
+		_updateQuotaSum('self_enrollment_quota');
 	}
 
-	function _updateAdmissionSelectionQuotaSum() {
+	function _updateQuotaSum(type) {
+		var $ele = {
+			admission_selection_quota: $quota_admission_selection_quota,
+			admission_placement_quota: $quota_admission_placement_quota,
+			self_enrollment_quota: $quota_self_enrollment_quota
+		};
 		var sum = 0;
 		$deptList.find('.dept').each(function (i, deptRow) {
-			sum += +$(deptRow).find('.admission_selection_quota').val();
+			sum += +$(deptRow).find(`.${type}`).val();
 		});
-		$quota_admission_selection_quota.val(sum);
+		$ele[type].val(sum);
 	}
 
 	function _updateAllowTotal() {
