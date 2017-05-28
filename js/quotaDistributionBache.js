@@ -60,9 +60,10 @@ var quotaDistirbutionBache = (function () {
 		});
 		$this.parents('.dept').find('.total').text(sum);
 
-		// update sum admission_selection_quota
-		if ($this.hasClass('admission_selection_quota')) {
-			_updateQoutaSum('admission_selection_quota');
+		// update sum admission_selection_quota / admission_placement_quota / self_enrollment_quota
+		var quotaType = $this.data('type');
+		if (quotaType) {
+			_updateQoutaSum(quotaType);
 		}
 	}
 
@@ -143,10 +144,10 @@ var quotaDistirbutionBache = (function () {
 							<div>${title}</div>
 							<div>${eng_title}</div>
 						</td>
-						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
-						<td><input type="number" min="0" class="form-control editableQuota required admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
+						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
+						<td><input type="number" min="0" class="form-control editableQuota required admission_placement_quota" data-type="admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
 						<td class="text-center"><input type="checkbox" class="isSelf" checked="${has_self_enrollment}" ></td>
-						<td><input type="number" min="0" class="form-control editableQuota required self_enrollment_quota" value="${self_enrollment_quota || 0}" /></td>
+						<td><input type="number" min="0" class="form-control editableQuota required self_enrollment_quota" data-type="self_enrollment_quota" value="${self_enrollment_quota || 0}" /></td>
 						<td class="total">${total}</td>
 					</tr>
 				`);
