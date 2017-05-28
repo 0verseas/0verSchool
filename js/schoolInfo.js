@@ -43,10 +43,12 @@ var schoolInfo = (function () {
 	var $hasFiveYearStudentAllowed = $schoolInfoForm.find('#hasFiveYearStudentAllowed');
 	var $ruleOfFiveYearStudent = $schoolInfoForm.find('#ruleOfFiveYearStudent');
 	var $ruleDocOfFiveYearStudent = $schoolInfoForm.find('#ruleDocOfFiveYearStudent');
+	var $ruleDocOfFiveYearStudentUrl = $schoolInfoForm.find('#ruleDocOfFiveYearStudentUrl');
 	// 單獨招收僑生（自招）
 	var $hasSelfEnrollment = $schoolInfoForm.find('#hasSelfEnrollment');
 	var $approvalNoOfSelfEnrollment = $schoolInfoForm.find('#approvalNoOfSelfEnrollment');
 	var $approvalDocOfSelfEnrollment = $schoolInfoForm.find('#approvalDocOfSelfEnrollment');
+	var $approvalDocOfSelfEnrollmentUrl = $schoolInfoForm.find('#approvalDocOfSelfEnrollmentUrl');
 
 	// Button
 	var $saveBtn = $schoolInfoForm.find('#btn-save');
@@ -85,10 +87,8 @@ var schoolInfo = (function () {
 		$approvalDocOfSelfEnrollment.prop('disabled', !$hasSelfEnrollment.prop('checked'));
 	}
 
-
 	// 整理 form 資料
 	function _getFormData() {
-
 		var data = new FormData();
 		data.append('address', $address.val());
 		data.append('eng_address', $engAddress.val());
@@ -125,7 +125,6 @@ var schoolInfo = (function () {
 	}
 
 	function _saveSchoolInfo() {
-
 		var sendData = _getFormData();
 		sendData.append('action', 'save');
 
@@ -197,9 +196,19 @@ var schoolInfo = (function () {
 		// 中五生招收
 		$hasFiveYearStudentAllowed.prop("checked", schoolData.has_five_year_student_allowed);
 		$ruleOfFiveYearStudent.text(schoolData.rule_of_five_year_student);
+		if (schoolData.rule_doc_of_five_year_student) {
+			var FYSDocTitle = schoolData['rule_doc_of_five_year_student'].substring(schoolData['rule_doc_of_five_year_student'].lastIndexOf("/") + 1);
+			$ruleDocOfFiveYearStudentUrl.prop("href", "https://api.overseas.ncnu.edu.tw/" + schoolData.rule_doc_of_five_year_student);
+			$ruleDocOfFiveYearStudentUrl.text(FYSDocTitle);
+		}
 		// 單獨招收僑生（自招）
 		$hasSelfEnrollment.prop("checked", schoolData.has_self_enrollment);
 		$approvalNoOfSelfEnrollment.val(schoolData.approval_no_of_self_enrollment);
+		if (schoolData.approval_doc_of_self_enrollment) {
+			var SEDocTitle = schoolData['approval_doc_of_self_enrollment'].substring(schoolData['approval_doc_of_self_enrollment'].lastIndexOf("/") + 1);
+			$approvalDocOfSelfEnrollmentUrl.prop("href", "https://api.overseas.ncnu.edu.tw/" + schoolData.approval_doc_of_self_enrollment);
+			$approvalDocOfSelfEnrollmentUrl.text(SEDocTitle);
+		}
 	}
 
 	// init
