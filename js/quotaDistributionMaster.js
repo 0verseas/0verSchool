@@ -24,6 +24,8 @@ var quotaDistributionMaster = (function () {
 	// 填數字算總額
 	$deptList.on('change.sumTotal', '.dept .editableQuota', _handleQuotaChange);
 	$quota_last_year_surplus_admission_quota.on('change', _updateAllowTotal);
+	// save/commit
+	$btn.on('click', _handleSaveOrCommit);
 	
 	/**
 	 * init
@@ -64,6 +66,56 @@ var quotaDistributionMaster = (function () {
 			_updateQuotaSum(quotaType);
 			_updateWnatTotal();
 		}
+	}
+
+	function _handleSaveOrCommit() {
+		var action = $(this).data('action');
+		if (!_checkForm()) {
+			alert('輸入有誤');
+			return;
+		}
+
+		var departments = $deptList.find('.dept').map(function (i, deptRow) {
+			let $deptRow = $(deptRow);
+			return {
+				id: $deptRow.data('id'),
+				has_self_enrollment: true, // TODO: need to fix $deptRow.find('.isSelf').is(':checked'),
+				self_enrollment_quota: +$deptRow.find('.self_enrollment_quota').val(),
+				admission_selection_quota: +$deptRow.find('.admission_selection_quota').val(),
+			};
+		});
+
+		var data = {
+			action: action,
+			last_year_surplus_admission_quota: +$quota_last_year_surplus_admission_quota.val(),
+			departments: departments
+		};
+		
+		School.setSystemQuota('bachelor', data).then(function (res) {
+			if(res.ok) {
+				return res.json();
+			} else {
+				throw res
+			}
+		}).then(function (json) {
+			console.log(json);
+			// TODO: 給點反應
+		}).catch(function (err) {
+			console.error(err);
+		});
+	}
+
+	function _checkForm() {
+		var $inputs = $page.find('.required');
+		var valid = true;
+		for (let input of $inputs) {
+			if (!$(input).val() || $(input).val() < 0) {
+				$(input).focus();
+				valid = false;
+				break;
+			}
+		}
+		return valid;
 	}
 
 	function _setQuota(data) {
