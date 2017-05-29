@@ -79,9 +79,14 @@ var quotaDistirbutionBache = (function () {
 				var $reference = $this.parents('.dept').find('.reference');
 				var $decrease_reason_of_admission_placement = $this.parents('.dept').find('.decrease_reason_of_admission_placement');
 				if ($this.val() < $reference.data('val')) {
-					$decrease_reason_of_admission_placement.addClass('required').attr('disabled', false);
+					$decrease_reason_of_admission_placement
+						.addClass('required')
+						.attr('disabled', false);
 				} else {
-					$decrease_reason_of_admission_placement.removeClass('required').attr('disabled', true);
+					$decrease_reason_of_admission_placement
+						.val('')
+						.removeClass('required')
+						.attr('disabled', true);
 				}
 			}
 		}
@@ -102,7 +107,7 @@ var quotaDistirbutionBache = (function () {
 				self_enrollment_quota: +$deptRow.find('.self_enrollment_quota').val(),
 				admission_selection_quota: +$deptRow.find('.admission_selection_quota').val(),
 				admission_placement_quota: +$deptRow.find('.admission_placement_quota').val(),
-				decrease_reason_of_admission_placement: null // TODO: check if need decrease_reason_of_admission_placement
+				decrease_reason_of_admission_placement: $deptRow.find('.decrease_reason_of_admission_placement').val() || null
 			};
 		});
 
@@ -132,7 +137,7 @@ var quotaDistirbutionBache = (function () {
 	}
 
 	function _checkForm() {
-		var $inputs = $page.find('input.required');
+		var $inputs = $page.find('.required');
 		var valid = true;
 		for (let input of $inputs) {
 			if (!$(input).val() || $(input).val() < 0) {
