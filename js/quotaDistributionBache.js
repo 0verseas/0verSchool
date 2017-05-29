@@ -111,18 +111,12 @@ var quotaDistirbutionBache = (function () {
 			};
 		});
 
-		fetch('https://api.overseas.ncnu.edu.tw/schools/me/systems/bachelor/histories?data_type=quota', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			}, 
-			credentials: 'include', 
-			body: JSON.stringify({
-				action: action,
-				last_year_surplus_admission_quota: +$quota_last_year_surplus_admission_quota.val(),
-				departments: departments
-			})
-		}).then(function (res) {
+		var data = {
+			action: action,
+			last_year_surplus_admission_quota: +$quota_last_year_surplus_admission_quota.val(),
+			departments: departments
+		};
+		School.setSystemQuota('bachelor', data).then(function (res) {
 			if(res.ok) {
 				return res.json();
 			} else {
@@ -150,9 +144,7 @@ var quotaDistirbutionBache = (function () {
 	}
 
 	function _setData() {
-		fetch('https://api.overseas.ncnu.edu.tw/schools/me/systems/bachelor/histories/latest?data_type=quota', {
-			credentials: 'include'
-		}).then(function (res) {
+		School.getSystemQuota('bachelor').then(function (res) {
 			if(res.ok) {
 				return res.json();
 			} else {
