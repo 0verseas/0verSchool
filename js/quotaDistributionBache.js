@@ -160,9 +160,9 @@ var quotaDistirbutionBache = (function () {
 			}
 		}).then(function (json) {
 			console.log(json);
-			_setStatus(json.quota_status);
 			_setQuota(json);
 			_setDeptList(json.departments);
+			_setStatus(json.quota_status);
 		}).catch(function (err) {
 			console.error(err);
 		});
@@ -172,18 +172,18 @@ var quotaDistirbutionBache = (function () {
 		switch (status) {
 			case 'waiting':
 				$statusBadge.addClass('badge-warning').text('已送出');
-				// TODO: lock input
+				$page.find('input, textarea').attr('disabled', true);
 				break;
 			case 'confirmed':
 				$statusBadge.addClass('badge-success').text('已確認');
-				// TODO: lock input
+				$page.find('input, textarea').attr('disabled', true);
 				break;
 			case 'editing':
 				$statusBadge.addClass('badge-danger').text('編輯中');
 				break;
 			case 'returned':
 				$statusBadge.addClass('badge-danger').text('編輯中');
-				// TODO: show review comment
+				$page.find('#reviewInfo').removeClass('hide');
 				break;
 		}
 	}
