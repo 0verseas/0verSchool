@@ -41,8 +41,8 @@ var quotaDistirbutionTwoYear = (function () {
 
 	}
 
-	function _setStatue() {
-		
+	function _setStatus() {
+
 	}
 
 })();

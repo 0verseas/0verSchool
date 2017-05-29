@@ -187,18 +187,17 @@ var quotaDistirbutionBache = (function () {
 			last_year_surplus_admission_quota,
 			ratify_expanded_quota
 		} = data;
-		$quota_last_year_admission_amount.val(last_year_admission_amount);
-		$quota_last_year_surplus_admission_quota.val(last_year_surplus_admission_quota);
-		$quota_ratify_expanded_quota.val(ratify_expanded_quota);
+		$quota_last_year_admission_amount.val(last_year_admission_amount || 0);
+		$quota_last_year_surplus_admission_quota.val(last_year_surplus_admission_quota || 0);
+		$quota_ratify_expanded_quota.val(ratify_expanded_quota || 0);
 		_updateAllowTotal();
 	}
 
 	function _setDeptList(list) {
-		$deptList .find('tbody') .html('');
+		$deptList.find('tbody').html('');
 		for (let dept of list) {
 			var {
 				id,
-				title,
 				sort_order,
 				title,
 				eng_title,
