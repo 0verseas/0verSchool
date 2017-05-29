@@ -37,6 +37,7 @@ var quotaDistirbutionBache = (function () {
 	 */
 	// show bache only
 	$page.find('.bacheOnly').removeClass('hide');
+	$page.find('*[data-toggle=tooltip]').tooltip();
 	_setData();
 
 	function _handleToggleCheck() {
@@ -94,14 +95,13 @@ var quotaDistirbutionBache = (function () {
 			};
 		});
 
-		fetch('https://api.overseas.ncnu.edu.tw/schools/me/systems/bachelor/histories', {
+		fetch('https://api.overseas.ncnu.edu.tw/schools/me/systems/bachelor/histories?data_type=quota', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			}, 
 			credentials: 'include', 
 			body: JSON.stringify({
-				data_type: 'quota',
 				action: action,
 				last_year_surplus_admission_quota: +$quota_last_year_surplus_admission_quota.val(),
 				departments: departments
@@ -195,10 +195,13 @@ var quotaDistirbutionBache = (function () {
 				eng_title,
 				admission_selection_quota,
 				admission_placement_quota,
+				last_year_admission_placement_amount,
+				last_year_admission_placement_quota,
 				has_self_enrollment,
 				self_enrollment_quota
 			} = dept;
 			var total = (+admission_selection_quota) + (+admission_placement_quota) + (+self_enrollment_quota || 0);
+			var reference = last_year_admission_placement_amount > last_year_admission_placement_quota ? last_year_admission_placement_quota : last_year_admission_placement_amount;
 
 			$deptList
 				.find('tbody')
@@ -212,9 +215,10 @@ var quotaDistirbutionBache = (function () {
 						</td>
 						<td><input type="number" min="0" class="form-control editableQuota requried admission_selection_quota" data-type="admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
 						<td><input type="number" min="0" class="form-control editableQuota requried admission_placement_quota" data-type="admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
+						<td class="reference text-center">${reference}</td>
 						<td class="text-center"><input type="checkbox" class="isSelf" checked="${has_self_enrollment}" ></td>
 						<td><input type="number" min="0" class="form-control editableQuota requried self_enrollment_quota" data-type="self_enrollment_quota" value="${self_enrollment_quota || 0}" /></td>
-						<td class="total">${total}</td>
+						<td class="total text-center">${total}</td>
 					</tr>
 				`);
 		}
