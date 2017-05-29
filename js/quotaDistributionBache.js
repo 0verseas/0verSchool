@@ -73,6 +73,17 @@ var quotaDistirbutionBache = (function () {
 			_updateQuotaSum(quotaType);
 			// TODO: update admissionSum / selfSum
 			_updateWnatTotal();
+
+			// 看看要不要寫減招原因
+			if (quotaType == 'admission_placement_quota') {
+				var $reference = $this.parents('.dept').find('.reference');
+				var $decrease_reason_of_admission_placement = $this.parents('.dept').find('.decrease_reason_of_admission_placement');
+				if ($this.val() < $reference.data('val')) {
+					$decrease_reason_of_admission_placement.addClass('requried').attr('disabled', false);
+				} else {
+					$decrease_reason_of_admission_placement.removeClass('requried').attr('disabled', true);
+				}
+			}
 		}
 	}
 
@@ -216,7 +227,7 @@ var quotaDistirbutionBache = (function () {
 						</td>
 						<td><input type="number" min="0" class="form-control editableQuota requried admission_selection_quota" data-type="admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
 						<td><input type="number" min="0" class="form-control editableQuota requried admission_placement_quota" data-type="admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
-						<td class="reference text-center">${reference}</td>
+						<td class="reference text-center" data-val="${reference}">${reference}</td>
 						<td><textarea class="form-control decrease_reason_of_admission_placement" cols="50" rows="1" disabled="${noNeedToWriteReason}"></textarea></td>
 						<td class="text-center"><input type="checkbox" class="isSelf" checked="${has_self_enrollment}" ></td>
 						<td><input type="number" min="0" class="form-control editableQuota requried self_enrollment_quota" data-type="self_enrollment_quota" value="${self_enrollment_quota || 0}" /></td>
