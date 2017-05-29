@@ -47,13 +47,13 @@ var quotaDistirbutionBache = (function () {
 			$this.parents('.dept')
 				.find('.self_enrollment_quota')
 				.attr('disabled', false)
-				.addClass('requried');
+				.addClass('required');
 			_handleQuotaChange.call($this[0]);
 		} else {
 			$this.parents('.dept')
 				.find('.self_enrollment_quota')
 				.attr('disabled', true)
-				.removeClass('requried')
+				.removeClass('required')
 				.val(0);
 			_handleQuotaChange.call($this[0]);
 		}
@@ -79,9 +79,9 @@ var quotaDistirbutionBache = (function () {
 				var $reference = $this.parents('.dept').find('.reference');
 				var $decrease_reason_of_admission_placement = $this.parents('.dept').find('.decrease_reason_of_admission_placement');
 				if ($this.val() < $reference.data('val')) {
-					$decrease_reason_of_admission_placement.addClass('requried').attr('disabled', false);
+					$decrease_reason_of_admission_placement.addClass('required').attr('disabled', false);
 				} else {
-					$decrease_reason_of_admission_placement.removeClass('requried').attr('disabled', true);
+					$decrease_reason_of_admission_placement.removeClass('required').attr('disabled', true);
 				}
 			}
 		}
@@ -132,7 +132,7 @@ var quotaDistirbutionBache = (function () {
 	}
 
 	function _checkForm() {
-		var $inputs = $page.find('input.requried');
+		var $inputs = $page.find('input.required');
 		var valid = true;
 		for (let input of $inputs) {
 			if (!$(input).val() || $(input).val() < 0) {
@@ -225,12 +225,12 @@ var quotaDistirbutionBache = (function () {
 							<div>${title}</div>
 							<div>${eng_title}</div>
 						</td>
-						<td><input type="number" min="0" class="form-control editableQuota requried admission_selection_quota" data-type="admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
-						<td><input type="number" min="0" class="form-control editableQuota requried admission_placement_quota" data-type="admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
+						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
+						<td><input type="number" min="0" class="form-control editableQuota required admission_placement_quota" data-type="admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
 						<td class="reference text-center" data-val="${reference}">${reference}</td>
 						<td><textarea class="form-control decrease_reason_of_admission_placement" cols="50" rows="1" disabled="${noNeedToWriteReason}"></textarea></td>
 						<td class="text-center"><input type="checkbox" class="isSelf" checked="${has_self_enrollment}" ></td>
-						<td><input type="number" min="0" class="form-control editableQuota requried self_enrollment_quota" data-type="self_enrollment_quota" value="${self_enrollment_quota || 0}" /></td>
+						<td><input type="number" min="0" class="form-control editableQuota required self_enrollment_quota" data-type="self_enrollment_quota" value="${self_enrollment_quota || 0}" /></td>
 						<td class="total text-center">${total}</td>
 					</tr>
 				`);
