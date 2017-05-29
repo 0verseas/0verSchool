@@ -21,6 +21,9 @@ var quotaDistributionMaster = (function () {
 	/**
 	 * bind event
 	 */
+	// 填數字算總額
+	$deptList.on('change.sumTotal', '.dept .editableQuota', _handleQuotaChange);
+	$quota_last_year_surplus_admission_quota.on('change', _updateAllowTotal);
 	
 	/**
 	 * init
@@ -45,6 +48,22 @@ var quotaDistributionMaster = (function () {
 		}).catch(function (err) {
 			console.error(err);
 		});
+	}
+
+	function _handleQuotaChange() {
+		var $this = $(this);
+		var sum = 0;
+		$this.parents('.dept').find('.editableQuota').each(function (i, input) {
+			sum += +$(input).val() || 0;
+		});
+		$this.parents('.dept').find('.total').text(sum);
+
+		// update sum admission_selection_quota / self_enrollment_quota
+		var quotaType = $this.data('type');
+		if (quotaType) {
+			_updateQuotaSum(quotaType);
+			_updateWnatTotal();
+		}
 	}
 
 	function _setQuota(data) {
@@ -82,8 +101,8 @@ var quotaDistributionMaster = (function () {
 							<div>${title}</div>
 							<small>${eng_title}</small>
 						</td>
-						<td><input type="number" class="form-control editableQuota required admission_selection_quota" value="${+admission_selection_quota}" /></td>
-						<td><input type="number" class="form-control editableQuota required self_enrollment_quota" value="${+self_enrollment_quota}" /></td>
+						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" /></td>
+						<td><input type="number" min="0" class="form-control editableQuota required self_enrollment_quota" data-type="self_enrollment_quota" value="${+self_enrollment_quota}" /></td>
 						<td class="total text-center">${total}</td>
 					</tr>
 				`);
