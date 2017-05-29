@@ -226,8 +226,8 @@ var quotaDistirbutionBache = (function () {
 						<td><input type="number" min="0" class="form-control editableQuota required admission_placement_quota" data-type="admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
 						<td class="reference text-center" data-val="${reference}">${reference}</td>
 						<td><textarea class="form-control decrease_reason_of_admission_placement" cols="50" rows="1" disabled="${noNeedToWriteReason}"></textarea></td>
-						<td class="text-center"><input type="checkbox" class="isSelf" checked="${has_self_enrollment}" ></td>
-						<td><input type="number" min="0" class="form-control editableQuota required self_enrollment_quota" data-type="self_enrollment_quota" value="${self_enrollment_quota || 0}" /></td>
+						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${has_self_enrollment ? 'checked' : ''}" ></td>
+						<td><input type="number" min="0" class="form-control editableQuota ${has_self_enrollment ? 'requried' : ''} self_enrollment_quota" data-type="self_enrollment_quota" value="${self_enrollment_quota || 0}" disabled="${has_self_enrollment}" /></td>
 						<td class="total text-center">${total}</td>
 					</tr>
 				`);

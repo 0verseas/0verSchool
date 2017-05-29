@@ -21,6 +21,8 @@ var quotaDistributionMaster = (function () {
 	/**
 	 * bind event
 	 */
+	// 是否自招的 checkbox
+	$deptList.on('click.toggleSelf', '.dept .isSelf', _handleToggleCheck);
 	// 填數字算總額
 	$deptList.on('change.sumTotal', '.dept .editableQuota', _handleQuotaChange);
 	$quota_last_year_surplus_admission_quota.on('change', _updateAllowTotal);
@@ -34,22 +36,23 @@ var quotaDistributionMaster = (function () {
 	$page.find('.masterOnly').removeClass('hide');
 	_setData();
 
-	function _setData() {
-		School.getSystemQuota('master').then(function (res) {
-			if(res.ok) {
-				return res.json();
-			} else {
-				throw res
-			}
-		}).then(function (json) {
-			console.log(json);
-			_setQuota(json);
-			_setDeptList(json.departments);
-			_setStatus(json.quota_status);
-			// TODO: 上次編輯資訊(右上角)
-		}).catch(function (err) {
-			console.error(err);
-		});
+	function _handleToggleCheck() {
+		var $this = $(this);
+		var checked = $this.is(':checked');
+		if (checked) {
+			$this.parents('.dept')
+				.find('.self_enrollment_quota')
+				.attr('disabled', false)
+				.addClass('required');
+			_handleQuotaChange.call($this[0]);
+		} else {
+			$this.parents('.dept')
+				.find('.self_enrollment_quota')
+				.attr('disabled', true)
+				.removeClass('required')
+				.val(0);
+			_handleQuotaChange.call($this[0]);
+		}
 	}
 
 	function _handleQuotaChange() {
@@ -79,7 +82,7 @@ var quotaDistributionMaster = (function () {
 			let $deptRow = $(deptRow);
 			return {
 				id: $deptRow.data('id'),
-				has_self_enrollment: true, // TODO: need to fix $deptRow.find('.isSelf').is(':checked'),
+				has_self_enrollment: $deptRow.find('.isSelf').is(':checked'),
 				self_enrollment_quota: +$deptRow.find('.self_enrollment_quota').val(),
 				admission_selection_quota: +$deptRow.find('.admission_selection_quota').val(),
 			};
@@ -90,7 +93,7 @@ var quotaDistributionMaster = (function () {
 			last_year_surplus_admission_quota: +$quota_last_year_surplus_admission_quota.val(),
 			departments: departments
 		};
-		
+
 		School.setSystemQuota('bachelor', data).then(function (res) {
 			if(res.ok) {
 				return res.json();
@@ -100,6 +103,24 @@ var quotaDistributionMaster = (function () {
 		}).then(function (json) {
 			console.log(json);
 			// TODO: 給點反應
+		}).catch(function (err) {
+			console.error(err);
+		});
+	}
+
+	function _setData() {
+		School.getSystemQuota('master').then(function (res) {
+			if(res.ok) {
+				return res.json();
+			} else {
+				throw res
+			}
+		}).then(function (json) {
+			console.log(json);
+			_setQuota(json);
+			_setDeptList(json.departments);
+			_setStatus(json.quota_status);
+			// TODO: 上次編輯資訊(右上角)
 		}).catch(function (err) {
 			console.error(err);
 		});
@@ -139,9 +160,11 @@ var quotaDistributionMaster = (function () {
 				title,
 				eng_title,
 				admission_selection_quota,
+				has_self_enrollment,
 				self_enrollment_quota
 			} = dept;
 			var total = (+admission_selection_quota) + (+self_enrollment_quota);
+			console.log(has_self_enrollment);
 
 			$deptList
 				.find('tbody')
@@ -154,7 +177,8 @@ var quotaDistributionMaster = (function () {
 							<small>${eng_title}</small>
 						</td>
 						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" /></td>
-						<td><input type="number" min="0" class="form-control editableQuota required self_enrollment_quota" data-type="self_enrollment_quota" value="${+self_enrollment_quota}" /></td>
+						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${has_self_enrollment ? 'checked' : ''} ></td>
+						<td><input type="number" min="0" class="form-control editableQuota ${has_self_enrollment ? 'requried' : ''} self_enrollment_quota" data-type="self_enrollment_quota" value="${+self_enrollment_quota}" disabled="${has_self_enrollment}" /></td>
 						<td class="total text-center">${total}</td>
 					</tr>
 				`);
