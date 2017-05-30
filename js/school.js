@@ -23,10 +23,22 @@ var School = (function () {
 		});
 	}
 
+	function setSystemInfo(system, data) {
+		return fetch(`https://api.overseas.ncnu.edu.tw/schools/me/systems/${system}/histories?data_type=info`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			}, 
+			credentials: 'include', 
+			body: JSON.stringify(data)
+		});
+	}
+
 	return {
 		getSystemQuota,
 		setSystemQuota,
-		getSystemInfo
+		getSystemInfo,
+		setSystemInfo
 	};
 
 })();

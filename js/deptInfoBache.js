@@ -7,8 +7,7 @@ var deptInfoBache = (function () {
 	var $deptInfoForm = $('#form-deptInfo');
 	var $deptInfoDescription = $deptInfoForm.find('#description');
 	var $deptInfoEngDescription = $deptInfoForm.find('#engDescription');
-	var $deptInfoSaveBtn = $deptInfoForm.find('#btn-deptInfoSave');
-	var $deptInfoCommitBtn = $deptInfoForm.find('#btn-deptInfocommit');
+	var $deptInfoBtn = $deptInfoForm.find('#btn-deptInfoSave, #btn-deptInfoCommit');
 
 	var $deptFilterInput = $('#dept-filter-input');
 	var $deptList = $('#dept-list');
@@ -23,6 +22,8 @@ var deptInfoBache = (function () {
 	/**
 	 * bind event
 	 */
+
+	$deptInfoBtn.on('click', _handleDeptInfoSaveOrCommit);
 
 	$deptFilterInput.on('keyup', _filterDeptInput);
 	$editDeptInfoBtn.on('click', _handleEditDeptInfo);
@@ -103,7 +104,8 @@ var deptInfoBache = (function () {
 	}
 
 	function _setData() {
-		School.getSystemInfo('bachelor').then(function (res) {
+		School.getSystemInfo('bachelor')
+		.then(function (res) {
 			if(res.ok) {
 				return res.json();
 			} else {
@@ -116,6 +118,29 @@ var deptInfoBache = (function () {
 		}).catch(function (err) {
 			console.error(err);
 		})
+	}
+
+	function _handleDeptInfoSaveOrCommit() {
+		var action = $(this).data('action');
+		var data = {
+			'action': action,
+			'description': $deptInfoDescription.val(),
+			'eng_description': $deptInfoEngDescription.val()
+		}
+
+		School.setSystemInfo('bachelor', data)
+		.then(function (res) {
+			if(res.ok) {
+				return res.json();
+			} else {
+				throw res
+			}
+		}).then(function (json) {
+			console.log(json);
+		}).catch(function (err) {
+			console.error(err);
+		});
+
 	}
 
 })();
