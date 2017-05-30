@@ -4,6 +4,12 @@ var deptInfoBache = (function () {
 	 * cache DOM
 	 */
 
+	var $deptInfoForm = $('#form-deptInfo');
+	var $deptInfoDescription = $deptInfoForm.find('#description');
+	var $deptInfoEngDescription = $deptInfoForm.find('#engDescription');
+	var $deptInfoSaveBtn = $deptInfoForm.find('#btn-deptInfoSave');
+	var $deptInfoCommitBtn = $deptInfoForm.find('#btn-deptInfocommit');
+
 	var $deptFilterInput = $('#dept-filter-input');
 	var $deptList = $('#dept-list');
 	var $editDeptInfoBtn = $('.btn-editDeptInfo');
@@ -23,6 +29,12 @@ var deptInfoBache = (function () {
 	$bachelorPersonalApply.on('keyup', _computeBachelorTotalPeople);
 	$bachelorDistribution.on('keyup', _computeBachelorTotalPeople);
 	$addReviewItemBtn.on('click', _addReviewItemRow);
+
+	/**
+	 * init
+	 */
+
+	_setData();
 
 	function _filterDeptInput(e) { // 「系所列表」搜尋過濾列表
 		let filter = $deptFilterInput.val().toUpperCase();
@@ -88,6 +100,22 @@ var deptInfoBache = (function () {
 			</div>
 			<hr>`);
 		$reviewItemsForm.append($newReviewItemRow);
+	}
+
+	function _setData() {
+		School.getSystemInfo('bachelor').then(function (res) {
+			if(res.ok) {
+				return res.json();
+			} else {
+				throw res
+			}
+		}).then(function (json) {
+			console.log(json);
+			$deptInfoDescription.text(json.description);
+			$deptInfoEngDescription.text(json.eng_description);
+		}).catch(function (err) {
+			console.error(err);
+		})
 	}
 
 })();
