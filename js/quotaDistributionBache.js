@@ -105,7 +105,7 @@ var quotaDistirbutionBache = (function () {
 		var departments = $deptList.find('.dept').map(function (i, deptRow) {
 			let $deptRow = $(deptRow);
 			return {
-				id: $deptRow.data('id'),
+				id: String($deptRow.data('id')),
 				has_self_enrollment: $deptRow.find('.isSelf').is(':checked'),
 				self_enrollment_quota: +$deptRow.find('.self_enrollment_quota').val(),
 				admission_selection_quota: +$deptRow.find('.admission_selection_quota').val(),
