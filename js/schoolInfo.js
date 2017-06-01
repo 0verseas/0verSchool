@@ -133,7 +133,9 @@ var schoolInfo = (function () {
       body: sendData,
       credentials: 'include'
     }).then(function(res) {
-      if(!res.ok) {
+      if(res.ok) {
+      	alert('儲存成功');
+      } else {
         throw res
       }
     }).catch(function(err) {
@@ -150,7 +152,9 @@ var schoolInfo = (function () {
       body: sendData,
       credentials: 'include'
     }).then(function(res) {
-      if(!res.ok) {
+      if(res.ok) {
+      	alert('送出成功');
+      } else {
         throw res
       }
     }).catch(function(err) {
