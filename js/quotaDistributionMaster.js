@@ -67,7 +67,7 @@ var quotaDistributionMaster = (function () {
 		var quotaType = $this.data('type');
 		if (quotaType) {
 			_updateQuotaSum(quotaType);
-			_updateWnatTotal();
+			_updateWantTotal();
 		}
 	}
 
@@ -198,7 +198,7 @@ var quotaDistributionMaster = (function () {
 		}
 		_updateQuotaSum('admission_selection_quota');
 		_updateQuotaSum('self_enrollment_quota');
-		_updateWnatTotal();
+		_updateWantTotal();
 	}
 
 	function _setStatus(status) {
@@ -240,7 +240,7 @@ var quotaDistributionMaster = (function () {
 		$quota_allowTotal.val(sum);
 	}
 
-	function _updateWnatTotal() {
+	function _updateWantTotal() {
 		var sum = +($quota_admissionSum.val()) +
 			+($quota_selfSum.val());
 		$quota_wantTotal.val(sum);

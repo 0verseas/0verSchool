@@ -74,7 +74,7 @@ var quotaDistirbutionBache = (function () {
 		if (quotaType) {
 			_updateQuotaSum(quotaType);
 			_updateAdmissionSumSelfSum();
-			_updateWnatTotal();
+			_updateWantTotal();
 
 			// 看看要不要寫減招原因
 			if (quotaType == 'admission_placement_quota') {
@@ -256,7 +256,7 @@ var quotaDistirbutionBache = (function () {
 		_updateQuotaSum('admission_placement_quota');
 		_updateQuotaSum('self_enrollment_quota');
 		_updateAdmissionSumSelfSum();
-		_updateWnatTotal();
+		_updateWantTotal();
 	}
 
 	function _updateQuotaSum(type) {
@@ -292,7 +292,7 @@ var quotaDistirbutionBache = (function () {
 		);
 	}
 
-	function _updateWnatTotal() {
+	function _updateWantTotal() {
 		var sum = +($quota_admissionSum.val()) +
 			+($quota_selfSum.val());
 		$quota_wantTotal.val(sum);
