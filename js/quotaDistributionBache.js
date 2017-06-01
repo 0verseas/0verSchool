@@ -95,7 +95,8 @@ var quotaDistirbutionBache = (function () {
 	}
 
 	function _handleSaveOrCommit() {
-		var action = $(this).data('action');
+		var $this = $(this);
+		var action = $this.data('action');
 		if (!_checkForm()) {
 			alert('輸入有誤');
 			return;
@@ -118,17 +119,30 @@ var quotaDistirbutionBache = (function () {
 			last_year_surplus_admission_quota: +$quota_last_year_surplus_admission_quota.val(),
 			departments: departments
 		};
+
+		$this.attr('disabled', true);
 		School.setSystemQuota('bachelor', data).then(function (res) {
+			setTimeout(function () {
+				$this.attr('disabled', false);
+			}, 700);
 			if(res.ok) {
 				return res.json();
 			} else {
-				throw res
+				throw res;
 			}
 		}).then(function (json) {
 			console.log(json);
-			// TODO: 給點反應
+			switch (action) {
+				case 'save': 
+					alert('已儲存');
+					break;
+				case 'commit': 
+					alert('已送出');
+					break;
+			}
 		}).catch(function (err) {
 			console.error(err);
+			alert(`${err.status}: Something wrong.`);
 		});
 	}
 
