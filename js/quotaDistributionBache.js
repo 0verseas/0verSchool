@@ -73,7 +73,7 @@ var quotaDistirbutionBache = (function () {
 		var quotaType = $this.data('type');
 		if (quotaType) {
 			_updateQuotaSum(quotaType);
-			// TODO: update admissionSum / selfSum
+			_updateAdmissionSumSelfSum();
 			_updateWnatTotal();
 
 			// 看看要不要寫減招原因
@@ -241,7 +241,7 @@ var quotaDistirbutionBache = (function () {
 		_updateQuotaSum('admission_selection_quota');
 		_updateQuotaSum('admission_placement_quota');
 		_updateQuotaSum('self_enrollment_quota');
-		// TODO: update admissionSum / selfSum
+		_updateAdmissionSumSelfSum();
 		_updateWnatTotal();
 	}
 
@@ -263,6 +263,19 @@ var quotaDistirbutionBache = (function () {
 			+($quota_last_year_surplus_admission_quota.val()) + 
 			+($quota_ratify_expanded_quota.val());
 		$quota_allowTotal.val(sum);
+	}
+
+	function _updateAdmissionSumSelfSum() {
+		$quota_admissionSum.val(
+			+$quota_admission_selection_quota.val() +
+			+$quota_admission_placement_quota.val() +
+			+$quota_another_department_admission_selection_quota.val()
+		);
+
+		$quota_selfSum.val(
+			+$quota_self_enrollment_quota.val() +
+			+$quota_another_department_self_enrollment_quota.val()
+		);
 	}
 
 	function _updateWnatTotal() {
