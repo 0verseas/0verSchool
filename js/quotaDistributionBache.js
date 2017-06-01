@@ -185,10 +185,12 @@ var quotaDistirbutionBache = (function () {
 			case 'waiting':
 				$statusBadge.addClass('badge-warning').text('已送出');
 				$page.find('input, textarea').attr('disabled', true);
+				$btn.attr('disabled', true);
 				break;
 			case 'confirmed':
 				$statusBadge.addClass('badge-success').text('已確認');
 				$page.find('input, textarea').attr('disabled', true);
+				$btn.attr('disabled', true);
 				break;
 			case 'editing':
 				$statusBadge.addClass('badge-danger').text('編輯中');
