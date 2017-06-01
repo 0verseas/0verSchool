@@ -87,7 +87,7 @@ var quotaDistributionMaster = (function () {
 				self_enrollment_quota: +$deptRow.find('.self_enrollment_quota').val(),
 				admission_selection_quota: +$deptRow.find('.admission_selection_quota').val(),
 			};
-		});
+		}).toArray();;
 
 		var data = {
 			action: action,

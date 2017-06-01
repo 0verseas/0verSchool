@@ -112,7 +112,7 @@ var quotaDistirbutionBache = (function () {
 				admission_placement_quota: +$deptRow.find('.admission_placement_quota').val(),
 				decrease_reason_of_admission_placement: $deptRow.find('.decrease_reason_of_admission_placement').val() || null
 			};
-		});
+		}).toArray();;
 
 		var data = {
 			action: action,
