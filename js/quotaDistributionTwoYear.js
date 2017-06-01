@@ -16,7 +16,7 @@ var quotaDistirbutionTwoYear = (function () {
 	_setData();
 
 	function _setData() {
-		School.getSystemQuota('two_year').then(function (res) {
+		School.getSystemQuota('twoYear').then(function (res) {
 			if(res.ok) {
 				return res.json();
 			} else {
