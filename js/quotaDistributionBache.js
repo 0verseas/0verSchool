@@ -140,6 +140,9 @@ var quotaDistirbutionBache = (function () {
 					alert('已送出');
 					break;
 			}
+			_setQuota(json);
+			_setDeptList(json.departments);
+			_setStatus(json.quota_status);
 		}).catch(function (err) {
 			console.error(err);
 			alert(`${err.status}: Something wrong.`);
