@@ -3,6 +3,8 @@ var quotaDistirbutionTwoYear = (function () {
 	 * cacheDOM
 	 */
 	var $page = $('#pageContent');
+	var $statusBadge = $page.find('#badge-status');
+	var $btn = $page.find('#btn-save, #btn-commit');
 
 	//quota
 	var $quota_allowTotal = $page.find('.quota.allowTotal'); // 本年度可招生總量
@@ -66,15 +68,40 @@ var quotaDistirbutionTwoYear = (function () {
 		$quota_another_department_admission_selection_quota.val(another_department_admission_selection_quota || 0);
 		$quota_another_department_self_enrollment_quota.val(another_department_self_enrollment_quota || 0);
 		$quota_another_department_admission_placement_quota.val(another_department_admission_placement_quota || 0);
-		// _updateAllowTotal();
+		_updateAllowTotal();
 	}
 
 	function _setDeptList() {
 
 	}
 
-	function _setStatus() {
+	function _setStatus(status) {
+		switch (status) {
+			case 'waiting':
+				$statusBadge.addClass('badge-warning').text('已送出');
+				$page.find('input, textarea').attr('disabled', true);
+				$btn.attr('disabled', true);
+				break;
+			case 'confirmed':
+				$statusBadge.addClass('badge-success').text('已確認');
+				$page.find('input, textarea').attr('disabled', true);
+				$btn.attr('disabled', true);
+				break;
+			case 'editing':
+				$statusBadge.addClass('badge-danger').text('編輯中');
+				break;
+			case 'returned':
+				$statusBadge.addClass('badge-danger').text('編輯中');
+				$page.find('#reviewInfo').removeClass('hide');
+				break;
+		}
+	}
 
+	function _updateAllowTotal() {
+		var sum = +($quota_last_year_admission_amount.val()) + 
+			+($quota_last_year_surplus_admission_quota.val()) + 
+			+($quota_ratify_expanded_quota.val());
+		$quota_allowTotal.val(sum);
 	}
 
 })();

@@ -180,7 +180,6 @@ var quotaDistributionMaster = (function () {
 				self_enrollment_quota
 			} = dept;
 			var total = (+admission_selection_quota) + (+self_enrollment_quota);
-			console.log(has_self_enrollment);
 
 			$deptList
 				.find('tbody')
