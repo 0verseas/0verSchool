@@ -96,7 +96,7 @@ var quotaDistributionMaster = (function () {
 		};
 		
 		$this.attr('disabled', true);
-		School.setSystemQuota('bachelor', data).then(function (res) {
+		School.setSystemQuota('master', data).then(function (res) {
 			setTimeout(function () {
 				$this.attr('disabled', false);
 			}, 700);
