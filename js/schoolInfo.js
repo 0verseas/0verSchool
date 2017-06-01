@@ -1,12 +1,6 @@
 var schoolInfo = (function () {
 
 	/**
-	 * init
-	 */
-
-	_getSchoolData();
-
-	/**
 	 * cache DOM
 	 */
 
@@ -53,6 +47,12 @@ var schoolInfo = (function () {
 	// Button
 	var $saveBtn = $schoolInfoForm.find('#btn-save');
 	var $commitBtn = $schoolInfoForm.find('#btn-commit');
+
+	/**
+	 * init
+	 */
+
+	_getSchoolData();
 
 	/**
 	 * bind event
@@ -198,7 +198,7 @@ var schoolInfo = (function () {
 		$ruleOfFiveYearStudent.text(schoolData.rule_of_five_year_student);
 		if (schoolData.rule_doc_of_five_year_student) {
 			var FYSDocTitle = schoolData['rule_doc_of_five_year_student'].substring(schoolData['rule_doc_of_five_year_student'].lastIndexOf("/") + 1);
-			$ruleDocOfFiveYearStudentUrl.prop("href", "https://api.overseas.ncnu.edu.tw/" + schoolData.rule_doc_of_five_year_student);
+			$ruleDocOfFiveYearStudentUrl.prop("href", "https://api.overseas.ncnu.edu.tw/storage/" + schoolData.rule_doc_of_five_year_student);
 			$ruleDocOfFiveYearStudentUrl.text(FYSDocTitle);
 		}
 		// 單獨招收僑生（自招）
@@ -206,7 +206,7 @@ var schoolInfo = (function () {
 		$approvalNoOfSelfEnrollment.val(schoolData.approval_no_of_self_enrollment);
 		if (schoolData.approval_doc_of_self_enrollment) {
 			var SEDocTitle = schoolData['approval_doc_of_self_enrollment'].substring(schoolData['approval_doc_of_self_enrollment'].lastIndexOf("/") + 1);
-			$approvalDocOfSelfEnrollmentUrl.prop("href", "https://api.overseas.ncnu.edu.tw/" + schoolData.approval_doc_of_self_enrollment);
+			$approvalDocOfSelfEnrollmentUrl.prop("href", "https://api.overseas.ncnu.edu.tw/storage/" + schoolData.approval_doc_of_self_enrollment);
 			$approvalDocOfSelfEnrollmentUrl.text(SEDocTitle);
 		}
 	}
