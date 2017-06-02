@@ -96,7 +96,7 @@ var quotaDistributionMaster = (function () {
 		};
 		
 		$this.attr('disabled', true);
-		School.setSystemQuota('bachelor', data).then(function (res) {
+		School.setSystemQuota('master', data).then(function (res) {
 			setTimeout(function () {
 				$this.attr('disabled', false);
 			}, 700);
@@ -180,7 +180,6 @@ var quotaDistributionMaster = (function () {
 				self_enrollment_quota
 			} = dept;
 			var total = (+admission_selection_quota) + (+self_enrollment_quota);
-			console.log(has_self_enrollment);
 
 			$deptList
 				.find('tbody')
