@@ -208,8 +208,9 @@ var schoolInfo = (function () {
 			_placedSchoolInfoData(json);
 			return json.info_status
 		}).then(function(infoStatus) {
+			var role = User.getUserInfo().school_editor.has_admin;
 			// 編輯狀態若為「等待審閱」或「審閱成功」，則 鎖住 編輯畫面。
-			if (infoStatus === 'waiting' || infoStatus === 'confirmed') {
+			if (infoStatus === 'waiting' || infoStatus === 'confirmed' || !role) {
 				$schoolInfoForm.find(':input').prop('disabled', true);
 			} else {
 				_switchDormStatus();
