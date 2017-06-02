@@ -1,5 +1,19 @@
 var School = (function () {
 
+	function getSchoolInfo() {
+		return fetch(`https://api.overseas.ncnu.edu.tw/schools/me/histories/latest`, {
+			credentials: 'include'
+		});
+	}
+
+	function setSchoolInfo(data) {
+		return fetch(`https://api.overseas.ncnu.edu.tw/schools/me/histories`, {
+			method: 'POST',
+			body: data,
+			credentials: 'include'
+		});
+	}
+
 	function getSystemQuota(system) {
 		return fetch(`https://api.overseas.ncnu.edu.tw/schools/me/systems/${system}/histories/latest?data_type=quota`, {
 			credentials: 'include'
@@ -35,6 +49,8 @@ var School = (function () {
 	}
 
 	return {
+		getSchoolInfo,
+		setSchoolInfo,
 		getSystemQuota,
 		setSystemQuota,
 		getSystemInfo,

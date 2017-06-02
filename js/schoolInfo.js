@@ -45,8 +45,7 @@ var schoolInfo = (function () {
 	var $approvalDocOfSelfEnrollmentUrl = $schoolInfoForm.find('#approvalDocOfSelfEnrollmentUrl');
 
 	// Button
-	var $saveBtn = $schoolInfoForm.find('#btn-save');
-	var $commitBtn = $schoolInfoForm.find('#btn-commit');
+	var $schoolInfoBtn = $schoolInfoForm.find('#btn-save, #btn-commit');
 
 	/**
 	 * init
@@ -62,8 +61,7 @@ var schoolInfo = (function () {
 	$hasScholarship.on("change", _switchScholarshipStatus);
 	$hasFiveYearStudentAllowed.on("change", _switchFiveYearStudentStatus);
 	$hasSelfEnrollment.on("change", _switchSelfEnrollmentStatus);
-	$saveBtn.on("click", _saveSchoolInfo);
-	$commitBtn.on("click", _commitSchoolInfo);
+	$schoolInfoBtn.on("click", _handleSchoolInfoSaveOrCommit);
 
 	function _switchDormStatus() { // 切換「宿舍」狀態
 		$dormInfo.prop('disabled', !$hasDorm.prop('checked'));
@@ -124,42 +122,22 @@ var schoolInfo = (function () {
     return data;
 	}
 
-	function _saveSchoolInfo() {
+	function _handleSchoolInfoSaveOrCommit() {
+		var action = $(this).data('action');
 		var sendData = _getFormData();
-		sendData.append('action', 'save');
+		sendData.append('action', action);
 
-    fetch('https://api.overseas.ncnu.edu.tw/schools/me/histories', {
-      method: 'POST',
-      body: sendData,
-      credentials: 'include'
-    }).then(function(res) {
-      if(res.ok) {
-      	alert('儲存成功');
-      } else {
-        throw res
-      }
-    }).catch(function(err) {
-      console.log(err);
-    })
-	}
-
-	function _commitSchoolInfo() {
-		var sendData = _getFormData();
-		sendData.append('action', 'commit');
-
-		fetch('https://api.overseas.ncnu.edu.tw/schools/me/histories', {
-      method: 'POST',
-      body: sendData,
-      credentials: 'include'
-    }).then(function(res) {
-      if(res.ok) {
-      	alert('送出成功');
-      } else {
-        throw res
-      }
-    }).catch(function(err) {
-      console.log(err);
-    })
+		School.setSchoolInfo(sendData)
+		.then(function(res) {
+		  if(res.ok) {
+		  	alert(action + '成功');
+		  	location.reload();
+		  } else {
+		    throw res
+		  }
+		}).catch(function(err) {
+		  console.log(err);
+		})
 	}
 
 	// 擺放審閱建議
@@ -217,9 +195,8 @@ var schoolInfo = (function () {
 
 	// init
 	function _getSchoolData() {
-		fetch('https://api.overseas.ncnu.edu.tw/schools/me/histories/latest', {
-			credentials: 'include'
-		}).then(function(res) {
+		School.getSchoolInfo()
+		.then(function(res) {
 			if(res.ok) {
 				return res.json();
 			} else {
