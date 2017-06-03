@@ -1,0 +1,33 @@
+.sub-title-left {
+	margin: 12px 0px;
+}
+
+.borderless td, .borderless th {
+	border: none;
+}
+
+.label-row td {
+	vertical-align: bottom;
+	line-height: 1.2;
+	font-size: 80%;
+	font-weight: 400;
+}
+
+.input-row td {
+	vertical-align: middle;
+	text-align: center;
+	padding-bottom: 20px;
+}
+
+.total-cell {
+	width: 25%;
+}
+
+.symbol-cell {
+	width: 5%;
+	text-align: center;
+}
+
+.input-cell {
+	width: 20%;
+}
