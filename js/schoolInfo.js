@@ -47,6 +47,26 @@ var schoolInfo = (function () {
 	// Button
 	var $schoolInfoBtn = $schoolInfoForm.find('#btn-save, #btn-commit');
 
+	// form-group
+	var formGroup = {
+		phoneForm: $schoolInfoForm.find('#phoneForm'),
+		faxForm: $schoolInfoForm.find('#faxForm'),
+		urlForm: $schoolInfoForm.find('#urlForm'),
+		engUrlForm: $schoolInfoForm.find('#engUrlForm'),
+		addressForm: $schoolInfoForm.find('#addressForm'),
+		engAddressForm: $schoolInfoForm.find('#engAddressForm'),
+		organizationForm: $schoolInfoForm.find('#organizationForm'),
+		engOrganizationForm: $schoolInfoForm.find('#engOrganizationForm'),
+		dormInfoForm: $schoolInfoForm.find('#dormInfoForm'),
+		dormEngInfoForm: $schoolInfoForm.find('#dormEngInfoForm'),
+		scholarshipDeptForm: $schoolInfoForm.find('#scholarshipDeptForm'),
+		engScholarshipDeptForm: $schoolInfoForm.find('#engScholarshipDeptForm'),
+		scholarshipUrlForm: $schoolInfoForm.find('#scholarshipUrlForm'),
+		engScholarshipUrlForm: $schoolInfoForm.find('#engScholarshipUrlForm'),
+		ruleOfFiveYearStudentForm: $schoolInfoForm.find('#ruleOfFiveYearStudentForm'),
+		approvalNoOfSelfEnrollmentForm: $schoolInfoForm.find('#approvalNoOfSelfEnrollmentForm')
+	}
+
 	/**
 	 * init
 	 */
@@ -123,21 +143,78 @@ var schoolInfo = (function () {
 	}
 
 	function _handleSchoolInfoSaveOrCommit() {
-		var action = $(this).data('action');
-		var sendData = _getFormData();
-		sendData.append('action', action);
+		if (_validateForm() === true) {
+			var action = $(this).data('action');
+			var sendData = _getFormData();
+			sendData.append('action', action);
 
-		School.setSchoolInfo(sendData)
-		.then(function(res) {
-		  if(res.ok) {
-		  	alert(action + '成功');
-		  	location.reload();
-		  } else {
-		    throw res
-		  }
-		}).catch(function(err) {
-		  console.log(err);
-		})
+			School.setSchoolInfo(sendData)
+			.then(function(res) {
+			  if(res.ok) {
+			  	alert(action + '成功');
+			  	location.reload();
+			  } else {
+			    throw res
+			  }
+			}).catch(function(err) {
+			  console.log(err);
+			})
+			alert("儲存成功");
+		} else {
+			alert("有欄位輸入錯誤，請重新確認。");
+		}
+	}
+
+	function _validateForm() {
+		// init highlight
+		for(form in formGroup) {
+			formGroup[form].removeClass("has-danger");
+		}
+		var check = true;
+
+		if (!_validateNotEmpty($phone)) {formGroup.phoneForm.addClass("has-danger"); check = false}
+		if (!_validateNotEmpty($fax)) {formGroup.faxForm.addClass("has-danger"); check = false}
+		if (!_validateNotEmpty($url)) {formGroup.urlForm.addClass("has-danger"); check = false}
+		if (!_validateUrl($url)) {formGroup.urlForm.addClass("has-danger"); check = false}
+		if (!_validateNotEmpty($engUrl)) {formGroup.engUrlForm.addClass("has-danger"); check = false}
+		if (!_validateUrl($engUrl)) {formGroup.engUrlForm.addClass("has-danger"); check = false}
+		if (!_validateNotEmpty($address)) {formGroup.addressForm.addClass("has-danger"); check = false}
+		if (!_validateNotEmpty($engAddress)) {formGroup.engAddressForm.addClass("has-danger"); check = false}
+		if (!_validateNotEmpty($organization)) {formGroup.organizationForm.addClass("has-danger"); check = false}
+		if (!_validateNotEmpty($engOrganization)) {formGroup.engOrganizationForm.addClass("has-danger"); check = false}
+
+		if ($hasDorm.prop("checked")) {
+			if (!_validateNotEmpty($dormInfo)) {formGroup.dormInfoForm.addClass("has-danger"); check = false}
+			if (!_validateNotEmpty($dormEngInfo)) {formGroup.dormEngInfoForm.addClass("has-danger"); check = false}
+		}
+
+		if ($hasScholarship.prop("checked")) {
+			if (!_validateNotEmpty($scholarshipDept)) {formGroup.scholarshipDeptForm.addClass("has-danger"); check = false}
+			if (!_validateNotEmpty($engScholarshipDept)) {formGroup.engScholarshipDeptForm.addClass("has-danger"); check = false}
+			if (!_validateNotEmpty($scholarshipUrl)) {formGroup.scholarshipUrlForm.addClass("has-danger"); check = false}
+			if (!_validateUrl($scholarshipUrl)) {formGroup.scholarshipUrlForm.addClass("has-danger"); check = false}
+			if (!_validateNotEmpty($engScholarshipUrl)) {formGroup.engScholarshipUrlForm.addClass("has-danger"); check = false}
+			if (!_validateUrl($engScholarshipUrl)) {formGroup.engScholarshipUrlForm.addClass("has-danger"); check = false}
+		}
+
+		if ($hasFiveYearStudentAllowed.prop("checked")) {
+			if (!_validateNotEmpty($ruleOfFiveYearStudent)) {formGroup.ruleOfFiveYearStudentForm.addClass("has-danger"); check = false}
+		}
+
+		if ($hasSelfEnrollment.prop("checked")) {
+			if (!_validateNotEmpty($approvalNoOfSelfEnrollment)) {formGroup.approvalNoOfSelfEnrollmentForm.addClass("has-danger"); check = false}
+		}
+
+		return check;
+	}
+
+	function _validateNotEmpty(el) {
+		return el.val() !== "";
+	}
+
+	function _validateUrl(el) {
+		var regexp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+		return regexp.test(el.val());
 	}
 
 	// 擺放審閱建議
