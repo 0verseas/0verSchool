@@ -175,6 +175,8 @@ var quotaDistirbutionBache = (function () {
 			_setDeptList(json.departments);
 			_setStatus(json.quota_status);
 			// TODO: 上次編輯資訊(右上角)
+		}).then(function () {
+			$.bootstrapSortable(true);
 		}).catch(function (err) {
 			console.error(err);
 		});
@@ -302,5 +304,6 @@ var quotaDistirbutionBache = (function () {
 			+($quota_selfSum.val());
 		$quota_wantTotal.val(sum);
 	}
+
 
 })();
