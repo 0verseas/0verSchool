@@ -3,6 +3,12 @@ var School = (function () {
 	function getSchoolInfo() {
 		return fetch(`https://api.overseas.ncnu.edu.tw/schools/me/histories/latest`, {
 			credentials: 'include'
+		})
+		.then(function (res) {
+			if (res.status === 404) {
+				window.location.replace('/404.html');
+			}
+			return res;
 		});
 	}
 
@@ -17,6 +23,12 @@ var School = (function () {
 	function getSystemQuota(system) {
 		return fetch(`https://api.overseas.ncnu.edu.tw/schools/me/systems/${system}/histories/latest?data_type=quota`, {
 			credentials: 'include'
+		})
+		.then(function (res) {
+			if (res.status === 404) {
+				window.location.replace('/404.html');
+			}
+			return res;
 		});
 	}
 
