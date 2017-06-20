@@ -131,8 +131,10 @@ var deptInfoBache = (function () {
 		School.setSystemInfo('bachelor', data)
 		.then(function (res) {
 			if(res.ok) {
+				alert('儲存成功')
 				return res.json();
 			} else {
+				alert('儲存失敗')
 				throw res
 			}
 		}).then(function (json) {
