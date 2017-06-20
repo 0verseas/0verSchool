@@ -27,7 +27,6 @@ var deptInfoTwoYear = (function () {
 				throw res
 			}
 		}).then(function (json) {
-			console.log(json);
 			$deptInfoDescription.text(json.description);
 			$deptInfoEngDescription.text(json.eng_description);
 		}).catch(function (err) {
