@@ -6,7 +6,7 @@ var School = (function () {
 		})
 		.then(function (res) {
 			if (res.status === 404) {
-				window.location.replace('/404.html');
+				alert('沒有這個學制。');
 			}
 			return res;
 		});
@@ -49,7 +49,7 @@ var School = (function () {
 		})
 		.then(function (res) {
 			if (res.status === 404) {
-				window.location.replace('/404.html');
+				alert('沒有這個學制。');
 			}
 			return res;
 		})
