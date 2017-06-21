@@ -6,7 +6,8 @@ var School = (function () {
 		})
 		.then(function (res) {
 			if (res.status === 404) {
-				alert('沒有這個學制。');
+				alert('沒有這個學制。 即將返回上一頁。');
+				window.history.back();
 			}
 			return res;
 		});
@@ -49,7 +50,8 @@ var School = (function () {
 		})
 		.then(function (res) {
 			if (res.status === 404) {
-				alert('沒有這個學制。');
+				alert('沒有這個學制。 即將返回上一頁。');
+				window.history.back();
 			}
 			return res;
 		})
