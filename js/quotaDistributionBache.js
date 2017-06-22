@@ -26,8 +26,8 @@ var quotaDistirbutionBache = (function () {
 	/**
 	 * bind event
 	 */
-	// 是否自招的 checkbox
-	$deptList.on('click.toggleSelf', '.dept .isSelf', _handleToggleCheck);
+	// 學士班自招 change
+	$quota_self_enrollment_quota.on('change', _handleSelfChanged);
 	// 填數字算總額
 	$deptList.on('change.sumTotal', '.dept .editableQuota', _handleQuotaChange);
 	$quota_last_year_surplus_admission_quota.on('change', _updateAllowTotal);
@@ -42,23 +42,9 @@ var quotaDistirbutionBache = (function () {
 	$page.find('*[data-toggle=tooltip]').tooltip();
 	_setData();
 
-	function _handleToggleCheck() {
-		var $this = $(this);
-		var checked = $this.is(':checked');
-		if (checked) {
-			$this.parents('.dept')
-				.find('.self_enrollment_quota')
-				.attr('disabled', false)
-				.addClass('required');
-			_handleQuotaChange.call($this[0]);
-		} else {
-			$this.parents('.dept')
-				.find('.self_enrollment_quota')
-				.attr('disabled', true)
-				.removeClass('required')
-				.val(0);
-			_handleQuotaChange.call($this[0]);
-		}
+	function _handleSelfChanged() {
+		_updateAdmissionSumSelfSum();
+		_updateWantTotal();
 	}
 
 	function _handleQuotaChange() {
@@ -107,7 +93,6 @@ var quotaDistirbutionBache = (function () {
 			return {
 				id: String($deptRow.data('id')),
 				has_self_enrollment: $deptRow.find('.isSelf').is(':checked'),
-				self_enrollment_quota: +$deptRow.find('.self_enrollment_quota').val(),
 				admission_selection_quota: +$deptRow.find('.admission_selection_quota').val(),
 				admission_placement_quota: +$deptRow.find('.admission_placement_quota').val(),
 				decrease_reason_of_admission_placement: $deptRow.find('.decrease_reason_of_admission_placement').val() || null
@@ -116,7 +101,7 @@ var quotaDistirbutionBache = (function () {
 
 		var data = {
 			action: action,
-			last_year_surplus_admission_quota: +$quota_last_year_surplus_admission_quota.val(),
+			self_enrollment_quota: +$quota_self_enrollment_quota.val(), // 學士班自招
 			departments: departments
 		};
 
@@ -254,14 +239,12 @@ var quotaDistirbutionBache = (function () {
 						<td class="reference text-center" data-val="${reference}">${reference}</td>
 						<td><textarea class="form-control decrease_reason_of_admission_placement" cols="50" rows="1" disabled="${noNeedToWriteReason}"></textarea></td>
 						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${has_self_enrollment ? 'checked' : ''}" ></td>
-						<td><input type="number" min="0" class="form-control editableQuota ${has_self_enrollment ? 'requried' : ''} self_enrollment_quota" data-type="self_enrollment_quota" value="${self_enrollment_quota || 0}" disabled="${has_self_enrollment}" /></td>
 						<td class="total text-center">${total}</td>
 					</tr>
 				`);
 		}
 		_updateQuotaSum('admission_selection_quota');
 		_updateQuotaSum('admission_placement_quota');
-		_updateQuotaSum('self_enrollment_quota');
 		_updateAdmissionSumSelfSum();
 		_updateWantTotal();
 	}
@@ -269,8 +252,7 @@ var quotaDistirbutionBache = (function () {
 	function _updateQuotaSum(type) {
 		var $ele = {
 			admission_selection_quota: $quota_admission_selection_quota,
-			admission_placement_quota: $quota_admission_placement_quota,
-			self_enrollment_quota: $quota_self_enrollment_quota
+			admission_placement_quota: $quota_admission_placement_quota
 		};
 		var sum = 0;
 		$deptList.find('.dept').each(function (i, deptRow) {

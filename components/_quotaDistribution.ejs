@@ -44,8 +44,8 @@
 	<span class="operator">＋</span>
 	<div class="col-2">
 		<div class="form-group">
-			<small id="" class="form-text text-danger">去年本地生招生缺額數*</small>
-			<input type="number" min="0" class="form-control last_year_surplus_admission_quota quota required">
+			<small id="" class="form-text text-muted">去年本地生招生缺額數</small>
+			<input type="text" class="form-control last_year_surplus_admission_quota quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＋</span>
@@ -111,8 +111,8 @@
 	<span class="operator">＋</span>
 	<div class="col-1">
 		<div class="form-group">
-			<small id="" class="form-text text-muted">學士班自招</small>
-			<input type="text" class="form-control bg-success quota self_enrollment_quota" disabled>
+			<small id="" class="form-text text-danger">學士班自招*</small>
+			<input type="number" min="0" class="form-control bg-success quota self_enrollment_quota required">
 		</div>
 	</div>
 	<span class="operator">＋</span>
@@ -199,7 +199,6 @@
 					<th style="width: 100px;">參考值 <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" data-animation="false" title="聯合分發人數不得低於參考值"></i></th>
 					<th style="width: 150px;">減招原因</th>
 					<th style="width: 100px;">是否自招</th>
-					<th style="width: 100px;">自招人數</th>
 					<th style="width: 100px;">系所總量</th>
 				</tr>
 			</thead>
