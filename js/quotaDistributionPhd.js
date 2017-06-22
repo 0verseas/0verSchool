@@ -76,7 +76,6 @@ var quotaDistributionPhd = (function () {
 		var $this = $(this);
 		var action = $(this).data('action');
 		if (!_checkForm()) {
-			alert('輸入有誤');
 			return;
 		}
 
@@ -151,8 +150,18 @@ var quotaDistributionPhd = (function () {
 			if (!$(input).val() || $(input).val() < 0) {
 				$(input).focus();
 				valid = false;
+				alert('輸入有誤');
 				break;
 			}
+		}
+		// 各系所招生人數加總必須小於或等於可招生總量
+		var deptTotla = 0;
+		$deptList.find('.dept').each(function (i, val) {
+			deptTotla += +$(val).find('td').last().text();
+		});
+		if (deptTotla > $quota_allowTotal.val()) {
+			valid = false;
+			alert('各系所招生人數加總必須小於或等於可招生總量');
 		}
 		return valid;
 	}
