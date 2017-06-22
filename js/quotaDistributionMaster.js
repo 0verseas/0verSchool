@@ -32,7 +32,7 @@ var quotaDistributionMaster = (function () {
 	/**
 	 * init
 	 */
-	// show bache only
+	// show master only
 	$page.find('.masterOnly').removeClass('hide');
 	$page.find('.hide .required').removeClass('required');
 	_setData();
