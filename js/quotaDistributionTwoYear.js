@@ -28,6 +28,8 @@ var quotaDistirbutionTwoYear = (function () {
 	 */
 	// 填數字算總額
 	$deptList.on('change.sumTotal', '.dept .editableQuota', _handleQuotaChange);
+	// save/commit
+	$btn.on('click', _handleSaveOrCommit);
 	
 	/**
 	 * init
@@ -52,6 +54,82 @@ var quotaDistirbutionTwoYear = (function () {
 			_updateAdmissionSumSelfSum();
 			_updateWantTotal();
 		}
+	}
+
+	function _handleSaveOrCommit() {
+		var $this = $(this);
+		var action = $this.data('action');
+		if (!_checkForm()) {
+			return;
+		}
+
+		var departments = $deptList.find('.dept').map(function (i, deptRow) {
+			let $deptRow = $(deptRow);
+			return {
+				id: String($deptRow.data('id')),
+				admission_selection_quota: +$deptRow.find('.admission_selection_quota').val(),
+				self_enrollment_quota: +$deptRow.find('.self_enrollment_quota').val()
+			};
+		}).toArray();
+
+		console.log(departments);
+
+		var data = {
+			action: action,
+			departments: departments
+		};
+
+		$this.attr('disabled', true);
+		School.setSystemQuota('bachelor', data).then(function (res) {
+			setTimeout(function () {
+				$this.attr('disabled', false);
+			}, 700);
+			if(res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		}).then(function (json) {
+			console.log(json);
+			switch (action) {
+				case 'save': 
+					alert('已儲存');
+					break;
+				case 'commit': 
+					alert('已送出');
+					break;
+			}
+			_setQuota(json);
+			_setDeptList(json.departments, json.school_has_self_enrollment);
+			_setStatus(json.quota_status);
+		}).catch(function (err) {
+			console.error(err);
+			alert(`${err.status}: Something wrong.`);
+		});
+	}
+
+	function _checkForm() {
+		var $inputs = $page.find('.required');
+		var valid = true;
+		for (let input of $inputs) {
+			if (!$(input).val() || $(input).val() < 0) {
+				$(input).focus();
+				valid = false;
+				alert('輸入有誤');
+				break;
+			}
+		}
+
+		// 各系所招生人數加總必須小於或等於可招生總量
+		var deptTotla = 0;
+		$deptList.find('.dept').each(function (i, val) {
+			deptTotla += +$(val).find('td').last().text();
+		});
+		if (deptTotla > $quota_allowTotal.val()) {
+			valid = false;
+			alert('各系所招生人數加總必須小於或等於可招生總量');
+		}
+		return valid;
 	}
 
 	function _setData() {
