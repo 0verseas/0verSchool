@@ -226,15 +226,16 @@
 <div class="row mt-5 twoYearOnly hide">
 	<div class="col-12">
 		<h3>系所列表</h3>
-		<table id="dept-list" class="table table-hover sortable">
+		<table id="table-twoYearDeptList" class="table table-hover sortable">
 			<thead>
 				<tr>
 					<th>#</th>
 					<th>代碼</th>
 					<th>名稱</th>
-					<th>聯招人數</th>
-					<th>自招人數</th>
-					<th>系所總量</th>
+					<th style="width: 150px">聯招人數</th>
+					<th style="width: 100px">是否自招</th>
+					<th style="width: 150px">自招人數</th>
+					<th style="width: 150px" class="text-center">系所總量</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -246,6 +247,7 @@
 						<div>history</div>
 					</td>
 					<td>4</td>
+					<td><input type="checkbox"></td>
 					<td>5</td>
 					<td>9</td>
 				</tr>

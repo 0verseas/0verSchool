@@ -115,7 +115,7 @@ var quotaDistributionPhd = (function () {
 					break;
 			}
 			_setQuota(json);
-			_setDeptList(json.departments);
+			_setDeptList(json.departments, json.school_has_self_enrollment);
 			_setStatus(json.quota_status);
 		}).catch(function (err) {
 			console.error(err);
@@ -133,7 +133,7 @@ var quotaDistributionPhd = (function () {
 		}).then(function (json) {
 			console.log(json);
 			_setQuota(json);
-			_setDeptList(json.departments);
+			_setDeptList(json.departments, json.school_has_self_enrollment);
 			_setStatus(json.quota_status);
 			// TODO: 上次編輯資訊(右上角)
 		}).then(function () {
@@ -178,7 +178,7 @@ var quotaDistributionPhd = (function () {
 		_updateAllowTotal();
 	}
 
-	function _setDeptList(list) {
+	function _setDeptList(list, school_has_self_enrollment) {
 		$deptList.find('tbody').html('');
 		for (let dept of list) {
 			var {
@@ -188,8 +188,7 @@ var quotaDistributionPhd = (function () {
 				eng_title,
 				admission_selection_quota,
 				has_self_enrollment,
-				self_enrollment_quota,
-				school_has_self_enrollment
+				self_enrollment_quota
 			} = dept;
 			var total = (+admission_selection_quota) + (+self_enrollment_quota);
 

@@ -21,7 +21,7 @@ var quotaDistirbutionTwoYear = (function () {
 	var $quota_selfSum = $page.find('.quota.selfSum'); // 本年度自招小計
 
 	// dept list
-	var $deptList = $page.find('#table-bacheDeptList');
+	var $deptList = $page.find('#table-twoYearDeptList');
 
 	/**
 	 * bind event
@@ -32,6 +32,7 @@ var quotaDistirbutionTwoYear = (function () {
 	 */
 	// show bache only
 	$page.find('.twoYearOnly').removeClass('hide');
+	$page.find('.hide .required').removeClass('required');
 	_setData();
 
 	function _setData() {
@@ -44,7 +45,7 @@ var quotaDistirbutionTwoYear = (function () {
 		}).then(function (json) {
 			console.log(json);
 			_setQuota(json);
-			_setDeptList(json.departments);
+			_setDeptList(json.departments, json.school_has_self_enrollment);
 			_setStatus(json.quota_status);
 			// TODO: 上次編輯資訊(右上角)
 		}).catch(function (err) {
@@ -70,8 +71,40 @@ var quotaDistirbutionTwoYear = (function () {
 		_updateAllowTotal();
 	}
 
-	function _setDeptList() {
+	function _setDeptList(list, school_has_self_enrollment) {
+		$deptList.find('tbody').html('');
+		for (let dept of list) {
+			var {
+				id,
+				sort_order,
+				title,
+				eng_title,
+				admission_selection_quota,
+				has_self_enrollment,
+				self_enrollment_quota
+			} = dept;
+			var total = (+admission_selection_quota) + (+self_enrollment_quota);
 
+			$deptList
+				.find('tbody')
+				.append(`
+					<tr class="dept" data-id="${id}">
+						<td>${sort_order}</td>
+						<td>${id}</td>
+						<td>
+							<div>${title}</div>
+							<small>${eng_title}</small>
+						</td>
+						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" /></td>
+						<td class="text-center"><span class="isSelf" data-type="self_enrollment_quota">${has_self_enrollment ? '是' : '否'}</span></td>
+						<td><input type="number" min="0" class="form-control editableQuota ${has_self_enrollment ? 'required' : ''} self_enrollment_quota" data-type="self_enrollment_quota" value="${+self_enrollment_quota}" disabled="${has_self_enrollment}" /></td>
+						<td class="total text-center">${total}</td>
+					</tr>
+				`);
+		}
+		_updateQuotaSum('admission_selection_quota');
+		_updateQuotaSum('self_enrollment_quota');
+		// _updateWantTotal();
 	}
 
 	function _setStatus(status) {
