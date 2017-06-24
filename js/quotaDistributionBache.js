@@ -30,7 +30,6 @@ var quotaDistirbutionBache = (function () {
 	$quota_self_enrollment_quota.on('change', _handleSelfChanged);
 	// 填數字算總額
 	$deptList.on('change.sumTotal', '.dept .editableQuota', _handleQuotaChange);
-	$quota_last_year_surplus_admission_quota.on('change', _updateAllowTotal);
 	// save/commit
 	$btn.on('click', _handleSaveOrCommit);
 	

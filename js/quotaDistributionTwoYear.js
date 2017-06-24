@@ -26,6 +26,8 @@ var quotaDistirbutionTwoYear = (function () {
 	/**
 	 * bind event
 	 */
+	// 填數字算總額
+	$deptList.on('change.sumTotal', '.dept .editableQuota', _handleQuotaChange);
 	
 	/**
 	 * init
@@ -34,6 +36,23 @@ var quotaDistirbutionTwoYear = (function () {
 	$page.find('.twoYearOnly').removeClass('hide');
 	$page.find('.hide .required').removeClass('required');
 	_setData();
+
+	function _handleQuotaChange() {
+		var $this = $(this);
+		var sum = 0;
+		$this.parents('.dept').find('.editableQuota').each(function (i, input) {
+			sum += +$(input).val() || 0;
+		});
+		$this.parents('.dept').find('.total').text(sum);
+
+		// update sum admission_selection_quota / admission_placement_quota / self_enrollment_quota
+		var quotaType = $this.data('type');
+		if (quotaType) {
+			_updateQuotaSum(quotaType);
+			_updateAdmissionSumSelfSum();
+			_updateWantTotal();
+		}
+	}
 
 	function _setData() {
 		School.getSystemQuota('twoYear').then(function (res) {
@@ -167,6 +186,5 @@ var quotaDistirbutionTwoYear = (function () {
 			+($quota_selfSum.val());
 		$quota_wantTotal.val(sum);
 	}
-
 
 })();
