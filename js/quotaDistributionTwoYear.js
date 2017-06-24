@@ -104,7 +104,8 @@ var quotaDistirbutionTwoYear = (function () {
 		}
 		_updateQuotaSum('admission_selection_quota');
 		_updateQuotaSum('self_enrollment_quota');
-		// _updateWantTotal();
+		_updateAdmissionSumSelfSum();
+		_updateWantTotal();
 	}
 
 	function _setStatus(status) {
@@ -129,11 +130,43 @@ var quotaDistirbutionTwoYear = (function () {
 		}
 	}
 
+	function _updateQuotaSum(type) {
+		var $ele = {
+			admission_selection_quota: $quota_admission_selection_quota,
+			self_enrollment_quota: $quota_self_enrollment_quota
+		};
+		var sum = 0;
+		$deptList.find('.dept').each(function (i, deptRow) {
+			sum += +$(deptRow).find(`.${type}`).val();
+		});
+		$ele[type].val(sum);
+	}
+
+	function _updateAdmissionSumSelfSum() {
+		$quota_admissionSum.val(
+			+$quota_another_department_admission_selection_quota.val() +
+			+$quota_another_department_admission_placement_quota.val() +
+			+$quota_admission_selection_quota.val()
+		);
+
+		$quota_selfSum.val(
+			+$quota_another_department_self_enrollment_quota.val() +
+			+$quota_self_enrollment_quota.val()
+		);
+	}
+
 	function _updateAllowTotal() {
 		var sum = +($quota_last_year_admission_amount.val()) + 
 			+($quota_last_year_surplus_admission_quota.val()) + 
 			+($quota_ratify_expanded_quota.val());
 		$quota_allowTotal.val(sum);
 	}
+
+	function _updateWantTotal() {
+		var sum = +($quota_admissionSum.val()) +
+			+($quota_selfSum.val());
+		$quota_wantTotal.val(sum);
+	}
+
 
 })();
