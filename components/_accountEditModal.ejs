@@ -1,0 +1,57 @@
+<div id="modal-editAccount" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">編輯帳號</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="container-fluid">
+						<form>
+							<div class="row">
+								<div class="form-group col-6">
+									<div class="input-group">
+										<span class="input-group-addon">帳號</span>
+										<input type="text" class="form-control" name="username" disabled>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-6">
+									<label for="" >中文姓名</label>
+									<input type="text" class="form-control form-control-danger" name="name">
+								</div>
+								<div class="form-group col-6">
+									<label for="">英文姓名</label>
+									<input type="text" class="form-control" name="eng_name">
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-12">
+									<label for="">電子郵件</label>
+									<input type="email" class="form-control" name="email">
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-6">
+									<label for="">所屬單位</label>
+									<input type="text" class="form-control" name="organization">
+								</div>
+								<div class="form-group col-6">
+									<label for="">聯絡電話</label>
+									<input type="text" class="form-control" name="phone">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-primary" id="store-btn">儲存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://rawgit.com/emn178/js-sha256/master/src/sha256.js"></script>
