@@ -143,26 +143,35 @@ var schoolInfo = (function () {
 	}
 
 	function _handleSchoolInfoSaveOrCommit() {
-		if (_validateForm() === true) {
-			var action = $(this).data('action');
-			var sendData = _getFormData();
-			sendData.append('action', action);
-
-			School.setSchoolInfo(sendData)
-			.then(function(res) {
-			  if(res.ok) {
-			  	alert(action + '成功');
-			  	location.reload();
-			  } else {
-			    throw res
-			  }
-			}).catch(function(err) {
-			  console.log(err);
-			})
-			alert("儲存成功");
-		} else {
-			alert("有欄位輸入錯誤，請重新確認。");
+		var action = $(this).data('action');
+		if (action === 'save') {
+			_setSchoolInfo(action);
+		} else if (action === 'commit') {
+			if (_validateForm() === true) {
+				_setSchoolInfo(action);
+			} else {
+				alert("有欄位輸入錯誤，請重新確認。");
+			}
 		}
+	}
+
+	function _setSchoolInfo(action) {
+		var sendData = _getFormData();
+		sendData.append('action', action);
+
+		School.setSchoolInfo(sendData)
+		.then(function(res) {
+		  if(res.ok) {
+		  	alert(action + '成功');
+		  	location.reload();
+		  } else {
+		    throw res
+		  }
+		}).catch(function(err) {
+		  console.log(err);
+		  alert('傳送發生錯誤，請聯繫我們，我們將儘速處理。');
+		  location.reload();
+		})
 	}
 
 	function _validateForm() {
