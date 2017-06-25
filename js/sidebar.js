@@ -20,7 +20,7 @@ var Sidebar = (function () {
 	/**
 	 * init
 	 */
-	_showUserInfo();
+	showUserInfo();
 
 	function _toggleSidebar() {
 		$sidebarWrap.toggleClass('open');
@@ -42,16 +42,20 @@ var Sidebar = (function () {
 		})
 	}
 
-	function _showUserInfo() {
+	function showUserInfo() {
 		var userInfo = User.getUserInfo();
 		if (!userInfo) {
-			setTimeout(_showUserInfo, 1);
+			setTimeout(showUserInfo, 1);
 			return;
 		}
 		var role = userInfo.school_editor.has_admin ? '管理員' : '編輯';
 		$roleBadge.text(role);
 		$userName.text(userInfo.name);
 		$userSchool.text(userInfo.school_editor.school.title);
+	}
+
+	return {
+		showUserInfo
 	}
 
 })();
