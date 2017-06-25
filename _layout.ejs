@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="overseas">
 	<meta name="author" content="overseas">
+	<script src="../js/browser.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://rawgit.com/CarlosBonetti/jquery-loading/master/dist/jquery.loading.min.css">
@@ -18,6 +19,12 @@
 	<script src="https://rawgit.com/CarlosBonetti/jquery-loading/master/dist/jquery.loading.min.js"></script>
 	<script src="../js/user.js"></script>
 	<script src="./js/school.js"></script>
+	<script>
+		if(!Browser.checkBrowserSupport()) {
+			alert('請使用 Chrome, Firefox, Safari 或 Edge 版本 > 14 的瀏覽器。');
+			window.history.back();
+		};
+	</script>
 </head>
 <body>
 	<div id="app" class="container-fluid">
