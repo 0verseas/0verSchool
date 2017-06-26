@@ -172,7 +172,7 @@ var quotaDistributionMaster = (function () {
 	}
 
 	function _setReview(when, who, content) {
-		$page.find('#reviewBy').val(who);
+		$page.find('#reviewBy').val(who.name);
 		$page.find('#reviewAt').text(moment(when).format('YYYY/MM/DD hh:mm:ss a'));
 		$page.find('#reviewMemo').text(content);
 	}
