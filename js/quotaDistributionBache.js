@@ -124,10 +124,7 @@ var quotaDistirbutionBache = (function () {
 					alert('已送出');
 					break;
 			}
-			_setQuota(json);
-			_setDeptList(json.departments);
-			_setStatus(json.quota_status);
-			_setEditor(json.creator, json.created_at);
+			_renderData(json);
 		}).catch(function (err) {
 			err.json().then((data) => {
 				console.error(data);
@@ -165,10 +162,7 @@ var quotaDistirbutionBache = (function () {
 			}
 		}).then(function (json) {
 			console.log(json);
-			_setQuota(json);
-			_setDeptList(json.departments);
-			_setStatus(json.quota_status);
-			_setEditor(json.creator, json.created_at);
+			_renderData(json);
 		}).then(function () {
 			$.bootstrapSortable(true);
 		}).catch(function (err) {
@@ -179,6 +173,14 @@ var quotaDistirbutionBache = (function () {
 		});
 	}
 
+	function _renderData(json) {
+		_setQuota(json);
+		_setDeptList(json.departments);
+		_setStatus(json.quota_status);
+		_setEditor(json.creator, json.created_at);
+		$page.find('#schoolHasSelf').text(json.school_has_self_enrollment ? '是' : '否');
+	}
+	
 	function _setEditor(creator, created_at) {
 		$lastEditionInfo.find('.who').text(creator ? creator.name : 'unknown');
 		$lastEditionInfo.find('.when').text(moment(created_at).format('YYYY/MM/DD hh:mm:ss a'));
