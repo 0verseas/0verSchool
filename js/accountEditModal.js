@@ -36,7 +36,7 @@ $(document).ready(function () {
 		function _store() {
 			console.log(email.val());
 			var userInfo = {
-				username: 'editor1',
+				username: username.val(),
 				password: sha256('admin123!@#'),	
 				email: email.val(),
 				name: name.val(),
@@ -53,7 +53,7 @@ $(document).ready(function () {
 				}
 			}
 			// call API
-			User.storeUserInfo(userInfo, 'school_editor').then(function() {
+			User.update(userInfo).then(function() {
 				$modal.modal('hide');
 			}).catch(function(err) {
 				console.log(err);
