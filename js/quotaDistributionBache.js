@@ -129,8 +129,10 @@ var quotaDistirbutionBache = (function () {
 			_setStatus(json.quota_status);
 			_setEditor(json.creator, json.created_at);
 		}).catch(function (err) {
-			console.error(err);
-			alert(`${err.status}: Something wrong.`);
+			err.json().then((data) => {
+				console.error(data);
+				alert(`ERROR: \n${data.messages[0]}`);
+			})
 		});
 	}
 
@@ -147,7 +149,7 @@ var quotaDistirbutionBache = (function () {
 		}
 
 		// 本年度欲招募總量必須小於或等於可招生總量
-		if ($quota_wantTotal.val() > $quota_allowTotal.val()) {
+		if (+$quota_wantTotal.val() > +$quota_allowTotal.val()) {
 			valid = false;
 			alert('各系所招生人數加總必須小於或等於可招生總量');
 		}
@@ -170,7 +172,10 @@ var quotaDistirbutionBache = (function () {
 		}).then(function () {
 			$.bootstrapSortable(true);
 		}).catch(function (err) {
-			console.error(err);
+			err.json().then((data) => {
+				console.error(data);
+				alert(`ERROR: \n${data.messages[0]}`);
+			})
 		});
 	}
 
