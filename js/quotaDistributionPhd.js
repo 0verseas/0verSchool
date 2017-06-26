@@ -167,7 +167,14 @@ var quotaDistributionPhd = (function () {
 		_setDeptList(json.departments, json.school_has_self_enrollment);
 		_setStatus(json.quota_status);
 		_setEditor(json.creator, json.created_at);
+		_setReview(json.review_at, json.reviewer, json.review_memo);
 		$page.find('#schoolHasSelf').text(json.school_has_self_enrollment ? '是' : '否');
+	}
+
+	function _setReview(when, who, content) {
+		$page.find('#reviewBy').val(who);
+		$page.find('#reviewAt').text(moment(when).format('YYYY/MM/DD hh:mm:ss a'));
+		$page.find('#reviewMemo').text(content);
 	}
 
 	function _setEditor(creator, created_at) {
