@@ -164,7 +164,7 @@ var quotaDistributionMaster = (function () {
 
 	function _renderData(json) {
 		_setQuota(json);
-		_setDeptList(json.departments);
+		_setDeptList(json.departments, json.school_has_self_enrollment);
 		_setStatus(json.quota_status);
 		_setEditor(json.creator, json.created_at);
 		$page.find('#schoolHasSelf').text(json.school_has_self_enrollment ? '是' : '否');
@@ -188,6 +188,7 @@ var quotaDistributionMaster = (function () {
 	}
 
 	function _setDeptList(list, school_has_self_enrollment) {
+		console.log(school_has_self_enrollment)
 		$deptList.find('tbody').html('');
 		for (let dept of list) {
 			var {

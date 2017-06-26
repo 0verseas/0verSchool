@@ -175,7 +175,7 @@ var quotaDistirbutionBache = (function () {
 
 	function _renderData(json) {
 		_setQuota(json);
-		_setDeptList(json.departments);
+		_setDeptList(json.departments, json.school_has_self_enrollment);
 		_setStatus(json.quota_status);
 		_setEditor(json.creator, json.created_at);
 		$page.find('#schoolHasSelf').text(json.school_has_self_enrollment ? '是' : '否');
@@ -226,7 +226,7 @@ var quotaDistirbutionBache = (function () {
 		_updateAllowTotal();
 	}
 
-	function _setDeptList(list) {
+	function _setDeptList(list, school_has_self_enrollment) {
 		$deptList.find('tbody').html('');
 		for (let dept of list) {
 			var {
@@ -244,7 +244,8 @@ var quotaDistirbutionBache = (function () {
 			var total = (+admission_selection_quota) + (+admission_placement_quota) + (+self_enrollment_quota || 0);
 			var reference = last_year_admission_placement_amount > last_year_admission_placement_quota ? last_year_admission_placement_quota : last_year_admission_placement_amount;
 			var noNeedToWriteReason = +reference <= +admission_placement_quota;
-
+			
+			var checked = school_has_self_enrollment ? ( has_self_enrollment ? 'checked' : '') : 'disabled';
 			$deptList
 				.find('tbody')
 				.append(`
@@ -259,7 +260,7 @@ var quotaDistirbutionBache = (function () {
 						<td><input type="number" min="0" class="form-control editableQuota required admission_placement_quota" data-type="admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
 						<td class="reference text-center" data-val="${reference}">${reference}</td>
 						<td><textarea class="form-control decrease_reason_of_admission_placement" cols="50" rows="1" disabled="${noNeedToWriteReason}"></textarea></td>
-						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${has_self_enrollment ? 'checked' : ''}" ></td>
+						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${checked}" ></td>
 						<td class="total text-center">${total}</td>
 					</tr>
 				`);

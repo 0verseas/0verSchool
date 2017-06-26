@@ -164,7 +164,7 @@ var quotaDistributionPhd = (function () {
 
 	function _renderData(json) {
 		_setQuota(json);
-		_setDeptList(json.departments);
+		_setDeptList(json.departments, json.school_has_self_enrollment);
 		_setStatus(json.quota_status);
 		_setEditor(json.creator, json.created_at);
 		$page.find('#schoolHasSelf').text(json.school_has_self_enrollment ? '是' : '否');
