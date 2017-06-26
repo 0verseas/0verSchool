@@ -5,6 +5,10 @@
 	padding-right: 10px;
 }
 
+#lastEditionInfo {
+	text-align: right;
+}
+
 .operator {
 	line-height: 77px;
 	text-align: center;

@@ -5,6 +5,7 @@ var quotaDistributionMaster = (function () {
 	var $page = $('#pageContent');
 	var $statusBadge = $page.find('#badge-status');
 	var $btn = $page.find('#btn-save, #btn-commit');
+	var $lastEditionInfo = $page.find('#lastEditionInfo');
 
 	//quota
 	var $quota_allowTotal = $page.find('.quota.allowTotal'); // 本年度可招生總量
@@ -116,6 +117,7 @@ var quotaDistributionMaster = (function () {
 			_setQuota(json);
 			_setDeptList(json.departments, json.school_has_self_enrollment);
 			_setStatus(json.quota_status);
+			_setEditor(json.creator, json.created_at);
 		}).catch(function (err) {
 			console.error(err);
 			alert(`${err.status}: Something wrong.`);
@@ -134,7 +136,7 @@ var quotaDistributionMaster = (function () {
 			_setQuota(json);
 			_setDeptList(json.departments, json.school_has_self_enrollment);
 			_setStatus(json.quota_status);
-			// TODO: 上次編輯資訊(右上角)
+			_setEditor(json.creator, json.created_at);
 		}).then(function () {
 			$.bootstrapSortable(true);
 		}).catch(function (err) {
@@ -159,6 +161,11 @@ var quotaDistributionMaster = (function () {
 			alert('各系所招生人數加總必須小於或等於可招生總量');
 		}
 		return valid;
+	}
+
+	function _setEditor(creator, created_at) {
+		$lastEditionInfo.find('.who').text(creator ? creator.name : 'unknown');
+		$lastEditionInfo.find('.when').text(moment(created_at).format('YYYY/MM/DD hh:mm:ss a'));
 	}
 
 	function _setQuota(data) {
