@@ -169,7 +169,7 @@ var quotaDistributionMaster = (function () {
 		_setDeptList(json.departments, json.school_has_self_enrollment);
 		_setStatus(json.quota_status);
 		_setEditor(json.creator, json.created_at);
-		_setReview(json.review_at, json.reviewer, json.review_memo);
+		json.last_returned_data && _setReview(json.last_returned_data.review_at, json.last_returned_data.reviewer, json.last_returned_data.review_memo);
 		$page.find('#schoolHasSelf').text(json.school_has_self_enrollment ? '是' : '否');
 	}
 
