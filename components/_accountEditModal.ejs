@@ -12,16 +12,25 @@
 						<form>
 							<div class="row">
 								<div class="form-group col-6">
-									<div class="input-group">
-										<span class="input-group-addon">帳號</span>
-										<input type="text" class="form-control" name="username" disabled>
-									</div>
+									<label for="" >帳號</label>
+									<input type="text" class="form-control" name="username" disabled>
 								</div>
+								<div class="col-6"></div>
+								<div class="form-group col-6">
+									<label for="" >密碼(新密碼)</label>
+									<input type="password" class="form-control" name="password">
+									<small>若不更改密碼，請勿填寫</small>
+								</div>
+								<div class="form-group col-6" id="password-check-div">
+									<label for="" >再輸入一次</label>
+									<input type="password" class="form-control" name="password-second">
+									<div class="form-control-feedback hide" id="password-check">doesn't matche.</div>
+								</div>	
 							</div>
 							<div class="row">
 								<div class="form-group col-6">
-									<label for="" >中文姓名</label>
-									<input type="text" class="form-control form-control-danger" name="name">
+									<label for="" >中文姓名*</label>
+									<input type="text" class="form-control required" name="name">
 								</div>
 								<div class="form-group col-6">
 									<label for="">英文姓名</label>
@@ -30,18 +39,18 @@
 							</div>
 							<div class="row">
 								<div class="form-group col-12">
-									<label for="">電子郵件</label>
-									<input type="email" class="form-control" name="email">
+									<label for="">電子郵件*</label>
+									<input type="email" class="form-control required" name="email">
 								</div>
 							</div>
 							<div class="row">
 								<div class="form-group col-6">
-									<label for="">所屬單位</label>
-									<input type="text" class="form-control" name="organization">
+									<label for="">所屬單位*</label>
+									<input type="text" class="form-control required" name="organization">
 								</div>
 								<div class="form-group col-6">
-									<label for="">聯絡電話</label>
-									<input type="text" class="form-control" name="phone">
+									<label for="">聯絡電話*</label>
+									<input type="text" class="form-control required" name="phone">
 								</div>
 							</div>
 						</form>
