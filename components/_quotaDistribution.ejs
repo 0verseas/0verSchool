@@ -4,8 +4,8 @@
 	<div class="col-12">
 		<h3 class="float-left"><%= system %>名額分配</h3>
 		<span id="badge-status" class="badge"></span>
-		<span class='float-right'>
-			上次編輯：吳和融<br />03月15日 18:56:23 (2017)
+		<span id="lastEditionInfo" class='float-right'>
+			上次編輯：<span class="who"></span><br /><span class="when"></span>
 		</span>
 	</div>
 </div>
@@ -18,11 +18,11 @@
 				<h4 class="card-title">
 					<div class="input-group" style="width: 200px">
 						<span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
-						<input id="reviewBy" type="text" class="form-control" value="YuerLeee" disabled>
+						<input id="reviewBy" type="text" class="form-control" disabled>
 					</div>
 				</h4>
 				<small id="reviewAt" class="form-text text-muted"></small>
-				<p id="reviewMemo" class="card-text">Very good!</p>
+				<p id="reviewMemo" class="card-text"></p>
 			</div>
 		</div>
 	</div>
@@ -44,8 +44,8 @@
 	<span class="operator">＋</span>
 	<div class="col-2">
 		<div class="form-group">
-			<small id="" class="form-text text-danger">去年本地生招生缺額數*</small>
-			<input type="number" min="0" class="form-control last_year_surplus_admission_quota quota required">
+			<small id="" class="form-text text-muted">去年本地生招生缺額數</small>
+			<input type="text" class="form-control last_year_surplus_admission_quota quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＋</span>
@@ -111,8 +111,8 @@
 	<span class="operator">＋</span>
 	<div class="col-1">
 		<div class="form-group">
-			<small id="" class="form-text text-muted">學士班自招</small>
-			<input type="text" class="form-control bg-success quota self_enrollment_quota" disabled>
+			<small id="" class="form-text text-danger">學士班自招*</small>
+			<input type="number" min="0" class="form-control bg-success quota self_enrollment_quota required">
 		</div>
 	</div>
 	<span class="operator">＋</span>
@@ -184,6 +184,12 @@
 		</div>
 	</div>
 </div>
+<div class="row mt-2">
+	<div class="col-12">
+		<h5>校自招與否：<span id="schoolHasSelf" class="text-danger"></span></h5>
+		<h6 class="text-danger twoYearOnly hide">*系所「是否自招」與「自招人數」要到系所資料裡去修改</h6>
+	</div>
+</div>
 <!-- 學士only -->
 <div class="row mt-5 bacheOnly hide">
 	<div class="col-12">
@@ -199,7 +205,6 @@
 					<th style="width: 100px;">參考值 <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" data-animation="false" title="聯合分發人數不得低於參考值"></i></th>
 					<th style="width: 150px;">減招原因</th>
 					<th style="width: 100px;">是否自招</th>
-					<th style="width: 100px;">自招人數</th>
 					<th style="width: 100px;">系所總量</th>
 				</tr>
 			</thead>
@@ -227,29 +232,31 @@
 <div class="row mt-5 twoYearOnly hide">
 	<div class="col-12">
 		<h3>系所列表</h3>
-		<table id="dept-list" class="table table-hover sortable">
+		<table id="table-twoYearDeptList" class="table table-hover sortable">
 			<thead>
 				<tr>
 					<th>#</th>
 					<th>代碼</th>
 					<th>名稱</th>
-					<th>聯招人數</th>
-					<th>自招人數</th>
-					<th>系所總量</th>
+					<th style="width: 150px">聯招人數</th>
+					<th style="width: 100px">是否自招</th>
+					<th style="width: 150px">自招人數</th>
+					<th style="width: 150px" class="text-center">系所總量</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>0</td>
-					<td>5HW01</td>
+				<!-- <tr class="dept" data-id="${id}">
+					<td>${sort_order}</td>
+					<td>${id}</td>
 					<td>
-						<div>歷史學系</div>
-						<div>history</div>
+						<div>${title}</div>
+						<small>${eng_title}</small>
 					</td>
-					<td>4</td>
-					<td>5</td>
-					<td>9</td>
-				</tr>
+					<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" /></td>
+					<td class="text-center"><span class="isSelf" data-type="self_enrollment_quota">${has_self_enrollment ? '是' : '否'}</span></td>
+					<td><input type="number" min="0" class="form-control editableQuota ${has_self_enrollment ? 'required' : ''} self_enrollment_quota" data-type="self_enrollment_quota" value="${+self_enrollment_quota}" disabled="${has_self_enrollment}" /></td>
+					<td class="total text-center">${total}</td>
+				</tr> -->
 			</tbody>
 		</table>
 	</div>

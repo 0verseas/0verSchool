@@ -5,6 +5,7 @@ var quotaDistributionMaster = (function () {
 	var $page = $('#pageContent');
 	var $statusBadge = $page.find('#badge-status');
 	var $btn = $page.find('#btn-save, #btn-commit');
+	var $lastEditionInfo = $page.find('#lastEditionInfo');
 
 	//quota
 	var $quota_allowTotal = $page.find('.quota.allowTotal'); // 本年度可招生總量
@@ -25,15 +26,15 @@ var quotaDistributionMaster = (function () {
 	$deptList.on('click.toggleSelf', '.dept .isSelf', _handleToggleCheck);
 	// 填數字算總額
 	$deptList.on('change.sumTotal', '.dept .editableQuota', _handleQuotaChange);
-	$quota_last_year_surplus_admission_quota.on('change', _updateAllowTotal);
 	// save/commit
 	$btn.on('click', _handleSaveOrCommit);
 	
 	/**
 	 * init
 	 */
-	// show bache only
+	// show master only
 	$page.find('.masterOnly').removeClass('hide');
+	$page.find('.hide .required').removeClass('required');
 	_setData();
 
 	function _handleToggleCheck() {
@@ -75,7 +76,6 @@ var quotaDistributionMaster = (function () {
 		var $this = $(this);
 		var action = $(this).data('action');
 		if (!_checkForm()) {
-			alert('輸入有誤');
 			return;
 		}
 
@@ -91,7 +91,6 @@ var quotaDistributionMaster = (function () {
 
 		var data = {
 			action: action,
-			last_year_surplus_admission_quota: +$quota_last_year_surplus_admission_quota.val(),
 			departments: departments
 		};
 		
@@ -115,12 +114,13 @@ var quotaDistributionMaster = (function () {
 					alert('已送出');
 					break;
 			}
-			_setQuota(json);
-			_setDeptList(json.departments);
-			_setStatus(json.quota_status);
+			_renderData(json);
 		}).catch(function (err) {
 			console.error(err);
-			alert(`${err.status}: Something wrong.`);
+			err.json && err.json().then((data) => {
+				console.error(data);
+				alert(`ERROR: \n${data.messages[0]}`);
+			})
 		});
 	}
 
@@ -133,12 +133,15 @@ var quotaDistributionMaster = (function () {
 			}
 		}).then(function (json) {
 			console.log(json);
-			_setQuota(json);
-			_setDeptList(json.departments);
-			_setStatus(json.quota_status);
-			// TODO: 上次編輯資訊(右上角)
+			_renderData(json);
+		}).then(function () {
+			$.bootstrapSortable(true);
 		}).catch(function (err) {
 			console.error(err);
+			err.json && err.json().then((data) => {
+				console.error(data);
+				alert(`ERROR: \n${data.messages[0]}`);
+			})
 		});
 	}
 
@@ -149,10 +152,36 @@ var quotaDistributionMaster = (function () {
 			if (!$(input).val() || $(input).val() < 0) {
 				$(input).focus();
 				valid = false;
+				alert('輸入有誤');
 				break;
 			}
 		}
+		// 本年度欲招募總量必須小於或等於可招生總量
+		if (+$quota_wantTotal.val() > +$quota_allowTotal.val()) {
+			valid = false;
+			alert('各系所招生人數加總必須小於或等於可招生總量');
+		}
 		return valid;
+	}
+
+	function _renderData(json) {
+		_setQuota(json);
+		_setDeptList(json.departments, json.school_has_self_enrollment);
+		_setStatus(json.quota_status);
+		_setEditor(json.creator, json.created_at);
+		json.last_returned_data && _setReview(json.last_returned_data.review_at, json.last_returned_data.reviewer, json.last_returned_data.review_memo);
+		$page.find('#schoolHasSelf').text(json.school_has_self_enrollment ? '是' : '否');
+	}
+
+	function _setReview(when, who, content) {
+		$page.find('#reviewBy').val(who && who.name);
+		$page.find('#reviewAt').text(moment(when).format('YYYY/MM/DD hh:mm:ss a'));
+		$page.find('#reviewMemo').text(content);
+	}
+
+	function _setEditor(creator, created_at) {
+		$lastEditionInfo.find('.who').text(creator ? creator.name : 'unknown');
+		$lastEditionInfo.find('.when').text(moment(created_at).format('YYYY/MM/DD hh:mm:ss a'));
 	}
 
 	function _setQuota(data) {
@@ -167,7 +196,8 @@ var quotaDistributionMaster = (function () {
 		_updateAllowTotal();
 	}
 
-	function _setDeptList(list) {
+	function _setDeptList(list, school_has_self_enrollment) {
+		console.log(school_has_self_enrollment)
 		$deptList.find('tbody').html('');
 		for (let dept of list) {
 			var {
@@ -192,8 +222,8 @@ var quotaDistributionMaster = (function () {
 							<small>${eng_title}</small>
 						</td>
 						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" /></td>
-						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${has_self_enrollment ? 'checked' : ''} ></td>
-						<td><input type="number" min="0" class="form-control editableQuota ${has_self_enrollment ? 'requried' : ''} self_enrollment_quota" data-type="self_enrollment_quota" value="${+self_enrollment_quota}" disabled="${has_self_enrollment}" /></td>
+						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${has_self_enrollment ? 'checked' : ''} ${school_has_self_enrollment ? '' : 'disabled="disabled"'} ></td>
+						<td><input type="number" min="0" class="form-control editableQuota ${has_self_enrollment ? 'required' : ''} self_enrollment_quota" data-type="self_enrollment_quota" value="${+self_enrollment_quota}" disabled="${has_self_enrollment}" /></td>
 						<td class="total text-center">${total}</td>
 					</tr>
 				`);

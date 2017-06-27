@@ -5,6 +5,7 @@ var quotaDistirbutionBache = (function () {
 	var $page = $('#pageContent');
 	var $statusBadge = $page.find('#badge-status');
 	var $btn = $page.find('#btn-save, #btn-commit');
+	var $lastEditionInfo = $page.find('#lastEditionInfo');
 
 	//quota
 	var $quota_allowTotal = $page.find('.quota.allowTotal'); // 本年度可招生總量
@@ -26,11 +27,10 @@ var quotaDistirbutionBache = (function () {
 	/**
 	 * bind event
 	 */
-	// 是否自招的 checkbox
-	$deptList.on('click.toggleSelf', '.dept .isSelf', _handleToggleCheck);
+	// 學士班自招 change
+	$quota_self_enrollment_quota.on('change', _handleSelfChanged);
 	// 填數字算總額
 	$deptList.on('change.sumTotal', '.dept .editableQuota', _handleQuotaChange);
-	$quota_last_year_surplus_admission_quota.on('change', _updateAllowTotal);
 	// save/commit
 	$btn.on('click', _handleSaveOrCommit);
 	
@@ -42,23 +42,9 @@ var quotaDistirbutionBache = (function () {
 	$page.find('*[data-toggle=tooltip]').tooltip();
 	_setData();
 
-	function _handleToggleCheck() {
-		var $this = $(this);
-		var checked = $this.is(':checked');
-		if (checked) {
-			$this.parents('.dept')
-				.find('.self_enrollment_quota')
-				.attr('disabled', false)
-				.addClass('required');
-			_handleQuotaChange.call($this[0]);
-		} else {
-			$this.parents('.dept')
-				.find('.self_enrollment_quota')
-				.attr('disabled', true)
-				.removeClass('required')
-				.val(0);
-			_handleQuotaChange.call($this[0]);
-		}
+	function _handleSelfChanged() {
+		_updateAdmissionSumSelfSum();
+		_updateWantTotal();
 	}
 
 	function _handleQuotaChange() {
@@ -98,7 +84,6 @@ var quotaDistirbutionBache = (function () {
 		var $this = $(this);
 		var action = $this.data('action');
 		if (!_checkForm()) {
-			alert('輸入有誤');
 			return;
 		}
 
@@ -107,7 +92,6 @@ var quotaDistirbutionBache = (function () {
 			return {
 				id: String($deptRow.data('id')),
 				has_self_enrollment: $deptRow.find('.isSelf').is(':checked'),
-				self_enrollment_quota: +$deptRow.find('.self_enrollment_quota').val(),
 				admission_selection_quota: +$deptRow.find('.admission_selection_quota').val(),
 				admission_placement_quota: +$deptRow.find('.admission_placement_quota').val(),
 				decrease_reason_of_admission_placement: $deptRow.find('.decrease_reason_of_admission_placement').val() || null
@@ -116,7 +100,7 @@ var quotaDistirbutionBache = (function () {
 
 		var data = {
 			action: action,
-			last_year_surplus_admission_quota: +$quota_last_year_surplus_admission_quota.val(),
+			ratify_quota_for_self_enrollment: +$quota_self_enrollment_quota.val(), // 學士班自招
 			departments: departments
 		};
 
@@ -140,12 +124,13 @@ var quotaDistirbutionBache = (function () {
 					alert('已送出');
 					break;
 			}
-			_setQuota(json);
-			_setDeptList(json.departments);
-			_setStatus(json.quota_status);
+			_renderData(json);
 		}).catch(function (err) {
 			console.error(err);
-			alert(`${err.status}: Something wrong.`);
+			err.json && err.json().then((data) => {
+				console.error(data);
+				alert(`ERROR: \n${data.messages[0]}`);
+			})
 		});
 	}
 
@@ -156,8 +141,15 @@ var quotaDistirbutionBache = (function () {
 			if (!$(input).val() || $(input).val() < 0) {
 				$(input).focus();
 				valid = false;
+				alert('輸入有誤');
 				break;
 			}
+		}
+
+		// 本年度欲招募總量必須小於或等於可招生總量
+		if (+$quota_wantTotal.val() > +$quota_allowTotal.val()) {
+			valid = false;
+			alert('各系所招生人數加總必須小於或等於可招生總量');
 		}
 		return valid;
 	}
@@ -171,15 +163,36 @@ var quotaDistirbutionBache = (function () {
 			}
 		}).then(function (json) {
 			console.log(json);
-			_setQuota(json);
-			_setDeptList(json.departments);
-			_setStatus(json.quota_status);
-			// TODO: 上次編輯資訊(右上角)
+			_renderData(json);
 		}).then(function () {
 			$.bootstrapSortable(true);
 		}).catch(function (err) {
 			console.error(err);
+			err.json && err.json().then((data) => {
+				console.error(data);
+				alert(`ERROR: \n${data.messages[0]}`);
+			})
 		});
+	}
+
+	function _renderData(json) {
+		_setQuota(json);
+		_setDeptList(json.departments, json.school_has_self_enrollment);
+		_setStatus(json.quota_status);
+		_setEditor(json.creator, json.created_at);
+		json.last_returned_data && _setReview(json.last_returned_data.review_at, json.last_returned_data.reviewer, json.last_returned_data.review_memo);
+		$page.find('#schoolHasSelf').text(json.school_has_self_enrollment ? '是' : '否');
+	}
+
+	function _setReview(when, who, content) {
+		$page.find('#reviewBy').val(who && who.name);
+		$page.find('#reviewAt').text(moment(when).format('YYYY/MM/DD hh:mm:ss a'));
+		$page.find('#reviewMemo').text(content);
+	}
+	
+	function _setEditor(creator, created_at) {
+		$lastEditionInfo.find('.who').text(creator ? creator.name : 'unknown');
+		$lastEditionInfo.find('.when').text(moment(created_at).format('YYYY/MM/DD hh:mm:ss a'));
 	}
 
 	function _setStatus(status) {
@@ -210,17 +223,19 @@ var quotaDistirbutionBache = (function () {
 			last_year_surplus_admission_quota,
 			ratify_expanded_quota, 
 			another_department_admission_selection_quota,
-			another_department_self_enrollment_quota
+			another_department_self_enrollment_quota,
+			ratify_quota_for_self_enrollment
 		} = data;
 		$quota_last_year_admission_amount.val(last_year_admission_amount || 0);
 		$quota_last_year_surplus_admission_quota.val(last_year_surplus_admission_quota || 0);
 		$quota_ratify_expanded_quota.val(ratify_expanded_quota || 0);
 		$quota_another_department_admission_selection_quota.val(another_department_admission_selection_quota || 0);
 		$quota_another_department_self_enrollment_quota.val(another_department_self_enrollment_quota || 0);
+		$quota_self_enrollment_quota.val(ratify_quota_for_self_enrollment || 0);
 		_updateAllowTotal();
 	}
 
-	function _setDeptList(list) {
+	function _setDeptList(list, school_has_self_enrollment) {
 		$deptList.find('tbody').html('');
 		for (let dept of list) {
 			var {
@@ -238,7 +253,8 @@ var quotaDistirbutionBache = (function () {
 			var total = (+admission_selection_quota) + (+admission_placement_quota) + (+self_enrollment_quota || 0);
 			var reference = last_year_admission_placement_amount > last_year_admission_placement_quota ? last_year_admission_placement_quota : last_year_admission_placement_amount;
 			var noNeedToWriteReason = +reference <= +admission_placement_quota;
-
+			
+			var checked = school_has_self_enrollment ? ( has_self_enrollment ? 'checked' : '') : 'disabled';
 			$deptList
 				.find('tbody')
 				.append(`
@@ -253,15 +269,13 @@ var quotaDistirbutionBache = (function () {
 						<td><input type="number" min="0" class="form-control editableQuota required admission_placement_quota" data-type="admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
 						<td class="reference text-center" data-val="${reference}">${reference}</td>
 						<td><textarea class="form-control decrease_reason_of_admission_placement" cols="50" rows="1" disabled="${noNeedToWriteReason}"></textarea></td>
-						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${has_self_enrollment ? 'checked' : ''}" ></td>
-						<td><input type="number" min="0" class="form-control editableQuota ${has_self_enrollment ? 'requried' : ''} self_enrollment_quota" data-type="self_enrollment_quota" value="${self_enrollment_quota || 0}" disabled="${has_self_enrollment}" /></td>
+						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${checked} ></td>
 						<td class="total text-center">${total}</td>
 					</tr>
 				`);
 		}
 		_updateQuotaSum('admission_selection_quota');
 		_updateQuotaSum('admission_placement_quota');
-		_updateQuotaSum('self_enrollment_quota');
 		_updateAdmissionSumSelfSum();
 		_updateWantTotal();
 	}
@@ -269,8 +283,7 @@ var quotaDistirbutionBache = (function () {
 	function _updateQuotaSum(type) {
 		var $ele = {
 			admission_selection_quota: $quota_admission_selection_quota,
-			admission_placement_quota: $quota_admission_placement_quota,
-			self_enrollment_quota: $quota_self_enrollment_quota
+			admission_placement_quota: $quota_admission_placement_quota
 		};
 		var sum = 0;
 		$deptList.find('.dept').each(function (i, deptRow) {
