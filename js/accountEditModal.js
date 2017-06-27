@@ -4,7 +4,10 @@ $(document).ready(function () {
 		/**
 		 * cache DOM
 		 */
+		var page = $('.modal-content');
 		var username = $('[name=username]');
+		var password = $('[name=password]');
+		var passwordSecond = $('[name=password-second]');
 		var name = $('[name=name]');
 		var engName = $('[name=eng_name]');
 		var email = $('[name=email]');
@@ -13,12 +16,29 @@ $(document).ready(function () {
 		
 		var $modal = $('#modal-editAccount');
 		var $storeBtn = $('#store-btn');
+
+		var passwordCheckDiv = $('#password-check-div');
+		var passwordCheck = $('#password-check');
+
 		$storeBtn.on('click', _store);
-		$('#name-warnning').hide();
+		password.on('input', _doubleCheck);
+		passwordSecond.on('input', _doubleCheck);
+
+		// 密碼二次確認
+		function _doubleCheck() {
+			if (passwordSecond.val() !== password.val()) {
+				passwordCheckDiv.addClass('has-danger');
+				passwordSecond.addClass('form-control-danger required');
+				passwordCheck.show();
+			} else {
+				passwordCheckDiv.removeClass('has-danger');
+				passwordSecond.removeClass('form-control-danger required');
+				passwordCheck.hide();
+			}
+		}
 
 		function open() {
 			// 重新call 登入API 拿到最新身份
-			// console.log(User.getUserInfo());
 			var user = User.getUserInfo();
 			username.attr('value', user.username);
 			name.attr('value', user.name);
@@ -32,12 +52,34 @@ $(document).ready(function () {
 				keyboard: false
 			});
 		}
+		function _checkForm() {
+			var $inputs = page.find('.required');
+			var valid = true;
+			for (let input of $inputs) {
+				if (!$(input).val()) {
+					$(input).focus();
+					valid = false;
+					break;
+				}
+			}
+			return valid;
+		}
+
 		// 儲存使用者資料
 		function _store() {
-			console.log(email.val());
+			// check dom value
+			if (!_checkForm()) {
+				alert('輸入有誤');
+				return;
+			}
+			// check password is changed
+			storedPassword = null; 
+			if (password.val()) {
+				storedPassword = sha256(password.val());
+			}
 			var userInfo = {
 				username: username.val(),
-				password: sha256('admin123!@#'),	
+				password: storedPassword,	
 				email: email.val(),
 				name: name.val(),
 				eng_name: engName.val(),
