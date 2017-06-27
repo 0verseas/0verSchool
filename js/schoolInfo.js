@@ -142,49 +142,42 @@ var schoolInfo = (function () {
     return data;
 	}
 
+	// 處理 Save or Commit 動作邏輯
+	// Save 檢查有輸入的 Url 格式
+	// Commit 檢查需輸入的欄位
 	function _handleSchoolInfoSaveOrCommit() {
 		var action = $(this).data('action');
+		// init highlight
+		for(form in formGroup) {
+			formGroup[form].removeClass("has-danger");
+		}
+
 		if (action === 'save') {
-			_setSchoolInfo(action);
-		} else if (action === 'commit') {
-			if (_validateForm() === true) {
+			if (_validateUrl()) {
 				_setSchoolInfo(action);
+			} else {
+				alert("有欄位輸入錯誤，請重新確認。");
+			}
+		} else if (action === 'commit') {
+			var urlResult = _validateUrl();
+			var formResult = _validateForm();
+
+			if (urlResult && formResult) {
+				_setSchoolInfo(action)
 			} else {
 				alert("有欄位輸入錯誤，請重新確認。");
 			}
 		}
 	}
 
-	function _setSchoolInfo(action) {
-		var sendData = _getFormData();
-		sendData.append('action', action);
-
-		School.setSchoolInfo(sendData)
-		.then(function(res) {
-		  if(res.ok) {
-		  	alert(action + '成功');
-		  	location.reload();
-		  } else {
-		    throw res
-		  }
-		}).catch(function(err) {
-		  console.log(err);
-		  alert('傳送發生錯誤，請聯繫我們，我們將儘速處理。');
-		  location.reload();
-		})
-	}
-
+	// 檢查表單要求
 	function _validateForm() {
-		// init highlight
-		for(form in formGroup) {
-			formGroup[form].removeClass("has-danger");
-		}
 		var check = true;
 
 		if (!_validateNotEmpty($phone)) {formGroup.phoneForm.addClass("has-danger"); check = false}
 		if (!_validateNotEmpty($fax)) {formGroup.faxForm.addClass("has-danger"); check = false}
 		if (!_validateNotEmpty($url)) {formGroup.urlForm.addClass("has-danger"); check = false}
-		if (!_validateUrl($url)) {formGroup.urlForm.addClass("has-danger"); check = false}
+		// if (!_validateUrlFormat($url)) {formGroup.urlForm.addClass("has-danger"); check = false}
 		if (!_validateNotEmpty($address)) {formGroup.addressForm.addClass("has-danger"); check = false}
 		if (!_validateNotEmpty($organization)) {formGroup.organizationForm.addClass("has-danger"); check = false}
 
@@ -195,7 +188,7 @@ var schoolInfo = (function () {
 		if ($hasScholarship.prop("checked")) {
 			if (!_validateNotEmpty($scholarshipDept)) {formGroup.scholarshipDeptForm.addClass("has-danger"); check = false}
 			if (!_validateNotEmpty($scholarshipUrl)) {formGroup.scholarshipUrlForm.addClass("has-danger"); check = false}
-			if (!_validateUrl($scholarshipUrl)) {formGroup.scholarshipUrlForm.addClass("has-danger"); check = false}
+			// if (!_validateUrlFormat($scholarshipUrl)) {formGroup.scholarshipUrlForm.addClass("has-danger"); check = false}
 		}
 
 		if ($hasFiveYearStudentAllowed.prop("checked")) {
@@ -209,13 +202,55 @@ var schoolInfo = (function () {
 		return check;
 	}
 
+	// 檢查有輸入的 Url 格式
+	function _validateUrl() {
+		var check = true;
+
+		if (_validateNotEmpty($url)) {
+			if (!_validateUrlFormat($url)) {formGroup.urlForm.addClass("has-danger"); check = false}
+		}
+		if (_validateNotEmpty($engUrl)) {
+			if (!_validateUrlFormat($engUrl)) {formGroup.engUrlForm.addClass("has-danger"); check = false}
+		}
+		if (_validateNotEmpty($scholarshipUrl)) {
+			if (!_validateUrlFormat($scholarshipUrl)) {formGroup.scholarshipUrlForm.addClass("has-danger"); check = false}
+		}
+		if (_validateNotEmpty($engScholarshipUrl)) {
+			if (!_validateUrlFormat($engScholarshipUrl)) {formGroup.engScholarshipUrlForm.addClass("has-danger"); check = false}
+		}
+		
+		return check;
+	}
+
+	// 檢查 form 是否為有值
 	function _validateNotEmpty(el) {
 		return el.val() !== "";
 	}
 
-	function _validateUrl(el) {
+	// 檢查 Url 格式是否正確
+	function _validateUrlFormat(el) {
 		var regexp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
 		return regexp.test(el.val());
+	}
+
+	// 送出表單
+	function _setSchoolInfo(action) {
+		var sendData = _getFormData();
+		sendData.append('action', action);
+
+		School.setSchoolInfo(sendData)
+		.then(function(res) {
+		  if(res.ok) {
+		  	(action == 'save') ? alert('儲存成功') : alert('送出成功');
+		  	location.reload();
+		  } else {
+		    throw res
+		  }
+		}).catch(function(err) {
+		  console.log(err);
+		  alert('傳送發生錯誤，請聯繫我們，我們將儘速處理。');
+		  location.reload();
+		})
 	}
 
 	// 擺放審閱建議
