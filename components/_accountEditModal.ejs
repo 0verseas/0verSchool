@@ -24,7 +24,7 @@
 								<div class="form-group col-6" id="password-check-div">
 									<label for="" >再輸入一次</label>
 									<input type="password" class="form-control" name="password-second">
-									<div class="form-control-feedback hide" id="password-check">doesn't matche.</div>
+									<div class="form-control-feedback hide" id="password-check">密碼不相符</div>
 								</div>	
 							</div>
 							<div class="row">
@@ -38,9 +38,10 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="form-group col-12">
+								<div class="form-group col-12" id="email-div">
 									<label for="">電子郵件*</label>
-									<input type="email" class="form-control required" name="email">
+									<input type="email" class="form-control required" name="email" placeholder="example@ncnu.com">
+									<div class="form-control-feedback hide" id="email-warning">請依格式輸入（Ex: example@example.com）</div>
 								</div>
 							</div>
 							<div class="row">

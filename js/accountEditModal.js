@@ -17,23 +17,40 @@ $(document).ready(function () {
 		var $modal = $('#modal-editAccount');
 		var $storeBtn = $('#store-btn');
 
+		var emailDiv = $('#email-div');
+		var emailWarning = $('#email-warning');
 		var passwordCheckDiv = $('#password-check-div');
 		var passwordCheck = $('#password-check');
 
 		$storeBtn.on('click', _store);
 		password.on('input', _doubleCheck);
 		passwordSecond.on('input', _doubleCheck);
+		email.on('input', _checkEmail);
 
 		// 密碼二次確認
 		function _doubleCheck() {
 			if (passwordSecond.val() !== password.val()) {
 				passwordCheckDiv.addClass('has-danger');
-				passwordSecond.addClass('form-control-danger required');
+				passwordSecond.addClass('form-control-danger');
 				passwordCheck.show();
 			} else {
 				passwordCheckDiv.removeClass('has-danger');
-				passwordSecond.removeClass('form-control-danger required');
+				passwordSecond.removeClass('form-control-danger');
 				passwordCheck.hide();
+			}
+		}
+
+		function _checkEmail() {
+			var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			// 如果正確
+			if (re.test(email.val())) {
+				emailDiv.removeClass('has-danger');
+				email.removeClass('form-control-danger');
+				emailWarning.hide();
+			} else {
+				emailDiv.addClass('has-danger');
+				email.addClass('form-control-danger');
+				emailWarning.show();
 			}
 		}
 
