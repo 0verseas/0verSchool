@@ -150,8 +150,10 @@ var deptInfoBache = (function () {
 				.find('tbody')
 				.append(`
 					<tr>
-						<td><span class="btn-editDeptInfo"><i class="fa fa-pencil" aria-hidden="true"></i></span></td>
-						<td>${index}</td>
+						<td>
+							<span class="btn-editDeptInfo"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+						</td>
+						<td>${value.sort_order}</td>
 						<td>${value.id}</td>
 						<td>
 							<div>${value.title}</div>
