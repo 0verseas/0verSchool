@@ -79,6 +79,10 @@ var quotaDistributionPhd = (function () {
 			return;
 		}
 
+		if (action == 'commit' && !confirm('送出之後將不能繼續修改，請問您確定要這樣做嗎？')) {
+			return;
+		}
+
 		var departments = $deptList.find('.dept').map(function (i, deptRow) {
 			let $deptRow = $(deptRow);
 			return {
