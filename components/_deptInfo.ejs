@@ -58,10 +58,6 @@
 			<div class="modal-header">
 				<h5 class="modal-title" id="editDeptInfoTitle">
 					系所詳細資料
-					<!-- 以下三個 badge 依照該系所資料狀態做顯示 -->
-					<span class="badge badge-pill badge-primary">編輯中</span>
-					<span class="badge badge-pill badge-info">已送出</span>
-					<span class="badge badge-pill badge-success">已確認</span>
 				</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -70,30 +66,12 @@
 
 			<div class="modal-body">
 				<div class="container-fluid">
-
-					<div class="row">
-						<div class="col">
-							<div class="card">
-								<h3 class="card-header bg-warning text-white">審閱建議</h3>
-								<div class="card-block">
-									<h4 class="card-title">
-										<div class="input-group" style="width: 200px">
-											<span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
-											<input type="text" class="form-control" value="吳和融" disabled>
-										</div>
-									</h4>
-									<small class="form-text text-muted">審閱時間：2017/03/23 15:21:24</small>
-									<p class="card-text">，小一能，法減指河相到子任我班，排學一得特其背。太聽叫打期此登兒位；美指持視！然意團。你必世起度色一的來思正長：外了河明文國！環點音己法請：非見例道有的社為名方所進</p>
-								</div>
-							</div>
-						</div>
-					</div>
 					<form>
 						<div class="row">
 							<div class="form-group col-6">
 								<div class="input-group">
 									<span class="input-group-addon">簡章順序</span>
-									<input type="text" class="form-control" value="12" disabled>
+									<input type="text" class="form-control" value="12" id="sort_order">
 								</div>
 							</div>
 						</div>
@@ -101,46 +79,46 @@
 							<div class="form-group col-6">
 								<div class="input-group">
 									<span class="input-group-addon">系所代碼</span>
-									<input type="text" class="form-control" value="10101" disabled>
+									<input type="text" class="form-control" value="10101" id="id" disabled>
 								</div>
 							</div>
 							<div class="form-group col-6">
 								<div class="input-group">
 									<span class="input-group-addon">讀卡代碼</span>
-									<input type="text" class="form-control" value="1001" disabled>
+									<input type="text" class="form-control" value="1001" id="card_code" disabled>
 								</div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="form-group col-6">
 								<label for="">中文名稱</label>
-								<input type="text" class="form-control" value="資訊管理學系" disabled>
+								<input type="text" class="form-control" value="資訊管理學系" id="title" disabled>
 							</div>
 							<div class="form-group col-6">
 								<label for="">英文名稱</label>
-								<input type="text" class="form-control" value="Information Management" disabled>
+								<input type="text" class="form-control" value="Information Management" id="eng_title" disabled>
 							</div>
 						</div>
 						<div class="row">
 							<div class="form-group col-6">
 								<label for="">系中文網站網址*</label>
-								<input type="text" class="form-control" value="http://www.im.ncnu.edu.tw">
+								<input type="text" class="form-control" value="http://www.im.ncnu.edu.tw" id="url">
 							</div>
 							<div class="form-group col-6">
-								<label for="">系英文網站網址*</label>
-								<input type="text" class="form-control" value="http://www.im.ncnu.edu.tw/en">
+								<label for="">系英文網站網址</label>
+								<input type="text" class="form-control" value="http://www.im.ncnu.edu.tw/en" id="eng_url">
 							</div>
 						</div>
 						<div class="row">
 							<div class="form-group col-6">
 								<label for="">主要隸屬學群*</label>
-								<select class="form-control">
+								<select class="form-control" id="main_group">
 									<option>主要學群</option>
 								</select>
 							</div>
 							<div class="form-group col-6">
 								<label for="">次要隸屬學群</label>
-								<select class="form-control">
+								<select class="form-control" id="sub_group">
 									<option>次要學群</option>
 								</select>
 							</div>
@@ -148,7 +126,7 @@
 						<div class="row">
 							<div class="form-group col-6">
 								<label for="">招收性別限制*</label>
-								<select class="form-control">
+								<select class="form-control" id="gender_limit">
 									<option value="null">男女兼收</option>
 									<option value="M">限男</option>
 									<option value="F">限女</option>
@@ -156,7 +134,7 @@
 							</div>
 							<div class="form-group col-6">
 								<label for="">最近一次系所評鑑*</label>
-								<select class="form-control">
+								<select class="form-control" id="evaluation">
 									<option>系所評鑑</option>
 								</select>
 							</div>
@@ -164,27 +142,27 @@
 						<div class="row">
 							<div class="form-group col">
 								<label for="">選系中文說明*</label>
-								<textarea class="form-control" rows="4">(一)強烈建議中文程度應達「華語文能力測 驗」(TOP)第4級以上。(二)本系課程須閱 讀大量中文古籍與歷史資料，文言文閱讀 能力不佳者，請勿選填本系。</textarea>
+								<textarea class="form-control" rows="4" id="description">(一)強烈建議中文程度應達「華語文能力測 驗」(TOP)第4級以上。(二)本系課程須閱 讀大量中文古籍與歷史資料，文言文閱讀 能力不佳者，請勿選填本系。</textarea>
 							</div>
 						</div>
 						<div class="row">
 							<div class="form-group col">
-								<label for="">選系英文說明*</label>
-								<textarea class="form-control" rows="4">At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quosdolores et quas molestias excepturi sint, obcaecati cupiditate non provident, </textarea>
+								<label for="">選系英文說明</label>
+								<textarea class="form-control" rows="4" id="eng_description">At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quosdolores et quas molestias excepturi sint, obcaecati cupiditate non provident, </textarea>
 							</div>
 						</div>
 						<!-- 僅在 碩、博、二技 時顯示，選擇為學士則消失 -->
-						<div class="row">
+						<div class="row rm-bachelor">
 							<div class="form-group col-6">
 								<label for="">聯招(個人申請)人數（碩博二技專用）</label>
-								<input type="text" class="form-control" value="10">
+								<input type="text" class="form-control" value="10" id="admission_placement_quota">
 							</div>
 						</div>
 						<!-- 僅在 學士 時顯示，選擇為 碩、博、二技 則消失 -->
-						<div class="row">
+						<div class="row rm-master rm-phd rm-twoyear">
 							<div class="form-group col-4">
 								<label for="">聯招人數（學士專用）</label>
-								<input type="text" class="form-control" id="bachelorTotalPeople" disabled>
+								<input type="text" class="form-control" id="" disabled> <!-- 用算的 -->
 							</div>
 							<div class="form-group col-1">
 								<label>　</label>
@@ -192,7 +170,7 @@
 							</div>
 							<div class="form-group col-3">
 								<label for="">個人申請人數</label>
-								<input type="text" class="form-control" id="bachelorPersonalApply">
+								<input type="text" class="form-control" id="admission_selection_quota">
 							</div>
 							<div class="form-group col-1">
 								<label for="">　</label>
@@ -200,11 +178,12 @@
 							</div>
 							<div class="form-group col-3">
 								<label for="">聯合分發人數</label>
-								<input type="text" class="form-control" id="bachelorDistribution">
+								<input type="text" class="form-control" id="admission_placement_quota">
 							</div>
 						</div>
 					</form>
-					<div class="row">
+					<!-- 僅在 學士、碩士、博士 時顯示，二技 則消失 -->
+					<div class="row rm-twoyear">
 						<div class="col">
 							<div class="card">
 								<div class="card-header bg-primary text-white">
@@ -216,7 +195,7 @@
 											<div class="col">
 												<div class="form-check">
 													<label class="form-check-label">
-														<input class="form-check-input" type="checkbox" value="">
+														<input class="form-check-input" type="checkbox" value="" id="school_has_self_enrollment">
 														本校是否可單獨招收僑生
 													</label>
 												</div>
@@ -226,15 +205,15 @@
 											<div class="col col-lg-4">
 												<div class="form-check">
 													<label class="form-check-label">
-														<input class="form-check-input" type="checkbox" value="">
-														本校是否可單獨招收僑生
+														<input class="form-check-input" type="checkbox" value="" id="has_self_enrollment">
+														是否單獨招收僑生（自招）
 													</label>
 												</div>
 											</div>
-											<div class="col col-lg-4">
+											<div class="col col-lg-4 rm-bachelor">
 												<div class="form-group">
 													<label for="">自招人數</label>
-													<input type="text" class="form-control">
+													<input type="text" class="form-control" id="self_enrollment_quota">
 												</div>
 											</div>
 										</div>
@@ -242,7 +221,7 @@
 											<div class="col">
 												<div class="form-check">
 													<label class="form-check-label">
-														<input class="form-check-input" type="checkbox" value="">
+														<input class="form-check-input" type="checkbox" id="has_special_class" value="">
 														是否開設僑生專班（有自主招生才能開專班）
 													</label>
 												</div>
@@ -253,7 +232,8 @@
 							</div>
 						</div>
 					</div>
-					<div class="row">
+					<!-- 僅在 二技 時顯示，選擇為 學、碩、博 則消失 -->
+					<div class="row rm-bachelor rm-master rm-phd">
 						<div class="col">
 							<div class="card">
 								<div class="card-header bg-primary text-white">
@@ -263,25 +243,25 @@
 									<form>
 										<div class="form-check">
 											<label class="form-check-label">
-												<input class="form-check-input" type="checkbox" value="">
+												<input class="form-check-input" type="checkbox" id="school_has_self_enrollment" value="">
 												本校是否可單獨招收僑生
 											</label>
 										</div>
 										<div class="form-check">
 											<label class="form-check-label">
-												<input class="form-check-input" type="checkbox" value="">
+												<input class="form-check-input" type="checkbox" id="has_RiJian" value="">
 												是否開設日間二技學制
 											</label>
 										</div>
 										<div class="form-check">
 											<label class="form-check-label">
-												<input class="form-check-input" type="checkbox" value="">
+												<input class="form-check-input" type="checkbox" id="has_self_enrollment" value="">
 												是否單獨招收僑生（自招）
 											</label>
 										</div>
 										<div class="form-check">
 											<label class="form-check-label">
-												<input class="form-check-input" type="checkbox" value="">
+												<input class="form-check-input" type="checkbox" id="has_special_class" value="">
 												是否開設僑生專班
 											</label>
 										</div>
@@ -290,13 +270,14 @@
 											<div class="col">
 												<div class="form-group">
 													<label for="">開設專班文號</label>
-													<input type="text" class="form-control" value="臺教高(四)字第1040109682號">
+													<input type="text" class="form-control" id="approval_no_of_special_class" value="臺教高(四)字第1040109682號">
 												</div>
 											</div>
 											<div class="col">
 												<div class="form-group">
 													<label for="">開設專班文件電子檔</label>
 													<input type="file" class="form-control">
+													<ul id="approval_doc_of_special_class"></ul> <!-- list -->
 												</div>
 											</div>
 										</div>
@@ -304,7 +285,7 @@
 											<div class="col-6">
 												<div class="form-group">
 													<label for="">自招人數</label>
-													<input type="text" class="form-control" value="12">
+													<input type="text" class="form-control" id="self_enrollment_quota" value="12">
 												</div>
 											</div>
 										</div>
@@ -324,18 +305,18 @@
 									<form>
 										<div class="form-check">
 											<label class="form-check-label">
-												<input class="form-check-input" type="checkbox" value="">
+												<input class="form-check-input" type="checkbox" id="has_review_fee" value="">
 												是否需要收審查費用*
 											</label>
 										</div>
 										<hr>
 										<div class="form-group">
 											<label for="">審查費用中文說明</label>
-											<textarea class="form-control" rows="3">，小一能，法減指河相到子任我班，排學一得特其背。太聽叫打期此登兒位；美指持視！然意團。你必世起度色一的來思正長：外了河明文國！環點音己法請：非見例道有的社為名方所進</textarea>
+											<textarea class="form-control" rows="3" id="review_fee_detail">，小一能，法減指河相到子任我班，排學一得特其背。太聽叫打期此登兒位；美指持視！然意團。你必世起度色一的來思正長：外了河明文國！環點音己法請：非見例道有的社為名方所進</textarea>
 										</div>
 										<div class="form-group">
 											<label for="">審查費用英文說明</label>
-											<textarea class="form-control" rows="3">le content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like reada</textarea>
+											<textarea class="form-control" rows="3" id="eng_review_fee_detail">le content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like reada</textarea>
 										</div>
 									</form>
 								</div>
@@ -353,31 +334,31 @@
 									<form>
 										<div class="form-check">
 											<label class="form-check-label">
-												<input class="form-check-input" type="checkbox" value="">
+												<input class="form-check-input" type="checkbox" id="has_foreign_special_class" value="">
 												是否招收外生專班*
 											</label>
 										</div>
 										<div class="form-check">
 											<label class="form-check-label">
-												<input class="form-check-input" type="checkbox" value="">
+												<input class="form-check-input" type="checkbox" id="has_eng_taught" value="">
 												是否為全英文授課*
 											</label>
 										</div>
 										<div class="form-check">
 											<label class="form-check-label">
-												<input class="form-check-input" type="checkbox" value="">
+												<input class="form-check-input" type="checkbox" id="has_disabilities" value="">
 												是否招收身障學生*
 											</label>
 										</div>
 										<div class="form-check">
 											<label class="form-check-label">
-												<input class="form-check-input" type="checkbox" value="">
+												<input class="form-check-input" type="checkbox" id="has_disabilities" value="">
 												是否招收不具華文基礎學生*
 											</label>
 										</div>
 										<div class="form-check">
 											<label class="form-check-label">
-												<input class="form-check-input" type="checkbox" value="">
+												<input class="form-check-input" type="checkbox" id="has_birth_limit" value="">
 												是否限制出生日期*
 											</label>
 										</div>
@@ -387,7 +368,7 @@
 									<form class="form-inline">
 										<div class="form-check mb-2 mr-sm-2 mb-sm-0">
 											<label class="form-check-label">
-												<input class="form-check-input" type="checkbox">
+												<input class="form-check-input" type="checkbox" id="has_birth_limit">
 											</label>
 										</div>
 										<div class="input-group mb-2 mr-sm-2 mb-sm-0">
