@@ -68,13 +68,41 @@ var School = (function () {
 		});
 	}
 
+	function getDeptInfo(system, deptId) {
+		return fetch(`https://api.overseas.ncnu.edu.tw/schools/me/systems/${system}/departments/${deptId}/histories/latest`, {
+			credentials: 'include'
+		})
+	}
+
+	function getDeptGroups() {
+		return fetch(`https://api.overseas.ncnu.edu.tw/department-groups`, {
+			credentials: 'include'
+		})
+	}
+
+	function getEvaluationLevels(){
+		return fetch(`https://api.overseas.ncnu.edu.tw/evaluation-levels`, {
+			credentials: 'include'
+		})
+	}
+
+	function getApplicationDocumentTypes(system) {
+		return fetch(`https://api.overseas.ncnu.edu.tw/systems/${system}/application-document-types`, {
+			credentials: 'include'
+		})
+	}
+
 	return {
 		getSchoolInfo,
 		setSchoolInfo,
 		getSystemQuota,
 		setSystemQuota,
 		getSystemInfo,
-		setSystemInfo
+		setSystemInfo,
+		getDeptInfo,
+		getDeptGroups,
+		getEvaluationLevels,
+		getApplicationDocumentTypes
 	};
 
 })();
