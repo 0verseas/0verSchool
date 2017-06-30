@@ -56,7 +56,7 @@ var deptInfo = (function () {
 			}
 		}).then(function (json) {
 			console.log(json);
-
+			location.reload();
 		}).catch(function (err) {
 			console.error(err);
 		});
