@@ -68,28 +68,23 @@ var School = (function () {
 		});
 	}
 
-	function getDeptInfo(system, deptId) {
+	function getDeptInfo(system, deptId) { // 取得某學制某系所
 		return fetch(`https://api.overseas.ncnu.edu.tw/schools/me/systems/${system}/departments/${deptId}/histories/latest`, {
 			credentials: 'include'
 		})
 	}
 
-	function getDeptGroups() {
-		return fetch(`https://api.overseas.ncnu.edu.tw/department-groups`, {
+	function getDeptFormItem(system) { // 取得系所 Modal 中下拉式選單的 option，包含學群、評鑑、審查項目。
+		var urls = [
+		'https://api.overseas.ncnu.edu.tw/department-groups',
+		'https://api.overseas.ncnu.edu.tw/evaluation-levels',
+		'https://api.overseas.ncnu.edu.tw/systems/' + system + '/application-document-types'
+		]
+		const grabContent = url => fetch(url, {
 			credentials: 'include'
 		})
-	}
-
-	function getEvaluationLevels(){
-		return fetch(`https://api.overseas.ncnu.edu.tw/evaluation-levels`, {
-			credentials: 'include'
-		})
-	}
-
-	function getApplicationDocumentTypes(system) {
-		return fetch(`https://api.overseas.ncnu.edu.tw/systems/${system}/application-document-types`, {
-			credentials: 'include'
-		})
+		return Promise
+		.all(urls.map(grabContent))
 	}
 
 	return {
@@ -100,9 +95,7 @@ var School = (function () {
 		getSystemInfo,
 		setSystemInfo,
 		getDeptInfo,
-		getDeptGroups,
-		getEvaluationLevels,
-		getApplicationDocumentTypes
+		getDeptFormItem
 	};
 
 })();

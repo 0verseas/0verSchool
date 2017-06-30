@@ -76,7 +76,7 @@ var DeptInfo = (function () {
 				.append(`
 					<tr>
 						<td>
-							<span class="btn-editDeptInfo"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+							<span class="btn-editDeptInfo" data-deptid="${value.id}"><i class="fa fa-pencil" aria-hidden="true"></i></span>
 						</td>
 						<td>${value.sort_order}</td>
 						<td>${value.id}</td>
