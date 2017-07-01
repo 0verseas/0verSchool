@@ -12,11 +12,17 @@ var deptInfoBache = (function () {
 	var $editDeptInfoBtn; // 系所列表每項資料的編輯按鈕，資料取回後再綁定 event
 	var $editDeptInfoModal = $('#editDeptInfoModal'); // 系所列表每項資料的編輯框
 	
-	var $bachelorTotalPeople = $('#bachelorTotalPeople');
-	var $bachelorPersonalApply = $('#bachelorPersonalApply');
-	var $bachelorDistribution = $('#bachelorDistribution');
-	var $addReviewItemBtn = $('#btn-addReviewItem');
-	var $reviewItemsForm = $('#form-reviewItems');
+	// Modal special elements
+	var $modalDeptInfo = $('#modal-deptInfo');
+	var $schoolHasSelfEnrollment = $modalDeptInfo.find('#schoolHasSelfEnrollment');
+	var $hasSelfEnrollment = $modalDeptInfo.find('#hasSelfEnrollment');
+	var $hasSpecialClass = $modalDeptInfo.find('#hasSpecialClass');
+	var $admissionTotalQuota = $modalDeptInfo.find('#admissionTotalQuota');
+	var $admissionSelectionQuota = $modalDeptInfo.find('#admissionSelectionQuota');
+	var $admissionPlacementQuota = $modalDeptInfo.find('#admissionPlacementQuota');
+
+	var $addReviewItemBtn = $('#btn-addReviewItem'); // 新增更多審查項目按鈕
+	var $reviewItemsForm = $('#form-reviewItems'); // 審查項目列表
 
 	/**
 	 * bind event
@@ -24,8 +30,9 @@ var deptInfoBache = (function () {
 
 	$saveDeptDescriptionBtn.on('click', _saveDeptDescription); // 儲存｜送出學制資料
 
-	$bachelorPersonalApply.on('keyup', _computeBachelorTotalPeople);
-	$bachelorDistribution.on('keyup', _computeBachelorTotalPeople);
+	// 聯招人數自動計算
+	$admissionSelectionQuota.on('keyup', _computeBachelorAdmissionTotalQuota);
+	$admissionPlacementQuota.on('keyup', _computeBachelorAdmissionTotalQuota);
 	$addReviewItemBtn.on('click', _addReviewItemRow);
 
 	/**
@@ -34,9 +41,9 @@ var deptInfoBache = (function () {
 
 	 _setData();
 
-	function _computeBachelorTotalPeople() { // 「聯招人數（學士專用）」自動計算
-		var totalPeople = Number($bachelorPersonalApply.val()) + Number($bachelorDistribution.val());
-		$bachelorTotalPeople.val(totalPeople);
+	function _computeBachelorAdmissionTotalQuota() { // 「聯招人數（學士專用）」自動計算
+		var totalPeople = Number($admissionSelectionQuota.val()) + Number($admissionPlacementQuota.val());
+		$admissionTotalQuota.val(totalPeople);
 	}
 
 	function _addReviewItemRow() { // 新增審查的項目
@@ -92,10 +99,19 @@ var deptInfoBache = (function () {
 		.then(() => { $editDeptInfoModal.modal(); })
 	}
 
-	function _renderDeptDetail(deptData) {
-		DeptInfo.renderCommonDeptDetail(deptData);
-		
+	function _renderDeptDetail(deptData) { // 渲染系所詳細資料
+		DeptInfo.renderCommonDeptDetail(deptData); // 渲染學制們共用欄位
+		_renderSpecialDeptDetail(deptData);
 	}
+
+	function _renderSpecialDeptDetail(deptData) {
+		$schoolHasSelfEnrollment.prop("checked", deptData.school_has_self_enrollment);
+		$hasSelfEnrollment.prop("checked", deptData.has_self_enrollment);
+		$hasSpecialClass.prop("checked", deptData.has_special_class);
+		$admissionSelectionQuota.val(deptData.admission_selection_quota);
+		$admissionPlacementQuota.val(deptData.admission_placement_quota);
+		_computeBachelorAdmissionTotalQuota();
+	};
 
 	function _setData() {
 		School.getSystemInfo(_currentSystem) // 取得學制資料，沒有該學制則回上一頁
