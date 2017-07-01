@@ -3,7 +3,6 @@ var quotaDistirbutionTwoYear = (function () {
 	 * cacheDOM
 	 */
 	var $page = $('#pageContent');
-	var $statusBadge = $page.find('#badge-status');
 	var $btn = $page.find('#btn-save, #btn-commit');
 	var $lastEditionInfo = $page.find('#lastEditionInfo');
 
@@ -156,16 +155,8 @@ var quotaDistirbutionTwoYear = (function () {
 	function _renderData(json) {
 		_setQuota(json);
 		_setDeptList(json.departments);
-		_setStatus(json.quota_status);
 		_setEditor(json.creator, json.created_at);
-		json.last_returned_data && _setReview(json.last_returned_data.review_at, json.last_returned_data.reviewer, json.last_returned_data.review_memo);
 		$page.find('#schoolHasSelf').text(json.school_has_self_enrollment ? '是' : '否');
-	}
-
-	function _setReview(when, who, content) {
-		$page.find('#reviewBy').val(who && who.name);
-		$page.find('#reviewAt').text(moment(when).format('YYYY/MM/DD hh:mm:ss a'));
-		$page.find('#reviewMemo').text(content);
 	}
 
 	function _setEditor(creator, created_at) {
@@ -226,28 +217,6 @@ var quotaDistirbutionTwoYear = (function () {
 		_updateQuotaSum('self_enrollment_quota');
 		_updateAdmissionSumSelfSum();
 		_updateWantTotal();
-	}
-
-	function _setStatus(status) {
-		switch (status) {
-			case 'waiting':
-				$statusBadge.addClass('badge-warning').text('已送出');
-				$page.find('input, textarea').attr('disabled', true);
-				$btn.attr('disabled', true);
-				break;
-			case 'confirmed':
-				$statusBadge.addClass('badge-success').text('已確認');
-				$page.find('input, textarea').attr('disabled', true);
-				$btn.attr('disabled', true);
-				break;
-			case 'editing':
-				$statusBadge.addClass('badge-danger').text('編輯中');
-				break;
-			case 'returned':
-				$statusBadge.addClass('badge-danger').text('編輯中');
-				$page.find('#reviewInfo').removeClass('hide');
-				break;
-		}
 	}
 
 	function _updateQuotaSum(type) {
