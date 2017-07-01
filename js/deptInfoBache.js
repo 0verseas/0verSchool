@@ -21,6 +21,13 @@ var deptInfoBache = (function () {
 	var $admissionSelectionQuota = $modalDeptInfo.find('#admissionSelectionQuota'); // 個人申請人數
 	var $admissionPlacementQuota = $modalDeptInfo.find('#admissionPlacementQuota'); // 聯合分發人數
 
+	var $deptDetailSaveBtn = $('#deptDetailSave');
+
+	var formGroup = {
+		admissionSelectionQuotaForm: $modalDeptInfo.find('#admissionSelectionQuotaForm'),
+		admissionPlacementQuotaForm: $modalDeptInfo.find('#admissionPlacementQuotaForm')
+	}
+
 	/**
 	 * bind event
 	 */
@@ -33,6 +40,8 @@ var deptInfoBache = (function () {
 	// 聯招人數自動計算
 	$admissionSelectionQuota.on('keyup', _computeBachelorAdmissionTotalQuota);
 	$admissionPlacementQuota.on('keyup', _computeBachelorAdmissionTotalQuota);
+
+	$deptDetailSaveBtn.on('click', _saveDeptDetail);
 
 	/**
 	 * init
@@ -81,6 +90,42 @@ var deptInfoBache = (function () {
 
 	function _switchHasSelfEnrollment() { // 系可獨招 => 系可開設僑生專班
 		$hasSpecialClass.prop('disabled', !$hasSelfEnrollment.prop('checked'));
+	}
+
+	function _validateForm() {
+		var specialFormValidateStatus = true;
+		var commonFormValidateStatus = DeptInfo.validateForm();
+		for(form in formGroup) {
+			formGroup[form].removeClass("has-danger");
+		}
+		if (!_validateNotEmpty($admissionSelectionQuota)) {formGroup.admissionSelectionQuotaForm.addClass("has-danger"); check = false}
+		if (!_validateNotEmpty($admissionPlacementQuota)) {formGroup.admissionPlacementQuotaForm.addClass("has-danger"); check = false}
+		if (specialFormValidateStatus && commonFormValidateStatus) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	// 檢查 form 是否為有值
+	function _validateNotEmpty(el) {
+		return el.val() !== "";
+	}
+
+	function _getFormData() {
+		var data = new FormData();
+		data.append('has_self_enrollment', +$hasSelfEnrollment.prop('checked'));
+		data.append('has_special_class', +$hasSpecialClass.prop('checked'));
+		var commonFormData = DeptInfo.getCommonFormData();
+	}
+
+	function _saveDeptDetail() {
+		if (_validateForm()) {
+			var sendData = _getFormData();
+			
+		} else {
+			alert("有欄位輸入錯誤，請重新確認。");
+		}
 	}
 
 	function _setData() {

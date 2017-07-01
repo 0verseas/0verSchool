@@ -42,6 +42,22 @@ var DeptInfo = (function () {
 	var $birthLimitAfter = $modalDeptInfo.find('#birthLimitAfter'); // 限制出生日期（以後）
 	var $birthLimitBefore = $modalDeptInfo.find('#birthLimitBefore'); // 限制出生日期（以前）
 
+	var formGroup = {
+		sortOrderForm: $modalDeptInfo.find('#sortOrderForm'),
+		urlForm: $modalDeptInfo.find('#urlForm'),
+		engUrlForm: $modalDeptInfo.find('#engUrlForm'),
+		mainGroupForm: $modalDeptInfo.find('#mainGroupForm'),
+		subGroupForm: $modalDeptInfo.find('#subGroupForm'),
+		genderLimitForm: $modalDeptInfo.find('#genderLimitForm'),
+		evaluation: $modalDeptInfo.find('#evaluation'),
+		descriptionForm: $modalDeptInfo.find('#descriptionForm'),
+		engDescriptionForm: $modalDeptInfo.find('#engDescriptionForm'),
+		reviewFeeDetailForm: $modalDeptInfo.find('#reviewFeeDetailForm'),
+		engReviewFeeDetailForm: $modalDeptInfo.find('#engReviewFeeDetailForm'),
+		birthLimitAfterForm: $modalDeptInfo.find('#birthLimitAfterForm'),
+		birthLimitBeforeForm: $modalDeptInfo.find('#birthLimitBeforeForm')
+	}
+
 	/**
 	 * bind event
 	 */
@@ -189,11 +205,11 @@ var DeptInfo = (function () {
 		$subGroup.val(deptData.sub_group);
 		$genderLimit.val(deptData.gender_limit);
 		$evaluation.val(deptData.evaluation);
-		$description.text(deptData.description);
-		$engDescription.text(deptData.eng_description);
+		$description.val(deptData.description);
+		$engDescription.val(deptData.eng_description);
 		$hasReviewFee.prop("checked", deptData.has_review_fee);
-		$reviewFeeDetail.text(deptData.review_fee_detail);
-		$engReviewFeeDetail.text(deptData.eng_review_fee_detail);
+		$reviewFeeDetail.val(deptData.review_fee_detail);
+		$engReviewFeeDetail.val(deptData.eng_review_fee_detail);
 		$hasForeignSpecialClass.prop("checked", deptData.has_foreign_special_class);
 		$hasEngTaught.prop("checked", deptData.has_eng_taught);
 		$hasDisabilities.prop("checked", deptData.has_disabilities);
@@ -219,12 +235,57 @@ var DeptInfo = (function () {
 		$birthLimitBefore.prop('disabled', !$hasBirthLimit.prop('checked'));
 	}
 
+	function validateForm() {
+		var check = true;
+		for(form in formGroup) {
+			formGroup[form].removeClass("has-danger");
+		}
+		if (!_validateNotEmpty($sortOrder)) {formGroup.sortOrderForm.addClass("has-danger"); check = false}
+		if (!_validateNotEmpty($url)) {formGroup.urlForm.addClass("has-danger"); check = false}
+		if (!_validateUrlFormat($url)) {formGroup.urlForm.addClass("has-danger"); check = false}
+		if (_validateNotEmpty($engUrl)) {
+			if (!_validateUrlFormat($engUrl)) {formGroup.engUrlForm.addClass("has-danger"); check = false}
+		}
+		if (!_validateNotEmpty($mainGroup)) {formGroup.mainGroupForm.addClass("has-danger"); check = false}
+		if (!_validateNotEmpty($description)) {formGroup.descriptionForm.addClass("has-danger"); check = false}
+		if ($hasReviewFee.prop("checked")) {
+			if (!_validateNotEmpty($reviewFeeDetail)) {formGroup.reviewFeeDetailForm.addClass("has-danger"); check = false}
+		}
+		if ($hasBirthLimit.prop("checked")) {
+			var birthLimitAfterStatus = _validateNotEmpty($birthLimitAfter);
+			var birthLimitBeforeStatus = _validateNotEmpty($birthLimitBefore);
+			if (!(birthLimitAfterStatus || birthLimitBeforeStatus)) {
+				formGroup.birthLimitAfterForm.addClass("has-danger");
+				formGroup.birthLimitBeforeForm.addClass("has-danger");
+				check = false
+			}
+		}
+		return check;
+	}
+
+	function getCommonFormData() {
+
+	}
+
+	// 檢查 form 是否為有值
+	function _validateNotEmpty(el) {
+		return el.val() !== "";
+	}
+
+	// 檢查 Url 格式是否正確
+	function _validateUrlFormat(el) {
+		var regexp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+		return regexp.test(el.val());
+	}
+
 	return {
 		renderDescription,
 		saveDeptDescription,
 		renderDeptList,
 		renderDeptSelect,
-		renderCommonDeptDetail
+		renderCommonDeptDetail,
+		validateForm,
+		getCommonFormData
 	}
 
 })();
