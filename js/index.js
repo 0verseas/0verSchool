@@ -3,13 +3,7 @@ var schoolInfo = (function () {
 	/**
 	 * cache DOM
 	 */
-
-	// 審閱建議
-	var $reviewInfo = $('#reviewInfo');
-	var $reviewBy = $reviewInfo.find('#reviewBy');
-	var $reviewAt = $reviewInfo.find('#reviewAt');
-	var $reviewMemo = $reviewInfo.find('#reviewMemo');
-
+	
 	// 學校資料
 	var $schoolInfoForm = $('#form-schoolInfo');
 	var $schoolId = $schoolInfoForm.find('#schoolId');
@@ -253,18 +247,6 @@ var schoolInfo = (function () {
 		})
 	}
 
-	// 擺放審閱建議
-	function _placedReviewInfo(schoolData) {
-		// 狀態為 `editing`(編輯中) 以及 `returned`(被退回)，則顯示審閱建議。
-		// 狀態為 `confirmed`(通過) 、 `waiting`(已 commit 待檢驗) 則不須顯示審閱建議。（預設不顯示）
-		if (schoolData.info_status === "editing" && schoolData.last_returned_data !== null || schoolData.info_status === "returned") {
-			$reviewInfo.show("slow");
-			$reviewBy.val(schoolData.last_returned_data.review_by);
-			$reviewAt.text(schoolData.last_returned_data.review_at);
-			$reviewMemo.text(schoolData.last_returned_data.review_memo);
-		}
-	}
-
 	// 擺放學校資料
 	function _placedSchoolInfoData(schoolData) {
 		$schoolId.val(schoolData.id);
@@ -316,8 +298,7 @@ var schoolInfo = (function () {
 				throw res
 			}
 		}).then(function(json) {
-			// 處理擺放學校資料、顯示審閱結果
-			_placedReviewInfo(json);
+			// 處理擺放學校資料
 			_placedSchoolInfoData(json);
 			return json.info_status
 		}).then(function(infoStatus) {
