@@ -31,7 +31,7 @@ var quotaDistirbutionBache = (function () {
 	// 填數字算總額
 	$deptList.on('change.sumTotal', '.dept .editableQuota', _handleQuotaChange);
 	// save/commit
-	$btn.on('click', _handleSaveOrCommit);
+	$btn.on('click', _handleSave);
 	
 	/**
 	 * init
@@ -79,14 +79,9 @@ var quotaDistirbutionBache = (function () {
 		}
 	}
 
-	function _handleSaveOrCommit() {
+	function _handleSave() {
 		var $this = $(this);
-		var action = $this.data('action');
 		if (!_checkForm()) {
-			return;
-		}
-
-		if (action == 'commit' && !confirm('送出之後將不能繼續修改，請問您確定要這樣做嗎？')) {
 			return;
 		}
 
@@ -102,7 +97,6 @@ var quotaDistirbutionBache = (function () {
 		}).toArray();;
 
 		var data = {
-			action: action,
 			ratify_quota_for_self_enrollment: +$quota_self_enrollment_quota.val(), // 學士班自招
 			departments: departments
 		};
@@ -119,14 +113,7 @@ var quotaDistirbutionBache = (function () {
 			}
 		}).then(function (json) {
 			console.log(json);
-			switch (action) {
-				case 'save': 
-					alert('已儲存');
-					break;
-				case 'commit': 
-					alert('已送出');
-					break;
-			}
+			alert('已儲存');
 			_renderData(json);
 		}).catch(function (err) {
 			console.error(err);
