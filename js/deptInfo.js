@@ -47,6 +47,8 @@ var DeptInfo = (function () {
 	 */
 
 	$deptFilterInput.on('keyup', _filterDeptInput); // 系所列表篩選
+	$hasReviewFee.on("change", _switchHasReviewFee); // 是否需要收審查費用
+	$hasBirthLimit.on("change", _switchHasBirthLimit); // 是否限制出生日期
 
 	/**
 	 * events
@@ -202,6 +204,18 @@ var DeptInfo = (function () {
 		$('.datepicker').datepicker({
 			format: 'yyyy-mm-dd'
 		});
+		_switchHasReviewFee();
+		_switchHasBirthLimit();
+	}
+
+	function _switchHasReviewFee() {
+		$reviewFeeDetail.prop('disabled', !$hasReviewFee.prop('checked'));
+		$engReviewFeeDetail.prop('disabled', !$hasReviewFee.prop('checked'));
+	}
+
+	function _switchHasBirthLimit() {
+		$birthLimitAfter.prop('disabled', !$hasBirthLimit.prop('checked'));
+		$birthLimitBefore.prop('disabled', !$hasBirthLimit.prop('checked'));
 	}
 
 	return {
