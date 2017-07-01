@@ -14,12 +14,12 @@ var deptInfoBache = (function () {
 	
 	// Modal special elements
 	var $modalDeptInfo = $('#modal-deptInfo');
-	var $schoolHasSelfEnrollment = $modalDeptInfo.find('#schoolHasSelfEnrollment');
-	var $hasSelfEnrollment = $modalDeptInfo.find('#hasSelfEnrollment');
-	var $hasSpecialClass = $modalDeptInfo.find('#hasSpecialClass');
-	var $admissionTotalQuota = $modalDeptInfo.find('#admissionTotalQuota');
-	var $admissionSelectionQuota = $modalDeptInfo.find('#admissionSelectionQuota');
-	var $admissionPlacementQuota = $modalDeptInfo.find('#admissionPlacementQuota');
+	var $schoolHasSelfEnrollment = $modalDeptInfo.find('#schoolHasSelfEnrollment'); // checkbox ，本校是否可單獨招收僑生
+	var $hasSelfEnrollment = $modalDeptInfo.find('#hasSelfEnrollment');	// checkbox ，是否單獨招收僑生（自招）
+	var $hasSpecialClass = $modalDeptInfo.find('#hasSpecialClass'); // checkbox ，是否開設僑生專班（有自主招生才能開專班）
+	var $admissionTotalQuota = $modalDeptInfo.find('#admissionTotalQuota'); // Can't edit， 聯招人數（學士專用）
+	var $admissionSelectionQuota = $modalDeptInfo.find('#admissionSelectionQuota'); // 個人申請人數
+	var $admissionPlacementQuota = $modalDeptInfo.find('#admissionPlacementQuota'); // 聯合分發人數
 
 	var $addReviewItemBtn = $('#btn-addReviewItem'); // 新增更多審查項目按鈕
 	var $reviewItemsForm = $('#form-reviewItems'); // 審查項目列表

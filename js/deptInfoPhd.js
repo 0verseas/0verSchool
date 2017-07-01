@@ -12,6 +12,14 @@ var deptInfoPhd = (function () {
 	var $editDeptInfoBtn; // 系所列表每項資料的編輯按鈕，資料取回後再綁定 event
 	var $editDeptInfoModal = $('#editDeptInfoModal'); // 系所列表每項資料的編輯框
 
+	// Modal special elements
+	var $modalDeptInfo = $('#modal-deptInfo');
+	var $schoolHasSelfEnrollment = $modalDeptInfo.find('#schoolHasSelfEnrollment'); // checkbox ，本校是否可單獨招收僑生
+	var $hasSelfEnrollment = $modalDeptInfo.find('#hasSelfEnrollment');	// checkbox ，是否單獨招收僑生（自招）
+	var $hasSpecialClass = $modalDeptInfo.find('#hasSpecialClass'); // checkbox ，是否開設僑生專班（有自主招生才能開專班）
+	var $admissionSelectionQuota = $modalDeptInfo.find('#admissionSelectionQuota'); // 聯招(個人申請)人數（碩博二技專用）
+	var $selfEnrollmentQuota = $modalDeptInfo.find('#selfEnrollmentQuota'); // 自招人數
+
 	/**
 	 * bind event
 	 */
@@ -44,7 +52,11 @@ var deptInfoPhd = (function () {
 	}
 
 	function _renderSpecialDeptDetail(deptData) {
-
+		$schoolHasSelfEnrollment.prop("checked", deptData.school_has_self_enrollment);
+		$hasSelfEnrollment.prop("checked", deptData.has_self_enrollment);
+		$hasSpecialClass.prop("checked", deptData.has_special_class);
+		$admissionSelectionQuota.val(deptData.admission_selection_quota);
+		$selfEnrollmentQuota.val(deptData.self_enrollment_quota);
 	};
 
 	function _setData() {
