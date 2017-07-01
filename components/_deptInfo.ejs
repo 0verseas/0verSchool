@@ -151,149 +151,19 @@
 								<textarea class="form-control" rows="4" id="eng_description">At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quosdolores et quas molestias excepturi sint, obcaecati cupiditate non provident, </textarea>
 							</div>
 						</div>
-						<!-- 僅在 碩、博、二技 時顯示，選擇為學士則消失 -->
-						<div class="row rm-bachelor">
-							<div class="form-group col-6">
-								<label for="">聯招(個人申請)人數（碩博二技專用）</label>
-								<input type="text" class="form-control" value="10" id="admission_placement_quota">
-							</div>
-						</div>
-						<!-- 僅在 學士 時顯示，選擇為 碩、博、二技 則消失 -->
-						<div class="row rm-master rm-phd rm-twoyear">
-							<div class="form-group col-4">
-								<label for="">聯招人數（學士專用）</label>
-								<input type="text" class="form-control" id="" disabled> <!-- 用算的 -->
-							</div>
-							<div class="form-group col-1">
-								<label>　</label>
-								<p class="form-control-static">＝</p>
-							</div>
-							<div class="form-group col-3">
-								<label for="">個人申請人數</label>
-								<input type="text" class="form-control" id="admission_selection_quota">
-							</div>
-							<div class="form-group col-1">
-								<label for="">　</label>
-								<p class="form-control-static">＋</p>
-							</div>
-							<div class="form-group col-3">
-								<label for="">聯合分發人數</label>
-								<input type="text" class="form-control" id="admission_placement_quota">
-							</div>
-						</div>
 					</form>
-					<!-- 僅在 學士、碩士、博士 時顯示，二技 則消失 -->
-					<div class="row rm-twoyear">
-						<div class="col">
-							<div class="card">
-								<div class="card-header bg-primary text-white">
-									單獨招收僑生（自招）（學碩博專用）
-								</div>
-								<div class="card-block">
-									<form>
-										<div class="row">
-											<div class="col">
-												<div class="form-check">
-													<label class="form-check-label">
-														<input class="form-check-input" type="checkbox" value="" id="school_has_self_enrollment">
-														本校是否可單獨招收僑生
-													</label>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col col-lg-4">
-												<div class="form-check">
-													<label class="form-check-label">
-														<input class="form-check-input" type="checkbox" value="" id="has_self_enrollment">
-														是否單獨招收僑生（自招）
-													</label>
-												</div>
-											</div>
-											<div class="col col-lg-4 rm-bachelor">
-												<div class="form-group">
-													<label for="">自招人數</label>
-													<input type="text" class="form-control" id="self_enrollment_quota">
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col">
-												<div class="form-check">
-													<label class="form-check-label">
-														<input class="form-check-input" type="checkbox" id="has_special_class" value="">
-														是否開設僑生專班（有自主招生才能開專班）
-													</label>
-												</div>
-											</div>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- 僅在 二技 時顯示，選擇為 學、碩、博 則消失 -->
-					<div class="row rm-bachelor rm-master rm-phd">
-						<div class="col">
-							<div class="card">
-								<div class="card-header bg-primary text-white">
-									單獨招收僑生（自招）（二技專用）
-								</div>
-								<div class="card-block">
-									<form>
-										<div class="form-check">
-											<label class="form-check-label">
-												<input class="form-check-input" type="checkbox" id="school_has_self_enrollment" value="">
-												本校是否可單獨招收僑生
-											</label>
-										</div>
-										<div class="form-check">
-											<label class="form-check-label">
-												<input class="form-check-input" type="checkbox" id="has_RiJian" value="">
-												是否開設日間二技學制
-											</label>
-										</div>
-										<div class="form-check">
-											<label class="form-check-label">
-												<input class="form-check-input" type="checkbox" id="has_self_enrollment" value="">
-												是否單獨招收僑生（自招）
-											</label>
-										</div>
-										<div class="form-check">
-											<label class="form-check-label">
-												<input class="form-check-input" type="checkbox" id="has_special_class" value="">
-												是否開設僑生專班
-											</label>
-										</div>
-										<hr>
-										<div class="row">
-											<div class="col">
-												<div class="form-group">
-													<label for="">開設專班文號</label>
-													<input type="text" class="form-control" id="approval_no_of_special_class" value="臺教高(四)字第1040109682號">
-												</div>
-											</div>
-											<div class="col">
-												<div class="form-group">
-													<label for="">開設專班文件電子檔</label>
-													<input type="file" class="form-control">
-													<ul id="approval_doc_of_special_class"></ul> <!-- list -->
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-6">
-												<div class="form-group">
-													<label for="">自招人數</label>
-													<input type="text" class="form-control" id="self_enrollment_quota" value="12">
-												</div>
-											</div>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
+
+					<% if(system == 'twoYear') { -%>
+					<%- include deptInfoForm/_selfEnrollmentTwoYear %>
+					<% } else { -%>
+					<%- include deptInfoForm/_selfEnrollmentOthers %>
+					<% } -%>
+
+					<% if(system == 'bachelor') { -%>
+					<%- include deptInfoForm/_quotaBachelor %>
+					<% } else { -%>
+					<%- include deptInfoForm/_quotaOthers %>
+					<% } -%>
 
 					<div class="row">
 						<div class="col">
