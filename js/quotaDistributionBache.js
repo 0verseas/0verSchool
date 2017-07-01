@@ -114,7 +114,7 @@ var quotaDistirbutionBache = (function () {
 		}).then(function (json) {
 			console.log(json);
 			alert('已儲存');
-			_renderData(json);
+			location.reload();
 		}).catch(function (err) {
 			console.error(err);
 			err.json && err.json().then((data) => {
