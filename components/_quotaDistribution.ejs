@@ -3,30 +3,12 @@
 <div class="row">
 	<div class="col-12">
 		<h3 class="float-left"><%= system %>名額分配</h3>
-		<span id="badge-status" class="badge"></span>
 		<span id="lastEditionInfo" class='float-right'>
 			上次編輯：<span class="who"></span><br /><span class="when"></span>
 		</span>
 	</div>
 </div>
 <hr />
-<div class="row mb-5 hide" id="reviewInfo">
-	<div class="col-12">
-		<div class="card">
-			<h3 class="card-header bg-warning text-white">審閱建議</h3>
-			<div class="card-block">
-				<h4 class="card-title">
-					<div class="input-group" style="width: 200px">
-						<span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
-						<input id="reviewBy" type="text" class="form-control" disabled>
-					</div>
-				</h4>
-				<small id="reviewAt" class="form-text text-muted"></small>
-				<p id="reviewMemo" class="card-text"></p>
-			</div>
-		</div>
-	</div>
-</div>
 <div class="row">
 	<div class="col-3">
 		<div class="form-group">
@@ -297,9 +279,6 @@
 	<div class="col-12 text-center">
 		<button id="btn-save" data-action="save" class="btn btn-primary">
 			儲存
-		</button>
-		<button id="btn-commit" data-action="commit" class="btn btn-danger">
-			送出
 		</button>
 	</div>
 </div>

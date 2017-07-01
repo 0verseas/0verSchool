@@ -3,7 +3,6 @@ var quotaDistirbutionBache = (function () {
 	 * cacheDOM
 	 */
 	var $page = $('#pageContent');
-	var $statusBadge = $page.find('#badge-status');
 	var $btn = $page.find('#btn-save, #btn-commit');
 	var $lastEditionInfo = $page.find('#lastEditionInfo');
 
@@ -32,7 +31,7 @@ var quotaDistirbutionBache = (function () {
 	// 填數字算總額
 	$deptList.on('change.sumTotal', '.dept .editableQuota', _handleQuotaChange);
 	// save/commit
-	$btn.on('click', _handleSaveOrCommit);
+	$btn.on('click', _handleSave);
 	
 	/**
 	 * init
@@ -80,14 +79,9 @@ var quotaDistirbutionBache = (function () {
 		}
 	}
 
-	function _handleSaveOrCommit() {
+	function _handleSave() {
 		var $this = $(this);
-		var action = $this.data('action');
 		if (!_checkForm()) {
-			return;
-		}
-
-		if (action == 'commit' && !confirm('送出之後將不能繼續修改，請問您確定要這樣做嗎？')) {
 			return;
 		}
 
@@ -103,7 +97,6 @@ var quotaDistirbutionBache = (function () {
 		}).toArray();;
 
 		var data = {
-			action: action,
 			ratify_quota_for_self_enrollment: +$quota_self_enrollment_quota.val(), // 學士班自招
 			departments: departments
 		};
@@ -120,15 +113,8 @@ var quotaDistirbutionBache = (function () {
 			}
 		}).then(function (json) {
 			console.log(json);
-			switch (action) {
-				case 'save': 
-					alert('已儲存');
-					break;
-				case 'commit': 
-					alert('已送出');
-					break;
-			}
-			_renderData(json);
+			alert('已儲存');
+			location.reload();
 		}).catch(function (err) {
 			console.error(err);
 			err.json && err.json().then((data) => {
@@ -182,43 +168,13 @@ var quotaDistirbutionBache = (function () {
 	function _renderData(json) {
 		_setQuota(json);
 		_setDeptList(json.departments, json.school_has_self_enrollment);
-		_setStatus(json.quota_status);
 		_setEditor(json.creator, json.created_at);
-		json.last_returned_data && _setReview(json.last_returned_data.review_at, json.last_returned_data.reviewer, json.last_returned_data.review_memo);
 		$page.find('#schoolHasSelf').text(json.school_has_self_enrollment ? '是' : '否');
-	}
-
-	function _setReview(when, who, content) {
-		$page.find('#reviewBy').val(who && who.name);
-		$page.find('#reviewAt').text(moment(when).format('YYYY/MM/DD hh:mm:ss a'));
-		$page.find('#reviewMemo').text(content);
 	}
 	
 	function _setEditor(creator, created_at) {
 		$lastEditionInfo.find('.who').text(creator ? creator.name : 'unknown');
 		$lastEditionInfo.find('.when').text(moment(created_at).format('YYYY/MM/DD hh:mm:ss a'));
-	}
-
-	function _setStatus(status) {
-		switch (status) {
-			case 'waiting':
-				$statusBadge.addClass('badge-warning').text('已送出');
-				$page.find('input, textarea').attr('disabled', true);
-				$btn.attr('disabled', true);
-				break;
-			case 'confirmed':
-				$statusBadge.addClass('badge-success').text('已確認');
-				$page.find('input, textarea').attr('disabled', true);
-				$btn.attr('disabled', true);
-				break;
-			case 'editing':
-				$statusBadge.addClass('badge-danger').text('編輯中');
-				break;
-			case 'returned':
-				$statusBadge.addClass('badge-danger').text('編輯中');
-				$page.find('#reviewInfo').removeClass('hide');
-				break;
-		}
 	}
 
 	function _setQuota(data) {
