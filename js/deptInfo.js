@@ -41,7 +41,7 @@ var DeptInfo = (function () {
 	var $hasBirthLimit = $modalDeptInfo.find('#hasBirthLimit'); // checkbox，是否限制出生日期
 	var $birthLimitAfter = $modalDeptInfo.find('#birthLimitAfter'); // 限制出生日期（以後）
 	var $birthLimitBefore = $modalDeptInfo.find('#birthLimitBefore'); // 限制出生日期（以前）
-	
+
 	/**
 	 * bind event
 	 */
@@ -173,7 +173,7 @@ var DeptInfo = (function () {
 
 		item.then(res => { return res[2].json(); }) // 審查項目類別
 		.then(json => {
-			_applicationDocumentTypes = json;
+			reviewItems.initTypes(json);
 		})
 	}
 
@@ -206,6 +206,7 @@ var DeptInfo = (function () {
 		});
 		_switchHasReviewFee();
 		_switchHasBirthLimit();
+		reviewItems.initApplicationDocs(deptData.application_docs);
 	}
 
 	function _switchHasReviewFee() {
@@ -227,3 +228,52 @@ var DeptInfo = (function () {
 	}
 
 })();
+
+var reviewItems = new Vue({ // 審查項目
+	el: '#form-reviewItems',
+	data: {
+		reviewItemsTypes: [],
+		applicationDocs: []
+	},
+	computed: {
+		isfull() {
+			return this.applicationDocs.length >= this.reviewItemsTypes.length;
+		}
+	},
+	methods: {
+		initTypes(reviewItemsTypes) {
+			this.reviewItemsTypes = reviewItemsTypes;
+			for(type in this.reviewItemsTypes) {
+				this.reviewItemsTypes[type].used = false;
+			}
+		},
+		initApplicationDocs(applicationDocs) {
+			this.applicationDocs = applicationDocs;
+			for(doc in this.applicationDocs) {
+				for(type in this.reviewItemsTypes) {
+					if(this.applicationDocs[doc].type.id == this.reviewItemsTypes[type].id) {
+						this.reviewItemsTypes[type].used = true;
+					}
+				}
+			}
+		},
+		addApplicationDoc() {
+			var notSelect = this.reviewItemsTypes.filter((type) => {
+				return type['used'] === false;
+			})
+			console.log(notSelect);
+
+			this.applicationDocs.push({
+				type_id: "",
+				description: "",
+				eng_description: "",
+				modifiable: true,
+				required: false
+			});
+		},
+		removeApplicationDoc(doc) {
+			var index = this.applicationDocs.indexOf(doc);
+			this.applicationDocs.splice(index, 1);
+		}
+	}
+})

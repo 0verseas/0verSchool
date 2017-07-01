@@ -21,9 +21,6 @@ var deptInfoBache = (function () {
 	var $admissionSelectionQuota = $modalDeptInfo.find('#admissionSelectionQuota'); // 個人申請人數
 	var $admissionPlacementQuota = $modalDeptInfo.find('#admissionPlacementQuota'); // 聯合分發人數
 
-	var $addReviewItemBtn = $('#btn-addReviewItem'); // 新增更多審查項目按鈕
-	var $reviewItemsForm = $('#form-reviewItems'); // 審查項目列表
-
 	/**
 	 * bind event
 	 */
@@ -36,7 +33,6 @@ var deptInfoBache = (function () {
 	// 聯招人數自動計算
 	$admissionSelectionQuota.on('keyup', _computeBachelorAdmissionTotalQuota);
 	$admissionPlacementQuota.on('keyup', _computeBachelorAdmissionTotalQuota);
-	$addReviewItemBtn.on('click', _addReviewItemRow);
 
 	/**
 	 * init
@@ -47,45 +43,6 @@ var deptInfoBache = (function () {
 	function _computeBachelorAdmissionTotalQuota() { // 「聯招人數（學士專用）」自動計算
 		var totalPeople = Number($admissionSelectionQuota.val()) + Number($admissionPlacementQuota.val());
 		$admissionTotalQuota.val(totalPeople);
-	}
-
-	function _addReviewItemRow() { // 新增審查的項目
-		var $newReviewItemRow = $(`
-			<div class="row">
-				<div class="form-group col-sm-4">
-					<label for="">審查項目</label>
-
-					<select class="form-control">
-						<optgroup label="分類？">
-							<option>畢業證書</option>
-							<option>作品</option>
-						</optgroup>
-						<optgroup label="分類？">
-							<option>其他</option>
-						</optgroup>
-					</select>
-				</div>
-
-				<div class="col-sm-8">
-					<div class="form-check">
-						<label class="form-check-label">
-							<input type="checkbox" class="form-check-input">
-							是否為必備
-						</label>
-					</div>
-					<div class="form-group">
-						<label for="">審查項目中文說明</label>
-						<textarea class="form-control" rows="3"></textarea>
-					</div>
-
-					<div class="form-group">
-						<label for="">審查項目英文說明</label>
-						<textarea class="form-control" rows="3"></textarea>
-					</div>
-				</div>
-			</div>
-			<hr>`);
-		$reviewItemsForm.append($newReviewItemRow);
 	}
 
 	function _saveDeptDescription() { // 儲存學制備註
