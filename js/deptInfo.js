@@ -16,11 +16,32 @@ var DeptInfo = (function () {
 	var $deptList = $('#dept-list'); // 系所列表
 	var $deptFilterInput = $('#dept-filter-input'); // 搜尋欄
 
+	// Modal common elements
 	var $modalDeptInfo = $('#modal-deptInfo');
-	var $mainGroup = $modalDeptInfo.find('#mainGroup');
-	var $subGroup = $modalDeptInfo.find('#subGroup');
-	var $evaluation = $modalDeptInfo.find('#evaluation');
-
+	var $sortOrder = $modalDeptInfo.find('#sortOrder'); // 簡章順序
+	var $id = $modalDeptInfo.find('#id'); // Can't edit ，系所代碼
+	var $cardCode = $modalDeptInfo.find('#cardCode'); // Can't edit，讀卡代碼
+	var $title = $modalDeptInfo.find('#title'); // Can't edit，中文名稱
+	var $engTitle = $modalDeptInfo.find('#engTitle'); // Can't edit，英文名稱
+	var $url = $modalDeptInfo.find('#url'); // 系中文網站網址
+	var $engUrl = $modalDeptInfo.find('#engUrl'); // 系英文網站網址
+	var $mainGroup = $modalDeptInfo.find('#mainGroup'); // select bar，主要隸屬學群
+	var $subGroup = $modalDeptInfo.find('#subGroup'); // select bar，次要隸屬學群
+	var $genderLimit = $modalDeptInfo.find('#genderLimit'); // select bar，招收性別限制
+	var $evaluation = $modalDeptInfo.find('#evaluation'); // select bar，最近一次系所評鑑
+	var $description = $modalDeptInfo.find('#description'); // textarea，選系中文說明
+	var $engDescription = $modalDeptInfo.find('#engDescription'); // textarea，選系英文說明
+	var $hasReviewFee = $modalDeptInfo.find('#hasReviewFee'); // checkbox，是否需要收審查費用
+	var $reviewFeeDetail = $modalDeptInfo.find('#reviewFeeDetail'); // textarea，審查費用中文說明
+	var $engReviewFeeDetail = $modalDeptInfo.find('#engReviewFeeDetail'); // textarea，審查費用英文說明
+	var $hasForeignSpecialClass = $modalDeptInfo.find('#hasForeignSpecialClass'); // checkbox，是否招收外生專班
+	var $hasEngTaught = $modalDeptInfo.find('#hasEngTaught'); // checkbox，是否為全英文授課
+	var $hasDisabilities = $modalDeptInfo.find('#hasDisabilities'); // checkbox，是否招收身障學生
+	var $hasBuHweiHwaWen = $modalDeptInfo.find('#hasBuHweiHwaWen'); // checkbox，是否招收不具華文基礎學生
+	var $hasBirthLimit = $modalDeptInfo.find('#hasBirthLimit'); // checkbox，是否限制出生日期
+	var $birthLimitAfter = $modalDeptInfo.find('#birthLimitAfter'); // 限制出生日期（以後）
+	var $birthLimitBefore = $modalDeptInfo.find('#birthLimitBefore'); // 限制出生日期（以前）
+	
 	/**
 	 * bind event
 	 */
@@ -123,8 +144,8 @@ var DeptInfo = (function () {
 		item.then(res => { return res[0].json(); }) // 學群
 		.then(json => {
 			// 列表初始化
-			$mainGroup.html('');
-			$subGroup.html('');
+			$mainGroup.html('<option value="">無</option>');
+			$subGroup.html('<option value="">無</option>');
 			json.forEach((value, index) => {
 				$mainGroup
 					.append(`
@@ -154,11 +175,38 @@ var DeptInfo = (function () {
 		})
 	}
 
+	function renderCommonDeptDetail(deptData) {
+		$sortOrder.val(deptData.sort_order);
+		$id.val(deptData.id);
+		$cardCode.val(deptData.card_code);
+		$title.val(deptData.title);
+		$engTitle.val(deptData.eng_title);
+		$url.val(deptData.url);
+		$engUrl.val(deptData.eng_url);
+		$mainGroup.val(deptData.main_group);
+		$subGroup.val(deptData.sub_group);
+		$genderLimit.val(deptData.gender_limit);
+		$evaluation.val(deptData.evaluation);
+		$description.text(deptData.description);
+		$engDescription.text(deptData.eng_description);
+		$hasReviewFee.prop("checked", deptData.has_review_fee);
+		$reviewFeeDetail.text(deptData.review_fee_detail);
+		$engReviewFeeDetail.text(deptData.eng_review_fee_detail);
+		$hasForeignSpecialClass.prop("checked", deptData.has_foreign_special_class);
+		$hasEngTaught.prop("checked", deptData.has_eng_taught);
+		$hasDisabilities.prop("checked", deptData.has_disabilities);
+		$hasBuHweiHwaWen.prop("checked", deptData.has_BuHweiHwaWen);
+		$hasBirthLimit.prop("checked", deptData.has_birth_limit);
+		$birthLimitAfter.val(deptData.birth_limit_after);
+		$birthLimitBefore.val(deptData.birth_limit_before);
+	}
+
 	return {
 		renderDescription,
 		saveDeptDescription,
 		renderDeptList,
-		renderDeptselect
+		renderDeptselect,
+		renderCommonDeptDetail
 	}
 
 })();

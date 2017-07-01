@@ -71,7 +71,7 @@
 							<div class="form-group col-6">
 								<div class="input-group">
 									<span class="input-group-addon">簡章順序</span>
-									<input type="text" class="form-control" value="12" id="sortOrder">
+									<input type="text" class="form-control" id="sortOrder">
 								</div>
 							</div>
 						</div>
@@ -79,47 +79,45 @@
 							<div class="form-group col-6">
 								<div class="input-group">
 									<span class="input-group-addon">系所代碼</span>
-									<input type="text" class="form-control" value="10101" id="id" disabled>
+									<input type="text" class="form-control" id="id" disabled>
 								</div>
 							</div>
 							<div class="form-group col-6">
 								<div class="input-group">
 									<span class="input-group-addon">讀卡代碼</span>
-									<input type="text" class="form-control" value="1001" id="cardCode" disabled>
+									<input type="text" class="form-control" id="cardCode" disabled>
 								</div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="form-group col-6">
 								<label for="">中文名稱</label>
-								<input type="text" class="form-control" value="資訊管理學系" id="title" disabled>
+								<input type="text" class="form-control" id="title" disabled>
 							</div>
 							<div class="form-group col-6">
 								<label for="">英文名稱</label>
-								<input type="text" class="form-control" value="Information Management" id="engTitle" disabled>
+								<input type="text" class="form-control" id="engTitle" disabled>
 							</div>
 						</div>
 						<div class="row">
 							<div class="form-group col-6">
 								<label for="">系中文網站網址*</label>
-								<input type="text" class="form-control" value="http://www.im.ncnu.edu.tw" id="url">
+								<input type="text" class="form-control" id="url">
 							</div>
 							<div class="form-group col-6">
 								<label for="">系英文網站網址</label>
-								<input type="text" class="form-control" value="http://www.im.ncnu.edu.tw/en" id="engUrl">
+								<input type="text" class="form-control" id="engUrl">
 							</div>
 						</div>
 						<div class="row">
 							<div class="form-group col-6">
 								<label for="">主要隸屬學群*</label>
 								<select class="form-control" id="mainGroup">
-									<option>主要學群</option>
 								</select>
 							</div>
 							<div class="form-group col-6">
 								<label for="">次要隸屬學群</label>
 								<select class="form-control" id="subGroup">
-									<option>次要學群</option>
 								</select>
 							</div>
 						</div>
@@ -127,7 +125,7 @@
 							<div class="form-group col-6">
 								<label for="">招收性別限制*</label>
 								<select class="form-control" id="genderLimit">
-									<option value="null">男女兼收</option>
+									<option value="">男女兼收</option>
 									<option value="M">限男</option>
 									<option value="F">限女</option>
 								</select>
@@ -142,13 +140,13 @@
 						<div class="row">
 							<div class="form-group col">
 								<label for="">選系中文說明*</label>
-								<textarea class="form-control" rows="4" id="description">(一)強烈建議中文程度應達「華語文能力測 驗」(TOP)第4級以上。(二)本系課程須閱 讀大量中文古籍與歷史資料，文言文閱讀 能力不佳者，請勿選填本系。</textarea>
+								<textarea class="form-control" rows="4" id="description"></textarea>
 							</div>
 						</div>
 						<div class="row">
 							<div class="form-group col">
 								<label for="">選系英文說明</label>
-								<textarea class="form-control" rows="4" id="engDescription">At vero eos et accusamus et iusto odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quosdolores et quas molestias excepturi sint, obcaecati cupiditate non provident, </textarea>
+								<textarea class="form-control" rows="4" id="engDescription"></textarea>
 							</div>
 						</div>
 					
@@ -182,11 +180,11 @@
 											<hr>
 											<div class="form-group">
 												<label for="">審查費用中文說明</label>
-												<textarea class="form-control" rows="3" id="reviewFeeDetail">，小一能，法減指河相到子任我班，排學一得特其背。太聽叫打期此登兒位；美指持視！然意團。你必世起度色一的來思正長：外了河明文國！環點音己法請：非見例道有的社為名方所進</textarea>
+												<textarea class="form-control" rows="3" id="reviewFeeDetail"></textarea>
 											</div>
 											<div class="form-group">
 												<label for="">審查費用英文說明</label>
-												<textarea class="form-control" rows="3" id="engReviewFeeDetail">le content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like reada</textarea>
+												<textarea class="form-control" rows="3" id="engReviewFeeDetail"></textarea>
 											</div>
 										</form>
 									</div>
@@ -222,7 +220,7 @@
 											</div>
 											<div class="form-check">
 												<label class="form-check-label">
-													<input class="form-check-input" type="checkbox" id="hasDisabilities" value="">
+													<input class="form-check-input" type="checkbox" id="hasBuHweiHwaWen" value="">
 													是否招收不具華文基礎學生*
 												</label>
 											</div>
@@ -237,13 +235,13 @@
 										<p>限制出生日期</p>
 										<div class="form-inline">
 											<div class="input-group mb-2 mr-sm-2 mb-sm-0">
-												<input type="text" class="form-control">
+												<input type="text" class="form-control" id="birthLimitAfter">
 												<div class="input-group-addon">以後</div>
 											</div>
 										</div>
 										<div class="form-inline" style="padding-top: 20px;">
 											<div class="input-group mb-2 mr-sm-2 mb-sm-0">
-												<input type="text" class="form-control">
+												<input type="text" class="form-control" id="birthLimitBefore">
 												<div class="input-group-addon">以前</div>
 											</div>
 										</div>
