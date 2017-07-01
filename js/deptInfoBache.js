@@ -128,7 +128,7 @@ var deptInfoBache = (function () {
 			$.bootstrapSortable(true); // 啟用系所列表排序功能
 			$editDeptInfoBtn = $('.btn-editDeptInfo'); // 新增系所編輯按鈕的觸發事件（開啟 Modal）
 			$editDeptInfoBtn.on('click', _handleEditDeptInfo);
-			DeptInfo.renderDeptselect(_currentSystem); // 產生系所詳細資料 Modal 中下拉式選單
+			DeptInfo.renderDeptSelect(_currentSystem); // 產生系所詳細資料 Modal 中下拉式選單
 		})
 		.catch((err) => {
 			console.error(err);

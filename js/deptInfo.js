@@ -138,7 +138,7 @@ var DeptInfo = (function () {
 		}
 	}
 
-	function renderDeptselect(system) {
+	function renderDeptSelect(system) {
 		var item = School.getDeptFormItem(system) // 產生系所詳細資料 Modal 中下拉式選單
 
 		item.then(res => { return res[0].json(); }) // 學群
@@ -205,7 +205,7 @@ var DeptInfo = (function () {
 		renderDescription,
 		saveDeptDescription,
 		renderDeptList,
-		renderDeptselect,
+		renderDeptSelect,
 		renderCommonDeptDetail
 	}
 

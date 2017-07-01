@@ -1,4 +1,7 @@
 var deptInfoMaster = (function () {
+
+	const _currentSystem = 'master';
+
 	/**
 	 * cache DOM
 	 */
@@ -22,28 +25,44 @@ var deptInfoMaster = (function () {
 	_setData();
 
 	function _saveDeptDescription() {
-		DeptInfo.saveDeptDescription('master');
+		DeptInfo.saveDeptDescription(_currentSystem);
 	}
 
 	function _handleEditDeptInfo() { // 系所列表 Modal 觸發
-		$editDeptInfoModal.modal();
+		const deptId = $(this).data('deptid');
+		School.getDeptInfo(_currentSystem, deptId)
+		.then((res) => { return res.json(); })
+		.then((json) => {
+			_renderDeptDetail(json);
+		})
+		.then(() => { $editDeptInfoModal.modal(); })
 	}
 
+	function _renderDeptDetail(deptData) { // 渲染系所詳細資料
+		DeptInfo.renderCommonDeptDetail(deptData); // 渲染學制們共用欄位
+		_renderSpecialDeptDetail(deptData);
+	}
+
+	function _renderSpecialDeptDetail(deptData) {
+
+	};
+
 	function _setData() {
-		School.getSystemInfo('master')
+		School.getSystemInfo(_currentSystem) // 取得學制資料，沒有該學制則回上一頁
 		.then((res) => {
-			if(res.ok) {
+			if(res.ok) { // 有該學制則開始頁面初始化
 				return res.json();
 			} else {
-				throw res
+				throw res;
 			}
 		}).then((json) => {
-			DeptInfo.renderDescription(json);
-			DeptInfo.renderDeptList(json.departments);
+			DeptInfo.renderDescription(json); // 渲染該學制備註
+			DeptInfo.renderDeptList(json.departments); // 渲染該學制系所列表
 		}).then(() => {
-			$.bootstrapSortable(true);
-			$editDeptInfoBtn = $('.btn-editDeptInfo'); // 系所列表每項資料的編輯按鈕
-			$editDeptInfoBtn.on('click', _handleEditDeptInfo); // 打開 Modal
+			$.bootstrapSortable(true); // 啟用系所列表排序功能
+			$editDeptInfoBtn = $('.btn-editDeptInfo'); // 新增系所編輯按鈕的觸發事件（開啟 Modal）
+			$editDeptInfoBtn.on('click', _handleEditDeptInfo);
+			DeptInfo.renderDeptSelect(_currentSystem); // 產生系所詳細資料 Modal 中下拉式選單
 		})
 		.catch((err) => {
 			console.error(err);
