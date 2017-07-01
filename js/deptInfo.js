@@ -3,6 +3,8 @@ var DeptInfo = (function () {
 	// 此為 deptInfoBache, deptInfoTwoYear, deptInfoMaster, deptInfoPhd 共同引入的檔案
 	// 內容為各系所資訊 API
 
+	var _applicationDocumentTypes;
+
 	/**
 	 * cache DOM
 	 */
@@ -13,6 +15,11 @@ var DeptInfo = (function () {
 	
 	var $deptList = $('#dept-list'); // 系所列表
 	var $deptFilterInput = $('#dept-filter-input'); // 搜尋欄
+
+	var $modalDeptInfo = $('#modal-deptInfo');
+	var $mainGroup = $modalDeptInfo.find('#mainGroup');
+	var $subGroup = $modalDeptInfo.find('#subGroup');
+	var $evaluation = $modalDeptInfo.find('#evaluation');
 
 	/**
 	 * bind event
@@ -110,10 +117,48 @@ var DeptInfo = (function () {
 		}
 	}
 
+	function renderDeptselect(system) {
+		var item = School.getDeptFormItem(system) // 產生系所詳細資料 Modal 中下拉式選單
+
+		item.then(res => { return res[0].json(); }) // 學群
+		.then(json => {
+			// 列表初始化
+			$mainGroup.html('');
+			$subGroup.html('');
+			json.forEach((value, index) => {
+				$mainGroup
+					.append(`
+						<option value="${value.id}">${value.title}</option>
+					`);
+				$subGroup
+					.append(`
+						<option value="${value.id}">${value.title}</option>
+					`);
+			});
+		})
+
+		item.then(res => { return res[1].json(); }) // 評鑑等級
+		.then(json => {
+			$evaluation.html('');
+			json.forEach((value, index) => {
+				$evaluation
+					.append(`
+						<option value="${value.id}">${value.title}</option>
+					`);
+			});
+		})
+
+		item.then(res => { return res[2].json(); }) // 審查項目類別
+		.then(json => {
+			_applicationDocumentTypes = json;
+		})
+	}
+
 	return {
 		renderDescription,
 		saveDeptDescription,
-		renderDeptList
+		renderDeptList,
+		renderDeptselect
 	}
 
 })();

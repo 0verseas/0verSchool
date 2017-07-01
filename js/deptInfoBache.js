@@ -1,5 +1,7 @@
 var deptInfoBache = (function () {
 
+	const _currentSystem = 'bachelor';
+
 	/**
 	 * cache DOM
 	 */
@@ -77,7 +79,7 @@ var deptInfoBache = (function () {
 	}
 
 	function _saveDeptDescription() {
-		DeptInfo.saveDeptDescription('bachelor');
+		DeptInfo.saveDeptDescription(_currentSystem);
 	}
 
 	function _handleEditDeptInfo() { // 系所列表 Modal 觸發
@@ -86,9 +88,11 @@ var deptInfoBache = (function () {
 	}
 
 	function _setData() {
-		School.getSystemInfo('bachelor')
+
+		School.getSystemInfo(_currentSystem)
 		.then((res) => {
 			if(res.ok) {
+				DeptInfo.renderDeptselect(_currentSystem);
 				return res.json();
 			} else {
 				throw res;
@@ -105,16 +109,7 @@ var deptInfoBache = (function () {
 			console.error(err);
 		})
 
-		var item = School.getDeptFormItem('bachelor')
-
-		item.then(res => { return res[0].json(); }) // 學群
-		.then(json => { console.log(json); })
-
-		item.then(res => { return res[1].json(); }) // 評鑑等級
-		.then(json => { console.log(json); })
-
-		item.then(res => { return res[2].json(); }) // 審查項目類別
-		.then(json => { console.log(json); })
+		
 	}
 
 })();
