@@ -29,6 +29,11 @@ var deptInfoTwoYear = (function () {
 	 */
 
 	$saveDeptDescriptionBtn.on('click', _saveDeptDescription); // 儲存｜送出學制資料
+	
+	$schoolHasSelfEnrollment.on("change", _switchSchoolHasSelfEnrollment); // 校可獨招 => 可開日間、專班
+	$hasRiJian.on("change", _switchHasRiJian); // 開日間 => 可自招、開聯招人數
+	$hasSelfEnrollment.on("change", _switchHasSelfEnrollment); // 開自招 => 開自招人數
+	$hasSpecialClass.on("change", _switchHasSpecialClass); // 開專班 => 開專班文號、電子檔，以及開聯招人數
 
 	/**
 	 * init
@@ -53,6 +58,10 @@ var deptInfoTwoYear = (function () {
 	function _renderDeptDetail(deptData) { // 渲染系所詳細資料
 		DeptInfo.renderCommonDeptDetail(deptData); // 渲染學制們共用欄位
 		_renderSpecialDeptDetail(deptData);
+		_switchHasSpecialClass();
+		_switchHasSelfEnrollment();
+		_switchHasRiJian();
+		_switchSchoolHasSelfEnrollment();
 	}
 
 	function _renderSpecialDeptDetail(deptData) {
@@ -66,6 +75,30 @@ var deptInfoTwoYear = (function () {
 		$admissionSelectionQuota.val(deptData.admission_selection_quota);
 		$selfEnrollmentQuota.val(deptData.self_enrollment_quota);
 	};
+
+	function _switchSchoolHasSelfEnrollment() { // 校可獨招 => 可開日間、專班
+		$hasRiJian.prop('disabled', !$schoolHasSelfEnrollment.prop('checked'));
+		$hasSpecialClass.prop('disabled', !$schoolHasSelfEnrollment.prop('checked'));
+	}
+
+	function _switchHasRiJian() { // 開日間 => 可自招、開聯招人數
+		$hasSelfEnrollment.prop('disabled', !$hasRiJian.prop('checked'));
+		var hasRiJianStatus = $hasRiJian.prop('checked');
+		var hasSpecialClass = $hasSpecialClass.prop('checked');
+		if (hasRiJianStatus || hasSpecialClass) { $admissionSelectionQuota.prop('disabled', false); } else { $admissionSelectionQuota.prop('disabled', true); }
+	}
+
+	function _switchHasSelfEnrollment() { // 開自招 => 開自招人數
+		$selfEnrollmentQuota.prop('disabled', !$hasSelfEnrollment.prop('checked'));
+	}
+
+	function _switchHasSpecialClass() { // 開專班 => 開專班文號、電子檔，以及開聯招人數
+		$approvalNoOfSpecialClass.prop('disabled', !$hasSpecialClass.prop('checked'));
+		$approvalDocOfSpecialClass.prop('disabled', !$hasSpecialClass.prop('checked'));
+		var hasRiJianStatus = $hasRiJian.prop('checked');
+		var hasSpecialClass = $hasSpecialClass.prop('checked');
+		if (hasRiJianStatus || hasSpecialClass) { $admissionSelectionQuota.prop('disabled', false); } else { $admissionSelectionQuota.prop('disabled', true); }
+	}
 
 	function _setData() {
 		School.getSystemInfo(_currentSystem) // 取得學制資料，沒有該學制則回上一頁
@@ -88,5 +121,4 @@ var deptInfoTwoYear = (function () {
 			console.error(err);
 		})
 	}
-
 })();
