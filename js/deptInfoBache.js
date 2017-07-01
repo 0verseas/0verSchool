@@ -30,6 +30,9 @@ var deptInfoBache = (function () {
 
 	$saveDeptDescriptionBtn.on('click', _saveDeptDescription); // 儲存｜送出學制資料
 
+	$schoolHasSelfEnrollment.on("change", _switchSchoolHasSelfEnrollment); // 校可獨招 => 系可獨招
+	$hasSelfEnrollment.on("change", _switchHasSelfEnrollment); // 系可獨招 => 系可開設僑生專班
+
 	// 聯招人數自動計算
 	$admissionSelectionQuota.on('keyup', _computeBachelorAdmissionTotalQuota);
 	$admissionPlacementQuota.on('keyup', _computeBachelorAdmissionTotalQuota);
@@ -102,6 +105,8 @@ var deptInfoBache = (function () {
 	function _renderDeptDetail(deptData) { // 渲染系所詳細資料
 		DeptInfo.renderCommonDeptDetail(deptData); // 渲染學制們共用欄位
 		_renderSpecialDeptDetail(deptData);
+		_switchHasSelfEnrollment();
+		_switchSchoolHasSelfEnrollment();
 	}
 
 	function _renderSpecialDeptDetail(deptData) {
@@ -112,6 +117,14 @@ var deptInfoBache = (function () {
 		$admissionPlacementQuota.val(deptData.admission_placement_quota);
 		_computeBachelorAdmissionTotalQuota();
 	};
+
+	function _switchSchoolHasSelfEnrollment() { // 校可獨招 => 系可獨招
+		$hasSelfEnrollment.prop('disabled', !$schoolHasSelfEnrollment.prop('checked'));
+	}
+
+	function _switchHasSelfEnrollment() { // 系可獨招 => 系可開設僑生專班
+		$hasSpecialClass.prop('disabled', !$hasSelfEnrollment.prop('checked'));
+	}
 
 	function _setData() {
 		School.getSystemInfo(_currentSystem) // 取得學制資料，沒有該學制則回上一頁

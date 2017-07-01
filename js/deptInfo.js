@@ -199,6 +199,9 @@ var DeptInfo = (function () {
 		$hasBirthLimit.prop("checked", deptData.has_birth_limit);
 		$birthLimitAfter.val(deptData.birth_limit_after);
 		$birthLimitBefore.val(deptData.birth_limit_before);
+		$('.datepicker').datepicker({
+			format: 'yyyy-mm-dd'
+		});
 	}
 
 	return {
