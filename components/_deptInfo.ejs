@@ -257,14 +257,19 @@
 								<div class="row">
 									<div class="form-group col-sm-4">
 										<label for="">審查項目</label>
+										<review-items-select
+										v-bind:selected_id="doc.type_id"
+										v-bind:review_items_types="reviewItemsTypes"
+										v-bind:modifiable="doc.modifiable"
+										></review-items-select>
 
-										<select class="form-control" v-model="doc.type_id">
+										<!-- <select class="form-control" v-model="doc.type_id">
 												<option
 												v-for="type in reviewItemsTypes"
 												v-text="type.name"
 												v-bind:value="type.id"
 												v-bind:disabled="type.used"></option>
-										</select>
+										</select> -->
 									</div>
 
 									<div class="col-sm-8">

@@ -290,6 +290,19 @@ var DeptInfo = (function () {
 
 })();
 
+Vue.component('review-items-select',{
+	props:['selected_id', 'review_items_types', 'modifiable'],
+	template: `
+		<select class="form-control" v-model="selected_id" v-bind:disabled="!modifiable">
+				<option
+				v-for="type in review_items_types"
+				v-text="type.name"
+				v-bind:value="type.id"
+				v-bind:disabled="type.used"></option>
+		</select>
+	`
+})
+
 var reviewItems = new Vue({ // 審查項目
 	el: '#form-reviewItems',
 	data: {
@@ -303,16 +316,18 @@ var reviewItems = new Vue({ // 審查項目
 	},
 	methods: {
 		initTypes(reviewItemsTypes) {
+			// 下拉選單初始化，fetch 回來的各學制審閱項目 "used"(是否被使用)
 			this.reviewItemsTypes = reviewItemsTypes;
 			for(type in this.reviewItemsTypes) {
 				this.reviewItemsTypes[type].used = false;
 			}
 		},
 		initApplicationDocs(applicationDocs) {
+			// fetch 回現有審查項目，重新渲染下拉式選單（設定下拉式選單哪些被 "used"）
 			this.applicationDocs = applicationDocs;
 			for(doc in this.applicationDocs) {
 				for(type in this.reviewItemsTypes) {
-					if(this.applicationDocs[doc].type.id == this.reviewItemsTypes[type].id) {
+					if(this.applicationDocs[doc].type_id === this.reviewItemsTypes[type].id) {
 						this.reviewItemsTypes[type].used = true;
 					}
 				}
