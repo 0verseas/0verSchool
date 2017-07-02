@@ -284,12 +284,12 @@ var DeptInfo = (function () {
 			has_BuHweiHwaWen: +$hasBuHweiHwaWen.prop("checked"),
 			has_birth_limit: +$hasBirthLimit.prop("checked"),
 			memo: $memo.val(),
-			application_docs: [{
+			application_docs: JSON.stringify([{
 				type: 1,
 				description: '中文說明',
 				eng_description: 'eng description',
 				required: true
-			}]
+			}])
 		}
 		if ($hasReviewFee.prop("checked")) {
 			data.review_fee_detail = $reviewFeeDetail.val();
