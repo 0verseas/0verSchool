@@ -285,7 +285,7 @@ var DeptInfo = (function () {
 			has_birth_limit: +$hasBirthLimit.prop("checked"),
 			memo: $memo.val(),
 			application_docs: JSON.stringify([{
-				type: 1,
+				type_id: 1,
 				description: '中文說明',
 				eng_description: 'eng description',
 				required: true
