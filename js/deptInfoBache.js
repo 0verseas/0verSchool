@@ -1,6 +1,7 @@
 var deptInfoBache = (function () {
 
 	const _currentSystem = 'bachelor';
+	var _currentDeptId = '';
 
 	/**
 	 * cache DOM
@@ -59,8 +60,8 @@ var deptInfoBache = (function () {
 	}
 
 	function _handleEditDeptInfo() { // 系所列表 Modal 觸發
-		const deptId = $(this).data('deptid');
-		School.getDeptInfo(_currentSystem, deptId)
+		_currentDeptId = $(this).data('deptid');
+		School.getDeptInfo(_currentSystem, _currentDeptId)
 		.then((res) => { return res.json(); })
 		.then((json) => {
 			_renderDeptDetail(json);
@@ -116,13 +117,35 @@ var deptInfoBache = (function () {
 		var data = new FormData();
 		data.append('has_self_enrollment', +$hasSelfEnrollment.prop('checked'));
 		data.append('has_special_class', +$hasSpecialClass.prop('checked'));
+		data.append('admission_selection_quota', $admissionSelectionQuota.val());
+		data.append('admission_placement_quota', $admissionPlacementQuota.val());
 		var commonFormData = DeptInfo.getCommonFormData();
+		for( item in commonFormData) {
+			data.append(item, commonFormData[item]);
+		}
+		for (var pair of data.entries()) {
+		    console.log(pair[0]+ ', ' + pair[1]); 
+		}
+		return data;
 	}
 
 	function _saveDeptDetail() {
 		if (_validateForm()) {
 			var sendData = _getFormData();
-			
+			School.setDeptInfo(_currentSystem, _currentDeptId, sendData)
+			.then((res) => {
+				if (res.ok) {
+					return res.json;
+				} else {
+					throw res;
+				}
+			})
+			.then((json) => {
+				console.log(json);
+			})
+			.catch((err) => {
+				console.log(err);
+			})
 		} else {
 			alert("有欄位輸入錯誤，請重新確認。");
 		}

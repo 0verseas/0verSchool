@@ -74,6 +74,14 @@ var School = (function () {
 		})
 	}
 
+	function setDeptInfo(system, deptId, data) { // 儲存某學制某系所
+		return fetch(`https://api.overseas.ncnu.edu.tw/schools/me/systems/${system}/departments/${deptId}/histories`, {
+			method: 'POST',
+			body: data,
+			credentials: 'include'
+		});
+	}
+
 	function getDeptFormItem(system) { // 取得系所 Modal 中下拉式選單的 option，包含學群、評鑑、審查項目。
 		var urls = [
 		'https://api.overseas.ncnu.edu.tw/department-groups',
@@ -95,6 +103,7 @@ var School = (function () {
 		getSystemInfo,
 		setSystemInfo,
 		getDeptInfo,
+		setDeptInfo,
 		getDeptFormItem
 	};
 

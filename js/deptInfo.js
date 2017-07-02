@@ -41,6 +41,7 @@ var DeptInfo = (function () {
 	var $hasBirthLimit = $modalDeptInfo.find('#hasBirthLimit'); // checkbox，是否限制出生日期
 	var $birthLimitAfter = $modalDeptInfo.find('#birthLimitAfter'); // 限制出生日期（以後）
 	var $birthLimitBefore = $modalDeptInfo.find('#birthLimitBefore'); // 限制出生日期（以前）
+	var $memo = $modalDeptInfo.find('#memo'); // 給海聯的訊息
 
 	var formGroup = {
 		sortOrderForm: $modalDeptInfo.find('#sortOrderForm'),
@@ -55,7 +56,8 @@ var DeptInfo = (function () {
 		reviewFeeDetailForm: $modalDeptInfo.find('#reviewFeeDetailForm'),
 		engReviewFeeDetailForm: $modalDeptInfo.find('#engReviewFeeDetailForm'),
 		birthLimitAfterForm: $modalDeptInfo.find('#birthLimitAfterForm'),
-		birthLimitBeforeForm: $modalDeptInfo.find('#birthLimitBeforeForm')
+		birthLimitBeforeForm: $modalDeptInfo.find('#birthLimitBeforeForm'),
+		memoForm: $modalDeptInfo.find('#memoForm')
 	}
 
 	/**
@@ -217,6 +219,7 @@ var DeptInfo = (function () {
 		$hasBirthLimit.prop("checked", deptData.has_birth_limit);
 		$birthLimitAfter.val(deptData.birth_limit_after);
 		$birthLimitBefore.val(deptData.birth_limit_before);
+		$memo.val(deptData.memo);
 		$('.datepicker').datepicker({
 			format: 'yyyy-mm-dd'
 		});
@@ -264,7 +267,39 @@ var DeptInfo = (function () {
 	}
 
 	function getCommonFormData() {
-
+		var data = {
+			sort_order: $sortOrder.val(),
+			url: $url.val(),
+			eng_url: $engUrl.val(),
+			main_group: $mainGroup.val(),
+			sub_group: $subGroup.val(),
+			gender_limit: $genderLimit.val(),
+			evaluation: $evaluation.val(),
+			description: $description.val(),
+			eng_description: $engDescription.val(),
+			has_review_fee: +$hasReviewFee.prop("checked"),
+			has_foreign_special_class: +$hasForeignSpecialClass.prop("checked"),
+			has_eng_taught: +$hasEngTaught.prop("checked"),
+			has_disabilities: +$hasDisabilities.prop("checked"),
+			has_BuHweiHwaWen: +$hasBuHweiHwaWen.prop("checked"),
+			has_birth_limit: +$hasBirthLimit.prop("checked"),
+			memo: $memo.val(),
+			application_docs: [{
+				type: 1,
+				description: '中文說明',
+				eng_description: 'eng description',
+				required: true
+			}]
+		}
+		if ($hasReviewFee.prop("checked")) {
+			data.review_fee_detail = $reviewFeeDetail.val();
+			data.eng_review_fee_detail = $engReviewFeeDetail.val();
+		}
+		if ($hasBirthLimit.prop("checked")) {
+			data.birth_limit_after = $birthLimitAfter.val();
+			data.birth_limit_before = $birthLimitBefore.val();
+		}
+		return data;
 	}
 
 	// 檢查 form 是否為有值
