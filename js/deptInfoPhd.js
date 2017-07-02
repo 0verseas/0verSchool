@@ -1,6 +1,7 @@
 var deptInfoPhd = (function () {
 
 	const _currentSystem = 'phd';
+	var _currentDeptId = '';
 
 	/**
 	 * cache DOM
@@ -20,6 +21,13 @@ var deptInfoPhd = (function () {
 	var $admissionSelectionQuota = $modalDeptInfo.find('#admissionSelectionQuota'); // 聯招(個人申請)人數（碩博二技專用）
 	var $selfEnrollmentQuota = $modalDeptInfo.find('#selfEnrollmentQuota'); // 自招人數
 
+	var $deptDetailSaveBtn = $('#deptDetailSave');
+
+	var formGroup = {
+		admissionSelectionQuotaForm: $modalDeptInfo.find('#admissionSelectionQuotaForm'),
+		selfEnrollmentQuotaForm: $modalDeptInfo.find('#selfEnrollmentQuotaForm')
+	}
+
 	/**
 	 * bind event
 	 */
@@ -28,6 +36,8 @@ var deptInfoPhd = (function () {
 
 	$schoolHasSelfEnrollment.on("change", _switchSchoolHasSelfEnrollment); // 校可獨招 => 系可獨招
 	$hasSelfEnrollment.on("change", _switchHasSelfEnrollment); // 系可獨招 => 系可開設僑生專班、可填自招人數
+
+	$deptDetailSaveBtn.on('click', _saveDeptDetail);
 
 	/**
 	 * init
@@ -40,8 +50,8 @@ var deptInfoPhd = (function () {
 	}
 
 	function _handleEditDeptInfo() { // 系所列表 Modal 觸發
-		const deptId = $(this).data('deptid');
-		School.getDeptInfo(_currentSystem, deptId)
+		_currentDeptId = $(this).data('deptid');
+		School.getDeptInfo(_currentSystem, _currentDeptId)
 		.then((res) => { return res.json(); })
 		.then((json) => {
 			_renderDeptDetail(json);
@@ -71,6 +81,68 @@ var deptInfoPhd = (function () {
 	function _switchHasSelfEnrollment() { // 系可獨招 => 系可開設僑生專班、可填自招人數
 		$hasSpecialClass.prop('disabled', !$hasSelfEnrollment.prop('checked'));
 		$selfEnrollmentQuota.prop('disabled', !$hasSelfEnrollment.prop('checked'));
+	}
+
+	function _validateForm() {
+		var specialFormValidateStatus = true;
+		var commonFormValidateStatus = DeptInfo.validateForm();
+		for(form in formGroup) {
+			formGroup[form].removeClass("has-danger");
+		}
+		if (!_validateNotEmpty($admissionSelectionQuota)) {formGroup.admissionSelectionQuotaForm.addClass("has-danger"); specialFormValidateStatus = false}
+		if ($hasSelfEnrollment.prop("checked")) {
+			if (!_validateNotEmpty($selfEnrollmentQuota)) {formGroup.selfEnrollmentQuotaForm.addClass("has-danger"); specialFormValidateStatus = false}
+		}
+		if (specialFormValidateStatus && commonFormValidateStatus) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	// 檢查 form 是否為有值
+	function _validateNotEmpty(el) {
+		return el.val() !== "";
+	}
+
+	function _getFormData() {
+		var data = new FormData();
+		data.append('has_self_enrollment', +$hasSelfEnrollment.prop('checked'));
+		data.append('has_special_class', +$hasSpecialClass.prop('checked'));
+		data.append('admission_selection_quota', $admissionSelectionQuota.val());
+		if ($hasSelfEnrollment.prop("checked")) {
+			data.append('self_enrollment_quota', $selfEnrollmentQuota.val());
+		}
+		var commonFormData = DeptInfo.getCommonFormData();
+		for( item in commonFormData) {
+			data.append(item, commonFormData[item]);
+		}
+		for (var pair of data.entries()) {
+		    console.log(pair[0]+ ', ' + pair[1]); 
+		}
+		return data;
+	}
+
+	function _saveDeptDetail() {
+		if (_validateForm()) {
+			var sendData = _getFormData();
+			School.setDeptInfo(_currentSystem, _currentDeptId, sendData)
+			.then((res) => {
+				if (res.ok) {
+					return res.json;
+				} else {
+					throw res;
+				}
+			})
+			.then((json) => {
+				console.log(json);
+			})
+			.catch((err) => {
+				console.log(err);
+			})
+		} else {
+			alert("有欄位輸入錯誤，請重新確認。");
+		}
 	}
 
 	function _setData() {

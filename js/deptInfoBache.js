@@ -99,8 +99,8 @@ var deptInfoBache = (function () {
 		for(form in formGroup) {
 			formGroup[form].removeClass("has-danger");
 		}
-		if (!_validateNotEmpty($admissionSelectionQuota)) {formGroup.admissionSelectionQuotaForm.addClass("has-danger"); check = false}
-		if (!_validateNotEmpty($admissionPlacementQuota)) {formGroup.admissionPlacementQuotaForm.addClass("has-danger"); check = false}
+		if (!_validateNotEmpty($admissionSelectionQuota)) {formGroup.admissionSelectionQuotaForm.addClass("has-danger"); specialFormValidateStatus = false}
+		if (!_validateNotEmpty($admissionPlacementQuota)) {formGroup.admissionPlacementQuotaForm.addClass("has-danger"); specialFormValidateStatus = false}
 		if (specialFormValidateStatus && commonFormValidateStatus) {
 			return true;
 		} else {
