@@ -6,7 +6,7 @@ var School = (function () {
 		})
 		.then(function (res) {
 			if (res.status === 404) {
-				alert('沒有這個學制。 即將返回上一頁。');
+				alert('查無學校資料。 即將返回上一頁。');
 				window.history.back();
 			}
 			return res;
@@ -27,7 +27,8 @@ var School = (function () {
 		})
 		.then(function (res) {
 			if (res.status === 404) {
-				window.location.replace('/404.html');
+				alert('沒有這個學制。 即將返回上一頁。');
+				window.history.back();
 			}
 			return res;
 		});
