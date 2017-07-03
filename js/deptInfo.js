@@ -278,26 +278,27 @@ var DeptInfo = (function () {
 			description: $description.val(),
 			eng_description: $engDescription.val(),
 			has_review_fee: +$hasReviewFee.prop("checked"),
+			review_fee_detail: $reviewFeeDetail.val(),
+			eng_review_fee_detail: $engReviewFeeDetail.val(),
 			has_foreign_special_class: +$hasForeignSpecialClass.prop("checked"),
 			has_eng_taught: +$hasEngTaught.prop("checked"),
 			has_disabilities: +$hasDisabilities.prop("checked"),
 			has_BuHweiHwaWen: +$hasBuHweiHwaWen.prop("checked"),
 			has_birth_limit: +$hasBirthLimit.prop("checked"),
+			birth_limit_after: $birthLimitAfter.val(),
+			birth_limit_before: $birthLimitBefore.val(),
 			memo: $memo.val(),
 			application_docs: JSON.stringify([{
-				type_id: 1,
-				description: '中文說明',
-				eng_description: 'eng description',
+				type_id: 56,
+				description: '請輸入詳細說明，如份數與類型(畢業證書/修業證明/離校證明/在學證明)等',
+				eng_description: '請輸入英文詳細說明，如份數與類型(畢業證書/修業證明/離校證明/在學證明)等',
+				required: true
+			},{
+				type_id: 57,
+				description: '請輸入詳細說明，如份數與內容(全校名次及百分比對照表)等',
+				eng_description: '請輸入英文詳細說明，如份數與內容(全校名次及百分比對照表)等',
 				required: true
 			}])
-		}
-		if ($hasReviewFee.prop("checked")) {
-			data.review_fee_detail = $reviewFeeDetail.val();
-			data.eng_review_fee_detail = $engReviewFeeDetail.val();
-		}
-		if ($hasBirthLimit.prop("checked")) {
-			data.birth_limit_after = $birthLimitAfter.val();
-			data.birth_limit_before = $birthLimitBefore.val();
 		}
 		return data;
 	}
@@ -326,16 +327,29 @@ var DeptInfo = (function () {
 })();
 
 Vue.component('review-items-select',{
-	props:['selected_id', 'review_items_types', 'modifiable'],
+	props:['doc_index', 'selected_id', 'review_items_types', 'modifiable'],
+	data() {
+		return {
+			selected: ''
+		}
+	},
 	template: `
-		<select class="form-control" v-model="selected_id" v-bind:disabled="!modifiable">
+		<select class="form-control" v-model="selected" v-bind:disabled="!modifiable">
 				<option
 				v-for="type in review_items_types"
 				v-text="type.name"
 				v-bind:value="type.id"
 				v-bind:disabled="type.used"></option>
 		</select>
-	`
+	`,
+	created() {
+		this.selected = this.selected_id;
+	},
+	watch: {
+		selected: function(newVal, oldVal) {
+			this.$emit('ch_selected', doc_index, newVal, oldVal);
+		}
+	}
 })
 
 var reviewItems = new Vue({ // 審查項目
@@ -385,6 +399,16 @@ var reviewItems = new Vue({ // 審查項目
 		removeApplicationDoc(doc) {
 			var index = this.applicationDocs.indexOf(doc);
 			this.applicationDocs.splice(index, 1);
+		},
+		chSelected(docIndex, newVal, oldVal) {
+			this.applicationDocs[docIndex].type_id = newVal;
+			for(type in this.reviewItemsTypes) {
+				if (this.reviewItemsTypes[type].id === newVal) {
+
+				} else if (this.reviewItemsTypes[type].id === oldVal) {
+
+				}
+			}
 		}
 	}
 })

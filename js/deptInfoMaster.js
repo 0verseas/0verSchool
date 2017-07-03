@@ -105,9 +105,7 @@ var deptInfoMaster = (function () {
 		data.append('has_self_enrollment', +$hasSelfEnrollment.prop('checked'));
 		data.append('has_special_class', +$hasSpecialClass.prop('checked'));
 		data.append('admission_selection_quota', $admissionSelectionQuota.val());
-		if ($hasSelfEnrollment.prop("checked")) {
-			data.append('self_enrollment_quota', $selfEnrollmentQuota.val());
-		}
+		data.append('self_enrollment_quota', $selfEnrollmentQuota.val());
 		var commonFormData = DeptInfo.getCommonFormData();
 		for( item in commonFormData) {
 			data.append(item, commonFormData[item]);

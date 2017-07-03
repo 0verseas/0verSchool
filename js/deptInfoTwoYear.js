@@ -140,17 +140,10 @@ var deptInfoTwoYear = (function () {
 		data.append('has_RiJian', +$hasRiJian.prop('checked'));
 		data.append('has_self_enrollment', +$hasSelfEnrollment.prop('checked'));
 		data.append('has_special_class', $hasSpecialClass.prop('checked'));
-		if ($hasSpecialClass.prop("checked")) {
-			data.append('approval_no_of_special_class', $approvalNoOfSpecialClass.val());
-			data.append('approval_doc_of_special_class', $approvalDocOfSpecialClass.prop('files')[0]);
-		}
-		if ($hasSelfEnrollment.prop("checked")) {
-			data.append('self_enrollment_quota', $selfEnrollmentQuota.val());
-		}
-		if ($hasRiJian.prop('checked') || $hasSpecialClass.prop('checked')) {
-			data.append('admission_selection_quota', $admissionSelectionQuota.val());
-		}
-
+		data.append('approval_no_of_special_class', $approvalNoOfSpecialClass.val());
+		data.append('approval_doc_of_special_class', $approvalDocOfSpecialClass.prop('files')[0]);
+		data.append('self_enrollment_quota', $selfEnrollmentQuota.val());
+		data.append('admission_selection_quota', $admissionSelectionQuota.val());
 		var commonFormData = DeptInfo.getCommonFormData();
 		for( item in commonFormData) {
 			data.append(item, commonFormData[item]);
