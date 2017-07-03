@@ -77,9 +77,8 @@ var DeptInfo = (function () {
 		$deptInfoEngDescription.text(json.eng_description);
 	}
 
-	function saveDeptDescription(system) { // Description 儲存｜送出
+	function saveDeptDescription(system) { // Description 儲存
 		var data = {
-			'action': 'save',
 			'description': $deptInfoDescription.val(),
 			'eng_description': $deptInfoEngDescription.val()
 		}
@@ -107,14 +106,6 @@ var DeptInfo = (function () {
 		  return a.sort_order - b.sort_order;
 		});
 
-		// 狀態名稱對應中文
-		var infoStatus = {
-			editing: '編輯中',
-			returned: '退回',
-			confirmed: '通過',
-			waiting: '待審閱'
-		}
-
 		// 列表初始化
 		$deptList.find('tbody').html('');
 		departments.forEach(function (value, index) {
@@ -132,7 +123,6 @@ var DeptInfo = (function () {
 							<div>${value.title}</div>
 							<div>${value.eng_title}</div>
 						</td>
-						<td>${infoStatus[value.info_status]}</td>
 						<td>${value.creator.name}</td>
 						<td>${updateAt.format('M月D日 H:m:s (YYYY)')}</td>
 					</tr>
