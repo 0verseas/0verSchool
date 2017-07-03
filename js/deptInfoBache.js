@@ -2,6 +2,8 @@ var deptInfoBache = (function () {
 
 	const _currentSystem = 'bachelor';
 	var _currentDeptId = '';
+	var _lastYearAdmissionPlacementAmount = '';
+	var _lastYearAdmissionPlacementQuota = '';
 
 	/**
 	 * cache DOM
@@ -21,12 +23,14 @@ var deptInfoBache = (function () {
 	var $admissionTotalQuota = $modalDeptInfo.find('#admissionTotalQuota'); // Can't edit， 聯招人數（學士專用）
 	var $admissionSelectionQuota = $modalDeptInfo.find('#admissionSelectionQuota'); // 個人申請人數
 	var $admissionPlacementQuota = $modalDeptInfo.find('#admissionPlacementQuota'); // 聯合分發人數
+	var $decreaseReasonOfAdmissionPlacement = $modalDeptInfo.find('#decreaseReasonOfAdmissionPlacement');
 
 	var $deptDetailSaveBtn = $('#deptDetailSave');
 
 	var formGroup = {
 		admissionSelectionQuotaForm: $modalDeptInfo.find('#admissionSelectionQuotaForm'),
-		admissionPlacementQuotaForm: $modalDeptInfo.find('#admissionPlacementQuotaForm')
+		admissionPlacementQuotaForm: $modalDeptInfo.find('#admissionPlacementQuotaForm'),
+		decreaseReasonOfAdmissionPlacementForm: $modalDeptInfo.find('#decreaseReasonOfAdmissionPlacementForm')
 	}
 
 	/**
@@ -53,6 +57,7 @@ var deptInfoBache = (function () {
 	function _computeBachelorAdmissionTotalQuota() { // 「聯招人數（學士專用）」自動計算
 		var totalPeople = Number($admissionSelectionQuota.val()) + Number($admissionPlacementQuota.val());
 		$admissionTotalQuota.val(totalPeople);
+		$decreaseReasonOfAdmissionPlacement.prop('disabled', !(Math.min(_lastYearAdmissionPlacementAmount, _lastYearAdmissionPlacementQuota) > $admissionPlacementQuota.val()));
 	}
 
 	function _saveDeptDescription() { // 儲存學制備註
@@ -82,6 +87,8 @@ var deptInfoBache = (function () {
 		$hasSpecialClass.prop("checked", deptData.has_special_class);
 		$admissionSelectionQuota.val(deptData.admission_selection_quota);
 		$admissionPlacementQuota.val(deptData.admission_placement_quota);
+		_lastYearAdmissionPlacementAmount = deptData.last_year_admission_placement_amount;
+		_lastYearAdmissionPlacementQuota = deptData.last_year_admission_placement_quota;
 		_computeBachelorAdmissionTotalQuota();
 	};
 
@@ -101,6 +108,9 @@ var deptInfoBache = (function () {
 		}
 		if (!_validateNotEmpty($admissionSelectionQuota)) {formGroup.admissionSelectionQuotaForm.addClass("has-danger"); specialFormValidateStatus = false}
 		if (!_validateNotEmpty($admissionPlacementQuota)) {formGroup.admissionPlacementQuotaForm.addClass("has-danger"); specialFormValidateStatus = false}
+		if ((Math.min(_lastYearAdmissionPlacementAmount, _lastYearAdmissionPlacementQuota) > $admissionPlacementQuota.val())) {
+			if (!_validateNotEmpty($decreaseReasonOfAdmissionPlacement)) {formGroup.decreaseReasonOfAdmissionPlacementForm.addClass("has-danger"); specialFormValidateStatus = false}
+		}
 		if (specialFormValidateStatus && commonFormValidateStatus) {
 			return true;
 		} else {
@@ -119,6 +129,7 @@ var deptInfoBache = (function () {
 		data.append('has_special_class', +$hasSpecialClass.prop('checked'));
 		data.append('admission_selection_quota', $admissionSelectionQuota.val());
 		data.append('admission_placement_quota', $admissionPlacementQuota.val());
+		data.append('decrease_reason_of_admission_placement', $decreaseReasonOfAdmissionPlacement.val());
 		var commonFormData = DeptInfo.getCommonFormData();
 		for( item in commonFormData) {
 			data.append(item, commonFormData[item]);
