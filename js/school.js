@@ -24,13 +24,6 @@ var School = (function () {
 	function getSystemQuota(system) {
 		return fetch(`https://api.overseas.ncnu.edu.tw/schools/me/systems/${system}/histories/latest?data_type=quota`, {
 			credentials: 'include'
-		})
-		.then(function (res) {
-			if (res.status === 404) {
-				alert('沒有這個學制。 即將返回上一頁。');
-				window.history.back();
-			}
-			return res;
 		});
 	}
 
@@ -48,14 +41,7 @@ var School = (function () {
 	function getSystemInfo(system) {
 		return fetch(`https://api.overseas.ncnu.edu.tw/schools/me/systems/${system}/histories/latest?data_type=info`, {
 			credentials: 'include'
-		})
-		.then(function (res) {
-			if (res.status === 404) {
-				alert('沒有這個學制。 即將返回上一頁。');
-				window.history.back();
-			}
-			return res;
-		})
+		});
 	}
 
 	function setSystemInfo(system, data) {
