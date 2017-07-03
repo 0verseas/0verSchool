@@ -250,42 +250,60 @@
 
 						<hr>
 						<div id="form-reviewItems">
-							<div v-for="(doc, docIndex) in applicationDocs">
-								<div class="row">
-									<div class="form-group col-sm-4">
-										<label for="">審查項目</label>
-										<review-items-select
-										v-bind:doc_index="docIndex"
-										v-bind:selected_id="doc.type_id"
-										v-bind:modifiable="doc.modifiable"
-										></review-items-select>
-									</div>
-										<!-- v-on:ch_selected="chSelected" -->
-									<div class="col-sm-8">
-										<div class="form-check">
-											<label class="form-check-label">
-												<input type="checkbox" class="form-check-input" v-model="doc.required" :disabled="!doc.modifiable">
-												是否為必備
-											</label>
-										</div>
-										<div class="form-group">
-											<label for="">審查項目中文說明</label>
-											<textarea class="form-control" rows="3" v-model="doc.description"></textarea>
-										</div>
 
+							<div v-for="type in reviewItemsTypes">
+								<div class="row">
+									<div class="col-lg-6">
+										<div class="form-group">
+											<div class="input-group">
+												<span class="input-group-addon">
+													<input type="checkbox" v-model="type.needed" v-bind:disabled="!type.modifiable">
+												</span>
+												<input
+												type="text"
+												class="form-control"
+												style="background-color: white;"
+												v-bind:value="type.name" 
+												disabled="disabled">
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="form-group">
+											<div class="input-group">
+												<span class="input-group-addon">
+													<input type="checkbox" v-model="type.required" v-bind:disabled="!type.modifiable">
+												</span>
+												<input
+												type="text"
+												class="form-control"
+												style="background-color: white;"
+												value="是否為必備" 
+												disabled="disabled">
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-12">
+										<div class="form-group" v-bind:class="{'has-danger': type.error == true}">
+											<label class="form-control-label" for="">審查項目中文說明</label>
+											<textarea class="form-control" rows="3" v-model="type.description"></textarea>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-12">
 										<div class="form-group">
 											<label for="">審查項目英文說明</label>
-											<textarea class="form-control" rows="3" v-model="doc.eng_description"></textarea>
-										</div>
-
-										<div class="form-group text-right">
-											<button v-if="doc.modifiable" class="btn btn-danger rm-review-item-row" v-on:click="removeApplicationDoc(doc)">刪除此項審查項目</button>
+											<textarea class="form-control" rows="3" v-model="type.eng_description"></textarea>
 										</div>
 									</div>
 								</div>
 								<hr>
 							</div>
-							<button v-if="!isfull" type="button" class="btn btn-success" v-on:click="addApplicationDoc()">新增更多審查項目</button>
 						</div>
 
 						<hr>
@@ -312,7 +330,5 @@
 
 <script src="https://cdn.jsdelivr.net/bootstrap-sortable/2.0.0/bootstrap-sortable.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script> -->
-<script src="https://unpkg.com/vue"></script>
-<script src="https://unpkg.com/vuex"></script>	
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
 <script src="js/deptInfo.js"></script>

@@ -134,9 +134,6 @@ var deptInfoBache = (function () {
 		for( item in commonFormData) {
 			data.append(item, commonFormData[item]);
 		}
-		for (var pair of data.entries()) {
-		    console.log(pair[0]+ ', ' + pair[1]); 
-		}
 		return data;
 	}
 
@@ -152,7 +149,7 @@ var deptInfoBache = (function () {
 				}
 			})
 			.then((json) => {
-				console.log(json);
+				alert("儲存成功");
 			})
 			.catch((err) => {
 				console.log(err);

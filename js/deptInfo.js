@@ -230,6 +230,7 @@ var DeptInfo = (function () {
 
 	function validateForm() {
 		var check = true;
+		var appDocCheck = true;
 		for(form in formGroup) {
 			formGroup[form].removeClass("has-danger");
 		}
@@ -253,7 +254,8 @@ var DeptInfo = (function () {
 				check = false
 			}
 		}
-		return check;
+		appDocCheck = reviewItems.validateReviewItems();
+		return check && appDocCheck;
 	}
 
 	function getCommonFormData() {
@@ -278,7 +280,7 @@ var DeptInfo = (function () {
 			birth_limit_after: $birthLimitAfter.val(),
 			birth_limit_before: $birthLimitBefore.val(),
 			memo: $memo.val(),
-			application_docs: JSON.stringify(reviewItems.applicationDocs)
+			application_docs: JSON.stringify(reviewItems.getReviewItems())
 		}
 		return data;
 	}
@@ -306,165 +308,75 @@ var DeptInfo = (function () {
 
 })();
 
-const store = new Vuex.Store({
-	state: {
+var reviewItems = new Vue({ // 審查項目
+	el: '#form-reviewItems',
+	data: {
 		reviewItemsTypes: [],
 		applicationDocs: []
 	},
-	mutations: {
-		setReviewItemsTypes(state, mutation) {
-			state.reviewItemsTypes = mutation.reviewItemsTypes;
+	methods: {
+		initTypes(reviewItemsTypes) {
+			// fetch 回來的審閱類別放入下拉選單
+			for(type in reviewItemsTypes) {
+				delete reviewItemsTypes[type].eng_name;
+				delete reviewItemsTypes[type].created_at;
+				delete reviewItemsTypes[type].updated_at;
+				delete reviewItemsTypes[type].deleted_at;
+				delete reviewItemsTypes[type].system_id;
+				Vue.set(reviewItemsTypes[type], 'needed', false);
+				Vue.set(reviewItemsTypes[type], 'required', false);
+				Vue.set(reviewItemsTypes[type], 'modifiable', true);
+				Vue.set(reviewItemsTypes[type], 'description', '');
+				Vue.set(reviewItemsTypes[type], 'eng_description', '');
+				Vue.set(reviewItemsTypes[type], 'error', false);
+				Vue.set(reviewItemsTypes[type], 'type_id', reviewItemsTypes[type].id);
+			}
+			this.reviewItemsTypes = reviewItemsTypes;
 		},
-		initTypesUsed(state) {
-			// 選處一個系所後，初始化 used
-			for(type in state.reviewItemsTypes) {
-				state.reviewItemsTypes[type].used = false;
+		cleanTypesNeeded() {
+			for(type in this.reviewItemsTypes) {
+				this.reviewItemsTypes[type].needed = false;
+				this.reviewItemsTypes[type].required = false;
+				this.reviewItemsTypes[type].modifiable = true;
+				this.reviewItemsTypes[type].description = '';
+				this.reviewItemsTypes[type].eng_description = '';
+				this.reviewItemsTypes[type].error = false;
 			}
 		},
-		setApplicationDocs(state, mutation) {
-			state.applicationDocs = mutation.applicationDocs;
-		},
-		refreshApplicationDocsUsed(state) {
-			for(type in state.reviewItemsTypes) {
-				state.reviewItemsTypes[type].used = false;
-			}
-			for(doc in state.applicationDocs) {
-				for(type in state.reviewItemsTypes) {
-					if(state.applicationDocs[doc].type_id === state.reviewItemsTypes[type].id) {
-						Vue.set(state.reviewItemsTypes[type], 'used', true);
+		initApplicationDocs(applicationDocs) {
+			this.cleanTypesNeeded();
+			// 整理審閱資料的格式
+			for(doc in applicationDocs) {
+				for(type in this.reviewItemsTypes) {
+					if (applicationDocs[doc].type_id === this.reviewItemsTypes[type].type_id) {
+						this.reviewItemsTypes[type].needed = true;
+						this.reviewItemsTypes[type].required = applicationDocs[doc].required;
+						this.reviewItemsTypes[type].modifiable = applicationDocs[doc].modifiable;
+						this.reviewItemsTypes[type].description = applicationDocs[doc].description;
+						this.reviewItemsTypes[type].eng_description = applicationDocs[doc].eng_description;
 					}
 				}
 			}
-			state.reviewItemsTypes.push();
-			state.reviewItemsTypes.pop();
+			this.applicationDocs = applicationDocs;
 		},
-		addApplicationDoc(state) {
-			var notSelect = state.reviewItemsTypes.filter((type) => {
-				return type['used'] === false;
-			})[0];
-
-			var index = state.reviewItemsTypes.indexOf(notSelect);
-			state.reviewItemsTypes[index].used = true;
-
-			state.applicationDocs.push({
-				type_id: notSelect.id,
-				description: "",
-				eng_description: "",
-				modifiable: true,
-				required: false
-			});
+		validateReviewItems() {
+			var check = true
+			for(type in this.reviewItemsTypes) {
+				this.reviewItemsTypes[type].error = false;
+			}
+			for(type in this.reviewItemsTypes) {
+				if (this.reviewItemsTypes[type].needed == true && this.reviewItemsTypes[type].description == "") {
+					this.reviewItemsTypes[type].error = true;
+					check = false;
+				}
+			}
+			return check;
 		},
-		removeApplicationDoc(state, mutation) {
-			state.applicationDocs.splice(mutation.index, 1);
-		}
-	},
-	getters: {
-		getReviewItemsTypes: state => {
-			return state.reviewItemsTypes;
-		},
-		getApplicationDocs: state => {
-			return state.applicationDocs;
-		},
-		isfull: state => {
-			return state.applicationDocs.length >= state.reviewItemsTypes.length;
-		}
-	},
-	actions: {
-		initReviewItemsTypes({ commit }, val) {
-			commit({
-				type: 'setReviewItemsTypes',
-				reviewItemsTypes: val.reviewItemsTypes
+		getReviewItems() {
+			var data = this.reviewItemsTypes.filter((type) => {
+				return type.needed;
 			})
-		},
-		initTypesUsed({commit}) {
-			commit('initTypesUsed');
-		},
-		initApplicationDocs ({ commit }, val) {
-			commit({
-				type: 'setApplicationDocs',
-				applicationDocs: val.applicationDocs
-			})
-			commit('refreshApplicationDocsUsed');
-		},
-		addApplicationDoc({commit}) {
-			commit('addApplicationDoc');
-			commit('refreshApplicationDocsUsed');
-		},
-		removeApplicationDoc({commit}, val) {
-			commit({
-				type: 'removeApplicationDoc',
-				index: val.index
-			});
-			commit('refreshApplicationDocsUsed');
-		}
-	}
-})
-
-Vue.component('review-items-select',{
-	props:['doc_index', 'selected_id', 'modifiable'],
-	data() {
-		return {
-			selected: ''
-		}
-	},
-	template: `
-		<select class="form-control" v-model="selected" v-bind:disabled="!modifiable">
-				<option
-				v-for="type in reviewItemsTypes"
-				v-text="type.name"
-				v-bind:value="type.id"
-				v-bind:disabled="type.used"></option>
-		</select>
-	`,
-	created() {
-		this.selected = this.selected_id;
-	},
-	computed: {
-		reviewItemsTypes() {
-			return store.getters.getReviewItemsTypes;
-		}
-	},
-	watch: {
-		selected: function(newVal, oldVal) {
-			console.log(newVal);
-			this.$emit('ch_selected', this.doc_index, newVal, oldVal);
-		}
-	}
-})
-
-var reviewItems = new Vue({ // 審查項目
-	el: '#form-reviewItems',
-	computed: {
-		isfull() {
-			return store.getters.isfull;
-		},
-		applicationDocs() {
-			return store.getters.getApplicationDocs;
-		}
-	},
-	methods: {
-		initTypes(reviewItemsTypes) {
-			// fetch 回來的資料放入下拉選單，一個學制呼叫一次
-			store.dispatch('initReviewItemsTypes', {
-				reviewItemsTypes: reviewItemsTypes
-			});
-		},
-		initApplicationDocs(applicationDocs) {
-			// 下拉選單選擇狀態初始化，選擇一個系所呼叫一次
-			store.dispatch('initTypesUsed');
-			// fetch 回現有審查項目，重新渲染下拉式選單（設定下拉式選單哪些被 "used"）
-			store.dispatch('initApplicationDocs', {
-				applicationDocs: applicationDocs
-			});
-		},
-		addApplicationDoc() {
-			store.dispatch('addApplicationDoc');
-		},
-		removeApplicationDoc(doc) {
-			var index = this.applicationDocs.indexOf(doc);
-			store.dispatch('removeApplicationDoc', {
-				index: index
-			});
+			return data;
 		}
 	}
 })
