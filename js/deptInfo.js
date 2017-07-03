@@ -288,17 +288,7 @@ var DeptInfo = (function () {
 			birth_limit_after: $birthLimitAfter.val(),
 			birth_limit_before: $birthLimitBefore.val(),
 			memo: $memo.val(),
-			application_docs: JSON.stringify([{
-				type_id: 56,
-				description: '請輸入詳細說明，如份數與類型(畢業證書/修業證明/離校證明/在學證明)等',
-				eng_description: '請輸入英文詳細說明，如份數與類型(畢業證書/修業證明/離校證明/在學證明)等',
-				required: true
-			},{
-				type_id: 57,
-				description: '請輸入詳細說明，如份數與內容(全校名次及百分比對照表)等',
-				eng_description: '請輸入英文詳細說明，如份數與內容(全校名次及百分比對照表)等',
-				required: true
-			}])
+			application_docs: JSON.stringify(reviewItems.applicationDocs)
 		}
 		return data;
 	}
@@ -326,8 +316,102 @@ var DeptInfo = (function () {
 
 })();
 
+const store = new Vuex.Store({
+	state: {
+		reviewItemsTypes: [],
+		applicationDocs: []
+	},
+	mutations: {
+		setReviewItemsTypes(state, mutation) {
+			state.reviewItemsTypes = mutation.reviewItemsTypes;
+		},
+		initTypesUsed(state) {
+			// 選處一個系所後，初始化 used
+			for(type in state.reviewItemsTypes) {
+				state.reviewItemsTypes[type].used = false;
+			}
+		},
+		setApplicationDocs(state, mutation) {
+			state.applicationDocs = mutation.applicationDocs;
+		},
+		refreshApplicationDocsUsed(state) {
+			for(type in state.reviewItemsTypes) {
+				state.reviewItemsTypes[type].used = false;
+			}
+			for(doc in state.applicationDocs) {
+				for(type in state.reviewItemsTypes) {
+					if(state.applicationDocs[doc].type_id === state.reviewItemsTypes[type].id) {
+						Vue.set(state.reviewItemsTypes[type], 'used', true);
+					}
+				}
+			}
+			state.reviewItemsTypes.push();
+			state.reviewItemsTypes.pop();
+		},
+		addApplicationDoc(state) {
+			var notSelect = state.reviewItemsTypes.filter((type) => {
+				return type['used'] === false;
+			})[0];
+
+			var index = state.reviewItemsTypes.indexOf(notSelect);
+			state.reviewItemsTypes[index].used = true;
+
+			state.applicationDocs.push({
+				type_id: notSelect.id,
+				description: "",
+				eng_description: "",
+				modifiable: true,
+				required: false
+			});
+		},
+		removeApplicationDoc(state, mutation) {
+			state.applicationDocs.splice(mutation.index, 1);
+		}
+	},
+	getters: {
+		getReviewItemsTypes: state => {
+			return state.reviewItemsTypes;
+		},
+		getApplicationDocs: state => {
+			return state.applicationDocs;
+		},
+		isfull: state => {
+			return state.applicationDocs.length >= state.reviewItemsTypes.length;
+		}
+	},
+	actions: {
+		initReviewItemsTypes({ commit }, val) {
+			commit({
+				type: 'setReviewItemsTypes',
+				reviewItemsTypes: val.reviewItemsTypes
+			})
+		},
+		initTypesUsed({commit}) {
+			commit('initTypesUsed');
+		},
+		initApplicationDocs ({ commit }, val) {
+			commit({
+				type: 'setApplicationDocs',
+				applicationDocs: val.applicationDocs
+			})
+			commit('refreshApplicationDocsUsed');
+		},
+		addApplicationDoc({commit}) {
+			commit('addApplicationDoc');
+			commit('refreshApplicationDocsUsed');
+		},
+		removeApplicationDoc({commit}, val) {
+			commit({
+				type: 'removeApplicationDoc',
+				index: val.index
+			});
+			commit('refreshApplicationDocsUsed');
+		}
+	}
+})
+
 Vue.component('review-items-select',{
-	props:['doc_index', 'selected_id', 'review_items_types', 'modifiable'],
+	props:['doc_index', 'selected_id', 'modifiable'],
 	data() {
 		return {
 			selected: ''
@@ -336,7 +420,7 @@ Vue.component('review-items-select',{
 	template: `
 		<select class="form-control" v-model="selected" v-bind:disabled="!modifiable">
 				<option
-				v-for="type in review_items_types"
+				v-for="type in reviewItemsTypes"
 				v-text="type.name"
 				v-bind:value="type.id"
 				v-bind:disabled="type.used"></option>
@@ -345,70 +429,52 @@ Vue.component('review-items-select',{
 	created() {
 		this.selected = this.selected_id;
 	},
+	computed: {
+		reviewItemsTypes() {
+			return store.getters.getReviewItemsTypes;
+		}
+	},
 	watch: {
 		selected: function(newVal, oldVal) {
-			this.$emit('ch_selected', doc_index, newVal, oldVal);
+			console.log(newVal);
+			this.$emit('ch_selected', this.doc_index, newVal, oldVal);
 		}
 	}
 })
 
 var reviewItems = new Vue({ // 審查項目
 	el: '#form-reviewItems',
-	data: {
-		reviewItemsTypes: [],
-		applicationDocs: []
-	},
 	computed: {
 		isfull() {
-			return this.applicationDocs.length >= this.reviewItemsTypes.length;
+			return store.getters.isfull;
+		},
+		applicationDocs() {
+			return store.getters.getApplicationDocs;
 		}
 	},
 	methods: {
 		initTypes(reviewItemsTypes) {
-			// 下拉選單初始化，fetch 回來的各學制審閱項目 "used"(是否被使用)
-			this.reviewItemsTypes = reviewItemsTypes;
-			for(type in this.reviewItemsTypes) {
-				this.reviewItemsTypes[type].used = false;
-			}
+			// fetch 回來的資料放入下拉選單，一個學制呼叫一次
+			store.dispatch('initReviewItemsTypes', {
+				reviewItemsTypes: reviewItemsTypes
+			});
 		},
 		initApplicationDocs(applicationDocs) {
+			// 下拉選單選擇狀態初始化，選擇一個系所呼叫一次
+			store.dispatch('initTypesUsed');
 			// fetch 回現有審查項目，重新渲染下拉式選單（設定下拉式選單哪些被 "used"）
-			this.applicationDocs = applicationDocs;
-			for(doc in this.applicationDocs) {
-				for(type in this.reviewItemsTypes) {
-					if(this.applicationDocs[doc].type_id === this.reviewItemsTypes[type].id) {
-						this.reviewItemsTypes[type].used = true;
-					}
-				}
-			}
+			store.dispatch('initApplicationDocs', {
+				applicationDocs: applicationDocs
+			});
 		},
 		addApplicationDoc() {
-			var notSelect = this.reviewItemsTypes.filter((type) => {
-				return type['used'] === false;
-			})
-			console.log(notSelect);
-
-			this.applicationDocs.push({
-				type_id: "",
-				description: "",
-				eng_description: "",
-				modifiable: true,
-				required: false
-			});
+			store.dispatch('addApplicationDoc');
 		},
 		removeApplicationDoc(doc) {
 			var index = this.applicationDocs.indexOf(doc);
-			this.applicationDocs.splice(index, 1);
-		},
-		chSelected(docIndex, newVal, oldVal) {
-			this.applicationDocs[docIndex].type_id = newVal;
-			for(type in this.reviewItemsTypes) {
-				if (this.reviewItemsTypes[type].id === newVal) {
-
-				} else if (this.reviewItemsTypes[type].id === oldVal) {
-
-				}
-			}
+			store.dispatch('removeApplicationDoc', {
+				index: index
+			});
 		}
 	}
 })

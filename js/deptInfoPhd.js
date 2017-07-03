@@ -164,5 +164,4 @@ var deptInfoPhd = (function () {
 			console.error(err);
 		})
 	}
-
 })();
