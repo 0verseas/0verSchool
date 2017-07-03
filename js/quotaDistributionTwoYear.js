@@ -62,6 +62,8 @@ var quotaDistirbutionTwoYear = (function () {
 			return;
 		}
 
+    openLoading();
+
 		var departments = $deptList.find('.dept').map(function (i, deptRow) {
 			let $deptRow = $(deptRow);
 			return {
@@ -70,8 +72,6 @@ var quotaDistirbutionTwoYear = (function () {
 				self_enrollment_quota: +$deptRow.find('.self_enrollment_quota').val()
 			};
 		}).toArray();
-
-		console.log(departments);
 
 		var data = {
 			departments: departments
@@ -88,14 +88,14 @@ var quotaDistirbutionTwoYear = (function () {
 				throw res;
 			}
 		}).then(function (json) {
-			console.log(json); 
 			alert('已儲存');
 			location.reload();
 		}).catch(function (err) {
-			console.error(err);
 			err.json && err.json().then((data) => {
 				console.error(data);
 				alert(`ERROR: \n${data.messages[0]}`);
+
+        stopLoading();
 			})
 		});
 	}
@@ -121,6 +121,8 @@ var quotaDistirbutionTwoYear = (function () {
 	}
 
 	function _setData() {
+    openLoading();
+
 		School.getSystemQuota('twoYear').then(function (res) {
 			if(res.ok) {
 				return res.json();
@@ -128,14 +130,21 @@ var quotaDistirbutionTwoYear = (function () {
 				throw res
 			}
 		}).then(function (json) {
-			console.log(json);
 			_renderData(json)
+
+      stopLoading();
 		}).catch(function (err) {
-			console.error(err);
-			err.json && err.json().then((data) => {
-				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
-			})
+			if (err.status === 404) {
+				alert('沒有這個學制。 即將返回上一頁。');
+				window.history.back();
+			} else {
+        err.json && err.json().then((data) => {
+          console.error(data);
+          alert(`ERROR: \n${data.messages[0]}`);
+
+          stopLoading();
+        });
+      }
 		});
 	}
 

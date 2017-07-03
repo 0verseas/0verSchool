@@ -4,12 +4,7 @@
 	}
 %>
 <script>
-	$('body').loading();
-	User.checkLogin('school_editor').then(() => {
-		setTimeout(function () {
-			$('body').loading('stop');
-		}, 400);
-	});
+	User.checkLogin('school_editor');
 </script>
 <div class="row">
 	<button id="btn-toggle" class="btn btn-sm btn-secondary">
