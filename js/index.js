@@ -39,7 +39,7 @@ var schoolInfo = (function () {
 	var $approvalDocOfSelfEnrollmentUrl = $schoolInfoForm.find('#approvalDocOfSelfEnrollmentUrl');
 
 	// Button
-	var $schoolInfoBtn = $schoolInfoForm.find('#btn-save, #btn-commit');
+	var $schoolInfoBtn = $schoolInfoForm.find('#btn-save');
 
 	// form-group
 	var formGroup = {
@@ -75,7 +75,7 @@ var schoolInfo = (function () {
 	$hasScholarship.on("change", _switchScholarshipStatus);
 	$hasFiveYearStudentAllowed.on("change", _switchFiveYearStudentStatus);
 	$hasSelfEnrollment.on("change", _switchSelfEnrollmentStatus);
-	$schoolInfoBtn.on("click", _handleSchoolInfoSaveOrCommit);
+	$schoolInfoBtn.on("click", _setSchoolInfo);
 
 	function _switchDormStatus() { // 切換「宿舍」狀態
 		$dormInfo.prop('disabled', !$hasDorm.prop('checked'));
@@ -134,34 +134,6 @@ var schoolInfo = (function () {
 	    data.append('approval_doc_of_self_enrollment', $approvalDocOfSelfEnrollment.prop('files')[0]);
 		}
     return data;
-	}
-
-	// 處理 Save or Commit 動作邏輯
-	// Save 檢查有輸入的 Url 格式
-	// Commit 檢查需輸入的欄位
-	function _handleSchoolInfoSaveOrCommit() {
-		var action = $(this).data('action');
-		// init highlight
-		for(form in formGroup) {
-			formGroup[form].removeClass("has-danger");
-		}
-
-		if (action === 'save') {
-			if (_validateUrl()) {
-				_setSchoolInfo(action);
-			} else {
-				alert("有欄位輸入錯誤，請重新確認。");
-			}
-		} else if (action === 'commit') {
-			var urlResult = _validateUrl();
-			var formResult = _validateForm();
-
-			if (urlResult && formResult) {
-				_setSchoolInfo(action)
-			} else {
-				alert("有欄位輸入錯誤，請重新確認。");
-			}
-		}
 	}
 
 	// 檢查表單要求
@@ -228,22 +200,40 @@ var schoolInfo = (function () {
 	}
 
 	// 送出表單
-	function _setSchoolInfo(action) {
+	function _setSchoolInfo() {
+
+    // init highlight
+		for(form in formGroup) {
+			formGroup[form].removeClass("has-danger");
+		}
+
+		var urlResult = _validateUrl();
+    var formResult = _validateForm();
+
+    if (!urlResult || !formResult) {
+      alert("有欄位輸入錯誤，請重新確認。");
+      return;
+    }
+
 		var sendData = _getFormData();
-		sendData.append('action', action);
+
+    openLoading();
 
 		School.setSchoolInfo(sendData)
 		.then(function(res) {
 		  if(res.ok) {
-		  	(action == 'save') ? alert('儲存成功') : alert('送出成功');
+		  	alert('儲存成功');
 		  	location.reload();
 		  } else {
 		    throw res
 		  }
 		}).catch(function(err) {
-		  console.log(err);
-		  alert('傳送發生錯誤，請聯繫我們，我們將儘速處理。');
-		  location.reload();
+      err.json && err.json().then((data) => {
+        console.error(data);
+        alert(`ERROR: \n${data.messages[0]}`);
+
+        stopLoading();
+      });
 		})
 	}
 
@@ -275,7 +265,7 @@ var schoolInfo = (function () {
 		$ruleOfFiveYearStudent.text(schoolData.rule_of_five_year_student);
 		if (schoolData.rule_doc_of_five_year_student) {
 			var FYSDocTitle = schoolData['rule_doc_of_five_year_student'].substring(schoolData['rule_doc_of_five_year_student'].lastIndexOf("/") + 1);
-			$ruleDocOfFiveYearStudentUrl.prop("href", "https://api.overseas.ncnu.edu.tw/storage/" + schoolData.rule_doc_of_five_year_student);
+			$ruleDocOfFiveYearStudentUrl.prop("href", "http://localhost:8000/storage/" + schoolData.rule_doc_of_five_year_student);
 			$ruleDocOfFiveYearStudentUrl.text(FYSDocTitle);
 		}
 		// 單獨招收僑生（自招）
@@ -283,13 +273,15 @@ var schoolInfo = (function () {
 		$approvalNoOfSelfEnrollment.val(schoolData.approval_no_of_self_enrollment);
 		if (schoolData.approval_doc_of_self_enrollment) {
 			var SEDocTitle = schoolData['approval_doc_of_self_enrollment'].substring(schoolData['approval_doc_of_self_enrollment'].lastIndexOf("/") + 1);
-			$approvalDocOfSelfEnrollmentUrl.prop("href", "https://api.overseas.ncnu.edu.tw/storage/" + schoolData.approval_doc_of_self_enrollment);
+			$approvalDocOfSelfEnrollmentUrl.prop("href", "http://localhost:8000/storage/" + schoolData.approval_doc_of_self_enrollment);
 			$approvalDocOfSelfEnrollmentUrl.text(SEDocTitle);
 		}
 	}
 
 	// init
 	function _getSchoolData() {
+    openLoading();
+
 		School.getSchoolInfo()
 		.then(function(res) {
 			if(res.ok) {
@@ -303,17 +295,20 @@ var schoolInfo = (function () {
 			return json.info_status
 		}).then(function(infoStatus) {
 			var role = User.getUserInfo().school_editor.has_admin;
-			// 編輯狀態若為「等待審閱」或「審閱成功」，則 鎖住 編輯畫面。
-			if (infoStatus === 'waiting' || infoStatus === 'confirmed' || !role) {
-				$schoolInfoForm.find(':input').prop('disabled', true);
-			} else {
-				_switchDormStatus();
-				_switchScholarshipStatus();
-				_switchFiveYearStudentStatus();
-				_switchSelfEnrollmentStatus();
-			}
+
+      _switchDormStatus();
+      _switchScholarshipStatus();
+      _switchFiveYearStudentStatus();
+      _switchSelfEnrollmentStatus();
+
+      stopLoading();
 		}).catch(function(err) {
-			console.log(err);
+			err.json && err.json().then((data) => {
+        console.error(data);
+        alert(`ERROR: \n${data.messages[0]}`);
+
+        stopLoading();
+      });
 		})
 	}
 

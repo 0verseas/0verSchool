@@ -3,13 +3,6 @@ var School = (function () {
 	function getSchoolInfo() {
 		return fetch(`https://api.overseas.ncnu.edu.tw/schools/me/histories/latest`, {
 			credentials: 'include'
-		})
-		.then(function (res) {
-			if (res.status === 404) {
-				alert('查無學校資料。 即將返回上一頁。');
-				window.history.back();
-			}
-			return res;
 		});
 	}
 
