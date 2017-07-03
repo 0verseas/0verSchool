@@ -24,6 +24,7 @@ var deptInfoBache = (function () {
 	var $admissionSelectionQuota = $modalDeptInfo.find('#admissionSelectionQuota'); // 個人申請人數
 	var $admissionPlacementQuota = $modalDeptInfo.find('#admissionPlacementQuota'); // 聯合分發人數
 	var $decreaseReasonOfAdmissionPlacement = $modalDeptInfo.find('#decreaseReasonOfAdmissionPlacement');
+	var $placementQuotaTip = $modalDeptInfo.find('#placementQuotaTip');
 
 	var $deptDetailSaveBtn = $('#deptDetailSave');
 
@@ -76,6 +77,8 @@ var deptInfoBache = (function () {
 
 	function _renderDeptDetail(deptData) { // 渲染系所詳細資料
 		DeptInfo.renderCommonDeptDetail(deptData); // 渲染學制們共用欄位
+		var min = Math.min(deptData.last_year_admission_placement_amount, deptData.last_year_admission_placement_quota);
+		$placementQuotaTip.tooltip({title: '聯合分發人數請大於 ' + min + ' 人，否則請填寫減招原因'});
 		_renderSpecialDeptDetail(deptData);
 		_switchHasSelfEnrollment();
 		_switchSchoolHasSelfEnrollment();
