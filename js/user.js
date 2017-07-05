@@ -1,12 +1,13 @@
 var User = (function () {
 	var _userInfo;
+	var baseUrl = env.baseUrl;
 
 	function _setUserInfo(userInfo) {
 		_userInfo = userInfo;
 	}
 
 	function login(loginForm) {
-		return fetch('https://api.overseas.ncnu.edu.tw/users/login', {
+		return fetch(baseUrl + '/users/login', {
 			method: "POST",
 			headers: {
 				'Content-Type': 'application/json'
@@ -17,14 +18,14 @@ var User = (function () {
 	}
 
 	function logout() {
-		return fetch('https://api.overseas.ncnu.edu.tw/users/logout', {
+		return fetch(baseUrl + '/users/logout', {
 			method: "POST",
 			credentials: 'include'
 		});
 	}
 
 	function isLogin() {
-		return fetch('https://api.overseas.ncnu.edu.tw/users/login', {
+		return fetch(baseUrl + '/users/login', {
 			credentials: 'include'
 		});
 	}
@@ -51,7 +52,7 @@ var User = (function () {
 	}
 
 	function update(userInfo) {
-		return fetch(`https://api.overseas.ncnu.edu.tw/schools/me/editors/${userInfo.username}`, {
+		return fetch(baseUrl + `/schools/me/editors/${userInfo.username}`, {
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json'

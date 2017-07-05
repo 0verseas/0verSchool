@@ -1,7 +1,9 @@
 var School = (function () {
 
+	var baseUrl = env.baseUrl;
+
 	function getSchoolInfo() {
-		return fetch(`https://api.overseas.ncnu.edu.tw/schools/me/histories/latest`, {
+		return fetch(baseUrl + `/schools/me/histories/latest`, {
 			credentials: 'include'
 		})
 		.then(function (res) {
@@ -14,7 +16,7 @@ var School = (function () {
 	}
 
 	function setSchoolInfo(data) {
-		return fetch(`https://api.overseas.ncnu.edu.tw/schools/me/histories`, {
+		return fetch(baseUrl + `/schools/me/histories`, {
 			method: 'POST',
 			body: data,
 			credentials: 'include'
@@ -22,7 +24,7 @@ var School = (function () {
 	}
 
 	function getSystemQuota(system) {
-		return fetch(`https://api.overseas.ncnu.edu.tw/schools/me/systems/${system}/histories/latest?data_type=quota`, {
+		return fetch(baseUrl + `/schools/me/systems/${system}/histories/latest?data_type=quota`, {
 			credentials: 'include'
 		})
 		.then(function (res) {
@@ -35,7 +37,7 @@ var School = (function () {
 	}
 
 	function setSystemQuota(system, data) {
-		return fetch(`https://api.overseas.ncnu.edu.tw/schools/me/systems/${system}/histories?data_type=quota`, {
+		return fetch(baseUrl + `/schools/me/systems/${system}/histories?data_type=quota`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -46,7 +48,7 @@ var School = (function () {
 	}
 
 	function getSystemInfo(system) {
-		return fetch(`https://api.overseas.ncnu.edu.tw/schools/me/systems/${system}/histories/latest?data_type=info`, {
+		return fetch(baseUrl + `/schools/me/systems/${system}/histories/latest?data_type=info`, {
 			credentials: 'include'
 		})
 		.then(function (res) {
@@ -59,7 +61,7 @@ var School = (function () {
 	}
 
 	function setSystemInfo(system, data) {
-		return fetch(`https://api.overseas.ncnu.edu.tw/schools/me/systems/${system}/histories?data_type=info`, {
+		return fetch(baseUrl + `/schools/me/systems/${system}/histories?data_type=info`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -70,13 +72,13 @@ var School = (function () {
 	}
 
 	function getDeptInfo(system, deptId) { // 取得某學制某系所
-		return fetch(`https://api.overseas.ncnu.edu.tw/schools/me/systems/${system}/departments/${deptId}/histories/latest`, {
+		return fetch(baseUrl + `/schools/me/systems/${system}/departments/${deptId}/histories/latest`, {
 			credentials: 'include'
 		})
 	}
 
 	function setDeptInfo(system, deptId, data) { // 儲存某學制某系所
-		return fetch(`https://api.overseas.ncnu.edu.tw/schools/me/systems/${system}/departments/${deptId}/histories`, {
+		return fetch(baseUrl + `/schools/me/systems/${system}/departments/${deptId}/histories`, {
 			method: 'POST',
 			body: data,
 			credentials: 'include'
@@ -85,9 +87,9 @@ var School = (function () {
 
 	function getDeptFormItem(system) { // 取得系所 Modal 中下拉式選單的 option，包含學群、評鑑、審查項目。
 		var urls = [
-		'https://api.overseas.ncnu.edu.tw/department-groups',
-		'https://api.overseas.ncnu.edu.tw/evaluation-levels',
-		'https://api.overseas.ncnu.edu.tw/systems/' + system + '/application-document-types'
+		baseUrl + '/department-groups',
+		baseUrl + '/evaluation-levels',
+		baseUrl + '/systems/' + system + '/application-document-types'
 		]
 		const grabContent = url => fetch(url, {
 			credentials: 'include'
