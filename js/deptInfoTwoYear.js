@@ -58,13 +58,19 @@ var deptInfoTwoYear = (function () {
 	}
 
 	function _handleEditDeptInfo() { // 系所列表 Modal 觸發
+    openLoading();
+
 		_currentDeptId = $(this).data('deptid');
 		School.getDeptInfo(_currentSystem, _currentDeptId)
 		.then((res) => { return res.json(); })
 		.then((json) => {
 			_renderDeptDetail(json);
 		})
-		.then(() => { $editDeptInfoModal.modal(); })
+		.then(() => {
+      $editDeptInfoModal.modal();
+
+      stopLoading();
+    })
 	}
 
 	function _renderDeptDetail(deptData) { // 渲染系所詳細資料
@@ -153,6 +159,8 @@ var deptInfoTwoYear = (function () {
 
 	function _saveDeptDetail() {
 		if (_validateForm()) {
+      openLoading();
+
 			var sendData = _getFormData();
 			School.setDeptInfo(_currentSystem, _currentDeptId, sendData)
 			.then((res) => {
@@ -164,9 +172,16 @@ var deptInfoTwoYear = (function () {
 			})
 			.then((json) => {
 				alert("儲存成功");
+
+        stopLoading();
 			})
 			.catch((err) => {
-				console.log(err);
+				err.json && err.json().then((data) => {
+          console.error(data);
+          alert(`ERROR: \n${data.messages[0]}`);
+
+          stopLoading();
+        });
 			})
 		} else {
 			alert("有欄位輸入錯誤，請重新確認。");
@@ -174,6 +189,8 @@ var deptInfoTwoYear = (function () {
 	}
 
 	function _setData() {
+    openLoading();
+
 		School.getSystemInfo(_currentSystem) // 取得學制資料，沒有該學制則回上一頁
 		.then((res) => {
 			if(res.ok) { // 有該學制則開始頁面初始化
@@ -189,9 +206,21 @@ var deptInfoTwoYear = (function () {
 			$editDeptInfoBtn = $('.btn-editDeptInfo'); // 新增系所編輯按鈕的觸發事件（開啟 Modal）
 			$editDeptInfoBtn.on('click', _handleEditDeptInfo);
 			DeptInfo.renderDeptSelect(_currentSystem); // 產生系所詳細資料 Modal 中下拉式選單
+
+      stopLoading();
 		})
 		.catch((err) => {
-			console.error(err);
+			if (err.status === 404) {
+				alert('沒有這個學制。 即將返回上一頁。');
+				window.history.back();
+			} else {
+        err.json && err.json().then((data) => {
+          console.error(data);
+          alert(`ERROR: \n${data.messages[0]}`);
+
+          stopLoading();
+        });
+      }
 		})
 	}
 })();

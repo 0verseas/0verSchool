@@ -77,6 +77,8 @@ var quotaDistributionMaster = (function () {
 			return;
 		}
 
+    openLoading();
+
 		var departments = $deptList.find('.dept').map(function (i, deptRow) {
 			let $deptRow = $(deptRow);
 			return {
@@ -102,19 +104,21 @@ var quotaDistributionMaster = (function () {
 				throw res
 			}
 		}).then(function (json) {
-			console.log(json);
 			alert('已儲存');
 			location.reload();
 		}).catch(function (err) {
-			console.error(err);
 			err.json && err.json().then((data) => {
 				console.error(data);
 				alert(`ERROR: \n${data.messages[0]}`);
+
+        stopLoading();
 			})
 		});
 	}
 
 	function _setData() {
+    openLoading();
+
 		School.getSystemQuota('master').then(function (res) {
 			if(res.ok) {
 				return res.json();
@@ -122,16 +126,23 @@ var quotaDistributionMaster = (function () {
 				throw res
 			}
 		}).then(function (json) {
-			console.log(json);
 			_renderData(json);
 		}).then(function () {
 			$.bootstrapSortable(true);
+
+      stopLoading();
 		}).catch(function (err) {
-			console.error(err);
-			err.json && err.json().then((data) => {
-				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
-			})
+			if (err.status === 404) {
+				alert('沒有這個學制。 即將返回上一頁。');
+				window.history.back();
+			} else {
+        err.json && err.json().then((data) => {
+          console.error(data);
+          alert(`ERROR: \n${data.messages[0]}`);
+
+          stopLoading();
+        });
+      }
 		});
 	}
 

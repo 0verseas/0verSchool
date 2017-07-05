@@ -22,6 +22,17 @@
   <script src="./js/user.js"></script>
 	<script src="./js/school.js"></script>
 	<script>
+    function openLoading() {
+      $('body').loading();
+      $('.loading-overlay').css({'z-index': 11111, top: 0});
+    }
+
+    function stopLoading() {
+      $('body').loading('stop');
+    }
+
+    openLoading();
+
 		if(!Browser.checkBrowserSupport()) {
 			alert('請使用 Chrome, Firefox, Safari 或 Edge 版本 > 14 的瀏覽器。');
 			window.history.back();

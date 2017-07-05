@@ -83,6 +83,8 @@ var DeptInfo = (function () {
 			'eng_description': $deptInfoEngDescription.val()
 		}
 
+    openLoading();
+
 		School.setSystemInfo(system, data)
 		.then(function (res) {
 			if(res.ok) {
@@ -93,10 +95,14 @@ var DeptInfo = (function () {
 				throw res
 			}
 		}).then(function (json) {
-			console.log(json);
 			location.reload();
 		}).catch(function (err) {
-			console.error(err);
+			err.json && err.json().then((data) => {
+        console.error(data);
+        alert(`ERROR: \n${data.messages[0]}`);
+
+        stopLoading();
+      });
 		});
 	}
 
@@ -144,7 +150,7 @@ var DeptInfo = (function () {
 				} else {
 					tr[i].style.display = "none";
 				}
-			} 
+			}
 		}
 	}
 

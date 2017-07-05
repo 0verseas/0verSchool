@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.standalone.min.css">
 
 <h2>學制資訊</h2>
-<form id="form-deptInfo">
+<div id="form-deptInfo">
 	<div class="row">
 		<div class="form-group col">
 			<label for="description">中文備註</label>
@@ -16,12 +16,13 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="offset-3 col-6">
-			<button id="btn-deptInfoSave" data-action="save" type="button" class="btn btn-primary btn-block">儲存</button>
-		</div>
-		</div>
+    <div class="col-12 text-center">
+      <button id="btn-deptInfoSave" data-action="save" class="btn btn-primary">
+        儲存
+      </button>
+    </div>
 	</div>
-</form>
+</div>
 <hr>
 <div class="row">
 	<div class="col-md-7 col-6">
@@ -319,9 +320,8 @@
 			</div>
 
 			<div class="modal-footer">
-				<!-- 「確認送出」後，block 住 form -->
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
 				<button type="button" class="btn btn-primary" id="deptDetailSave">儲存</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">離開</button>
 			</div>
 
 		</div>

@@ -111,11 +111,21 @@ $(document).ready(function () {
 					phd: []
 				}
 			}
+
+      openLoading();
+
 			// call API
 			User.update(userInfo).then(function() {
 				$modal.modal('hide');
+
+        stopLoading();
 			}).catch(function(err) {
-				console.log(err);
+				err.json && err.json().then((data) => {
+          console.error(data);
+          alert(`ERROR: \n${data.messages[0]}`);
+
+          stopLoading();
+        });
 			});
 		}
 
