@@ -42,6 +42,9 @@ var DeptInfo = (function () {
 	var $birthLimitAfter = $modalDeptInfo.find('#birthLimitAfter'); // 限制出生日期（以後）
 	var $birthLimitBefore = $modalDeptInfo.find('#birthLimitBefore'); // 限制出生日期（以前）
 	var $memo = $modalDeptInfo.find('#memo'); // 給海聯的訊息
+	
+	// 所有審查項目
+	var $reviewDiv = $modalDeptInfo.find('#review-div');
 
 	var formGroup = {
 		sortOrderForm: $modalDeptInfo.find('#sortOrderForm'),
@@ -309,7 +312,9 @@ var DeptInfo = (function () {
 		renderDeptSelect,
 		renderCommonDeptDetail,
 		validateForm,
-		getCommonFormData
+		getCommonFormData,
+		formGroup,
+		$reviewDiv
 	}
 
 })();

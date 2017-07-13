@@ -39,11 +39,23 @@ var deptInfoMaster = (function () {
 
 	$deptDetailSaveBtn.on('click', _saveDeptDetail);
 
+	$admissionSelectionQuota.on('keyup', _reviewDivAction);
+	
 	/**
 	 * init
 	 */
 
 	_setData();
+	
+	function _reviewDivAction() { // hide or show reviewDiv
+		
+		if ($admissionSelectionQuota.val() == 0) {
+			DeptInfo.$reviewDiv.hide();
+		} else {
+			DeptInfo.$reviewDiv.show();
+		}
+	
+	}
 
 	function _saveDeptDescription() {
 		DeptInfo.saveDeptDescription(_currentSystem);
