@@ -102,6 +102,7 @@ var deptInfoBache = (function () {
 		$hasSpecialClass.prop("checked", deptData.has_special_class);
 		$admissionSelectionQuota.val(deptData.admission_selection_quota);
 		$admissionPlacementQuota.val(deptData.admission_placement_quota);
+		$decreaseReasonOfAdmissionPlacement.val(deptData.decrease_reason_of_admission_placement);
 		_lastYearAdmissionPlacementAmount = deptData.last_year_admission_placement_amount;
 		_lastYearAdmissionPlacementQuota = deptData.last_year_admission_placement_quota;
 		_computeBachelorAdmissionTotalQuota();
