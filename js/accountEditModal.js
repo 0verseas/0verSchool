@@ -9,7 +9,7 @@ $(document).ready(function () {
 		var password = $('[name=password]');
 		var passwordSecond = $('[name=password-second]');
 		var name = $('[name=name]');
-		var engName = $('[name=eng_name]');
+		var jobTitle = $('[name=job-title]');
 		var email = $('[name=email]');
 		var organization = $('[name=organization]');
 		var phone = $('[name=phone]');
@@ -59,7 +59,7 @@ $(document).ready(function () {
 			var user = User.getUserInfo();
 			username.attr('value', user.username);
 			name.attr('value', user.name);
-			engName.attr('value', user.eng_name);
+			jobTitle.attr('value', user.job_title);
 			email.attr('value', user.email);
 			organization.attr('value', user.school_editor.organization);
 			phone.attr('value', user.phone);
@@ -99,7 +99,7 @@ $(document).ready(function () {
 				password: storedPassword,	
 				email: email.val(),
 				name: name.val(),
-				eng_name: engName.val(),
+				job_title: jobTitle.val(),
 				phone: phone.val(),
 				organization: organization.val(),
 				has_banned:	false,
