@@ -172,6 +172,67 @@
 						<%- include deptInfoForm/_quotaOthers %>
 						<% } -%>
 						
+						<hr>
+							
+						<div class="row">
+							<div class="col">
+								<div class="card">
+									<div class="card-header bg-primary text-white">
+										other
+									</div>
+									<div class="card-block">
+											<div class="form-check">
+												<label class="form-check-label">
+													<input class="form-check-input" type="checkbox" id="hasForeignSpecialClass" value="">
+													是否招收外生專班
+												</label>
+											</div>
+											<div class="form-check">
+												<label class="form-check-label">
+													<input class="form-check-input" type="checkbox" id="hasEngTaught" value="">
+													是否為全英文授課
+												</label>
+											</div>
+											<div class="form-check">
+												<label class="form-check-label">
+													<input class="form-check-input" type="checkbox" id="hasDisabilities" value="">
+													是否招收身障學生
+												</label>
+											</div>
+											<div class="form-check">
+												<label class="form-check-label">
+													<input class="form-check-input" type="checkbox" id="hasBuHweiHwaWen" value="">
+													是否招收不具華文基礎學生
+												</label>
+											</div>
+											<div class="form-check">
+												<label class="form-check-label">
+													<input class="form-check-input" type="checkbox" id="hasBirthLimit" value="">
+													是否限制出生日期
+												</label>
+											</div>
+
+										<hr>
+										<p>限制出生日期</p>
+										<div class="form-inline">
+											<div id="birthLimitAfterForm" class="input-group mb-2 mr-sm-2 mb-sm-0">
+												<input type="text" class="form-control datepicker" id="birthLimitAfter">
+												<div class="input-group-addon">以後</div>
+											</div>
+										</div>
+										<div class="form-inline" style="padding-top: 20px;">
+											<div id="birthLimitBeforeForm" class="input-group mb-2 mr-sm-2 mb-sm-0">
+												<input type="text" class="form-control datepicker" id="birthLimitBefore">
+												<div class="input-group-addon">以前</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<hr>
+
 						<div id="review-div">
 							<div class="row">
 								<div class="col">
@@ -202,65 +263,6 @@
 								</div>
 							</div>
 							
-							<hr>
-							
-							<div class="row">
-								<div class="col">
-									<div class="card">
-										<div class="card-header bg-primary text-white">
-											other
-										</div>
-										<div class="card-block">
-												<div class="form-check">
-													<label class="form-check-label">
-														<input class="form-check-input" type="checkbox" id="hasForeignSpecialClass" value="">
-														是否招收外生專班
-													</label>
-												</div>
-												<div class="form-check">
-													<label class="form-check-label">
-														<input class="form-check-input" type="checkbox" id="hasEngTaught" value="">
-														是否為全英文授課
-													</label>
-												</div>
-												<div class="form-check">
-													<label class="form-check-label">
-														<input class="form-check-input" type="checkbox" id="hasDisabilities" value="">
-														是否招收身障學生
-													</label>
-												</div>
-												<div class="form-check">
-													<label class="form-check-label">
-														<input class="form-check-input" type="checkbox" id="hasBuHweiHwaWen" value="">
-														是否招收不具華文基礎學生
-													</label>
-												</div>
-												<div class="form-check">
-													<label class="form-check-label">
-														<input class="form-check-input" type="checkbox" id="hasBirthLimit" value="">
-														是否限制出生日期
-													</label>
-												</div>
-
-											<hr>
-											<p>限制出生日期</p>
-											<div class="form-inline">
-												<div id="birthLimitAfterForm" class="input-group mb-2 mr-sm-2 mb-sm-0">
-													<input type="text" class="form-control datepicker" id="birthLimitAfter">
-													<div class="input-group-addon">以後</div>
-												</div>
-											</div>
-											<div class="form-inline" style="padding-top: 20px;">
-												<div id="birthLimitBeforeForm" class="input-group mb-2 mr-sm-2 mb-sm-0">
-													<input type="text" class="form-control datepicker" id="birthLimitBefore">
-													<div class="input-group-addon">以前</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						
 							<hr>
 							
 							<div id="form-reviewItems">
