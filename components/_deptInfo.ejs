@@ -2,12 +2,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.standalone.min.css">
 
 <div class="row">
-	<div class="col-10 text-left">
+	<div class="col-6 text-left">
 		<h2>學制資訊</h2>
 	</div>
-	<div class="col-2 text-right">
-		<button class="btn btn-success">
-			列印
+	<div class="col-6 text-right">
+		<button class="btn btn-success" id="sendPreviewPDF-btn">
+			寄送預覽版 PDF
+		</button>
+		
+		<button class="btn btn-danger" id="sendFormalPDF-btn">
+			寄送正式版 PDF
 		</button>
 	</div>
 </div>
