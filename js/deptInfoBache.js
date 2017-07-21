@@ -14,6 +14,9 @@ var deptInfoBache = (function () {
 
 	var $editDeptInfoBtn; // 系所列表每項資料的編輯按鈕，資料取回後再綁定 event
 	var $editDeptInfoModal = $('#editDeptInfoModal'); // 系所列表每項資料的編輯框
+
+	var $sendPreviewPDFBtn = $('#sendPreviewPDF-btn'); // 預覽版 PDF 按鈕
+	var $sendFormalPDFBtn = $('#sendFormalPDF-btn'); // 正式版 PDF 按鈕
 	
 	// Modal special elements
 	var $modalDeptInfo = $('#modal-deptInfo');
@@ -49,11 +52,25 @@ var deptInfoBache = (function () {
 
 	$deptDetailSaveBtn.on('click', _saveDeptDetail);
 
+	$sendPreviewPDFBtn.on('click', function () {
+		_getGuidelinesReplyForm('preview');
+	}); // 列印學制資訊 (預覽版)
+	$sendFormalPDFBtn.on('click', function () {
+		_getGuidelinesReplyForm('formal');
+	}); // 列印學制資訊 (正式版)
+
 	/**
 	 * init
 	 */
 
 	 _setData();
+
+	function _getGuidelinesReplyForm(mode = 'preview') {
+		School.getGuidelinesReplyForm({mode})
+		.then(function(res) {
+			
+		});
+	}
 
 	function _computeBachelorAdmissionTotalQuota() { // 「聯招人數（學士專用）」自動計算
 		var totalPeople = Number($admissionSelectionQuota.val()) + Number($admissionPlacementQuota.val());
@@ -81,7 +98,10 @@ var deptInfoBache = (function () {
 			_renderDeptDetail(json);
 		})
 		.then(() => {
-      $editDeptInfoModal.modal();
+			$editDeptInfoModal.modal({
+				backdrop: 'static',
+				keyboard: false
+			});
 
       stopLoading();
    })
