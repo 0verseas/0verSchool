@@ -50,6 +50,14 @@ var School = (function () {
 		});
 	}
 
+	function getGuidelinesReplyForm(system, data) {
+		return fetch(`${baseUrl}/schools/me/systems/${system}/guidelines-reply-form`, {
+			method: 'POST',
+			body: data,
+			credentials: 'include'
+		});
+	}
+
 	function getDeptInfo(system, deptId) { // 取得某學制某系所
 		return fetch(baseUrl + `/schools/me/systems/${system}/departments/${deptId}/histories/latest`, {
 			credentials: 'include'
@@ -86,7 +94,8 @@ var School = (function () {
 		setSystemInfo,
 		getDeptInfo,
 		setDeptInfo,
-		getDeptFormItem
+		getDeptFormItem,
+		getGuidelinesReplyForm
 	};
 
 })();
