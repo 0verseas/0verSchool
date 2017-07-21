@@ -71,7 +71,10 @@ var deptInfoMaster = (function () {
 			_renderDeptDetail(json);
 		})
 		.then(() => {
-      $editDeptInfoModal.modal();
+      		$editDeptInfoModal.modal({
+				backdrop: 'static',
+				keyboard: false
+			});
 
       stopLoading();
     })
