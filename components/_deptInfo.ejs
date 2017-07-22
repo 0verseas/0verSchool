@@ -19,8 +19,8 @@
 <div id="form-deptInfo"> 
 	<div class="row">
 		<div class="form-group col">
-			<label for="description">學制中文備註</label>
-			<textarea id="description" type="text" class="form-control" rows="6"></textarea>
+			<label for="description">學制中文備註*</label>
+			<textarea id="description" type="text" class="form-control required" rows="6"></textarea>
 		</div>
 	</div>
 	<div class="row">
@@ -305,6 +305,54 @@
 															value="是否設為必繳資料"
 															disabled="disabled">
 														</div>
+													</div>
+												</div>
+											</div>	
+
+											<!-- 如果是師長推薦函 -->
+											<div v-if="type.name == '師長推薦函'">
+												<div class="row">
+													<div class="col-lg-6">
+														<div class="form-group">
+															<div class="input-group">
+																<span class="input-group-addon">
+																	<input type="checkbox" v-model="type.required" v-bind:disabled="!type.modifiable">
+																</span>
+																<input
+																type="text"
+																class="form-control"
+																style="background-color: white;"
+																value="是否需要紙本推薦函"
+																disabled="disabled">
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="form-group col-6">
+														<label>收件人 (英文)</label>
+														<input id="" type="text" class="form-control">
+													</div>
+													<div class="form-group col-6">
+														<label>聯絡電話</label>
+														<input id="" type="text" class="form-control">
+													</div>
+												</div>
+												<div class="row">
+													<div class="form-group col-6">
+														<label>郵遞區號</label>
+														<input id="" type="text" class="form-control">
+													</div>
+													<div class="form-group col-6">
+														<label>收件期限</label>
+														<input id="" type="text" class="form-control">
+													</div>
+												</div>
+												<div class="row">
+													<div class="form-group col-12">
+														<label>收件地址 (英文)</label>
+														<input id="" type="text" class="form-control">
 													</div>
 												</div>
 											</div>
