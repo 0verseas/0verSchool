@@ -66,9 +66,28 @@ var deptInfoBache = (function () {
 	 _setData();
 
 	function _getGuidelinesReplyForm(mode = 'preview') {
-		School.getGuidelinesReplyForm({mode})
+		openLoading();
+		School.getGuidelinesReplyForm(_currentSystem, {mode})
 		.then(function(res) {
-			
+			if (res.ok) {
+				return res.json;
+			} else {
+				throw res;
+			}
+		})
+		.then(function(data) {
+			if (mode === 'formal') {
+				alert('寄送正式版 PDF 成功，請至信箱確認。');
+			} else {
+				alert('寄送預覽版 PDF 成功，請至信箱確認。');
+			}
+			stopLoading();
+		})
+		.catch(function(err) {
+			err.json && err.json().then(function(data) {
+				alert(data.messages[0]);
+			})
+			stopLoading();
 		});
 	}
 
@@ -175,7 +194,7 @@ var deptInfoBache = (function () {
 
 	function _saveDeptDetail() {
 		if (_validateForm()) {
-      openLoading();
+            openLoading();
 
 			var sendData = _getFormData();
 			School.setDeptInfo(_currentSystem, _currentDeptId, sendData)
@@ -188,15 +207,14 @@ var deptInfoBache = (function () {
 			})
 			.then((json) => {
 				alert("儲存成功");
-        stopLoading();
+                stopLoading();
 			})
 			.catch((err) => {
-        err.json && err.json().then((data) => {
-          console.error(data);
-          alert(`ERROR: \n${data.messages[0]}`);
-        });
-
-        stopLoading();
+        		err.json && err.json().then((data) => {
+          			console.error(data);
+          			alert(`ERROR: \n${data.messages[0]}`);
+        		});
+				stopLoading();
 			})
 		} else {
 			alert("有欄位輸入錯誤，請重新確認。");
