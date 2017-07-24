@@ -42,6 +42,7 @@ var DeptInfo = (function () {
 	var $birthLimitAfter = $modalDeptInfo.find('#birthLimitAfter'); // 限制出生日期（以後）
 	var $birthLimitBefore = $modalDeptInfo.find('#birthLimitBefore'); // 限制出生日期（以前）
 	var $memo = $modalDeptInfo.find('#memo'); // 給海聯的訊息
+	var $groupCode = $modalDeptInfo.find('#groupCode'); //類組
 	
 	// 所有審查項目
 	var $reviewDiv = $modalDeptInfo.find('#review-div');
@@ -60,7 +61,8 @@ var DeptInfo = (function () {
 		engReviewFeeDetailForm: $modalDeptInfo.find('#engReviewFeeDetailForm'),
 		birthLimitAfterForm: $modalDeptInfo.find('#birthLimitAfterForm'),
 		birthLimitBeforeForm: $modalDeptInfo.find('#birthLimitBeforeForm'),
-		memoForm: $modalDeptInfo.find('#memoForm')
+		memoForm: $modalDeptInfo.find('#memoForm'),
+		groupCodeForm: $modalDeptInfo.find('#groupCodeForm')
 	}
 
 	/**
@@ -204,6 +206,7 @@ var DeptInfo = (function () {
 		$engUrl.val(deptData.eng_url);
 		$mainGroup.val(deptData.main_group);
 		$subGroup.val(deptData.sub_group);
+		$groupCode.val(deptData.group_code);
 		$genderLimit.val(deptData.gender_limit);
 		$evaluation.val(deptData.evaluation);
 		$description.val(deptData.description);
@@ -274,6 +277,7 @@ var DeptInfo = (function () {
 			eng_url: $engUrl.val(),
 			main_group: $mainGroup.val(),
 			sub_group: $subGroup.val(),
+			group_code: $groupCode.val(),
 			gender_limit: $genderLimit.val(),
 			evaluation: $evaluation.val(),
 			description: $description.val(),
