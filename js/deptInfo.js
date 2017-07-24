@@ -328,57 +328,85 @@ var reviewItems = new Vue({ // 審查項目
 	methods: {
 		initTypes(reviewItemsTypes) {
 			// fetch 回來的審閱類別放入下拉選單
-			for(type in reviewItemsTypes) {
-				delete reviewItemsTypes[type].eng_name;
-				delete reviewItemsTypes[type].created_at;
-				delete reviewItemsTypes[type].updated_at;
-				delete reviewItemsTypes[type].deleted_at;
-				delete reviewItemsTypes[type].system_id;
-				Vue.set(reviewItemsTypes[type], 'needed', false);
-				Vue.set(reviewItemsTypes[type], 'required', false);
-				Vue.set(reviewItemsTypes[type], 'modifiable', true);
-				Vue.set(reviewItemsTypes[type], 'description', '');
-				Vue.set(reviewItemsTypes[type], 'eng_description', '');
-				Vue.set(reviewItemsTypes[type], 'error', false);
-				Vue.set(reviewItemsTypes[type], 'type_id', reviewItemsTypes[type].id);
+			for(type of reviewItemsTypes) {
+				// 刪掉不需要的欄位
+				delete type.eng_name;
+				delete type.created_at;
+				delete type.updated_at;
+				delete type.deleted_at;
+				delete type.system_id;
+				// 初始化需要的欄位
+				type.type_id = type.id;
+				type.needed = false;
+				type.required = false;
+				type.modifiable = true;
+				type.description = '';
+				type.eng_description = '';
+				type.error = false;
+				// 如果是紙本推薦函，（不同學制的紙本推薦函 id 不一樣），把紙本推薦函的欄位加進去
+				if (type.id == 8 || type.id == 26 || type.id == 46 || type.id == 66) {
+					type.needPaper = false;
+					type.recipient = '';
+					type.recipient_phone = '';
+					type.postal_code = '';
+					type.recieve_deadline = '';
+					type.recieve_address = '';
+				}
 			}
 			this.reviewItemsTypes = reviewItemsTypes;
 		},
-		cleanTypesNeeded() {
-			for(type in this.reviewItemsTypes) {
-				this.reviewItemsTypes[type].needed = false;
-				this.reviewItemsTypes[type].required = false;
-				this.reviewItemsTypes[type].modifiable = true;
-				this.reviewItemsTypes[type].description = '';
-				this.reviewItemsTypes[type].eng_description = '';
-				this.reviewItemsTypes[type].error = false;
-			}
-		},
+		// cleanTypesNeeded() {
+		// 	for(type in this.reviewItemsTypes) {
+		// 		this.reviewItemsTypes[type].needed = false;
+		// 		this.reviewItemsTypes[type].required = false;
+		// 		this.reviewItemsTypes[type].modifiable = true;
+		// 		this.reviewItemsTypes[type].description = '';
+		// 		this.reviewItemsTypes[type].eng_description = '';
+		// 		this.reviewItemsTypes[type].error = false;
+		// 	}
+		// },
 		initApplicationDocs(applicationDocs) {
-			this.cleanTypesNeeded();
+			// this.cleanTypesNeeded();
 			// 整理審閱資料的格式
-			for(doc in applicationDocs) {
-				for(type in this.reviewItemsTypes) {
-					if (applicationDocs[doc].type_id === this.reviewItemsTypes[type].type_id) {
-						this.reviewItemsTypes[type].needed = true;
-						this.reviewItemsTypes[type].required = applicationDocs[doc].required;
-						this.reviewItemsTypes[type].modifiable = applicationDocs[doc].modifiable;
-						this.reviewItemsTypes[type].description = applicationDocs[doc].description;
-						this.reviewItemsTypes[type].eng_description = applicationDocs[doc].eng_description;
+			for(doc of applicationDocs) {
+				for(type of this.reviewItemsTypes) {
+					if (doc.type_id === type.type_id) {
+						type.needed = true;
+						type.required = doc.required;
+						type.modifiable = doc.modifiable;
+						type.description = doc.description;
+						type.eng_description = doc.eng_description;
+						if (type.id == 8 || type.id == 26 || type.id == 46 || type.id == 66) {
+							type.needPaper = doc.needPaper;
+							type.recipient = doc.recipient;
+							type.recipient_phone = doc.recipient_phone;
+							type.postal_code = doc.postal_code;
+							type.recieve_deadline = doc.recieve_deadline;
+							type.recieve_address = doc.recieve_address;
+						}
 					}
 				}
 			}
+
 			this.applicationDocs = applicationDocs;
 		},
 		validateReviewItems() {
 			var check = true
-			for(type in this.reviewItemsTypes) {
-				this.reviewItemsTypes[type].error = false;
+			
+			for(type of this.reviewItemsTypes) {
+				type.error = false;
 			}
-			for(type in this.reviewItemsTypes) {
-				if (this.reviewItemsTypes[type].needed == true && this.reviewItemsTypes[type].description == "") {
-					this.reviewItemsTypes[type].error = true;
+
+			for(type of this.reviewItemsTypes) {
+				if (type.needed == true && type.description == "") {
+					type.error = true;
 					check = false;
+					// 如果有需要紙本推薦函
+					if (type.needPaper == true) {
+						if (type.recipient == '' || type.recipient_phone == '' || type.postal_code == '' || type.recieve_deadline == '' || type.recieve_address == '') {
+							check = false;
+						}
+					}
 				}
 			}
 			return check;
