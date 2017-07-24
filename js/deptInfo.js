@@ -101,11 +101,11 @@ var DeptInfo = (function () {
 			location.reload();
 		}).catch(function (err) {
 			err.json && err.json().then((data) => {
-        console.error(data);
-        alert(`ERROR: \n${data.messages[0]}`);
+				console.error(data);
+				alert(`ERROR: \n${data.messages[0]}`);
 
-        stopLoading();
-      });
+				stopLoading();
+			});
 		});
 	}
 
