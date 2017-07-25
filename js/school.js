@@ -53,8 +53,11 @@ var School = (function () {
 	function getGuidelinesReplyForm(system, data) {
 		return fetch(`${baseUrl}/schools/me/systems/${system}/guidelines-reply-form`, {
 			method: 'POST',
-			body: data,
-			credentials: 'include'
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include',
+			body: JSON.stringify(data)
 		});
 	}
 
