@@ -271,6 +271,16 @@ var DeptInfo = (function () {
 	}
 
 	function getCommonFormData() {
+		// 取得審查項目資料
+		let applicationDocs = reviewItems.getReviewItems();
+		// 拿到師長推薦函的紙本推薦函收件期限
+		for (let doc of applicationDocs) {
+			if (doc.id == 8 || doc.id == 26 || doc.id == 46 || doc.id == 66) {
+				// 審查項目都是用 Vue bind 值，可是 datepicker 跟 Vue 有衝突，所以只有此值用 jQuery 取值
+				doc.recieve_deadline = $('#recieveDeadline').val();
+			}
+		}
+
 		var data = {
 			sort_order: $sortOrder.val(),
 			url: $url.val(),
@@ -293,7 +303,7 @@ var DeptInfo = (function () {
 			birth_limit_after: $birthLimitAfter.val(),
 			birth_limit_before: $birthLimitBefore.val(),
 			memo: $memo.val(),
-			application_docs: JSON.stringify(reviewItems.getReviewItems())
+			application_docs: JSON.stringify(applicationDocs)
 		}
 		return data;
 	}
@@ -349,12 +359,13 @@ var reviewItems = new Vue({ // 審查項目
 				type.error = false;
 				// 如果是紙本推薦函，（不同學制的紙本推薦函 id 不一樣），把紙本推薦函的欄位加進去
 				if (type.id == 8 || type.id == 26 || type.id == 46 || type.id == 66) {
-					type.needPaper = false;
+					type.need_paper = false;
 					type.recipient = '';
 					type.recipient_phone = '';
 					type.postal_code = '';
 					type.recieve_deadline = '';
 					type.recieve_address = '';
+					
 				}
 			}
 			this.reviewItemsTypes = reviewItemsTypes;
@@ -381,7 +392,7 @@ var reviewItems = new Vue({ // 審查項目
 						type.description = doc.description;
 						type.eng_description = doc.eng_description;
 						if (type.id == 8 || type.id == 26 || type.id == 46 || type.id == 66) {
-							type.needPaper = doc.needPaper;
+							type.need_paper = doc.need_paper;
 							type.recipient = doc.recipient;
 							type.recipient_phone = doc.recipient_phone;
 							type.postal_code = doc.postal_code;
@@ -406,7 +417,7 @@ var reviewItems = new Vue({ // 審查項目
 					type.error = true;
 					check = false;
 					// 如果有需要紙本推薦函
-					if (type.needPaper == true) {
+					if (type.need_paper == true) {
 						if (type.recipient == '' || type.recipient_phone == '' || type.postal_code == '' || type.recieve_deadline == '' || type.recieve_address == '') {
 							check = false;
 						}
