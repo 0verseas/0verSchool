@@ -88,7 +88,7 @@ var DeptInfo = (function () {
 			'eng_description': $deptInfoEngDescription.val()
 		}
 
-    openLoading();
+   		openLoading();
 
 		School.setSystemInfo(system, data)
 		.then(function (res) {
