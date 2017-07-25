@@ -362,7 +362,7 @@ var reviewItems = new Vue({ // 審查項目
 					type.need_paper = false;
 					type.recipient = '';
 					type.recipient_phone = '';
-					type.postal_code = '';
+					type.receive_email = '';
 					type.recieve_deadline = '';
 					type.recieve_address = '';
 					
@@ -395,7 +395,7 @@ var reviewItems = new Vue({ // 審查項目
 							type.need_paper = doc.need_paper;
 							type.recipient = doc.recipient;
 							type.recipient_phone = doc.recipient_phone;
-							type.postal_code = doc.postal_code;
+							type.receive_email = doc.receive_email;
 							type.recieve_deadline = doc.recieve_deadline;
 							type.recieve_address = doc.recieve_address;
 						}
@@ -418,7 +418,7 @@ var reviewItems = new Vue({ // 審查項目
 					check = false;
 					// 如果有需要紙本推薦函
 					if (type.need_paper == true) {
-						if (type.recipient == '' || type.recipient_phone == '' || type.postal_code == '' || type.recieve_deadline == '' || type.recieve_address == '') {
+						if (type.recipient == '' || type.recipient_phone == '' || type.receive_email == '' || type.recieve_deadline == '' || type.recieve_address == '') {
 							check = false;
 						}
 					}
