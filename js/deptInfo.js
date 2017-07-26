@@ -246,6 +246,7 @@ var DeptInfo = (function () {
 		for(form in formGroup) {
 			formGroup[form].removeClass("has-danger");
 		}
+		$('#recieveDeadlineDiv').removeClass("has-danger");
 		if (!_validateNotEmpty($sortOrder)) {formGroup.sortOrderForm.addClass("has-danger"); check = false}
 		if (!_validateNotEmpty($url)) {formGroup.urlForm.addClass("has-danger"); check = false}
 		if (!_validateUrlFormat($url)) {formGroup.urlForm.addClass("has-danger"); check = false}
@@ -266,6 +267,7 @@ var DeptInfo = (function () {
 				check = false
 			}
 		}
+		if (!_validateNotEmpty($('#recieveDeadline'))) {$('#recieveDeadlineDiv').addClass("has-danger"); check = false}
 		appDocCheck = reviewItems.validateReviewItems();
 		return check && appDocCheck;
 	}
@@ -410,15 +412,39 @@ var reviewItems = new Vue({ // 審查項目
 			
 			for(type of this.reviewItemsTypes) {
 				type.error = false;
+				if (type.id == 8 || type.id == 26 || type.id == 46 || type.id == 66) {
+					type.recipient_error = false;
+					type.recipient_phone_error = false;
+					type.recieve_email_error = false;
+					type.recieve_address_error = false;
+				}
 			}
 
 			for(type of this.reviewItemsTypes) {
-				if (type.needed == true && type.description == "") {
-					type.error = true;
-					check = false;
+				// 如果需要此審查項目
+				if (type.needed == true) {
+					// 先檢查是否有中文備註
+					if (type.description == "") {
+						type.error = true;
+						check = false;
+					}
 					// 如果有需要紙本推薦函
 					if (type.need_paper == true) {
-						if (type.recipient == '' || type.recipient_phone == '' || type.recieve_email == '' || type.recieve_deadline == '' || type.recieve_address == '') {
+						// 檢查紙本推薦函的所需欄位是否有填寫
+						if (type.recipient == '') {
+							type.recipient_error = true;
+							check = false;
+						}
+						if (type.recipient_phone == '') {
+							type.recipient_phone_error = true;
+							check = false;
+						}
+						if (type.recieve_email == '') {
+							type.recieve_email_error = true;
+							check = false;
+						}
+						if (type.recieve_address == '') {
+							type.recieve_address_error = true;
 							check = false;
 						}
 					}
