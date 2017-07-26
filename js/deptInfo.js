@@ -394,12 +394,16 @@ var reviewItems = new Vue({ // 審查項目
 						type.description = doc.description;
 						type.eng_description = doc.eng_description;
 						if (type.id == 8 || type.id == 26 || type.id == 46 || type.id == 66) {
-							type.need_paper = doc.need_paper;
-							type.recipient = doc.recipient;
-							type.recipient_phone = doc.recipient_phone;
-							type.recieve_email = doc.recieve_email;
-							type.recieve_deadline = doc.recieve_deadline;
-							type.recieve_address = doc.recieve_address;
+							if (doc.paper){
+								type.need_paper = true;	
+							} else {
+								type.need_paper = false;
+							}
+							type.recipient = doc.paper.recipient;
+							type.recipient_phone = doc.paper.phone;
+							type.recieve_email = doc.paper.email;
+							type.recieve_deadline = doc.paper.deadline;
+							type.recieve_address = doc.paper.address;
 						}
 					}
 				}
