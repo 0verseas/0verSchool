@@ -344,27 +344,27 @@
 													<div class="row">
 														<div class="form-group col-6" v-bind:class="{'has-danger': type.recipient_error}">
 															<label class="text-danger">收件人英文姓名*</label>
-															<input type="text" class="form-control" v-model="type.recipient" v-bind:disabled="!type.need_paper">
+															<input type="text" class="form-control" v-model="type.recipient" v-bind:disabled="!type.need_paper || !type.needed">
 														</div>
 														<div class="form-group col-6" v-bind:class="{'has-danger': type.recipient_phone_error}">
 															<label class="text-danger">聯絡電話*</label>
-															<input type="text" class="form-control" v-model="type.recipient_phone" v-bind:disabled="!type.need_paper">
+															<input type="text" class="form-control" v-model="type.recipient_phone" v-bind:disabled="!type.need_paper || !type.needed">
 														</div>
 													</div>
 													<div class="row">
 														<div class="form-group col-12" v-bind:class="{'has-danger': type.recieve_address_error}">
 															<label class="text-danger">英文收件地址*</label>
-															<input type="text" class="form-control" v-model="type.recieve_address" v-bind:disabled="!type.need_paper">
+															<input type="text" class="form-control" v-model="type.recieve_address" v-bind:disabled="!type.need_paper || !type.needed">
 														</div>
 													</div>
 													<div class="row">
 														<div class="form-group col-6" v-bind:class="{'has-danger': type.recieve_email_error}">
 															<label class="text-danger">E-mail*</label>
-															<input type="email" class="form-control" v-model="type.recieve_email" v-bind:disabled="!type.need_paper">
+															<input type="email" class="form-control" v-model="type.recieve_email" v-bind:disabled="!type.need_paper || !type.needed">
 														</div>
 														<div class="form-group col-6" id="recieveDeadlineDiv">
 															<label class="text-danger">收件期限*</label>
-															<input id="recieveDeadline" type="text" class="form-control datepicker" v-model="type.recieve_deadline" v-bind:disabled="!type.need_paper">
+															<input id="recieveDeadline" type="text" class="form-control datepicker" v-bind:disabled="!type.need_paper || !type.needed">
 														</div>
 													</div>
 												</div>
