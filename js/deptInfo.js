@@ -227,7 +227,16 @@ var DeptInfo = (function () {
 		});
 		_switchHasReviewFee();
 		_switchHasBirthLimit();
+
 		reviewItems.initApplicationDocs(deptData.application_docs);
+
+		let applicationDocs = deptData.application_docs;
+		// 拿到師長推薦函的紙本推薦函收件期限
+		for (let doc of applicationDocs) {
+			if (doc.paper != null) {
+				$('#recieveDeadline').val(doc.paper.deadline);
+			}
+		}
 	}
 
 	function _switchHasReviewFee() {
@@ -365,7 +374,6 @@ var reviewItems = new Vue({ // 審查項目
 					type.recipient = '';
 					type.recipient_phone = '';
 					type.recieve_email = '';
-					type.recieve_deadline = '';
 					type.recieve_address = '';
 
 				}
@@ -395,11 +403,10 @@ var reviewItems = new Vue({ // 審查項目
 						type.eng_description = doc.eng_description;
 						if (type.id == 8 || type.id == 26 || type.id == 46 || type.id == 66) {
 							if (doc.paper != null){
-								type.need_paper = true;	
+								type.need_paper = true;
 							    type.recipient = doc.paper.recipient;
 							    type.recipient_phone = doc.paper.phone;
 							    type.recieve_email = doc.paper.email;
-							    type.recieve_deadline = doc.paper.deadline;
 							    type.recieve_address = doc.paper.address;
 							} else {
 								type.need_paper = false;
