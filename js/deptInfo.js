@@ -276,8 +276,25 @@ var DeptInfo = (function () {
 				check = false
 			}
 		}
-		// if (!_validateNotEmpty($('#recieveDeadline'))) {$('#recieveDeadlineDiv').addClass("has-danger"); check = false}
+
+		// 驗證各審查項目
 		appDocCheck = reviewItems.validateReviewItems();
+
+		// 驗證審查項目中的紙本推薦函的收件期限欄位
+		for(type of reviewItems.reviewItemsTypes) {
+			// 紙本推薦函為特定審查項目，寫死 type id
+			if (type.id == 8 || type.id == 26 || type.id == 46 || type.id == 66) {
+				// 如果需要此審查項目且需要紙本推薦函，才檢查
+				if (type.needed && type.need_paper) {
+					// 檢查收件期限欄位是否為空
+					if (!_validateNotEmpty($('#recieveDeadline'))) {
+						$('#recieveDeadlineDiv').addClass("has-danger");
+						check = false
+					}
+				}
+			}
+		}
+
 		return check && appDocCheck;
 	}
 
