@@ -267,7 +267,7 @@ var DeptInfo = (function () {
 				check = false
 			}
 		}
-		if (!_validateNotEmpty($('#recieveDeadline'))) {$('#recieveDeadlineDiv').addClass("has-danger"); check = false}
+		// if (!_validateNotEmpty($('#recieveDeadline'))) {$('#recieveDeadlineDiv').addClass("has-danger"); check = false}
 		appDocCheck = reviewItems.validateReviewItems();
 		return check && appDocCheck;
 	}
