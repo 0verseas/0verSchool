@@ -12,7 +12,7 @@ var DeptInfo = (function () {
 	var $deptInfoForm = $('#form-deptInfo'); // 學制資訊
 	var $deptInfoDescription = $deptInfoForm.find('#description'); // 中文備註
 	var $deptInfoEngDescription = $deptInfoForm.find('#engDescription'); // 英文備註
-	
+
 	var $deptList = $('#dept-list'); // 系所列表
 	var $deptFilterInput = $('#dept-filter-input'); // 搜尋欄
 
@@ -43,7 +43,7 @@ var DeptInfo = (function () {
 	var $birthLimitBefore = $modalDeptInfo.find('#birthLimitBefore'); // 限制出生日期（以前）
 	var $memo = $modalDeptInfo.find('#memo'); // 給海聯的訊息
 	var $groupCode = $modalDeptInfo.find('#groupCode'); //類組
-	
+
 	// 所有審查項目
 	var $reviewDiv = $modalDeptInfo.find('#review-div');
 
@@ -367,7 +367,7 @@ var reviewItems = new Vue({ // 審查項目
 					type.recieve_email = '';
 					type.recieve_deadline = '';
 					type.recieve_address = '';
-					
+
 				}
 			}
 			this.reviewItemsTypes = reviewItemsTypes;
@@ -395,15 +395,15 @@ var reviewItems = new Vue({ // 審查項目
 						type.eng_description = doc.eng_description;
 						if (type.id == 8 || type.id == 26 || type.id == 46 || type.id == 66) {
 							if (doc.paper){
-								type.need_paper = true;	
+								type.need_paper = true;
+								type.recipient = doc.paper.recipient;
+								type.recipient_phone = doc.paper.phone;
+								type.recieve_email = doc.paper.email;
+								type.recieve_deadline = doc.paper.deadline;
+								type.recieve_address = doc.paper.address;
 							} else {
 								type.need_paper = false;
 							}
-							type.recipient = doc.paper.recipient;
-							type.recipient_phone = doc.paper.phone;
-							type.recieve_email = doc.paper.email;
-							type.recieve_deadline = doc.paper.deadline;
-							type.recieve_address = doc.paper.address;
 						}
 					}
 				}
@@ -413,7 +413,7 @@ var reviewItems = new Vue({ // 審查項目
 		},
 		validateReviewItems() {
 			var check = true
-			
+
 			for(type of this.reviewItemsTypes) {
 				type.error = false;
 				if (type.id == 8 || type.id == 26 || type.id == 46 || type.id == 66) {
