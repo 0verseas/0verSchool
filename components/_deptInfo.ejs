@@ -9,14 +9,14 @@
 		<button class="btn btn-success" id="sendPreviewPDF-btn">
 			寄送預覽版 PDF
 		</button>
-		
+
 		<button class="btn btn-danger" id="sendFormalPDF-btn">
 			寄送正式版 PDF
 		</button>
 	</div>
 </div>
 
-<div id="form-deptInfo"> 
+<div id="form-deptInfo">
 	<div class="row">
 		<div class="form-group col">
 			<label for="description" class="text-danger">學制中文備註*</label>
@@ -172,7 +172,7 @@
 								<textarea class="form-control" rows="4" id="engDescription"></textarea>
 							</div>
 						</div>
-					
+
 
 						<% if(system == 'twoYear') { -%>
 						<%- include deptInfoForm/_selfEnrollmentTwoYear %>
@@ -185,9 +185,9 @@
 						<% } else { -%>
 						<%- include deptInfoForm/_quotaOthers %>
 						<% } -%>
-						
+
 						<hr>
-							
+
 						<div class="row">
 							<div class="col">
 								<div class="card">
@@ -198,31 +198,33 @@
 											<div class="form-check">
 												<label class="form-check-label">
 													<input class="form-check-input" type="checkbox" id="hasForeignSpecialClass" value="">
-													是否招收外生專班
+													是否招收外生專班（若是，請勾選）
 												</label>
 											</div>
 											<div class="form-check">
 												<label class="form-check-label">
 													<input class="form-check-input" type="checkbox" id="hasEngTaught" value="">
-													是否為全英文授課
+													是否為全英文授課（若是，請勾選）
 												</label>
 											</div>
+											<!--
 											<div class="form-check">
 												<label class="form-check-label">
 													<input class="form-check-input" type="checkbox" id="hasDisabilities" value="">
 													是否招收身障學生
 												</label>
 											</div>
+											-->
 											<div class="form-check">
 												<label class="form-check-label">
 													<input class="form-check-input" type="checkbox" id="hasBuHweiHwaWen" value="">
-													是否招收不具華文基礎學生
+													是否招收不具華文基礎學生（若是，請勾選）
 												</label>
 											</div>
 											<div class="form-check">
 												<label class="form-check-label">
 													<input class="form-check-input" type="checkbox" id="hasBirthLimit" value="">
-													是否限制出生日期
+													是否限制出生日期（若是，請勾選）
 												</label>
 											</div>
 
@@ -259,7 +261,7 @@
 												<div class="form-check">
 													<label class="form-check-label">
 														<input class="form-check-input" type="checkbox" id="hasReviewFee" value="">
-														是否需要收審查費用
+														是否需要收審查費用（若是，請勾選）
 													</label>
 												</div>
 												<hr>
@@ -276,14 +278,14 @@
 									</div>
 								</div>
 							</div>
-							
+
 							<hr>
-							
+
 							<div id="form-reviewItems">
 								<div v-for="type in reviewItemsTypes">
 									<div class="card">
 										<div class="card-header bg-primary text-white">
-												{{type.name}}
+												{{type.name + "（若需要此項目，請勾選）"}}
 										</div>
 										<div class="card-block">
 											<div class="row">
@@ -297,7 +299,7 @@
 															type="text"
 															class="form-control"
 															style="background-color: white;"
-															v-bind:value="type.name" 
+															v-bind:value="type.name"
 															disabled="disabled">
 														</div>
 													</div>
@@ -312,12 +314,12 @@
 															type="text"
 															class="form-control"
 															style="background-color: white;"
-															value="是否設為必繳資料"
+															value="是否設為必繳資料（若是，請勾選）"
 															disabled="disabled">
 														</div>
 													</div>
 												</div>
-											</div>	
+											</div>
 
 											<!-- 如果是師長推薦函 -->
 											<!-- 8 26 46 66 -->
@@ -333,7 +335,7 @@
 																type="text"
 																class="form-control"
 																style="background-color: white;"
-																value="是否需要紙本推薦函"
+																value="是否需要紙本推薦函（若是，請勾選）"
 																disabled>
 															</div>
 														</div>
