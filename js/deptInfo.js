@@ -120,7 +120,7 @@ var DeptInfo = (function () {
 		// 列表初始化
 		$deptList.find('tbody').html('');
 		departments.forEach(function (value, index) {
-			var updateAt = moment(value.creator.updated_at);
+			var updateAt = moment(value.creator.updated_at).format('YYYY/MM/DD HH:mm:ss');
 			$deptList
 				.find('tbody')
 				.append(`
@@ -135,7 +135,7 @@ var DeptInfo = (function () {
 							<div>${value.eng_title}</div>
 						</td>
 						<td>${value.creator.name}</td>
-						<td>${updateAt.format('M月D日 H:m:s (YYYY)')}</td>
+						<td>${updateAt}</td>
 					</tr>
 				`);
 		});

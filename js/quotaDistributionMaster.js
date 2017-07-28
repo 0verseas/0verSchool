@@ -174,7 +174,7 @@ var quotaDistributionMaster = (function () {
 
 	function _setEditor(creator, created_at) {
 		$lastEditionInfo.find('.who').text(creator ? creator.name : 'unknown');
-		$lastEditionInfo.find('.when').text(moment(created_at).format('YYYY/MM/DD hh:mm:ss a'));
+		$lastEditionInfo.find('.when').text(moment(created_at).format('YYYY/MM/DD HH:mm:ss'));
 	}
 
 	function _setQuota(data) {
