@@ -17,7 +17,7 @@ var deptInfoBache = (function () {
 
 	var $sendPreviewPDFBtn = $('#sendPreviewPDF-btn'); // 預覽版 PDF 按鈕
 	var $sendFormalPDFBtn = $('#sendFormalPDF-btn'); // 正式版 PDF 按鈕
-	
+
 	// Modal special elements
 	var $modalDeptInfo = $('#modal-deptInfo');
 	var $schoolHasSelfEnrollment = $modalDeptInfo.find('#schoolHasSelfEnrollment'); // checkbox ，本校是否可單獨招收僑生
@@ -122,8 +122,8 @@ var deptInfoBache = (function () {
 				keyboard: false
 			});
 
-      stopLoading();
-   })
+			stopLoading();
+		})
 	}
 
 	function _renderDeptDetail(deptData) { // 渲染系所詳細資料
@@ -194,7 +194,7 @@ var deptInfoBache = (function () {
 
 	function _saveDeptDetail() {
 		if (_validateForm()) {
-            openLoading();
+			openLoading();
 
 			var sendData = _getFormData();
 			School.setDeptInfo(_currentSystem, _currentDeptId, sendData)
@@ -207,13 +207,14 @@ var deptInfoBache = (function () {
 			})
 			.then((json) => {
 				alert("儲存成功");
-                stopLoading();
+				stopLoading();
 			})
 			.catch((err) => {
-        		err.json && err.json().then((data) => {
           			console.error(data);
-          			alert(`ERROR: \n${data.messages[0]}`);
-        		});
+				err.json && err.json().then((data) => {
+					alert(`ERROR: \n${data.messages[0]}`);
+				});
+
 				stopLoading();
 			})
 		} else {
@@ -222,7 +223,7 @@ var deptInfoBache = (function () {
 	}
 
 	function _setData() {
-    openLoading();
+		openLoading();
 
 		School.getSystemInfo(_currentSystem) // 取得學制資料，沒有該學制則回上一頁
 		.then((res) => {
@@ -240,20 +241,20 @@ var deptInfoBache = (function () {
 			$editDeptInfoBtn.on('click', _handleEditDeptInfo);
 			DeptInfo.renderDeptSelect(_currentSystem); // 產生系所詳細資料 Modal 中下拉式選單
 
-      stopLoading();
+			stopLoading();
 		})
 		.catch((err) => {
-      if (err.status === 404) {
+			if (err.status === 404) {
 				alert('沒有這個學制。 即將返回上一頁。');
 				window.history.back();
 			} else {
-        err.json && err.json().then((data) => {
-          console.error(data);
-          alert(`ERROR: \n${data.messages[0]}`);
+				console.error(data);
+				err.json && err.json().then((data) => {
+					alert(`ERROR: \n${data.messages[0]}`);
 
-          stopLoading();
-        });
-      }
+					stopLoading();
+				});
+			}
 		})
 	}
 

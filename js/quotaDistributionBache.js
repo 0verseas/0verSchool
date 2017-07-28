@@ -32,7 +32,7 @@ var quotaDistirbutionBache = (function () {
 	$deptList.on('change.sumTotal', '.dept .editableQuota', _handleQuotaChange);
 	// save/commit
 	$btn.on('click', _handleSave);
-	
+
 	/**
 	 * init
 	 */
@@ -85,7 +85,7 @@ var quotaDistirbutionBache = (function () {
 			return;
 		}
 
-    openLoading();
+		openLoading();
 
 		var departments = $deptList.find('.dept').map(function (i, deptRow) {
 			let $deptRow = $(deptRow);
@@ -121,7 +121,7 @@ var quotaDistirbutionBache = (function () {
 				console.error(data);
 				alert(`ERROR: \n${data.messages[0]}`);
 
-        stopLoading();
+				stopLoading();
 			})
 		});
 	}
@@ -147,7 +147,7 @@ var quotaDistirbutionBache = (function () {
 	}
 
 	function _setData() {
-    openLoading();
+		openLoading();
 
 		School.getSystemQuota('bachelor').then(function (res) {
 			if(res.ok) {
@@ -160,19 +160,19 @@ var quotaDistirbutionBache = (function () {
 		}).then(function () {
 			$.bootstrapSortable(true);
 
-      stopLoading();
+			stopLoading();
 		}).catch(function (err) {
 			if (err.status === 404) {
 				alert('沒有這個學制。 即將返回上一頁。');
 				window.history.back();
 			} else {
-        err.json && err.json().then((data) => {
-          console.error(data);
-          alert(`ERROR: \n${data.messages[0]}`);
+				err.json && err.json().then((data) => {
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
 
-          stopLoading();
-        });
-      }
+					stopLoading();
+				});
+			}
 		});
 	}
 
@@ -182,7 +182,7 @@ var quotaDistirbutionBache = (function () {
 		_setEditor(json.creator, json.created_at);
 		$page.find('#schoolHasSelf').text(json.school_has_self_enrollment ? '是' : '否');
 	}
-	
+
 	function _setEditor(creator, created_at) {
 		$lastEditionInfo.find('.who').text(creator ? creator.name : 'unknown');
 		$lastEditionInfo.find('.when').text(moment(created_at).format('YYYY/MM/DD hh:mm:ss a'));
@@ -192,7 +192,7 @@ var quotaDistirbutionBache = (function () {
 		var {
 			last_year_admission_amount,
 			last_year_surplus_admission_quota,
-			ratify_expanded_quota, 
+			ratify_expanded_quota,
 			another_department_admission_selection_quota,
 			another_department_self_enrollment_quota,
 			ratify_quota_for_self_enrollment
@@ -225,7 +225,7 @@ var quotaDistirbutionBache = (function () {
 			var total = (+admission_selection_quota) + (+admission_placement_quota) + (+self_enrollment_quota || 0);
 			var reference = last_year_admission_placement_amount > last_year_admission_placement_quota ? last_year_admission_placement_quota : last_year_admission_placement_amount;
 			var noNeedToWriteReason = +reference <= +admission_placement_quota;
-			
+
 			var checked = school_has_self_enrollment ? ( has_self_enrollment ? 'checked' : '') : 'disabled';
 			$deptList
 				.find('tbody')
@@ -265,8 +265,8 @@ var quotaDistirbutionBache = (function () {
 	}
 
 	function _updateAllowTotal() {
-		var sum = +($quota_last_year_admission_amount.val()) + 
-			+($quota_last_year_surplus_admission_quota.val()) + 
+		var sum = +($quota_last_year_admission_amount.val()) +
+			+($quota_last_year_surplus_admission_quota.val()) +
 			+($quota_ratify_expanded_quota.val());
 		$quota_allowTotal.val(sum);
 	}

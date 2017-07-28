@@ -30,7 +30,7 @@ var quotaDistirbutionTwoYear = (function () {
 	$deptList.on('change.sumTotal', '.dept .editableQuota', _handleQuotaChange);
 	// save/commit
 	$btn.on('click', _handleSave);
-	
+
 	/**
 	 * init
 	 */
@@ -95,7 +95,7 @@ var quotaDistirbutionTwoYear = (function () {
 				console.error(data);
 				alert(`ERROR: \n${data.messages[0]}`);
 
-        stopLoading();
+				stopLoading();
 			})
 		});
 	}
@@ -121,7 +121,7 @@ var quotaDistirbutionTwoYear = (function () {
 	}
 
 	function _setData() {
-    openLoading();
+		openLoading();
 
 		School.getSystemQuota('twoYear').then(function (res) {
 			if(res.ok) {
@@ -132,19 +132,19 @@ var quotaDistirbutionTwoYear = (function () {
 		}).then(function (json) {
 			_renderData(json)
 
-      stopLoading();
+			stopLoading();
 		}).catch(function (err) {
 			if (err.status === 404) {
 				alert('沒有這個學制。 即將返回上一頁。');
 				window.history.back();
 			} else {
-        err.json && err.json().then((data) => {
-          console.error(data);
-          alert(`ERROR: \n${data.messages[0]}`);
+				err.json && err.json().then((data) => {
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
 
-          stopLoading();
-        });
-      }
+					stopLoading();
+				});
+			}
 		});
 	}
 
@@ -241,8 +241,8 @@ var quotaDistirbutionTwoYear = (function () {
 	}
 
 	function _updateAllowTotal() {
-		var sum = +($quota_last_year_admission_amount.val()) + 
-			+($quota_last_year_surplus_admission_quota.val()) + 
+		var sum = +($quota_last_year_admission_amount.val()) +
+			+($quota_last_year_surplus_admission_quota.val()) +
 			+($quota_ratify_expanded_quota.val());
 		$quota_allowTotal.val(sum);
 	}

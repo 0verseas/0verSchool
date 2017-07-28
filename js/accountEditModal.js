@@ -13,7 +13,7 @@ $(document).ready(function () {
 		var email = $('[name=email]');
 		var organization = $('[name=organization]');
 		var phone = $('[name=phone]');
-		
+
 		var $modal = $('#modal-editAccount');
 		var $storeBtn = $('#store-btn');
 
@@ -90,13 +90,13 @@ $(document).ready(function () {
 				return;
 			}
 			// check password is changed
-			storedPassword = null; 
+			storedPassword = null;
 			if (password.val()) {
 				storedPassword = sha256(password.val());
 			}
 			var userInfo = {
 				username: username.val(),
-				password: storedPassword,	
+				password: storedPassword,
 				email: email.val(),
 				name: name.val(),
 				job_title: jobTitle.val(),
@@ -112,20 +112,19 @@ $(document).ready(function () {
 				}
 			}
 
-      openLoading();
+			openLoading();
 
 			// call API
 			User.update(userInfo).then(function() {
 				$modal.modal('hide');
 
-        stopLoading();
+				stopLoading();
 			}).catch(function(err) {
 				err.json && err.json().then((data) => {
-          console.error(data);
-          alert(`ERROR: \n${data.messages[0]}`);
-
-          stopLoading();
-        });
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
+					stopLoading();
+				});
 			});
 		}
 

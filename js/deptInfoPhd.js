@@ -176,7 +176,7 @@ var deptInfoPhd = (function () {
 
 	function _saveDeptDetail() {
 		if (_validateForm()) {
-      openLoading();
+			openLoading();
 
 			var sendData = _getFormData();
 			School.setDeptInfo(_currentSystem, _currentDeptId, sendData)
@@ -227,7 +227,7 @@ var deptInfoPhd = (function () {
 			stopLoading();
 		})
 		.catch((err) => {
-		  if (err.status === 404) {
+			if (err.status === 404) {
 				alert('沒有這個學制。 即將返回上一頁。');
 				window.history.back();
 			} else {

@@ -238,7 +238,7 @@ var deptInfoTwoYear = (function () {
 	}
 
 	function _setData() {
-    openLoading();
+		openLoading();
 
 		School.getSystemInfo(_currentSystem) // 取得學制資料，沒有該學制則回上一頁
 		.then((res) => {

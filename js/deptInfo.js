@@ -88,7 +88,7 @@ var DeptInfo = (function () {
 			'eng_description': $deptInfoEngDescription.val()
 		}
 
-   		openLoading();
+		openLoading();
 
 		School.setSystemInfo(system, data)
 		.then(function (res) {
@@ -421,10 +421,10 @@ var reviewItems = new Vue({ // 審查項目
 						if (type.id == 8 || type.id == 26 || type.id == 46 || type.id == 66) {
 							if (doc.paper != null){
 								type.need_paper = true;
-							    type.recipient = doc.paper.recipient;
-							    type.recipient_phone = doc.paper.phone;
-							    type.recieve_email = doc.paper.email;
-							    type.recieve_address = doc.paper.address;
+								type.recipient = doc.paper.recipient;
+								type.recipient_phone = doc.paper.phone;
+								type.recieve_email = doc.paper.email;
+								type.recieve_address = doc.paper.address;
 							} else {
 								type.need_paper = false;
 							}

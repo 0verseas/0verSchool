@@ -3,7 +3,7 @@ var schoolInfo = (function () {
 	/**
 	 * cache DOM
 	 */
-	
+
 	// 學校資料
 	var $schoolInfoForm = $('#form-schoolInfo');
 	var $schoolId = $schoolInfoForm.find('#schoolId');
@@ -130,10 +130,10 @@ var schoolInfo = (function () {
 			data.append('rule_doc_of_five_year_student', $ruleDocOfFiveYearStudent.prop('files')[0]);
 		}
 		if ($hasSelfEnrollment.prop('checked')) {
-	    data.append('approval_no_of_self_enrollment', $approvalNoOfSelfEnrollment.val());
-	    data.append('approval_doc_of_self_enrollment', $approvalDocOfSelfEnrollment.prop('files')[0]);
+			data.append('approval_no_of_self_enrollment', $approvalNoOfSelfEnrollment.val());
+			data.append('approval_doc_of_self_enrollment', $approvalDocOfSelfEnrollment.prop('files')[0]);
 		}
-    return data;
+		return data;
 	}
 
 	// 檢查表單要求
@@ -184,7 +184,7 @@ var schoolInfo = (function () {
 		if (_validateNotEmpty($engScholarshipUrl)) {
 			if (!_validateUrlFormat($engScholarshipUrl)) {formGroup.engScholarshipUrlForm.addClass("has-danger"); check = false}
 		}
-		
+
 		return check;
 	}
 
@@ -202,38 +202,38 @@ var schoolInfo = (function () {
 	// 送出表單
 	function _setSchoolInfo() {
 
-    // init highlight
+		// init highlight
 		for(form in formGroup) {
 			formGroup[form].removeClass("has-danger");
 		}
 
 		var urlResult = _validateUrl();
-    var formResult = _validateForm();
+		var formResult = _validateForm();
 
-    if (!urlResult || !formResult) {
-      alert("有欄位輸入錯誤，請重新確認。");
-      return;
-    }
+		if (!urlResult || !formResult) {
+			alert("有欄位輸入錯誤，請重新確認。");
+			return;
+		}
 
 		var sendData = _getFormData();
 
-    openLoading();
+		openLoading();
 
 		School.setSchoolInfo(sendData)
 		.then(function(res) {
-		  if(res.ok) {
-		  	alert('儲存成功');
-		  	location.reload();
-		  } else {
-		    throw res
-		  }
+			if(res.ok) {
+				alert('儲存成功');
+				location.reload();
+			} else {
+				throw res
+			}
 		}).catch(function(err) {
-      err.json && err.json().then((data) => {
-        console.error(data);
-        alert(`ERROR: \n${data.messages[0]}`);
+			err.json && err.json().then((data) => {
+				console.error(data);
+				alert(`ERROR: \n${data.messages[0]}`);
 
-        stopLoading();
-      });
+				stopLoading();
+			});
 		})
 	}
 
@@ -280,7 +280,7 @@ var schoolInfo = (function () {
 
 	// init
 	function _getSchoolData() {
-    openLoading();
+		openLoading();
 
 		School.getSchoolInfo()
 		.then(function(res) {
@@ -296,19 +296,19 @@ var schoolInfo = (function () {
 		}).then(function(infoStatus) {
 			var role = User.getUserInfo().school_editor.has_admin;
 
-      _switchDormStatus();
-      _switchScholarshipStatus();
-      _switchFiveYearStudentStatus();
-      _switchSelfEnrollmentStatus();
+			_switchDormStatus();
+			_switchScholarshipStatus();
+			_switchFiveYearStudentStatus();
+			_switchSelfEnrollmentStatus();
 
-      stopLoading();
+			stopLoading();
 		}).catch(function(err) {
 			err.json && err.json().then((data) => {
-        console.error(data);
-        alert(`ERROR: \n${data.messages[0]}`);
+				console.error(data);
+				alert(`ERROR: \n${data.messages[0]}`);
 
-        stopLoading();
-      });
+				stopLoading();
+			});
 		})
 	}
 
