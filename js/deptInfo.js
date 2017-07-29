@@ -12,7 +12,7 @@ var DeptInfo = (function () {
 	var $deptInfoForm = $('#form-deptInfo'); // 學制資訊
 	var $deptInfoDescription = $deptInfoForm.find('#description'); // 中文備註
 	var $deptInfoEngDescription = $deptInfoForm.find('#engDescription'); // 英文備註
-	
+
 	var $deptList = $('#dept-list'); // 系所列表
 	var $deptFilterInput = $('#dept-filter-input'); // 搜尋欄
 
@@ -43,7 +43,7 @@ var DeptInfo = (function () {
 	var $birthLimitBefore = $modalDeptInfo.find('#birthLimitBefore'); // 限制出生日期（以前）
 	var $memo = $modalDeptInfo.find('#memo'); // 給海聯的訊息
 	var $groupCode = $modalDeptInfo.find('#groupCode'); //類組
-	
+
 	// 所有審查項目
 	var $reviewDiv = $modalDeptInfo.find('#review-div');
 
@@ -88,7 +88,7 @@ var DeptInfo = (function () {
 			'eng_description': $deptInfoEngDescription.val()
 		}
 
-   		openLoading();
+		openLoading();
 
 		School.setSystemInfo(system, data)
 		.then(function (res) {
@@ -120,7 +120,7 @@ var DeptInfo = (function () {
 		// 列表初始化
 		$deptList.find('tbody').html('');
 		departments.forEach(function (value, index) {
-			var updateAt = moment(value.creator.updated_at);
+			var updateAt = moment(value.creator.updated_at).format('YYYY/MM/DD HH:mm:ss');
 			$deptList
 				.find('tbody')
 				.append(`
@@ -135,7 +135,7 @@ var DeptInfo = (function () {
 							<div>${value.eng_title}</div>
 						</td>
 						<td>${value.creator.name}</td>
-						<td>${updateAt.format('M月D日 H:m:s (YYYY)')}</td>
+						<td>${updateAt}</td>
 					</tr>
 				`);
 		});
@@ -227,7 +227,16 @@ var DeptInfo = (function () {
 		});
 		_switchHasReviewFee();
 		_switchHasBirthLimit();
+
 		reviewItems.initApplicationDocs(deptData.application_docs);
+
+		let applicationDocs = deptData.application_docs;
+		// 拿到師長推薦函的紙本推薦函收件期限
+		for (let doc of applicationDocs) {
+			if (doc.paper != null) {
+				$('#recieveDeadline').val(doc.paper.deadline);
+			}
+		}
 	}
 
 	function _switchHasReviewFee() {
@@ -267,8 +276,25 @@ var DeptInfo = (function () {
 				check = false
 			}
 		}
-		if (!_validateNotEmpty($('#recieveDeadline'))) {$('#recieveDeadlineDiv').addClass("has-danger"); check = false}
+
+		// 驗證各審查項目
 		appDocCheck = reviewItems.validateReviewItems();
+
+		// 驗證審查項目中的紙本推薦函的收件期限欄位
+		for(type of reviewItems.reviewItemsTypes) {
+			// 紙本推薦函為特定審查項目，寫死 type id
+			if (type.id == 8 || type.id == 26 || type.id == 46 || type.id == 66) {
+				// 如果需要此審查項目且需要紙本推薦函，才檢查
+				if (type.needed && type.need_paper) {
+					// 檢查收件期限欄位是否為空
+					if (!_validateNotEmpty($('#recieveDeadline'))) {
+						$('#recieveDeadlineDiv').addClass("has-danger");
+						check = false
+					}
+				}
+			}
+		}
+
 		return check && appDocCheck;
 	}
 
@@ -365,9 +391,8 @@ var reviewItems = new Vue({ // 審查項目
 					type.recipient = '';
 					type.recipient_phone = '';
 					type.recieve_email = '';
-					type.recieve_deadline = '';
 					type.recieve_address = '';
-					
+
 				}
 			}
 			this.reviewItemsTypes = reviewItemsTypes;
@@ -394,16 +419,15 @@ var reviewItems = new Vue({ // 審查項目
 						type.description = doc.description;
 						type.eng_description = doc.eng_description;
 						if (type.id == 8 || type.id == 26 || type.id == 46 || type.id == 66) {
-							if (doc.paper){
-								type.need_paper = true;	
+							if (doc.paper != null){
+								type.need_paper = true;
+								type.recipient = doc.paper.recipient;
+								type.recipient_phone = doc.paper.phone;
+								type.recieve_email = doc.paper.email;
+								type.recieve_address = doc.paper.address;
 							} else {
 								type.need_paper = false;
 							}
-							type.recipient = doc.paper.recipient;
-							type.recipient_phone = doc.paper.phone;
-							type.recieve_email = doc.paper.email;
-							type.recieve_deadline = doc.paper.deadline;
-							type.recieve_address = doc.paper.address;
 						}
 					}
 				}
@@ -413,7 +437,7 @@ var reviewItems = new Vue({ // 審查項目
 		},
 		validateReviewItems() {
 			var check = true
-			
+
 			for(type of this.reviewItemsTypes) {
 				type.error = false;
 				if (type.id == 8 || type.id == 26 || type.id == 46 || type.id == 66) {

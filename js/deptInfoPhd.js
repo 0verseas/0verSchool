@@ -6,6 +6,8 @@ var deptInfoPhd = (function () {
 	/**
 	 * cache DOM
 	 */
+	var $sendPreviewPDFBtn = $('#sendPreviewPDF-btn'); // 預覽版 PDF 按鈕
+	var $sendFormalPDFBtn = $('#sendFormalPDF-btn'); // 正式版 PDF 按鈕
 
 	var $deptInfoForm = $('#form-deptInfo'); // 學制資訊
 	var $saveDeptDescriptionBtn = $deptInfoForm.find('#btn-deptInfoSave'); // 學制資訊儲存｜送出按鈕
@@ -41,20 +43,52 @@ var deptInfoPhd = (function () {
 
 	$admissionSelectionQuota.on('keyup', _reviewDivAction);
 
+	$sendPreviewPDFBtn.on('click', function () {
+		_getGuidelinesReplyForm('preview');
+	}); // 列印學制資訊 (預覽版)
+	$sendFormalPDFBtn.on('click', function () {
+		_getGuidelinesReplyForm('formal');
+	}); // 列印學制資訊 (正式版)
+
 	/**
 	 * init
 	 */
 
 	_setData();
 
+	function _getGuidelinesReplyForm(mode = 'preview') {
+		School.getGuidelinesReplyForm(_currentSystem,{mode})
+		.then(function(res) {
+			if (res.ok) {
+				return res.json;
+			} else {
+				throw res;
+			}
+		})
+		.then(function(data) {
+			if (mode === 'formal') {
+				alert('寄送正式版 PDF 成功，請至信箱確認。');
+			} else {
+				alert('寄送預覽版 PDF 成功，請至信箱確認。');
+			}
+			stopLoading();
+		})
+		.catch(function(err) {
+			err.json && err.json().then(function(data) {
+				alert(data.messages[0]);
+			})
+			stopLoading();
+		});
+	}
+
 	function _reviewDivAction() { // hide or show reviewDiv
-		
+
 		if ($admissionSelectionQuota.val() == 0) {
 			DeptInfo.$reviewDiv.hide();
 		} else {
 			DeptInfo.$reviewDiv.show();
 		}
-	
+
 	}
 
 	function _saveDeptDescription() {
@@ -62,7 +96,7 @@ var deptInfoPhd = (function () {
 	}
 
 	function _handleEditDeptInfo() { // 系所列表 Modal 觸發
-    openLoading();
+		openLoading();
 
 		_currentDeptId = $(this).data('deptid');
 		School.getDeptInfo(_currentSystem, _currentDeptId)
@@ -71,14 +105,14 @@ var deptInfoPhd = (function () {
 			_renderDeptDetail(json);
 		})
 		.then(() => {
-		  
+
 			$editDeptInfoModal.modal({
 				backdrop: 'static',
 				keyboard: false
 			});
 
-      stopLoading();
-    })
+			stopLoading();
+		})
 	}
 
 	function _renderDeptDetail(deptData) { // 渲染系所詳細資料
@@ -142,7 +176,7 @@ var deptInfoPhd = (function () {
 
 	function _saveDeptDetail() {
 		if (_validateForm()) {
-      openLoading();
+			openLoading();
 
 			var sendData = _getFormData();
 			School.setDeptInfo(_currentSystem, _currentDeptId, sendData)
@@ -156,15 +190,15 @@ var deptInfoPhd = (function () {
 			.then((json) => {
 				alert("儲存成功");
 
-        stopLoading();
+				stopLoading();
 			})
 			.catch((err) => {
 				err.json && err.json().then((data) => {
-          console.error(data);
-          alert(`ERROR: \n${data.messages[0]}`);
-        });
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
+				});
 
-        stopLoading();
+				stopLoading();
 			})
 		} else {
 			alert("有欄位輸入錯誤，請重新確認。");
@@ -172,7 +206,7 @@ var deptInfoPhd = (function () {
 	}
 
 	function _setData() {
-    openLoading();
+		openLoading();
 
 		School.getSystemInfo(_currentSystem) // 取得學制資料，沒有該學制則回上一頁
 		.then((res) => {
@@ -190,20 +224,20 @@ var deptInfoPhd = (function () {
 			$editDeptInfoBtn.on('click', _handleEditDeptInfo);
 			DeptInfo.renderDeptSelect(_currentSystem); // 產生系所詳細資料 Modal 中下拉式選單
 
-      stopLoading();
+			stopLoading();
 		})
 		.catch((err) => {
-		  if (err.status === 404) {
+			if (err.status === 404) {
 				alert('沒有這個學制。 即將返回上一頁。');
 				window.history.back();
 			} else {
-        err.json && err.json().then((data) => {
-          console.error(data);
-          alert(`ERROR: \n${data.messages[0]}`);
+				err.json && err.json().then((data) => {
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
 
-          stopLoading();
-        });
-      }
+					stopLoading();
+				});
+			}
 		})
 	}
 })();

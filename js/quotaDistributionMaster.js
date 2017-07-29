@@ -27,7 +27,7 @@ var quotaDistributionMaster = (function () {
 	$deptList.on('change.sumTotal', '.dept .editableQuota', _handleQuotaChange);
 	// save/commit
 	$btn.on('click', _handleSave);
-	
+
 	/**
 	 * init
 	 */
@@ -77,7 +77,7 @@ var quotaDistributionMaster = (function () {
 			return;
 		}
 
-    openLoading();
+		openLoading();
 
 		var departments = $deptList.find('.dept').map(function (i, deptRow) {
 			let $deptRow = $(deptRow);
@@ -92,7 +92,7 @@ var quotaDistributionMaster = (function () {
 		var data = {
 			departments: departments
 		};
-		
+
 		$this.attr('disabled', true);
 		School.setSystemQuota('master', data).then(function (res) {
 			setTimeout(function () {
@@ -111,13 +111,13 @@ var quotaDistributionMaster = (function () {
 				console.error(data);
 				alert(`ERROR: \n${data.messages[0]}`);
 
-        stopLoading();
+				stopLoading();
 			})
 		});
 	}
 
 	function _setData() {
-    openLoading();
+		openLoading();
 
 		School.getSystemQuota('master').then(function (res) {
 			if(res.ok) {
@@ -130,19 +130,19 @@ var quotaDistributionMaster = (function () {
 		}).then(function () {
 			$.bootstrapSortable(true);
 
-      stopLoading();
+			stopLoading();
 		}).catch(function (err) {
 			if (err.status === 404) {
 				alert('沒有這個學制。 即將返回上一頁。');
 				window.history.back();
 			} else {
-        err.json && err.json().then((data) => {
-          console.error(data);
-          alert(`ERROR: \n${data.messages[0]}`);
+				err.json && err.json().then((data) => {
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
 
-          stopLoading();
-        });
-      }
+					stopLoading();
+				});
+			}
 		});
 	}
 
@@ -174,7 +174,7 @@ var quotaDistributionMaster = (function () {
 
 	function _setEditor(creator, created_at) {
 		$lastEditionInfo.find('.who').text(creator ? creator.name : 'unknown');
-		$lastEditionInfo.find('.when').text(moment(created_at).format('YYYY/MM/DD hh:mm:ss a'));
+		$lastEditionInfo.find('.when').text(moment(created_at).format('YYYY/MM/DD HH:mm:ss'));
 	}
 
 	function _setQuota(data) {
@@ -238,8 +238,8 @@ var quotaDistributionMaster = (function () {
 	}
 
 	function _updateAllowTotal() {
-		var sum = +($quota_last_year_admission_amount.val()) + 
-			+($quota_last_year_surplus_admission_quota.val()) + 
+		var sum = +($quota_last_year_admission_amount.val()) +
+			+($quota_last_year_surplus_admission_quota.val()) +
 			+($quota_ratify_expanded_quota.val());
 		$quota_allowTotal.val(sum);
 	}
