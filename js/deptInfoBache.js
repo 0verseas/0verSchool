@@ -108,7 +108,7 @@ var deptInfoBache = (function () {
 	}
 
 	function _handleEditDeptInfo() { // 系所列表 Modal 觸發
-    openLoading();
+		openLoading();
 
 		_currentDeptId = $(this).data('deptid');
 		School.getDeptInfo(_currentSystem, _currentDeptId)
