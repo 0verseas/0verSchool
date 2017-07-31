@@ -196,7 +196,11 @@ var deptInfoTwoYear = (function () {
 		data.append('has_self_enrollment', +$hasSelfEnrollment.prop('checked'));
 		data.append('has_special_class', $hasSpecialClass.prop('checked'));
 		data.append('approval_no_of_special_class', $approvalNoOfSpecialClass.val());
-		data.append('approval_doc_of_special_class', $approvalDocOfSpecialClass.prop('files')[0]);
+		if ($approvalDocOfSpecialClass.prop('files').length > 0) {
+			data.append('approval_doc_of_special_class', $approvalDocOfSpecialClass.prop('files')[0]);
+		} else {
+			data.append('approval_doc_of_special_class', "");
+		}
 		data.append('self_enrollment_quota', $selfEnrollmentQuota.val());
 		data.append('admission_selection_quota', $admissionSelectionQuota.val());
 		var commonFormData = DeptInfo.getCommonFormData();
@@ -211,6 +215,7 @@ var deptInfoTwoYear = (function () {
 			openLoading();
 
 			var sendData = _getFormData();
+
 			School.setDeptInfo(_currentSystem, _currentDeptId, sendData)
 			.then((res) => {
 				if (res.ok) {
