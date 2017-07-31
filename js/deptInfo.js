@@ -368,7 +368,7 @@ var reviewItems = new Vue({ // 審查項目
 		applicationDocs: []
 	},
 	methods: {
-		initTypes(reviewItemsTypes) {
+		initTypes(reviewItemsTypes = this.reviewItemsTypes) {
 			// fetch 回來的審閱類別放入下拉選單
 			for(type of reviewItemsTypes) {
 				// 刪掉不需要的欄位
@@ -392,23 +392,12 @@ var reviewItems = new Vue({ // 審查項目
 					type.recipient_phone = '';
 					type.recieve_email = '';
 					type.recieve_address = '';
-
 				}
 			}
 			this.reviewItemsTypes = reviewItemsTypes;
 		},
-		// cleanTypesNeeded() {
-		// 	for(type in this.reviewItemsTypes) {
-		// 		this.reviewItemsTypes[type].needed = false;
-		// 		this.reviewItemsTypes[type].required = false;
-		// 		this.reviewItemsTypes[type].modifiable = true;
-		// 		this.reviewItemsTypes[type].description = '';
-		// 		this.reviewItemsTypes[type].eng_description = '';
-		// 		this.reviewItemsTypes[type].error = false;
-		// 	}
-		// },
 		initApplicationDocs(applicationDocs) {
-			// this.cleanTypesNeeded();
+			this.initTypes();
 			// 整理審閱資料的格式
 			for(doc of applicationDocs) {
 				for(type of this.reviewItemsTypes) {
