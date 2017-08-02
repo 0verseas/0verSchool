@@ -135,7 +135,12 @@
 							</div>
 						</div>
 						<div class="row">
+
+						<% if(system == 'bachelor') { -%>
 							<div id="groupCodeForm" class="form-group col-6">
+						<% } else { -%>
+							<div id="groupCodeForm" class="form-group col-6" style="display:none;">
+						<% } -%>
 								<label class="form-control-label text-danger" for="">類組*</label>
 								<select class="form-control" id="groupCode">
 									<option value="1">第一類組</option>
@@ -143,6 +148,7 @@
 									<option value="3">第三類組</option>
 								</select>
 							</div>
+
 							<div id="genderLimitForm" class="form-group col-6">
 								<label class="form-control-label text-danger" for="">招收性別限制*</label>
 								<select class="form-control" id="genderLimit">
