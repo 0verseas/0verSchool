@@ -124,7 +124,7 @@ var deptInfoTwoYear = (function () {
 	}
 
 	function _renderDeptDetail(deptData) { // 渲染系所詳細資料
-		DeptInfo.renderCommonDeptDetail(deptData); // 渲染學制們共用欄位
+		DeptInfo.renderCommonDeptDetail(deptData, "twoYear"); // 渲染學制們共用欄位
 		_renderSpecialDeptDetail(deptData);
 		_switchHasSpecialClass();
 		_switchHasSelfEnrollment();
@@ -204,7 +204,7 @@ var deptInfoTwoYear = (function () {
 		}
 		data.append('self_enrollment_quota', $selfEnrollmentQuota.val());
 		data.append('admission_selection_quota', $admissionSelectionQuota.val());
-		var commonFormData = DeptInfo.getCommonFormData();
+		var commonFormData = DeptInfo.getCommonFormData("twoYear");
 		for( item in commonFormData) {
 			data.append(item, commonFormData[item]);
 		}

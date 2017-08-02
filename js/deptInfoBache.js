@@ -127,7 +127,7 @@ var deptInfoBache = (function () {
 	}
 
 	function _renderDeptDetail(deptData) { // 渲染系所詳細資料
-		DeptInfo.renderCommonDeptDetail(deptData); // 渲染學制們共用欄位
+		DeptInfo.renderCommonDeptDetail(deptData, "bache"); // 渲染學制們共用欄位
 		var min = Math.min(deptData.last_year_admission_placement_amount, deptData.last_year_admission_placement_quota);
 		$placementQuotaTip.tooltip({title: '聯合分發人數請大於 ' + min + ' 人，否則請填寫減招原因'});
 		_renderSpecialDeptDetail(deptData);
@@ -185,7 +185,7 @@ var deptInfoBache = (function () {
 		data.append('admission_selection_quota', $admissionSelectionQuota.val());
 		data.append('admission_placement_quota', $admissionPlacementQuota.val());
 		data.append('decrease_reason_of_admission_placement', $decreaseReasonOfAdmissionPlacement.val());
-		var commonFormData = DeptInfo.getCommonFormData();
+		var commonFormData = DeptInfo.getCommonFormData("bache");
 		for( item in commonFormData) {
 			data.append(item, commonFormData[item]);
 		}

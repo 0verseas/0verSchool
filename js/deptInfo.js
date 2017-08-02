@@ -196,7 +196,7 @@ var DeptInfo = (function () {
 		})
 	}
 
-	function renderCommonDeptDetail(deptData) {
+	function renderCommonDeptDetail(deptData, system) {
 		$sortOrder.val(deptData.sort_order);
 		$id.val(deptData.id);
 		$cardCode.val(deptData.card_code);
@@ -206,7 +206,9 @@ var DeptInfo = (function () {
 		$engUrl.val(deptData.eng_url);
 		$mainGroup.val(deptData.main_group);
 		$subGroup.val(deptData.sub_group);
-		$groupCode.val(deptData.group_code);
+		if (system === "bache") {
+			$groupCode.val(deptData.group_code);
+		}
 		$genderLimit.val(deptData.gender_limit);
 		$evaluation.val(deptData.evaluation);
 		$description.val(deptData.description);
@@ -298,7 +300,7 @@ var DeptInfo = (function () {
 		return check && appDocCheck;
 	}
 
-	function getCommonFormData() {
+	function getCommonFormData(system) {
 		// 取得審查項目資料
 		let applicationDocs = reviewItems.getReviewItems();
 		// 拿到師長推薦函的紙本推薦函收件期限
@@ -315,7 +317,6 @@ var DeptInfo = (function () {
 			eng_url: $engUrl.val(),
 			main_group: $mainGroup.val(),
 			sub_group: $subGroup.val(),
-			group_code: $groupCode.val(),
 			gender_limit: $genderLimit.val(),
 			evaluation: $evaluation.val(),
 			description: $description.val(),
@@ -332,6 +333,11 @@ var DeptInfo = (function () {
 			birth_limit_before: $birthLimitBefore.val(),
 			memo: $memo.val(),
 			application_docs: JSON.stringify(applicationDocs)
+		}
+		if (system === "bache") {
+			data.group_code = $groupCode.val();
+		} else {
+			data.group_code = 1;
 		}
 		return data;
 	}

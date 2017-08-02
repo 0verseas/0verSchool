@@ -116,7 +116,7 @@ var deptInfoMaster = (function () {
 	}
 
 	function _renderDeptDetail(deptData) { // 渲染系所詳細資料
-		DeptInfo.renderCommonDeptDetail(deptData); // 渲染學制們共用欄位
+		DeptInfo.renderCommonDeptDetail(deptData, "master"); // 渲染學制們共用欄位
 		_renderSpecialDeptDetail(deptData);
 		_switchHasSelfEnrollment();
 		_switchSchoolHasSelfEnrollment();
@@ -162,7 +162,7 @@ var deptInfoMaster = (function () {
 		data.append('has_special_class', +$hasSpecialClass.prop('checked'));
 		data.append('admission_selection_quota', $admissionSelectionQuota.val());
 		data.append('self_enrollment_quota', $selfEnrollmentQuota.val());
-		var commonFormData = DeptInfo.getCommonFormData();
+		var commonFormData = DeptInfo.getCommonFormData("master");
 		for( item in commonFormData) {
 			data.append(item, commonFormData[item]);
 		}
