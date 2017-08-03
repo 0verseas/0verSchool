@@ -95,8 +95,8 @@ var deptInfoBache = (function () {
 		var totalPeople = Number($admissionSelectionQuota.val()) + Number($admissionPlacementQuota.val());
 		$admissionTotalQuota.val(totalPeople);
 		$decreaseReasonOfAdmissionPlacement.prop('disabled', !(Math.min(_lastYearAdmissionPlacementAmount, _lastYearAdmissionPlacementQuota) > $admissionPlacementQuota.val()));
-		// set review if admissionSelectionQuota = 0 ***
-		if ($admissionSelectionQuota.val() == 0) {
+		// set review if admissionSelectionQuota <= 0 ***
+		if ($admissionSelectionQuota.val() <= 0) {
 			DeptInfo.$reviewDiv.hide();
 		} else {
 			DeptInfo.$reviewDiv.show();

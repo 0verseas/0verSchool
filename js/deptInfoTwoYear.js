@@ -91,8 +91,7 @@ var deptInfoTwoYear = (function () {
 	}
 
 	function _reviewDivAction() { // hide or show reviewDiv
-
-		if ($admissionSelectionQuota.val() == 0) {
+		if ($admissionSelectionQuota.val() <= 0) {
 			DeptInfo.$reviewDiv.hide();
 		} else {
 			DeptInfo.$reviewDiv.show();
@@ -114,6 +113,8 @@ var deptInfoTwoYear = (function () {
 			_renderDeptDetail(json);
 		})
 		.then(() => {
+            _reviewDivAction();
+
 			$editDeptInfoModal.modal({
 				backdrop: 'static',
 				keyboard: false
