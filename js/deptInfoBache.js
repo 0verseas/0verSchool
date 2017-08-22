@@ -248,8 +248,8 @@ var deptInfoBache = (function () {
 				alert('沒有這個學制。 即將返回上一頁。');
 				window.history.back();
 			} else {
-				console.error(data);
 				err.json && err.json().then((data) => {
+					console.error(data);
 					alert(`ERROR: \n${data.messages[0]}`);
 
 					stopLoading();
