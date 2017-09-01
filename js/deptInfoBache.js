@@ -210,8 +210,8 @@ var deptInfoBache = (function () {
 				stopLoading();
 			})
 			.catch((err) => {
-          			console.error(data);
 				err.json && err.json().then((data) => {
+					console.error(data);
 					alert(`ERROR: \n${data.messages[0]}`);
 				});
 
