@@ -449,11 +449,6 @@ var reviewItems = new Vue({ // 審查項目
 			for(type of this.reviewItemsTypes) {
 				// 如果需要此審查項目
 				if (type.needed == true) {
-					// 先檢查是否有中文備註
-					if (type.description == "") {
-						type.error = true;
-						check = false;
-					}
 					// 如果有需要紙本推薦函
 					if (type.need_paper == true) {
 						// 檢查紙本推薦函的所需欄位是否有填寫
