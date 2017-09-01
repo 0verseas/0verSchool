@@ -19,6 +19,7 @@ var DeptInfo = (function () {
 	// Modal common elements
 	var $modalDeptInfo = $('#modal-deptInfo');
 	var $sortOrder = $modalDeptInfo.find('#sortOrder'); // 簡章順序
+	var $useEngData = $modalDeptInfo.find('#useEngData'); //今年暫不提供英文系所分則
 	var $id = $modalDeptInfo.find('#id'); // Can't edit ，系所代碼
 	var $cardCode = $modalDeptInfo.find('#cardCode'); // Can't edit，讀卡代碼
 	var $title = $modalDeptInfo.find('#title'); // Can't edit，中文名稱
@@ -198,6 +199,7 @@ var DeptInfo = (function () {
 
 	function renderCommonDeptDetail(deptData, system) {
 		$sortOrder.val(deptData.sort_order);
+		$useEngData.prop("checked", !deptData.use_eng_data);
 		$id.val(deptData.id);
 		$cardCode.val(deptData.card_code);
 		$title.val(deptData.title);
@@ -313,6 +315,7 @@ var DeptInfo = (function () {
 
 		var data = {
 			sort_order: $sortOrder.val(),
+			use_eng_data: !+$useEngData.prop("checked"),
 			url: $url.val(),
 			eng_url: $engUrl.val(),
 			main_group: $mainGroup.val(),
