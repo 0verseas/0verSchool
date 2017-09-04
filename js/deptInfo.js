@@ -312,10 +312,10 @@ var DeptInfo = (function () {
 				doc.recieve_deadline = $('#recieveDeadline').val();
 			}
 		}
-
+		
 		var data = {
 			sort_order: $sortOrder.val(),
-			use_eng_data: !+$useEngData.prop("checked"),
+			use_eng_data: !$useEngData.prop("checked"),
 			url: $url.val(),
 			eng_url: $engUrl.val(),
 			main_group: $mainGroup.val(),
