@@ -152,7 +152,7 @@ var deptInfoBache = (function () {
 	}
 
 	function _switchHasSelfEnrollment() { // 系可獨招 => 系可開設僑生專班
-		$hasSpecialClass.prop('disabled', !$hasSelfEnrollment.prop('checked'));
+		// $hasSpecialClass.prop('disabled', !$hasSelfEnrollment.prop('checked'));
 	}
 
 	function _validateForm() {

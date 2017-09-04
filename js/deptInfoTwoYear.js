@@ -151,18 +151,18 @@ var deptInfoTwoYear = (function () {
 	}
 
 	function _switchHasRiJian() { // 開日間 => 可自招、開聯招人數
-		$hasSelfEnrollment.prop('disabled', !$hasRiJian.prop('checked'));
-		if ($hasRiJian.prop('checked') || $hasSpecialClass.prop('checked')) { $admissionSelectionQuota.prop('disabled', false); } else { $admissionSelectionQuota.prop('disabled', true); }
+		// $hasSelfEnrollment.prop('disabled', !$hasRiJian.prop('checked'));
+		// if ($hasRiJian.prop('checked') || $hasSpecialClass.prop('checked')) { $admissionSelectionQuota.prop('disabled', false); } else { $admissionSelectionQuota.prop('disabled', true); }
 	}
 
 	function _switchHasSelfEnrollment() { // 開自招 => 開自招人數
-		$selfEnrollmentQuota.prop('disabled', !$hasSelfEnrollment.prop('checked'));
+		// $selfEnrollmentQuota.prop('disabled', !$hasSelfEnrollment.prop('checked'));
 	}
 
 	function _switchHasSpecialClass() { // 開專班 => 開專班文號、電子檔，以及開聯招人數
 		$approvalNoOfSpecialClass.prop('disabled', !$hasSpecialClass.prop('checked'));
 		$approvalDocOfSpecialClass.prop('disabled', !$hasSpecialClass.prop('checked'));
-		if ($hasRiJian.prop('checked') || $hasSpecialClass.prop('checked')) { $admissionSelectionQuota.prop('disabled', false); } else { $admissionSelectionQuota.prop('disabled', true); }
+		// if ($hasRiJian.prop('checked') || $hasSpecialClass.prop('checked')) { $admissionSelectionQuota.prop('disabled', false); } else { $admissionSelectionQuota.prop('disabled', true); }
 	}
 
 	function _validateForm() {

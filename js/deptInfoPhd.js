@@ -131,12 +131,12 @@ var deptInfoPhd = (function () {
 	};
 
 	function _switchSchoolHasSelfEnrollment() { // 校可獨招 => 系可獨招
-		$hasSelfEnrollment.prop('disabled', !$schoolHasSelfEnrollment.prop('checked'));
+		// $hasSelfEnrollment.prop('disabled', !$schoolHasSelfEnrollment.prop('checked'));
 	}
 
 	function _switchHasSelfEnrollment() { // 系可獨招 => 系可開設僑生專班、可填自招人數
 		$hasSpecialClass.prop('disabled', !$hasSelfEnrollment.prop('checked'));
-		$selfEnrollmentQuota.prop('disabled', !$hasSelfEnrollment.prop('checked'));
+		// $selfEnrollmentQuota.prop('disabled', !$hasSelfEnrollment.prop('checked'));
 	}
 
 	function _validateForm() {
