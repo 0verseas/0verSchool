@@ -2,6 +2,14 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.standalone.min.css">
 
 <div class="row">
+	<div class="col-12">
+		<div class="alert alert-danger" role="alert">
+		  <strong>重要！</strong> 本會自 107 學年度起開始調查英文系所分則，若學系今年暫不提供英文簡章分則者，請於系所資料勾選「本系今年不提供英文簡章分則」。
+		</div>
+	</div>
+</div>
+
+<div class="row">
 	<div class="col-6 text-left">
 		<h2>學制資訊</h2>
 	</div>
@@ -81,17 +89,26 @@
 				<div class="container-fluid">
 					<form>
 						<div class="row">
+							<div class="col-12">
+								<div class="alert alert-danger" role="alert">
+								  <strong>重要！</strong> 本會自 107 學年度起開始調查英文系所分則，若學系今年暫不提供英文簡章分則者，請勾選「本系今年不提供英文簡章分則」。
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div id="useEngDataForm" class="form-check col-6">
+								<label class="form-check-label text-danger">
+									<input class="form-check-input" type="checkbox" id="useEngData" value="">
+									本系今年不提供英文簡章分則
+								</label>
+							</div>
+						</div>
+						<div class="row">
 							<div id="sortOrderForm" class="form-group col-6">
 								<div class="input-group">
 									<span class="input-group-addon">簡章順序</span>
 									<input type="text" class="form-control" id="sortOrder">
 								</div>
-							</div>
-							<div id="useEngDataForm" class="form-check col-6">
-								<label class="form-check-label text-danger">
-									<input class="form-check-input" type="checkbox" id="useEngData" value="">
-									今年暫不提供英文系所分則
-								</label>
 							</div>
 						</div>
 						<div class="row">
@@ -206,7 +223,7 @@
 										系組招生規定
 									</div>
 									<div class="card-block">
-											<div class="form-check">
+											<div class="form-check" style="display: none;">
 												<label class="form-check-label">
 													<input class="form-check-input" type="checkbox" id="hasForeignSpecialClass" value="">
 													是否招收外生專班（若是，請勾選）
