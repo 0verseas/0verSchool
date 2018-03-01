@@ -285,7 +285,7 @@ var DeptInfo = (function () {
 		appDocCheck = reviewItems.validateReviewItems();
 
 		// 驗證審查項目中的紙本推薦函的收件期限欄位
-		for(type of reviewItems.reviewItemsTypes) {
+		for(let type of reviewItems.reviewItemsTypes) {
 			// 紙本推薦函為特定審查項目，寫死 type id
 			if (type.id == 8 || type.id == 26 || type.id == 46 || type.id == 66) {
 				// 如果需要此審查項目且需要紙本推薦函，才檢查
@@ -379,7 +379,7 @@ var reviewItems = new Vue({ // 審查項目
 	methods: {
 		initTypes(reviewItemsTypes = this.reviewItemsTypes) {
 			// fetch 回來的審閱類別放入下拉選單
-			for(type of reviewItemsTypes) {
+			for(let type of reviewItemsTypes) {
 				// 刪掉不需要的欄位
 				delete type.eng_name;
 				delete type.created_at;
@@ -408,8 +408,8 @@ var reviewItems = new Vue({ // 審查項目
 		initApplicationDocs(applicationDocs) {
 			this.initTypes();
 			// 整理審閱資料的格式
-			for(doc of applicationDocs) {
-				for(type of this.reviewItemsTypes) {
+			for(let doc of applicationDocs) {
+				for(let type of this.reviewItemsTypes) {
 					if (doc.type_id === type.type_id) {
 						type.needed = true;
 						type.required = doc.required;
@@ -436,7 +436,7 @@ var reviewItems = new Vue({ // 審查項目
 		validateReviewItems() {
 			var check = true
 
-			for(type of this.reviewItemsTypes) {
+			for(let type of this.reviewItemsTypes) {
 				type.error = false;
 				if (type.id == 8 || type.id == 26 || type.id == 46 || type.id == 66) {
 					type.recipient_error = false;
@@ -446,7 +446,7 @@ var reviewItems = new Vue({ // 審查項目
 				}
 			}
 
-			for(type of this.reviewItemsTypes) {
+			for(let type of this.reviewItemsTypes) {
 				// 如果需要此審查項目
 				if (type.needed == true) {
 					// 先檢查是否有中文備註
