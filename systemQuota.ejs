@@ -1,0 +1,155 @@
+<link rel="stylesheet" href="css/systemQuota.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap-sortable/2.0.0/bootstrap-sortable.min.css">
+<div class="row">
+	<div class="col-12">
+		<h3 class="float-left">名額調查</h3>
+		<span id="lastEditionInfo" class='float-right'>
+			上次編輯：<span class="who"></span><br /><span class="when"></span>
+		</span>
+	</div>
+</div>
+<hr />
+
+<div class="row">
+	<div class="col-2 offset-10 text-center float-right">
+		<button id="btn-pdf" class="btn btn-success">
+			下載ＰＤＦ
+		</button>
+	</div>
+</div>
+
+<div id="bachelor_quota">
+	<div class="row">
+		<div class="col-2">
+			<h4 class="float-right">學士班 (含港二技)</h4>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-2 offset-1">
+			<div class="form-group">
+				<small id="" class="form-text text-muted">107 總量</small>
+				<input type="number" class="form-control" id="last_year_admission_amount_bache" disabled>
+			</div>
+		</div>
+		<span class="operator">＋</span>
+		<div class="col-3">
+			<div class="form-group">
+				<small id="" class="form-text text-muted">107本地生缺額欲提供108僑生名額</small>
+				<input type="number" min="0" class="form-control" id="last_year_surplus_admission_quota_bache" required>
+			</div>
+		</div>
+		<span class="operator">＋</span>
+		<div class="col-2">
+			<div class="form-group">
+				<small id="" class="form-text text-muted">申請108增量</small>
+				<input type="number" min="0" class="form-control" id="expanded_quota_bache" required>
+			</div>
+		</div>
+		<span class="operator">＝</span>
+		<div class="col-2">
+			<div class="form-group">
+				<small id="" class="form-text text-muted">108僑生名額總量</small>
+				<input type="number" class="form-control" id="allowTotal_bache" disabled>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="master_quota">
+	<div class="row">
+		<div class="col-1">
+			<h4 class="float-right">碩士班</h4>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-2 offset-1">
+			<div class="form-group">
+				<small id="" class="form-text text-muted">107 總量</small>
+				<input type="text" class="form-control" id="last_year_admission_amount_master" disabled>
+			</div>
+		</div>
+		<span class="operator">＋</span>
+		<div class="col-3">
+			<div class="form-group">
+				<small id="" class="form-text text-muted">107本地生缺額欲提供108僑生名額</small>
+				<input type="number" min="0" class="form-control" id="last_year_surplus_admission_quota_master" required>
+			</div>
+		</div>
+		<span class="operator">＋</span>
+		<div class="col-2">
+			<div class="form-group">
+				<small id="" class="form-text text-muted">申請108增量</small>
+				<input type="number" min="0" class="form-control" id="expanded_quota_master" required>
+			</div>
+		</div>
+		<span class="operator">＝</span>
+		<div class="col-2">
+			<div class="form-group">
+				<small id="" class="form-text text-muted">108僑生名額總量</small>
+				<input type="text" class="form-control" id="allowTotal_master" disabled>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="phd_quota">
+	<div class="row">
+		<div class="col-1">
+			<h4 class="float-right">博士班</h4>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-2 offset-1">
+			<div class="form-group">
+				<small id="" class="form-text text-muted">107 總量</small>
+				<input type="text" class="form-control" id="last_year_admission_amount_phd" disabled>
+			</div>
+		</div>
+		<span class="operator">＋</span>
+		<div class="col-3">
+			<div class="form-group">
+				<small id="" class="form-text text-muted">107本地生缺額欲提供108僑生名額</small>
+				<input type="number" min="0" class="form-control" id="last_year_surplus_admission_quota_phd" required>
+			</div>
+		</div>
+		<span class="operator">＋</span>
+		<div class="col-2">
+			<div class="form-group">
+				<small id="" class="form-text text-muted">申請108增量</small>
+				<input type="number" min="0" class="form-control" id="expanded_quota_phd" required>
+			</div>
+		</div>
+		<span class="operator">＝</span>
+		<div class="col-2">
+			<div class="form-group">
+				<small id="" class="form-text text-muted">108僑生名額總量</small>
+				<input type="text" class="form-control" id="allowTotal_phd" disabled>
+			</div>
+		</div>
+	</div>
+</div>
+<hr />
+
+<div class="row" style="font-size:18px">
+	<ul>
+		<li><a href="https://api.overseas.ncnu.edu.tw:8443/forms/海聯108僑生專案擴增名額調查表.xlsx" target="_blank"> 擴增名額Excel下載</a></li>
+		<li><span style="color:red"> 107學年度本地生招生缺額數 </span>請依據實際招收僑生之需求填報。例如：學校107學年度本地生招生缺額數計50名，其中30名擬招收僑生（含港澳生及港澳具外國國籍之華裔學生），<br /> 請依實際需求填30名。</li>
+		<li>請於<span style="color:red"> 6月20日（星期三）下午5時前 </span>確認108學年度各學制僑生招生名額總量（含招生名額增量調查表）無誤並列印系統產生之「108學年度僑生名額總量調查回覆表」，<br /> 經單位主管簽章確認後，回傳至本會（電子郵件信箱：overseassurvey@gmail.com，傳真：049-2911182），始完成僑生名額填報作業。</li>
+	</ul>
+</div>
+
+<div class="row">
+	<div class="col-3 text-center offset-2">
+		<button id="btn-save" data-action="save" class="btn btn-primary">
+			儲存
+		</button>
+	</div>
+	<div class="col-3 text-center">
+		<button id="btn-confirm" data-action="save" class="btn btn-danger">
+			提交並不再修改
+		</button>
+	</div>
+</div>

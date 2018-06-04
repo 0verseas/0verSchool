@@ -16,6 +16,23 @@ var School = (function () {
 		});
 	}
 
+	function getFirstSystemQuota(schoolid) {
+		return fetch(baseUrl + `/schools/${schoolid}/quotas`, {
+			credentials: 'include'
+		});
+	}
+
+	function setFirstSystemQuota(schoolid, data) {
+		return fetch(baseUrl + `/schools/${schoolid}/quotas`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include',
+			body: JSON.stringify(data)
+		});
+	}
+
 	function getSystemQuota(system) {
 		return fetch(baseUrl + `/schools/me/systems/${system}/histories/latest?data_type=quota`, {
 			credentials: 'include'
@@ -27,8 +44,8 @@ var School = (function () {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
-			}, 
-			credentials: 'include', 
+			},
+			credentials: 'include',
 			body: JSON.stringify(data)
 		});
 	}
@@ -44,8 +61,8 @@ var School = (function () {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
-			}, 
-			credentials: 'include', 
+			},
+			credentials: 'include',
 			body: JSON.stringify(data)
 		});
 	}
@@ -88,9 +105,17 @@ var School = (function () {
 		.all(urls.map(grabContent))
 	}
 
+	function getFirstSystemQoutaPDF(schoolid) { // 取得某學制某系所
+		return fetch(baseUrl + `/schools/${schoolid}/quotas-reply-form`, {
+			credentials: 'include'
+		})
+	}
+
 	return {
 		getSchoolInfo,
 		setSchoolInfo,
+		getFirstSystemQuota,
+		setFirstSystemQuota,
 		getSystemQuota,
 		setSystemQuota,
 		getSystemInfo,
@@ -98,7 +123,8 @@ var School = (function () {
 		getDeptInfo,
 		setDeptInfo,
 		getDeptFormItem,
-		getGuidelinesReplyForm
+		getGuidelinesReplyForm,
+		getFirstSystemQoutaPDF
 	};
 
 })();
