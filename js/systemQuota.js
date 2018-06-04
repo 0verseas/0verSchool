@@ -139,9 +139,9 @@ var systemQuota = (function () {
 			"data_confirm": false
 		}
 		School.setFirstSystemQuota(schoolid, data).then(function (res) {
-			setTimeout(function () {
-				$this.attr('disabled', false);
-			}, 700);
+			// setTimeout(function () {
+			// 	$this.attr('disabled', false);
+			// }, 200);
 			if(res.ok) {
 				return res.json();
 			} else {
@@ -173,9 +173,10 @@ var systemQuota = (function () {
 				"data_confirm": true
 			}
 			School.setFirstSystemQuota(schoolid, data).then(function (res) {
-				setTimeout(function () {
-					$this.attr('disabled', false);
-				}, 700);
+				// setTimeout(function () {
+				// 	$this.attr('disabled', false);
+				// 	location.reload();
+				// }, 400);
 				if (res.ok) {
 					return res.json();
 				} else {
