@@ -7,7 +7,7 @@ var User = (function () {
 	}
 
 	function login(loginForm) {
-		return fetch(baseUrl + '/users/login', {
+		return fetch(baseUrl + '/editors/login', {
 			method: "POST",
 			headers: {
 				'Content-Type': 'application/json'
@@ -18,14 +18,14 @@ var User = (function () {
 	}
 
 	function logout() {
-		return fetch(baseUrl + '/users/logout', {
+		return fetch(baseUrl + '/editors/logout', {
 			method: "POST",
 			credentials: 'include'
 		});
 	}
 
 	function isLogin() {
-		return fetch(baseUrl + '/users/login', {
+		return fetch(baseUrl + '/editors/login', {
 			credentials: 'include'
 		});
 	}
