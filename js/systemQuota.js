@@ -23,7 +23,7 @@ var systemQuota = (function () {
 	var $last_year_surplus_admission_quota_phd= $('#last_year_surplus_admission_quota_phd'); // 去年本地生招生缺額數籲提供給今年
 	var $expanded_quota_phd = $('#expanded_quota_phd'); // 擴增名額
 	var $allowTotal_phd = $('#allowTotal_phd'); // 擴增名額
-
+	var schoolid;
 	$last_year_surplus_admission_quota_bache.on('change', _handleQuotaChanged);
 	$expanded_quota_bache.on('change', _handleQuotaChanged);
 	$last_year_surplus_admission_quota_master.on('change', _handleQuotaChanged);
