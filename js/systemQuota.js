@@ -197,9 +197,7 @@ var systemQuota = (function () {
 	}
 
 	function _handlePDF() {
-		document.getElementById('btn-pdf').onclick = function(){
-			window.location =env.baseUrl + '/schools/'+ schoolid + '/quotas-reply-form';
-		}
+		window.open (env.baseUrl + '/schools/'+ schoolid + '/quotas-reply-form', '_blank');
 	}
 
 
