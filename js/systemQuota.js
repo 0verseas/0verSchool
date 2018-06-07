@@ -66,6 +66,7 @@ var systemQuota = (function () {
 				if( json.master.confirmed_at != null ) {
 					document.getElementById("btn-confirm").textContent = "已鎖定";
 					document.getElementById("btn-confirm").disabled = true;
+					document.getElementById("btn-save").disabled = true;
 				}
 				else{
 					document.getElementById("btn-pdf").disabled = true;
