@@ -56,7 +56,6 @@ var systemQuota = (function () {
 					throw res
 				}
 			}).then(function (json) {
-				console.log(json.bachelor.confirmed_at)
 				//並不是每間學校都有學碩博
 				if( json.bachelor == null)
 					document.getElementById("bachelor_quota").style.display="none";
@@ -64,7 +63,7 @@ var systemQuota = (function () {
 					document.getElementById("master_quota").style.display="none";
 				if( json.phd == null)
 					document.getElementById("phd_quota").style.display="none";
-				if( json.bachelor.confirmed_at != null) {
+				if( json.master.confirmed_at != null ) {
 					document.getElementById("btn-confirm").textContent = "已鎖定";
 					document.getElementById("btn-confirm").disabled = true;
 				}
@@ -96,24 +95,29 @@ var systemQuota = (function () {
 
 		function _renderData(json) {
 			_setQuota(json);
-			_setEditor(json.bachelor.updated_by, json.bachelor.updated_at);
+			_setEditor(json.master.updated_by, json.master.updated_at);
 		}
 
 		function _setQuota(data) {
-			$last_year_surplus_admission_quota_bache.val(data.bachelor.last_year_surplus_admission_quota);
-			$last_year_admission_amount_bache.val(data.bachelor.last_year_admission_amount);
-			$expanded_quota_bache.val(data.bachelor.expanded_quota);
-			$allowTotal_bache.val(data.bachelor.last_year_surplus_admission_quota + data.bachelor.last_year_admission_amount + data.bachelor.expanded_quota);
+			if(data.bachelor != null) {
+				$last_year_surplus_admission_quota_bache.val(data.bachelor.last_year_surplus_admission_quota);
+				$last_year_admission_amount_bache.val(data.bachelor.last_year_admission_amount);
+				$expanded_quota_bache.val(data.bachelor.expanded_quota);
+				$allowTotal_bache.val(data.bachelor.last_year_surplus_admission_quota + data.bachelor.last_year_admission_amount + data.bachelor.expanded_quota);
+			}
 
-			$last_year_surplus_admission_quota_master.val(data.master.last_year_surplus_admission_quota);
-			$last_year_admission_amount_master.val(data.master.last_year_admission_amount);
-			$expanded_quota_master.val(data.master.expanded_quota);
-			$allowTotal_master.val( data.master.last_year_surplus_admission_quota + data.master.last_year_admission_amount + data.master.expanded_quota);
-
-			$last_year_surplus_admission_quota_phd.val(data.phd.last_year_surplus_admission_quota);
-			$last_year_admission_amount_phd.val(data.phd.last_year_admission_amount);
-			$expanded_quota_phd.val(data.phd.expanded_quota);
-			$allowTotal_phd.val( data.phd.last_year_surplus_admission_quota + data.phd.last_year_admission_amount + data.phd.expanded_quota);
+			if( data.master != null) {
+				$last_year_surplus_admission_quota_master.val(data.master.last_year_surplus_admission_quota);
+				$last_year_admission_amount_master.val(data.master.last_year_admission_amount);
+				$expanded_quota_master.val(data.master.expanded_quota);
+				$allowTotal_master.val(data.master.last_year_surplus_admission_quota + data.master.last_year_admission_amount + data.master.expanded_quota);
+			}
+			if( data.phd != null) {
+				$last_year_surplus_admission_quota_phd.val(data.phd.last_year_surplus_admission_quota);
+				$last_year_admission_amount_phd.val(data.phd.last_year_admission_amount);
+				$expanded_quota_phd.val(data.phd.expanded_quota);
+				$allowTotal_phd.val(data.phd.last_year_surplus_admission_quota + data.phd.last_year_admission_amount + data.phd.expanded_quota);
+			}
 		}
 		function _setEditor(creator, created_at) {
 			$lastEditionInfo.find('.who').text(creator ? creator.name : 'unknown');
