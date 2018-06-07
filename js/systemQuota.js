@@ -197,29 +197,7 @@ var systemQuota = (function () {
 	}
 
 	function _handlePDF() {
-		School.getFirstSystemQoutaPDF(schoolid).then(function (res) {
-			if(res.ok) {
-				return res.json();
-			} else {
-				throw res
-			}
-		}).then(function (json) {
-
-		}).then(function () {
-			stopLoading();
-		}).catch(function (err) {
-			if (err.status === 404) {
-				alert('沒有這個學校。 即將返回上一頁。');
-				window.history.back();
-			} else {
-				err.json && err.json().then((data) => {
-					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
-
-					stopLoading();
-				});
-			}
-		});
+		$('#btn-pdf').attr('href', env.baseUrl + '/schools/'+ schoolid + '/quotas-reply-form');
 	}
 
 

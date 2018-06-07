@@ -105,12 +105,6 @@ var School = (function () {
 		.all(urls.map(grabContent))
 	}
 
-	function getFirstSystemQoutaPDF(schoolid) { // 取得某學制某系所
-		return fetch(baseUrl + `/schools/${schoolid}/quotas-reply-form`, {
-			credentials: 'include'
-		})
-	}
-
 	return {
 		getSchoolInfo,
 		setSchoolInfo,
