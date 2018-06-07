@@ -117,8 +117,7 @@ var School = (function () {
 		getDeptInfo,
 		setDeptInfo,
 		getDeptFormItem,
-		getGuidelinesReplyForm,
-		getFirstSystemQoutaPDF
+		getGuidelinesReplyForm
 	};
 
 })();
