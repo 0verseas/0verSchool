@@ -90,7 +90,7 @@ $(document).ready(function () {
 				return;
 			}
 			// check password is changed
-			storedPassword = null;
+			var storedPassword = null;
 			if (password.val()) {
 				storedPassword = sha256(password.val());
 			}
