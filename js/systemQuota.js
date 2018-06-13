@@ -23,6 +23,8 @@ var systemQuota = (function () {
 	var $last_year_surplus_admission_quota_phd= $('#last_year_surplus_admission_quota_phd'); // 去年本地生招生缺額數籲提供給今年
 	var $expanded_quota_phd = $('#expanded_quota_phd'); // 擴增名額
 	var $allowTotal_phd = $('#allowTotal_phd'); // 擴增名額
+
+	var $description= $('#description'); // 學制流用需求描述
 	var schoolid;
 	$last_year_surplus_admission_quota_bache.on('change', _handleQuotaChanged);
 	$expanded_quota_bache.on('change', _handleQuotaChanged);
@@ -119,6 +121,7 @@ var systemQuota = (function () {
 				$expanded_quota_phd.val(data.phd.expanded_quota);
 				$allowTotal_phd.val(data.phd.last_year_surplus_admission_quota + data.phd.last_year_admission_amount + data.phd.expanded_quota);
 			}
+			$description.val(data.description);
 		}
 		function _setEditor(creator, created_at) {
 			$lastEditionInfo.find('.who').text(creator ? creator.name : 'unknown');
@@ -141,6 +144,7 @@ var systemQuota = (function () {
 			"Master_expanded_quota": $expanded_quota_master.val(),
 			"PhD_last_year_surplus_admission_quota": $last_year_surplus_admission_quota_phd.val(),
 			"PhD_expanded_quota": $expanded_quota_phd.val(),
+			"description": $description.val(),
 			"data_confirm": false
 		}
 		School.setFirstSystemQuota(schoolid, data).then(function (res) {
@@ -175,6 +179,7 @@ var systemQuota = (function () {
 				"Master_expanded_quota": $expanded_quota_master.val(),
 				"PhD_last_year_surplus_admission_quota": $last_year_surplus_admission_quota_phd.val(),
 				"PhD_expanded_quota": $expanded_quota_phd.val(),
+				"description": $description.val(),
 				"data_confirm": true
 			}
 			School.setFirstSystemQuota(schoolid, data).then(function (res) {
