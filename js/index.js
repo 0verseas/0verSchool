@@ -133,6 +133,9 @@ var schoolInfo = (function () {
 			data.append('approval_no_of_self_enrollment', $approvalNoOfSelfEnrollment.val());
 			data.append('approval_doc_of_self_enrollment', $approvalDocOfSelfEnrollment.prop('files')[0]);
 		}
+
+		data.append('confirmed', false);
+		
 		return data;
 	}
 

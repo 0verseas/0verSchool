@@ -256,6 +256,7 @@ var DeptInfo = (function () {
 	function validateForm() {
 		var check = true;
 		var appDocCheck = true;
+		var form;
 		for(form in formGroup) {
 			formGroup[form].removeClass("has-danger");
 		}
