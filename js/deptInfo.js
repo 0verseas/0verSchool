@@ -256,7 +256,8 @@ var DeptInfo = (function () {
 	function validateForm() {
 		var check = true;
 		var appDocCheck = true;
-		for(let form of formGroup) {
+		var form;
+		for(form in formGroup) {
 			formGroup[form].removeClass("has-danger");
 		}
 		$('#recieveDeadlineDiv').removeClass("has-danger");

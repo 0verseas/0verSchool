@@ -158,8 +158,8 @@ var deptInfoBache = (function () {
 	function _validateForm() {
 		var specialFormValidateStatus = true;
 		var commonFormValidateStatus = DeptInfo.validateForm();
-
-		for(let form of formGroup) {
+		var form;
+		for(form in formGroup) {
 			formGroup[form].removeClass("has-danger");
 		}
 		if (!_validateNotEmpty($admissionSelectionQuota)) {formGroup.admissionSelectionQuotaForm.addClass("has-danger"); specialFormValidateStatus = false}
@@ -187,7 +187,7 @@ var deptInfoBache = (function () {
 		data.append('admission_placement_quota', $admissionPlacementQuota.val());
 		data.append('decrease_reason_of_admission_placement', $decreaseReasonOfAdmissionPlacement.val());
 		var commonFormData = DeptInfo.getCommonFormData("bache");
-		for(let item of commonFormData) {
+		for( item in commonFormData) {
 			data.append(item, commonFormData[item]);
 		}
 		return data;

@@ -142,8 +142,8 @@ var deptInfoPhd = (function () {
 	function _validateForm() {
 		var specialFormValidateStatus = true;
 		var commonFormValidateStatus = DeptInfo.validateForm();
-
-		for(let form of formGroup) {
+		var form;
+		for(form in formGroup) {
 			formGroup[form].removeClass("has-danger");
 		}
 		if (!_validateNotEmpty($admissionSelectionQuota)) {formGroup.admissionSelectionQuotaForm.addClass("has-danger"); specialFormValidateStatus = false}
@@ -169,7 +169,7 @@ var deptInfoPhd = (function () {
 		data.append('admission_selection_quota', $admissionSelectionQuota.val());
 		data.append('self_enrollment_quota', $selfEnrollmentQuota.val());
 		var commonFormData = DeptInfo.getCommonFormData("phd");
-		for(let item of commonFormData) {
+		for( item in commonFormData) {
 			data.append(item, commonFormData[item]);
 		}
 		return data;
