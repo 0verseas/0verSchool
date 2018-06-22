@@ -136,6 +136,8 @@ var schoolInfo = (function () {
 			data.append('approval_doc_of_self_enrollment', $approvalDocOfSelfEnrollment.prop('files')[0]);
 		}
 
+		data.append('confirmed', false);
+
 		return data;
 	}
 
@@ -210,8 +212,9 @@ var schoolInfo = (function () {
 
 	// 送出表單
 	function _setSchoolInfo() {
+		var form;
 		// init highlight
-		for(let form of formGroup) {
+		for(form in formGroup) {
 			formGroup[form].removeClass("has-danger");
 		}
 
@@ -224,7 +227,7 @@ var schoolInfo = (function () {
 		}
 
 		var sendData = _getFormData();
-		sendData.append('confirmed', '0');
+		sendData.append('confirmed', 0);
 
 		openLoading();
 
@@ -252,7 +255,7 @@ var schoolInfo = (function () {
 		var isAllSet = confirm("提醒您：確認後就無法再更改「學校資料」");
 		if (isAllSet === true) {
 			// init highlight
-			for (let form of formGroup) {
+			for (form in formGroup) {
 				formGroup[form].removeClass("has-danger");
 			}
 
@@ -265,7 +268,7 @@ var schoolInfo = (function () {
 			}
 
 			var sendData = _getFormData();
-			sendData.append('confirmed', '1');
+			sendData.append('confirmed', 1);
 			openLoading();
 
 			School.setSchoolInfo(sendData)
