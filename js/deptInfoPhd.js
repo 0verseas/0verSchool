@@ -169,6 +169,7 @@ var deptInfoPhd = (function () {
 		data.append('admission_selection_quota', $admissionSelectionQuota.val());
 		data.append('self_enrollment_quota', $selfEnrollmentQuota.val());
 		var commonFormData = DeptInfo.getCommonFormData("phd");
+		var item;
 		for( item in commonFormData) {
 			data.append(item, commonFormData[item]);
 		}

@@ -187,6 +187,7 @@ var deptInfoBache = (function () {
 		data.append('admission_placement_quota', $admissionPlacementQuota.val());
 		data.append('decrease_reason_of_admission_placement', $decreaseReasonOfAdmissionPlacement.val());
 		var commonFormData = DeptInfo.getCommonFormData("bache");
+		var item;
 		for( item in commonFormData) {
 			data.append(item, commonFormData[item]);
 		}

@@ -207,6 +207,7 @@ var deptInfoTwoYear = (function () {
 		data.append('self_enrollment_quota', $selfEnrollmentQuota.val());
 		data.append('admission_selection_quota', $admissionSelectionQuota.val());
 		var commonFormData = DeptInfo.getCommonFormData("twoYear");
+		var item;
 		for( item in commonFormData) {
 			data.append(item, commonFormData[item]);
 		}

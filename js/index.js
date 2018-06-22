@@ -136,8 +136,6 @@ var schoolInfo = (function () {
 			data.append('approval_doc_of_self_enrollment', $approvalDocOfSelfEnrollment.prop('files')[0]);
 		}
 
-		data.append('confirmed', false);
-
 		return data;
 	}
 
@@ -227,7 +225,7 @@ var schoolInfo = (function () {
 		}
 
 		var sendData = _getFormData();
-		sendData.append('confirmed', 0);
+		sendData.append('confirmed', '0');
 
 		openLoading();
 
@@ -268,7 +266,7 @@ var schoolInfo = (function () {
 			}
 
 			var sendData = _getFormData();
-			sendData.append('confirmed', 1);
+			sendData.append('confirmed', '1');
 			openLoading();
 
 			School.setSchoolInfo(sendData)
