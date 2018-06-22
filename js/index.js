@@ -253,6 +253,7 @@ var schoolInfo = (function () {
 		var isAllSet = confirm("提醒您：確認後就無法再更改「學校資料」");
 		if (isAllSet === true) {
 			// init highlight
+			var form;
 			for (form in formGroup) {
 				formGroup[form].removeClass("has-danger");
 			}
