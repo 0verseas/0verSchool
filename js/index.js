@@ -135,6 +135,9 @@ var schoolInfo = (function () {
 			data.append('approval_no_of_self_enrollment', $approvalNoOfSelfEnrollment.val());
 			data.append('approval_doc_of_self_enrollment', $approvalDocOfSelfEnrollment.prop('files')[0]);
 		}
+
+		data.append('confirmed', false);
+
 		return data;
 	}
 
@@ -209,7 +212,7 @@ var schoolInfo = (function () {
 
 	// 送出表單
 	function _setSchoolInfo() {
-
+		var form;
 		// init highlight
 		for(form in formGroup) {
 			formGroup[form].removeClass("has-danger");
