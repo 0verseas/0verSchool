@@ -142,6 +142,7 @@ var deptInfoPhd = (function () {
 	function _validateForm() {
 		var specialFormValidateStatus = true;
 		var commonFormValidateStatus = DeptInfo.validateForm();
+		var form;
 		for(form in formGroup) {
 			formGroup[form].removeClass("has-danger");
 		}

@@ -135,7 +135,7 @@ var schoolInfo = (function () {
 		}
 
 		data.append('confirmed', false);
-		
+
 		return data;
 	}
 
