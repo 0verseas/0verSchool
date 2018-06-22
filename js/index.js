@@ -201,7 +201,7 @@ var schoolInfo = (function () {
 
 	// 送出表單
 	function _setSchoolInfo() {
-
+		var form;
 		// init highlight
 		for(form in formGroup) {
 			formGroup[form].removeClass("has-danger");
