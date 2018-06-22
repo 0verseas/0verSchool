@@ -143,8 +143,8 @@ var deptInfoMaster = (function () {
 	function _validateForm() {
 		var specialFormValidateStatus = true;
 		var commonFormValidateStatus = DeptInfo.validateForm();
-		var form;
-		for(form in formGroup) {
+
+		for(let form of formGroup) {
 			formGroup[form].removeClass("has-danger");
 		}
 		if (!_validateNotEmpty($admissionSelectionQuota)) {formGroup.admissionSelectionQuotaForm.addClass("has-danger"); specialFormValidateStatus = false}
@@ -165,7 +165,7 @@ var deptInfoMaster = (function () {
 		data.append('admission_selection_quota', $admissionSelectionQuota.val());
 		data.append('self_enrollment_quota', $selfEnrollmentQuota.val());
 		var commonFormData = DeptInfo.getCommonFormData("master");
-		for( item in commonFormData) {
+		for(let item of commonFormData) {
 			data.append(item, commonFormData[item]);
 		}
 		return data;

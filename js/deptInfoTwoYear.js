@@ -168,8 +168,8 @@ var deptInfoTwoYear = (function () {
 	function _validateForm() {
 		var specialFormValidateStatus = true;
 		var commonFormValidateStatus = DeptInfo.validateForm();
-		var form;
-		for(form in formGroup) {
+
+		for(let form of formGroup) {
 			formGroup[form].removeClass("has-danger");
 		}
 		if ($hasSpecialClass.prop("checked")) {
@@ -207,7 +207,7 @@ var deptInfoTwoYear = (function () {
 		data.append('self_enrollment_quota', $selfEnrollmentQuota.val());
 		data.append('admission_selection_quota', $admissionSelectionQuota.val());
 		var commonFormData = DeptInfo.getCommonFormData("twoYear");
-		for( item in commonFormData) {
+		for(let item of commonFormData) {
 			data.append(item, commonFormData[item]);
 		}
 		return data;
