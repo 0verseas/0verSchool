@@ -46,7 +46,7 @@ var login = (function () {
 			}
 		}).then(function(json) {
 			console.log(json);
-			window.location.href = '/school/systemQuota.html'
+			window.location.href = '/school/index.html'
 		}).catch(function(err) {
 			if (err == 401) {
 				$errMsg.finish().show().text('帳號密碼錯誤。').fadeOut(1500);
