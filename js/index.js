@@ -40,6 +40,7 @@ var schoolInfo = (function () {
 
 	// Button
 	var $schoolInfoBtn = $schoolInfoForm.find('#btn-save');
+	var $schoolLockBtn = $schoolInfoForm.find('#btn-lock-school');
 
 	// form-group
 	var formGroup = {
@@ -76,6 +77,7 @@ var schoolInfo = (function () {
 	$hasFiveYearStudentAllowed.on("change", _switchFiveYearStudentStatus);
 	$hasSelfEnrollment.on("change", _switchSelfEnrollmentStatus);
 	$schoolInfoBtn.on("click", _setSchoolInfo);
+	$schoolLockBtn.on("click", _lockschool);
 
 	function _switchDormStatus() { // 切換「宿舍」狀態
 		$dormInfo.prop('disabled', !$hasDorm.prop('checked'));
@@ -216,11 +218,13 @@ var schoolInfo = (function () {
 		}
 
 		var sendData = _getFormData();
+		sendData.append('confirmed', 0);
 
 		openLoading();
 
 		School.setSchoolInfo(sendData)
 		.then(function(res) {
+			console.log(sendData);
 			if(res.ok) {
 				alert('儲存成功');
 				location.reload();
@@ -235,6 +239,47 @@ var schoolInfo = (function () {
 				stopLoading();
 			});
 		})
+
+	}
+	// 鎖定表單
+	function _lockschool() {
+		var isAllSet = confirm("提醒您：確認後就無法再更改「學校資料」");
+		if (isAllSet === true) {
+			// init highlight
+			for (form in formGroup) {
+				formGroup[form].removeClass("has-danger");
+			}
+
+			var urlResult = _validateUrl();
+			var formResult = _validateForm();
+
+			if (!urlResult || !formResult) {
+				alert("有欄位輸入錯誤，請重新確認。");
+				return;
+			}
+
+			var sendData = _getFormData();
+			sendData.append('confirmed', 1);
+			openLoading();
+
+			School.setSchoolInfo(sendData)
+				.then(function (res) {
+					console.log(sendData);
+					if (res.ok) {
+						alert('鎖定成功');
+						location.reload();
+					} else {
+						throw res
+					}
+				}).catch(function (err) {
+				err.json && err.json().then((data) => {
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
+
+					stopLoading();
+				});
+			})
+		}
 	}
 
 	// 擺放學校資料
@@ -290,8 +335,13 @@ var schoolInfo = (function () {
 				throw res
 			}
 		}).then(function(json) {
+			console.table(json)
 			// 處理擺放學校資料
 			_placedSchoolInfoData(json);
+			if (json.review_at != null) { // 已鎖定
+				document.getElementById("btn-save").disabled = true;
+				$('#btn-lock-school').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已鎖定')
+			}
 			return json.info_status
 		}).then(function(infoStatus) {
 			var role = User.getUserInfo().school_editor.has_admin;
