@@ -148,15 +148,21 @@ var schoolInfo = (function () {
 		// if (!_validateUrlFormat($url)) {formGroup.urlForm.addClass("has-danger"); check = false}
 		if (!_validateNotEmpty($address)) {formGroup.addressForm.addClass("has-danger"); check = false}
 		if (!_validateNotEmpty($organization)) {formGroup.organizationForm.addClass("has-danger"); check = false}
+		if (!_validateNotEmpty($engUrl)) {formGroup.engUrlForm.addClass("has-danger"); check = false}
+		if (!_validateNotEmpty($engAddress)) {formGroup.engAddressForm.addClass("has-danger"); check = false}
+		if (!_validateNotEmpty($engOrganization)) {formGroup.engOrganizationForm.addClass("has-danger"); check = false}
 
 		if ($hasDorm.prop("checked")) {
 			if (!_validateNotEmpty($dormInfo)) {formGroup.dormInfoForm.addClass("has-danger"); check = false}
+			if (!_validateNotEmpty($dormEngInfo)) {formGroup.dormEngInfoForm.addClass("has-danger"); check = false}
 		}
 
 		if ($hasScholarship.prop("checked")) {
 			if (!_validateNotEmpty($scholarshipDept)) {formGroup.scholarshipDeptForm.addClass("has-danger"); check = false}
 			if (!_validateNotEmpty($scholarshipUrl)) {formGroup.scholarshipUrlForm.addClass("has-danger"); check = false}
 			// if (!_validateUrlFormat($scholarshipUrl)) {formGroup.scholarshipUrlForm.addClass("has-danger"); check = false}
+			if (!_validateNotEmpty($engScholarshipDept)) {formGroup.engScholarshipDeptForm.addClass("has-danger"); check = false}
+			if (!_validateNotEmpty($engScholarshipUrl)) {formGroup.engScholarshipUrlForm.addClass("has-danger"); check = false}
 		}
 
 		if ($hasFiveYearStudentAllowed.prop("checked")) {
