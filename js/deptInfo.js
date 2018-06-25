@@ -146,6 +146,7 @@ var DeptInfo = (function () {
 		let filter = $deptFilterInput.val().toUpperCase();
 		var tr = $deptList.find('tr');
 
+		var i;
 		for (i = 0; i < tr.length; i++) {
 			let code = tr[i].getElementsByTagName("td")[2]; // 代碼
 			let name = tr[i].getElementsByTagName("td")[3]; // 名稱
