@@ -270,6 +270,7 @@ var DeptInfo = (function () {
 		}
 		if (!_validateNotEmpty($mainGroup)) {formGroup.mainGroupForm.addClass("has-danger"); check = false}
 		if (!_validateNotEmpty($description)) {formGroup.descriptionForm.addClass("has-danger"); check = false}
+		if (!_validateNotEmpty($engDescription)) {formGroup.engDescriptionForm.addClass("has-danger"); check = false}
 		if ($hasReviewFee.prop("checked")) {
 			if (!_validateNotEmpty($reviewFeeDetail)) {formGroup.reviewFeeDetailForm.addClass("has-danger"); check = false}
 		}
