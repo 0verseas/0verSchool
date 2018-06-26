@@ -1,8 +1,11 @@
 var deptInfoTwoYear = (function () {
 
 	const _currentSystem = 'twoYear';
+	const _currentSystemName = '港二技';
+	const _currentSystemId= '2';
 	var _currentDeptId = '';
 	var baseUrl = env.baseUrl;
+	var _schoolId;
 
 	/**
 	 * cache DOM
@@ -29,6 +32,7 @@ var deptInfoTwoYear = (function () {
 	var $selfEnrollmentQuota = $modalDeptInfo.find('#selfEnrollmentQuota'); // 自招人數
 
 	var $deptDetailSaveBtn = $('#deptDetailSave');
+	var $lockSystemBtn = $('#lockSystem-btn'); // 確認送出鎖定學制
 
 	var formGroup = {
 		admissionSelectionQuotaForm: $modalDeptInfo.find('#admissionSelectionQuotaForm'),
@@ -42,6 +46,7 @@ var deptInfoTwoYear = (function () {
 	 */
 
 	$saveDeptDescriptionBtn.on('click', _saveDeptDescription); // 儲存｜送出學制資料
+	$lockSystemBtn.on('click', _lockSystem); //鎖定學制
 
 	$schoolHasSelfEnrollment.on("change", _switchSchoolHasSelfEnrollment); // 校可獨招 => 可開日間、專班
 	$hasRiJian.on("change", _switchHasRiJian); // 開日間 => 可自招、開聯招人數
@@ -249,6 +254,22 @@ var deptInfoTwoYear = (function () {
 	function _setData() {
 		openLoading();
 
+		School.getSchoolInfo() // 取的校資料以檢視校鎖定了沒
+			.then(function(res) {
+				if(res.ok) {
+					return res.json();
+				} else {
+					throw res
+				}
+			}).then(function(json) {
+			if (json.review_at == null) { // 校資料未鎖定
+				$('#lockSystem-btn').attr('disabled', true);
+				$('tooltip-wrapper').tooltip({
+					placement : 'bottom'
+				});
+			}
+		})
+
 		School.getSystemInfo(_currentSystem) // 取得學制資料，沒有該學制則回上一頁
 		.then((res) => {
 			if(res.ok) { // 有該學制則開始頁面初始化
@@ -257,8 +278,15 @@ var deptInfoTwoYear = (function () {
 				throw res;
 			}
 		}).then((json) => {
+			_schoolId=json.school_code;
 			DeptInfo.renderDescription(json); // 渲染該學制備註
 			DeptInfo.renderDeptList(json.departments); // 渲染該學制系所列表
+			if(json.review_at != null) {
+				$('#sendFormalPDF-btn').show();
+				$('#lockSystem-btn').hide();
+				$('#btn-deptInfoSave').attr('disabled', true).text('已鎖定');
+				$('#deptDetailSave').attr('disabled', true).text('已鎖定');
+			}
 		}).then(() => {
 			$.bootstrapSortable(true); // 啟用系所列表排序功能
 			$editDeptInfoBtn = $('.btn-editDeptInfo'); // 新增系所編輯按鈕的觸發事件（開啟 Modal）
@@ -280,5 +308,33 @@ var deptInfoTwoYear = (function () {
 				});
 			}
 		})
+	}
+
+	function _lockSystem() {
+		var isAllSet = confirm("確認後就無法再修改 " + _currentSystemName + "相關部分(名額分配、系所資料)，您真的確認送出嗎？");
+		if (isAllSet === true) {
+			data = {"confirmed": true}
+			School.lockSystemInfo(_schoolId, _currentSystemId, data)
+				.then((res) => {
+					if (res.ok) {
+						return res.json;
+					} else {
+						throw res;
+					}
+				})
+				.then((json) => {
+					alert("儲存成功並鎖定");
+					location.reload();
+				})
+				.catch((err) => {
+					console.error(data);
+					err.json && err.json().then((data) => {
+						alert(`ERROR: \n${data.messages[0]}`);
+					});
+
+					stopLoading();
+				})
+		}
+
 	}
 })();

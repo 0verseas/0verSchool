@@ -10,9 +10,14 @@
 			寄送預覽版 PDF
 		</button>
 
-		<button class="btn btn-danger" id="sendFormalPDF-btn">
+		<button class="btn btn-warning hide" id="sendFormalPDF-btn">
 			寄送正式版 PDF
 		</button>
+
+		<button class="btn btn-danger tooltip-wrapper" id="lockSystem-btn" title="請先鎖定學校資料！" >
+			確認送出並鎖定
+		</button>
+
 	</div>
 </div>
 
@@ -25,8 +30,8 @@
 	</div>
 	<div class="row">
 		<div class="form-group col">
-			<label for="engDescription">學制英文備註</label>
-			<textarea id="engDescription" type="text" class="form-control" rows="6"></textarea>
+			<label for="engDescription" class="text-danger">學制英文備註*</label>
+			<textarea id="engDescription" type="text" class="form-control required" rows="6"></textarea>
 		</div>
 	</div>
 	<div class="row">
@@ -121,11 +126,11 @@
 						<div class="row">
 							<div id="urlForm" class="form-group col-6">
 								<label class="form-control-label text-danger" for="">系所中文網站網址*</label>
-								<input type="text" class="form-control" id="url">
+								<input type="text" class="form-control required" id="url">
 							</div>
 							<div id="engUrlForm" class="form-group col-6">
-								<label class="form-control-label" for="">系所英文網站網址</label>
-								<input type="text" class="form-control" id="engUrl">
+								<label class="form-control-label text-danger" for="">系所英文網站網址*</label>
+								<input type="text" class="form-control required" id="engUrl">
 							</div>
 						</div>
 						<div class="row">
@@ -174,13 +179,13 @@
 							<div id="descriptionForm" class="form-group col">
 								<label class="form-control-label text-danger" for="">中文系所分則*</label><br />
                                 (可填寫是否提供身心障礙學生學習輔具資源及生活照輔措施等資源，以利學生先行了解並自行評估)<br />
-								<textarea class="form-control" rows="4" id="description"></textarea>
+								<textarea class="form-control required" rows="4" id="description"></textarea>
 							</div>
 						</div>
 						<div class="row">
 							<div id="engDescriptionForm" class="form-group col">
-								<label class="form-control-label" for="">英文系所分則</label>
-								<textarea class="form-control" rows="4" id="engDescription"></textarea>
+								<label class="form-control-label text-danger" for="">英文系所分則*</label>
+								<textarea class="form-control required" rows="4" id="engDescription"></textarea>
 							</div>
 						</div>
 
