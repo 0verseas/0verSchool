@@ -127,6 +127,9 @@ var quotaDistributionPhd = (function () {
 			}
 		}).then(function (json) {
 			_renderData(json);
+			if(json.review_at != null) {
+				$('#btn-save').attr('disabled', true).text('已鎖定');
+			}
 		}).then(function () {
 			$.bootstrapSortable(true);
 
