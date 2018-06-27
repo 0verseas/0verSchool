@@ -264,9 +264,13 @@ var deptInfoTwoYear = (function () {
 			}).then(function(json) {
 			if (json.review_at == null) { // 校資料未鎖定
 				$('#lockSystem-btn').attr('disabled', true);
-				$('tooltip-wrapper').tooltip({
-					placement : 'bottom'
-				});
+				document.getElementById("lockSystem-btn").style.pointerEvents = "none";
+				$('#lockSystem-tooltip').tooltip();
+			}
+			else {
+				document.getElementById("lockSystem-btn").style.pointerEvents = "auto";
+				$('#lockSystem-btn').attr('disabled', false);
+				$('#lockSystem-tooltip').tooltip('disable');
 			}
 		})
 
@@ -311,9 +315,11 @@ var deptInfoTwoYear = (function () {
 	}
 
 	function _lockSystem() {
+		openLoading();
+
 		var isAllSet = confirm("確認後就無法再修改 " + _currentSystemName + "相關部分(名額分配、系所資料)，您真的確認送出嗎？");
 		if (isAllSet === true) {
-			data = {"confirmed": true}
+			var data = {"confirmed": true}
 			School.lockSystemInfo(_schoolId, _currentSystemId, data)
 				.then((res) => {
 					if (res.ok) {
@@ -324,6 +330,7 @@ var deptInfoTwoYear = (function () {
 				})
 				.then((json) => {
 					alert("儲存成功並鎖定");
+					stopLoading();
 					location.reload();
 				})
 				.catch((err) => {

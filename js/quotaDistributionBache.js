@@ -233,7 +233,6 @@ var quotaDistirbutionBache = (function () {
 
 			var checked = school_has_self_enrollment ? ( has_self_enrollment ? 'checked' : '') : 'disabled';
 			var checked2 = ( admission_quota_pass ? 'checked' : '');
-			console.log(dept)
 			$deptList
 				.find('tbody')
 				.append(`
