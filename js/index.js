@@ -382,7 +382,6 @@ var schoolInfo = (function () {
 				}
 			}).then(function(json) {
 			if (json.review_at == null) { // 校資料未鎖定
-				check=false;
 				text += "學校資料尚未鎖定！" + '\n';
 			}
 		})
@@ -396,7 +395,6 @@ var schoolInfo = (function () {
 				}
 			}).then((json) => {
 			if(json.review_at == null) {
-				check=false;
 				text += "學士班尚未鎖定！" + '\n';
 			}
 		})
@@ -410,7 +408,6 @@ var schoolInfo = (function () {
 				}
 			}).then((json) => {
 			if(json.review_at == null) {
-				check=false;
 				text += "港二技尚未鎖定！" + '\n';
 			}
 		})
@@ -424,7 +421,6 @@ var schoolInfo = (function () {
 				}
 			}).then((json) => {
 			if(json.review_at == null) {
-				check=false;
 				text += "碩士班尚未鎖定！" + '\n';
 			}
 		})
@@ -438,7 +434,6 @@ var schoolInfo = (function () {
 				}
 			}).then((json) => {
 			if(json.review_at == null) {
-				check=false;
 				text += "博士班尚未鎖定！" + '\n';
 			}
 		})
