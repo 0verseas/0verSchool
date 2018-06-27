@@ -219,7 +219,6 @@ var deptInfoBache = (function () {
 				stopLoading();
 			})
 			.catch((err) => {
-          			console.error(data);
 				err.json && err.json().then((data) => {
 					alert(`ERROR: \n${data.messages[0]}`);
 				});
