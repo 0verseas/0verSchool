@@ -56,6 +56,8 @@ var DeptInfo = (function () {
 		subGroupForm: $modalDeptInfo.find('#subGroupForm'),
 		genderLimitForm: $modalDeptInfo.find('#genderLimitForm'),
 		evaluation: $modalDeptInfo.find('#evaluation'),
+        eduCheckFailedForm: $modalDeptInfo.find('#eduCheckFailedForm'),
+        teacherQualityPassedForm: $modalDeptInfo.find('#teacherQualityPassedForm'),
 		descriptionForm: $modalDeptInfo.find('#descriptionForm'),
 		engDescriptionForm: $modalDeptInfo.find('#engDescriptionForm'),
 		reviewFeeDetailForm: $modalDeptInfo.find('#reviewFeeDetailForm'),
@@ -64,7 +66,7 @@ var DeptInfo = (function () {
 		birthLimitBeforeForm: $modalDeptInfo.find('#birthLimitBeforeForm'),
 		memoForm: $modalDeptInfo.find('#memoForm'),
 		groupCodeForm: $modalDeptInfo.find('#groupCodeForm')
-	}
+	};
 
 	/**
 	 * bind event
@@ -202,7 +204,9 @@ var DeptInfo = (function () {
 		$sortOrder.val(deptData.sort_order);
 		$useEngData.prop("checked", !deptData.use_eng_data);
 		$id.val(deptData.id);
-		$cardCode.val(deptData.card_code);
+        if (system === "bache") {
+            $cardCode.val(deptData.card_code);
+        }
 		$title.val(deptData.title);
 		$engTitle.val(deptData.eng_title);
 		$url.val(deptData.url);

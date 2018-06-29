@@ -101,12 +101,14 @@
 									<input type="text" class="form-control" id="id" disabled>
 								</div>
 							</div>
-							<div class="form-group col-6">
-								<div class="input-group">
-									<span class="input-group-addon">讀卡代碼</span>
-									<input type="text" class="form-control" id="cardCode" disabled>
+							<% if(system == 'bachelor') { -%>
+								<div class="form-group col-6">
+									<div class="input-group">
+										<span class="input-group-addon">讀卡代碼</span>
+										<input type="text" class="form-control" id="cardCode" disabled>
+									</div>
 								</div>
-							</div>
+							<% } -%>
 						</div>
 						<div class="row">
 							<div class="form-group col-6">
@@ -163,10 +165,18 @@
 							</div>
 						</div>
 						<div class="row">
-							<div id="evaluationForm" class="form-group col-12">
-								<label class="form-control-label text-danger" for="">最近一次系所評鑑*</label>
-								<select class="form-control" id="evaluation">
-									<option>系所評鑑</option>
+							<div id="eduCheckFailedForm" class="form-group col-6">
+								<label class="form-control-label text-danger" for="">是否經教育部查核被列為持續列管或不通過*</label>
+								<select class="form-control" id="eduCheckFailed">
+									<option value="N">否</option>
+									<option value="Y">為持續列管或不通過</option>
+								</select>
+							</div>
+							<div id="teacherQualityPassedForm" class="form-group col-6">
+								<label class="form-control-label text-danger" for="">師資質量是否達「專科以上學校總量發展規模與資源條件標準」附表五所定基準*</label>
+								<select class="form-control" id="teacherQualityPassed">
+									<option value="Y">已達所定基準</option>
+									<option value="N">未達所定基準</option>
 								</select>
 							</div>
 						</div>
