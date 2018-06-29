@@ -185,7 +185,7 @@ var quotaDistirbutionTwoYear = (function () {
         list.sort(function (a, b) {
             return a.sort_order - b.sort_order;
         });
-        
+
 		$deptList.find('tbody').html('');
 		for (let dept of list) {
 			var {
@@ -197,7 +197,11 @@ var quotaDistirbutionTwoYear = (function () {
 				has_self_enrollment,
 				self_enrollment_quota
 			} = dept;
-			var total = (+admission_selection_quota) + (+self_enrollment_quota);
+            var total = (+admission_selection_quota);
+
+            if (school_has_self_enrollment && has_self_enrollment) {
+                total += (+self_enrollment_quota);
+            }
 
 			$deptList
 				.find('tbody')
@@ -228,9 +232,15 @@ var quotaDistirbutionTwoYear = (function () {
 			self_enrollment_quota: $quota_self_enrollment_quota
 		};
 		var sum = 0;
-		$deptList.find('.dept').each(function (i, deptRow) {
-			sum += +$(deptRow).find(`.${type}`).val();
-		});
+        $deptList.find('.dept').each(function (i, deptRow) {
+            if (type === "admission_selection_quota") {
+                sum += +$(deptRow).find(`.${type}`).val();
+            } else {
+                if ($(deptRow).find('.isSelf:checked').is(":checked")) {
+                    sum += +$(deptRow).find(`.${type}`).val();
+                }
+            }
+        });
 		$ele[type].val(sum);
 	}
 

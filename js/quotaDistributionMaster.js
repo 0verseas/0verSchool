@@ -209,7 +209,11 @@ var quotaDistributionMaster = (function () {
 				has_self_enrollment,
 				self_enrollment_quota
 			} = dept;
-			var total = (+admission_selection_quota) + (+self_enrollment_quota);
+			var total = (+admission_selection_quota);
+
+			if (school_has_self_enrollment && has_self_enrollment) {
+				total += (+self_enrollment_quota);
+			}
 
 			$deptList
 				.find('tbody')
@@ -239,8 +243,15 @@ var quotaDistributionMaster = (function () {
 			self_enrollment_quota: $quota_selfSum
 		};
 		var sum = 0;
+
 		$deptList.find('.dept').each(function (i, deptRow) {
-			sum += +$(deptRow).find(`.${type}`).val();
+			if (type === "admission_selection_quota") {
+                sum += +$(deptRow).find(`.${type}`).val();
+            } else {
+				if ($(deptRow).find('.isSelf:checked').is(":checked")) {
+                    sum += +$(deptRow).find(`.${type}`).val();
+				}
+			}
 		});
 		$ele[type].val(sum);
 	}
