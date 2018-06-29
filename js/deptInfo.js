@@ -29,7 +29,8 @@ var DeptInfo = (function () {
 	var $mainGroup = $modalDeptInfo.find('#mainGroup'); // select bar，主要隸屬學群
 	var $subGroup = $modalDeptInfo.find('#subGroup'); // select bar，次要隸屬學群
 	var $genderLimit = $modalDeptInfo.find('#genderLimit'); // select bar，招收性別限制
-	var $evaluation = $modalDeptInfo.find('#evaluation'); // select bar，最近一次系所評鑑
+	var $moeCheckFailed = $modalDeptInfo.find('#moeCheckFailed'); // select bar，是否經教育部查核被列為持續列管或不通過
+    var $teacherQualityPassed = $modalDeptInfo.find('#teacherQualityPassed'); // select bar，師資質量是否達「專科以上學校總量發展規模與資源條件標準」附表五所定基準
 	var $description = $modalDeptInfo.find('#description'); // textarea，選系中文說明
 	var $engDescription = $modalDeptInfo.find('#engDescription'); // textarea，選系英文說明
 	var $hasReviewFee = $modalDeptInfo.find('#hasReviewFee'); // checkbox，是否需要收審查費用
@@ -55,8 +56,7 @@ var DeptInfo = (function () {
 		mainGroupForm: $modalDeptInfo.find('#mainGroupForm'),
 		subGroupForm: $modalDeptInfo.find('#subGroupForm'),
 		genderLimitForm: $modalDeptInfo.find('#genderLimitForm'),
-		evaluation: $modalDeptInfo.find('#evaluation'),
-        eduCheckFailedForm: $modalDeptInfo.find('#eduCheckFailedForm'),
+        moeCheckFailedForm: $modalDeptInfo.find('#moeCheckFailedForm'),
         teacherQualityPassedForm: $modalDeptInfo.find('#teacherQualityPassedForm'),
 		descriptionForm: $modalDeptInfo.find('#descriptionForm'),
 		engDescriptionForm: $modalDeptInfo.find('#engDescriptionForm'),
@@ -89,7 +89,7 @@ var DeptInfo = (function () {
 		var data = {
 			'description': $deptInfoDescription.val(),
 			'eng_description': $deptInfoEngDescription.val()
-		}
+		};
 
 		openLoading();
 
@@ -181,23 +181,12 @@ var DeptInfo = (function () {
 						<option value="${value.id}">${value.title}</option>
 					`);
 			});
-		})
-
-		item.then(res => { return res[1].json(); }) // 評鑑等級
-		.then(json => {
-			$evaluation.html('');
-			json.forEach((value, index) => {
-				$evaluation
-					.append(`
-						<option value="${value.id}">${value.title}</option>
-					`);
-			});
-		})
+		});
 
 		item.then(res => { return res[2].json(); }) // 審查項目類別
 		.then(json => {
 			reviewItems.initTypes(json);
-		})
+		});
 	}
 
 	function renderCommonDeptDetail(deptData, system) {
@@ -217,8 +206,20 @@ var DeptInfo = (function () {
 			$groupCode.val(deptData.group_code);
 		}
 		$genderLimit.val(deptData.gender_limit);
-		$evaluation.val(deptData.evaluation);
-		$description.val(deptData.description);
+
+		if (deptData.moe_check_failed === true) {
+            $moeCheckFailed.val("Y");
+		} else {
+            $moeCheckFailed.val("N");
+		}
+
+		if (deptData.teacher_quality_passed === true) {
+            $teacherQualityPassed.val("Y");
+		} else {
+            $teacherQualityPassed.val("N");
+		}
+
+        $description.val(deptData.description);
 		$engDescription.val(deptData.eng_description);
 		$hasReviewFee.prop("checked", deptData.has_review_fee);
 		$reviewFeeDetail.val(deptData.review_fee_detail);
@@ -321,6 +322,21 @@ var DeptInfo = (function () {
 			}
 		}
 
+		var $moe_check_failed_data = true;
+		var $teacher_quality_passed_data = false;
+
+        if ($moeCheckFailed.val() === "Y") {
+            $moe_check_failed_data = true;
+		} else {
+            $moe_check_failed_data = false;
+		}
+
+        if ($teacherQualityPassed.val() === "Y") {
+            $teacher_quality_passed_data = true;
+        } else {
+            $teacher_quality_passed_data = false;
+        }
+
 		var data = {
 			sort_order: $sortOrder.val(),
 			use_eng_data: !+$useEngData.prop("checked"),
@@ -329,7 +345,8 @@ var DeptInfo = (function () {
 			main_group: $mainGroup.val(),
 			sub_group: $subGroup.val(),
 			gender_limit: $genderLimit.val(),
-			evaluation: $evaluation.val(),
+            moe_check_failed: $moe_check_failed_data,
+            teacher_quality_passed: $teacher_quality_passed_data,
 			description: $description.val(),
 			eng_description: $engDescription.val(),
 			has_review_fee: +$hasReviewFee.prop("checked"),
