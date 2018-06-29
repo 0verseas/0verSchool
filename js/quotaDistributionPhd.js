@@ -193,6 +193,11 @@ var quotaDistributionPhd = (function () {
 	}
 
 	function _setDeptList(list, school_has_self_enrollment) {
+        // 預設排序
+        list.sort(function (a, b) {
+            return a.sort_order - b.sort_order;
+        });
+
 		$deptList.find('tbody').html('');
 		for (let dept of list) {
 			var {
