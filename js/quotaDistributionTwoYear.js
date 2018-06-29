@@ -204,9 +204,9 @@ var quotaDistirbutionTwoYear = (function () {
 							<div>${title}</div>
 							<small>${eng_title}</small>
 						</td>
-						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" /></td>
+						<td class="text-center"><param class="admission_selection_quota" value="${+admission_selection_quota}" />${+admission_selection_quota}</td>
 						<td class="text-center"><span class="isSelf" data-type="self_enrollment_quota">${has_self_enrollment ? '是' : '否'}</span></td>
-						<td><input type="number" min="0" class="form-control editableQuota ${has_self_enrollment ? 'required' : ''} self_enrollment_quota" data-type="self_enrollment_quota" value="${+self_enrollment_quota}" disabled="${has_self_enrollment}" /></td>
+						<td class="text-center"><param class="self_enrollment_quota" value="${+self_enrollment_quota}" />${+self_enrollment_quota}</td>
 						<td class="total text-center">${total}</td>
 					</tr>
 				`);
