@@ -190,14 +190,14 @@
 						</div>
 						<div class="row">
 							<div id="descriptionForm" class="form-group col">
-								<label class="form-control-label text-danger" for="">中文系所分則*</label><br />
+								<label class="form-control-label text-danger" for="">中文系所簡介*</label><br />
                                 (可填寫是否提供身心障礙學生學習輔具資源及生活照輔措施等資源，以利學生先行了解並自行評估)<br />
 								<textarea class="form-control " rows="4" id="description"></textarea>
 							</div>
 						</div>
 						<div class="row">
 							<div id="engDescriptionForm" class="form-group col">
-								<label class="form-control-label text-danger" for="">英文系所分則*</label>
+								<label class="form-control-label text-danger" for="">英文系所簡介*</label>
 								<textarea class="form-control" rows="4" id="engDescription"></textarea>
 							</div>
 						</div>
@@ -208,6 +208,7 @@
 						<% } else { -%>
 						<%- include deptInfoForm/_selfEnrollmentOthers %>
 						<% } -%>
+
 
 						<% if(system == 'bachelor') { -%>
 						<%- include deptInfoForm/_quotaBachelor %>
@@ -224,7 +225,7 @@
 										系組招生規定
 									</div>
 									<div class="card-block">
-											<div class="form-check">
+											<div class="form-check" style="display:none">
 												<label class="form-check-label">
 													<input class="form-check-input" type="checkbox" id="hasForeignSpecialClass" value="">
 													是否招收外生專班（若是，請勾選）
@@ -242,7 +243,7 @@
 													是否招收身障學生
 												</label>
 											</div>
-											<div class="form-check">
+											<div class="form-check" style="display:none">
 												<label class="form-check-label">
 													<input class="form-check-input" type="checkbox" id="hasBuHweiHwaWen" value="">
 													是否招收不具華文基礎學生（若是，請勾選）
@@ -251,7 +252,7 @@
 											<div class="form-check">
 												<label class="form-check-label">
 													<input class="form-check-input" type="checkbox" id="hasBirthLimit" value="">
-													是否限制出生日期（若是，請勾選）
+													有無年齡限制（若有，請勾選，並填列以下出生日期）
 												</label>
 											</div>
 

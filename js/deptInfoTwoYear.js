@@ -30,6 +30,7 @@ var deptInfoTwoYear = (function () {
 	var $approvalDocOfSpecialClassUrl = $modalDeptInfo.find('#approvalDocOfSpecialClassUrl'); // 已存在的開設專班文件電子檔
 	var $admissionSelectionQuota = $modalDeptInfo.find('#admissionSelectionQuota'); // 聯招(個人申請)人數（碩博二技專用）
 	var $selfEnrollmentQuota = $modalDeptInfo.find('#selfEnrollmentQuota'); // 自招人數
+	var $hasSelfEnrollmentText = $modalDeptInfo.find('#hasSelfEnrollmentText'); // 提示是否可單招
 
 	var $deptDetailSaveBtn = $('#deptDetailSave');
 	var $lockSystemBtn = $('#lockSystem-btn'); // 確認送出鎖定學制
@@ -131,6 +132,14 @@ var deptInfoTwoYear = (function () {
 
 	function _renderDeptDetail(deptData) { // 渲染系所詳細資料
 		DeptInfo.renderCommonDeptDetail(deptData, "twoYear"); // 渲染學制們共用欄位
+		if( deptData.school_has_self_enrollment === true) {
+			var txt= "<span style=\" color:red; font-size:large; text-decoration:underline;\">本校單招規定已業經教育部核定在案</span>";
+			document.getElementById("hasSelfEnrollmentText").innerHTML=txt;
+		}
+		else{
+			var txt= "<span style=\" color:red; font-size:large; text-decoration:underline;\">本校無法單招招收僑生</span>";
+			document.getElementById("hasSelfEnrollmentText").innerHTML=txt;
+		}
 		_renderSpecialDeptDetail(deptData);
 		_switchHasSpecialClass();
 		_switchHasSelfEnrollment();

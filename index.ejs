@@ -73,10 +73,10 @@
 				</div>
 				<div class="card-block">
 					<div class="row">
-						<div class="form-group col-6">
+						<div class="form-group col-7">
 							<div class="input-group">
 								<span class="input-group-addon"><input id="hasDorm" type="checkbox"></span>
-								<input type="text" class="form-control" value="是否提供宿舍*（若是，請勾選）" disabled>
+								<input type="text" class="form-control" value="有無提供學生宿舍*（如『有』請勾選，『無』則免勾）" disabled>
 							</div>
 						</div>
 					</div>
@@ -105,10 +105,10 @@
 				</div>
 				<div class="card-block">
 					<div class="row">
-						<div class="form-group col-6">
+						<div class="form-group col-8">
 							<div class="input-group">
 								<span class="input-group-addon"><input id="hasScholarship" type="checkbox"></span>
-								<input type="text" class="form-control" value="是否提供僑生專屬獎學金*（若是，請勾選）" disabled>
+								<input type="text" class="form-control" value="有無提供僑生專屬獎學金*（如『有』請勾選，『無』則免勾）" disabled>
 							</div>
 						</div>
 					</div>
@@ -140,30 +140,30 @@
 		<div class="form-group col-12">
 			<div class="card">
 				<div class="card-header bg-primary text-white">
-					中五生招收
+					招收中五學制（簡稱中五生）
 				</div>
 				<div class="card-block">
 					<div class="row">
-						<div class="form-group col-6">
+						<div class="form-group col-9">
 							<div class="input-group">
 								<span class="input-group-addon"><input id="hasFiveYearStudentAllowed" type="checkbox"></span>
-								<input type="text" class="form-control" value="是否招收中五生*（若是，請勾選）" disabled>
+								<input type="text" class="form-control" value="學則有無納入中五生、『增加畢業學分』或『延長修業年限』等修業規範" disabled>
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div id="ruleOfFiveYearStudentForm" class="form-group col-12">
-							<label class="form-control-label text-danger" for="">學則*</label>
+							<label class="form-control-label text-danger" for="">本校學則知『中五生招生規範』相關條次及規定如下*</label>
 							<textarea id="ruleOfFiveYearStudent" type="text" class="form-control" rows="3"></textarea>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row" style="display:none">
 						<div class="form-group col-12">
 							<label for="">學則文件電子檔</label>
 							<input id="ruleDocOfFiveYearStudent" type="file" class="form-control">
 						</div>
 					</div>
-					<div class="row">
+					<div class="row" style="display:none">
 						<div class="form-group col-12">
 							已上傳檔案：<a id="ruleDocOfFiveYearStudentUrl" href=""></a>
 						</div>
@@ -176,26 +176,26 @@
 		<div class="form-group col-12">
 			<div class="card">
 				<div class="card-header bg-primary text-white">
-					單獨招收僑生（自招）
+					單獨招收僑生禍港澳生（簡稱單招）
 				</div>
 				<div class="card-block">
 					<div class="row">
 						<div class="form-group col-6">
 							<div class="input-group">
 								<span class="input-group-addon"><input id="hasSelfEnrollment" type="checkbox"></span>
-								<input type="text" class="form-control" value="是否單獨招收僑生（自招）*（若是，請勾選）" disabled>
+								<input type="text" class="form-control" value="是否辦理單招*（如『有』請勾選，『無』則免勾）" disabled>
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div id="approvalNoOfSelfEnrollmentForm" class="form-group col-12">
-							<label class="form-control-label text-danger" for="">自招核定文號*</label>
+							<label class="form-control-label text-danger" for="">教育部核定單招公文發文日期及文號 *</label>
 							<input id="approvalNoOfSelfEnrollment" type="text" class="form-control">
 						</div>
 					</div>
 					<div class="row">
 						<div class="form-group col-12">
-							<label for="">自招核定公文電子檔</label>
+							<label for="">單招核定公文電子檔</label>
 							<input id="approvalDocOfSelfEnrollment" type="file" class="form-control">
 						</div>
 					</div>
