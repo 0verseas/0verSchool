@@ -19,7 +19,6 @@ var DeptInfo = (function () {
 	// Modal common elements
 	var $modalDeptInfo = $('#modal-deptInfo');
 	var $sortOrder = $modalDeptInfo.find('#sortOrder'); // 簡章順序
-	var $useEngData = $modalDeptInfo.find('#useEngData'); //今年暫不提供英文系所分則
 	var $id = $modalDeptInfo.find('#id'); // Can't edit ，系所代碼
 	var $cardCode = $modalDeptInfo.find('#cardCode'); // Can't edit，讀卡代碼
 	var $title = $modalDeptInfo.find('#title'); // Can't edit，中文名稱
@@ -96,10 +95,10 @@ var DeptInfo = (function () {
 		School.setSystemInfo(system, data)
 		.then(function (res) {
 			if(res.ok) {
-				alert('儲存成功')
+				alert('儲存成功');
 				return res.json();
 			} else {
-				alert('儲存失敗')
+				alert('儲存失敗');
 				throw res
 			}
 		}).then(function (json) {
@@ -191,7 +190,6 @@ var DeptInfo = (function () {
 
 	function renderCommonDeptDetail(deptData, system) {
 		$sortOrder.val(deptData.sort_order);
-		$useEngData.prop("checked", !deptData.use_eng_data);
 		$id.val(deptData.id);
         if (system === "bache") {
             $cardCode.val(deptData.card_code);
@@ -270,9 +268,7 @@ var DeptInfo = (function () {
 		if (!_validateNotEmpty($sortOrder)) {formGroup.sortOrderForm.addClass("has-danger"); check = false}
 		if (!_validateNotEmpty($url)) {formGroup.urlForm.addClass("has-danger"); check = false}
 		if (!_validateUrlFormat($url)) {formGroup.urlForm.addClass("has-danger"); check = false}
-		if (_validateNotEmpty($engUrl)) {
-			if (!_validateUrlFormat($engUrl)) {formGroup.engUrlForm.addClass("has-danger"); check = false}
-		}
+		if (!_validateUrlFormat($engUrl)) {formGroup.engUrlForm.addClass("has-danger"); check = false}
 		if (!_validateNotEmpty($mainGroup)) {formGroup.mainGroupForm.addClass("has-danger"); check = false}
 		if (!_validateNotEmpty($description)) {formGroup.descriptionForm.addClass("has-danger"); check = false}
 		if (!_validateNotEmpty($engDescription)) {formGroup.engDescriptionForm.addClass("has-danger"); check = false}
@@ -339,7 +335,6 @@ var DeptInfo = (function () {
 
 		var data = {
 			sort_order: $sortOrder.val(),
-			use_eng_data: !+$useEngData.prop("checked"),
 			url: $url.val(),
 			eng_url: $engUrl.val(),
 			main_group: $mainGroup.val(),
@@ -361,7 +356,8 @@ var DeptInfo = (function () {
 			birth_limit_before: $birthLimitBefore.val(),
 			memo: $memo.val(),
 			application_docs: JSON.stringify(applicationDocs)
-		}
+		};
+
 		if (system === "bache") {
 			data.group_code = $groupCode.val();
 		} else {
@@ -460,7 +456,7 @@ var reviewItems = new Vue({ // 審查項目
 			this.applicationDocs = applicationDocs;
 		},
 		validateReviewItems() {
-			var check = true
+			var check = true;
 
 			for(let type of this.reviewItemsTypes) {
 				type.error = false;
@@ -512,8 +508,8 @@ var reviewItems = new Vue({ // 審查項目
 		getReviewItems() {
 			var data = this.reviewItemsTypes.filter((type) => {
 				return type.needed;
-			})
+			});
 			return data;
 		}
 	}
-})
+});
