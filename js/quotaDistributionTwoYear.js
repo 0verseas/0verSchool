@@ -131,7 +131,9 @@ var quotaDistirbutionTwoYear = (function () {
 			}
 		}).then(function (json) {
 			_renderData(json)
-
+			if(json.review_at != null) {
+				$('#btn-save').attr('disabled', true).text('已鎖定');
+			}
 			stopLoading();
 		}).catch(function (err) {
 			if (err.status === 404) {

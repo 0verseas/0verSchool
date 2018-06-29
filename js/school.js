@@ -67,6 +67,17 @@ var School = (function () {
 		});
 	}
 
+	function lockSystemInfo (schoolId, systemId) {
+		return fetch(baseUrl + `/schools/${schoolId}/systems/${systemId}/histories/confirmation`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include',
+			body: JSON.stringify(data)
+		});
+	}
+
 	function getGuidelinesReplyForm(system, data) {
 		return fetch(`${baseUrl}/schools/me/systems/${system}/guidelines-reply-form`, {
 			method: 'POST',
@@ -114,6 +125,7 @@ var School = (function () {
 		setSystemQuota,
 		getSystemInfo,
 		setSystemInfo,
+		lockSystemInfo,
 		getDeptInfo,
 		setDeptInfo,
 		getDeptFormItem,

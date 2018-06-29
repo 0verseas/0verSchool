@@ -1,9 +1,12 @@
 var deptInfoBache = (function () {
 
 	const _currentSystem = 'bachelor';
+	const _currentSystemName = '學士班';
+	const _currentSystemId= '1';
 	var _currentDeptId = '';
 	var _lastYearAdmissionPlacementAmount = '';
 	var _lastYearAdmissionPlacementQuota = '';
+	var _schoolId;
 
 	/**
 	 * cache DOM
@@ -17,6 +20,7 @@ var deptInfoBache = (function () {
 
 	var $sendPreviewPDFBtn = $('#sendPreviewPDF-btn'); // 預覽版 PDF 按鈕
 	var $sendFormalPDFBtn = $('#sendFormalPDF-btn'); // 正式版 PDF 按鈕
+	var $lockSystemBtn = $('#lockSystem-btn'); // 確認送出鎖定學制
 
 	// Modal special elements
 	var $modalDeptInfo = $('#modal-deptInfo');
@@ -58,6 +62,8 @@ var deptInfoBache = (function () {
 	$sendFormalPDFBtn.on('click', function () {
 		_getGuidelinesReplyForm('formal');
 	}); // 列印學制資訊 (正式版)
+
+	$lockSystemBtn.on('click', _lockSystem);
 
 	/**
 	 * init
@@ -199,6 +205,7 @@ var deptInfoBache = (function () {
 			openLoading();
 
 			var sendData = _getFormData();
+
 			School.setDeptInfo(_currentSystem, _currentDeptId, sendData)
 			.then((res) => {
 				if (res.ok) {
@@ -212,7 +219,6 @@ var deptInfoBache = (function () {
 				stopLoading();
 			})
 			.catch((err) => {
-          			console.error(data);
 				err.json && err.json().then((data) => {
 					alert(`ERROR: \n${data.messages[0]}`);
 				});
@@ -227,6 +233,26 @@ var deptInfoBache = (function () {
 	function _setData() {
 		openLoading();
 
+		School.getSchoolInfo() // 取的校資料以檢視校鎖定了沒
+			.then(function(res) {
+				if(res.ok) {
+					return res.json();
+				} else {
+					throw res
+				}
+			}).then(function(json) {
+			if (json.review_at == null) { // 校資料未鎖定
+				$('#lockSystem-btn').attr('disabled', true);
+				document.getElementById("lockSystem-btn").style.pointerEvents = "none";
+				$('#lockSystem-tooltip').tooltip();
+			}
+			else {
+				document.getElementById("lockSystem-btn").style.pointerEvents = "auto";
+				$('#lockSystem-btn').attr('disabled', false);
+				$('#lockSystem-tooltip').tooltip('disable');
+			}
+		})
+
 		School.getSystemInfo(_currentSystem) // 取得學制資料，沒有該學制則回上一頁
 		.then((res) => {
 			if(res.ok) { // 有該學制則開始頁面初始化
@@ -235,8 +261,15 @@ var deptInfoBache = (function () {
 				throw res;
 			}
 		}).then((json) => {
+			_schoolId=json.school_code;
 			DeptInfo.renderDescription(json); // 渲染該學制備註
 			DeptInfo.renderDeptList(json.departments); // 渲染該學制系所列表
+			if(json.review_at != null) {
+				$('#sendFormalPDF-btn').show();
+				$('#lockSystem-btn').hide();
+				$('#btn-deptInfoSave').attr('disabled', true).text('已鎖定');
+				$('#deptDetailSave').attr('disabled', true).text('已鎖定');
+			}
 		}).then(() => {
 			$.bootstrapSortable(true); // 啟用系所列表排序功能
 			$editDeptInfoBtn = $('.btn-editDeptInfo'); // 新增系所編輯按鈕的觸發事件（開啟 Modal）
@@ -258,6 +291,37 @@ var deptInfoBache = (function () {
 				});
 			}
 		})
+	}
+
+	function _lockSystem() {
+		openLoading();
+
+		var isAllSet = confirm("確認後就無法再修改 " + _currentSystemName + "相關部分(名額分配、系所資料)，您真的確認送出嗎？");
+		if (isAllSet === true) {
+			var data = {"confirmed": true}
+			School.lockSystemInfo(_schoolId, _currentSystemId, data)
+				.then((res) => {
+					if (res.ok) {
+						return res.json;
+					} else {
+						throw res;
+					}
+				})
+				.then((json) => {
+					alert("儲存成功並鎖定");
+					stopLoading();
+					location.reload();
+				})
+				.catch((err) => {
+					console.error(data);
+					err.json && err.json().then((data) => {
+						alert(`ERROR: \n${data.messages[0]}`);
+					});
+
+					stopLoading();
+				})
+		}
+
 	}
 
 })();

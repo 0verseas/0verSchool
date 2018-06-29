@@ -274,8 +274,10 @@ var DeptInfo = (function () {
 		}
 		if (!_validateNotEmpty($mainGroup)) {formGroup.mainGroupForm.addClass("has-danger"); check = false}
 		if (!_validateNotEmpty($description)) {formGroup.descriptionForm.addClass("has-danger"); check = false}
+		if (!_validateNotEmpty($engDescription)) {formGroup.engDescriptionForm.addClass("has-danger"); check = false}
 		if ($hasReviewFee.prop("checked")) {
 			if (!_validateNotEmpty($reviewFeeDetail)) {formGroup.reviewFeeDetailForm.addClass("has-danger"); check = false}
+			if (!_validateNotEmpty($engReviewFeeDetail)) {formGroup.engReviewFeeDetailForm.addClass("has-danger"); check = false}
 		}
 		if ($hasBirthLimit.prop("checked")) {
 			var birthLimitAfterStatus = _validateNotEmpty($birthLimitAfter);
@@ -400,6 +402,7 @@ var reviewItems = new Vue({ // 審查項目
 				type.description = '';
 				type.eng_description = '';
 				type.error = false;
+				type.engerror = false;
 				// 如果是紙本推薦函，（不同學制的紙本推薦函 id 不一樣），把紙本推薦函的欄位加進去
 				if (type.id == 8 || type.id == 26 || type.id == 46 || type.id == 66) {
 					type.need_paper = false;
@@ -444,6 +447,7 @@ var reviewItems = new Vue({ // 審查項目
 
 			for(let type of this.reviewItemsTypes) {
 				type.error = false;
+				type.engerror = false;
 				if (type.id == 8 || type.id == 26 || type.id == 46 || type.id == 66) {
 					type.recipient_error = false;
 					type.recipient_phone_error = false;
@@ -458,6 +462,10 @@ var reviewItems = new Vue({ // 審查項目
 					// 先檢查是否有中文備註
 					if (type.description == "") {
 						type.error = true;
+						check = false;
+					}
+					if (type.eng_description == "") {
+						type.engerror = true;
 						check = false;
 					}
 					// 如果有需要紙本推薦函

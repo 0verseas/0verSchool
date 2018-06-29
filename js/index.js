@@ -41,7 +41,9 @@ var schoolInfo = (function () {
 	// Button
 	var $schoolInfoBtn = $schoolInfoForm.find('#btn-save');
 	var $schoolLockBtn = $schoolInfoForm.find('#btn-lock-school');
+	var $downloadExcel = $schoolInfoForm.find('#downloadExcel');
 
+	var text = '';
 	// form-group
 	var formGroup = {
 		phoneForm: $schoolInfoForm.find('#phoneForm'),
@@ -67,7 +69,7 @@ var schoolInfo = (function () {
 	 */
 
 	_getSchoolData();
-
+	_checkDownload();
 	/**
 	 * bind event
 	 */
@@ -78,6 +80,7 @@ var schoolInfo = (function () {
 	$hasSelfEnrollment.on("change", _switchSelfEnrollmentStatus);
 	$schoolInfoBtn.on("click", _setSchoolInfo);
 	$schoolLockBtn.on("click", _lockschool);
+	$downloadExcel.on("click", _downloadExcel);
 
 	function _switchDormStatus() { // 切換「宿舍」狀態
 		$dormInfo.prop('disabled', !$hasDorm.prop('checked'));
@@ -343,7 +346,6 @@ var schoolInfo = (function () {
 				throw res
 			}
 		}).then(function(json) {
-			console.table(json)
 			// 處理擺放學校資料
 			_placedSchoolInfoData(json);
 			if (json.review_at != null) { // 已鎖定
@@ -368,6 +370,84 @@ var schoolInfo = (function () {
 				stopLoading();
 			});
 		})
+	}
+
+	function _checkDownload() {
+		School.getSchoolInfo() // 取的校資料以檢視校鎖定了沒
+			.then(function(res) {
+				if(res.ok) {
+					return res.json();
+				} else {
+					throw res
+				}
+			}).then(function(json) {
+			if (json.review_at == null) { // 校資料未鎖定
+				text += "學校資料尚未鎖定！" + '\n';
+			}
+		})
+
+		School.getSystemInfo(1) // 取得學制資料，沒有該學制則回上一頁
+			.then((res) => {
+				if(res.ok) { // 有該學制則開始頁面初始化
+					return res.json();
+				} else {
+					throw res;
+				}
+			}).then((json) => {
+			if(json.review_at == null) {
+				text += "學士班尚未鎖定！" + '\n';
+			}
+		})
+
+		School.getSystemInfo(2) // 取得學制資料，沒有該學制則回上一頁
+			.then((res) => {
+				if(res.ok) { // 有該學制則開始頁面初始化
+					return res.json();
+				} else {
+					throw res;
+				}
+			}).then((json) => {
+			if(json.review_at == null) {
+				text += "港二技尚未鎖定！" + '\n';
+			}
+		})
+
+		School.getSystemInfo(3) // 取得學制資料，沒有該學制則回上一頁
+			.then((res) => {
+				if(res.ok) { // 有該學制則開始頁面初始化
+					return res.json();
+				} else {
+					throw res;
+				}
+			}).then((json) => {
+			if(json.review_at == null) {
+				text += "碩士班尚未鎖定！" + '\n';
+			}
+		})
+
+		School.getSystemInfo(4) // 取得學制資料，沒有該學制則回上一頁
+			.then((res) => {
+				if(res.ok) { // 有該學制則開始頁面初始化
+					return res.json();
+				} else {
+					throw res;
+				}
+			}).then((json) => {
+			if(json.review_at == null) {
+				text += "博士班尚未鎖定！" + '\n';
+			}
+		})
+	}
+
+	//下載學校 Excel 清冊
+	function _downloadExcel() {
+
+		if (text =='') {
+			window.open (env.baseUrl + '/school-data-exportation');
+		}
+		else {
+			alert(text);
+		}
 	}
 
 })();

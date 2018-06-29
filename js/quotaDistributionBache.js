@@ -92,6 +92,7 @@ var quotaDistirbutionBache = (function () {
 			return {
 				id: String($deptRow.data('id')),
 				has_self_enrollment: $deptRow.find('.isSelf').is(':checked'),
+				admission_quota_pass: $deptRow.find('.isDeptPass').is(':checked'),
 				admission_selection_quota: +$deptRow.find('.admission_selection_quota').val(),
 				admission_placement_quota: +$deptRow.find('.admission_placement_quota').val(),
 				decrease_reason_of_admission_placement: $deptRow.find('.decrease_reason_of_admission_placement').val() || null
@@ -157,6 +158,9 @@ var quotaDistirbutionBache = (function () {
 			}
 		}).then(function (json) {
 			_renderData(json);
+			if(json.review_at != null) {
+				$('#btn-save').attr('disabled', true).text('已鎖定');
+			}
 		}).then(function () {
 			$.bootstrapSortable(true);
 
@@ -220,13 +224,15 @@ var quotaDistirbutionBache = (function () {
 				last_year_admission_placement_quota,
 				has_self_enrollment,
 				self_enrollment_quota,
-				decrease_reason_of_admission_placement
+				decrease_reason_of_admission_placement,
+				admission_quota_pass
 			} = dept;
 			var total = (+admission_selection_quota) + (+admission_placement_quota) + (+self_enrollment_quota || 0);
 			var reference = last_year_admission_placement_amount > last_year_admission_placement_quota ? last_year_admission_placement_quota : last_year_admission_placement_amount;
 			var noNeedToWriteReason = +reference <= +admission_placement_quota;
 
 			var checked = school_has_self_enrollment ? ( has_self_enrollment ? 'checked' : '') : 'disabled';
+			var checked2 = ( admission_quota_pass ? 'checked' : '');
 			$deptList
 				.find('tbody')
 				.append(`
@@ -238,6 +244,7 @@ var quotaDistirbutionBache = (function () {
 							<div>${eng_title}</div>
 						</td>
 						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
+						<td class="text-center"><input type="checkbox" class="isDeptPass" data-type="deptPass" ${checked2} ></td>
 						<td><input type="number" min="0" class="form-control editableQuota required admission_placement_quota" data-type="admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
 						<td class="reference text-center" data-val="${reference}">${reference}</td>
 						<td><textarea class="form-control decrease_reason_of_admission_placement" cols="50" rows="1" ${noNeedToWriteReason ? 'disabled' : ''} >${decrease_reason_of_admission_placement || ''}</textarea></td>
