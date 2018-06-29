@@ -221,9 +221,9 @@
 					<th>#</th>
 					<th>代碼</th>
 					<th>名稱</th>
-					<th style="width: 150px">聯招人數</th>
-					<th style="width: 100px">是否自招</th>
-					<th style="width: 150px">自招人數</th>
+					<th style="width: 150px" class="text-center">聯招人數</th>
+					<th style="width: 100px" class="text-center">是否自招</th>
+					<th style="width: 150px" class="text-center">自招人數</th>
 					<th style="width: 150px" class="text-center">系所總量</th>
 				</tr>
 			</thead>
@@ -276,6 +276,8 @@
 		</table>
 	</div>
 </div>
+
+<% if(system != '港二技') { -%>
 <div class="row">
 	<div class="col-12 text-center">
 		<button id="btn-save" data-action="save" class="btn btn-primary">
@@ -283,4 +285,6 @@
 		</button>
 	</div>
 </div>
+<% } -%>
+
 <script src="https://cdn.jsdelivr.net/bootstrap-sortable/2.0.0/bootstrap-sortable.min.js"></script>

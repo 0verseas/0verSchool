@@ -181,6 +181,11 @@ var quotaDistirbutionTwoYear = (function () {
 	}
 
 	function _setDeptList(list, school_has_self_enrollment) {
+        // 預設排序
+        list.sort(function (a, b) {
+            return a.sort_order - b.sort_order;
+        });
+
 		$deptList.find('tbody').html('');
 		for (let dept of list) {
 			var {
@@ -192,7 +197,11 @@ var quotaDistirbutionTwoYear = (function () {
 				has_self_enrollment,
 				self_enrollment_quota
 			} = dept;
-			var total = (+admission_selection_quota) + (+self_enrollment_quota);
+            var total = (+admission_selection_quota);
+
+            if (school_has_self_enrollment && has_self_enrollment) {
+                total += (+self_enrollment_quota);
+            }
 
 			$deptList
 				.find('tbody')
@@ -204,9 +213,9 @@ var quotaDistirbutionTwoYear = (function () {
 							<div>${title}</div>
 							<small>${eng_title}</small>
 						</td>
-						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" /></td>
+						<td class="text-center"><param class="admission_selection_quota" value="${+admission_selection_quota}" />${+admission_selection_quota}</td>
 						<td class="text-center"><span class="isSelf" data-type="self_enrollment_quota">${has_self_enrollment ? '是' : '否'}</span></td>
-						<td><input type="number" min="0" class="form-control editableQuota ${has_self_enrollment ? 'required' : ''} self_enrollment_quota" data-type="self_enrollment_quota" value="${+self_enrollment_quota}" disabled="${has_self_enrollment}" /></td>
+						<td class="text-center"><param class="self_enrollment_quota" value="${+self_enrollment_quota}" />${+self_enrollment_quota}</td>
 						<td class="total text-center">${total}</td>
 					</tr>
 				`);
@@ -223,9 +232,15 @@ var quotaDistirbutionTwoYear = (function () {
 			self_enrollment_quota: $quota_self_enrollment_quota
 		};
 		var sum = 0;
-		$deptList.find('.dept').each(function (i, deptRow) {
-			sum += +$(deptRow).find(`.${type}`).val();
-		});
+        $deptList.find('.dept').each(function (i, deptRow) {
+            if (type === "admission_selection_quota") {
+                sum += +$(deptRow).find(`.${type}`).val();
+            } else {
+                if ($(deptRow).find('.isSelf:checked').is(":checked")) {
+                    sum += +$(deptRow).find(`.${type}`).val();
+                }
+            }
+        });
 		$ele[type].val(sum);
 	}
 
