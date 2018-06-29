@@ -67,7 +67,7 @@ var School = (function () {
 		});
 	}
 
-	function lockSystemInfo (schoolId, systemId) {
+	function lockSystemInfo (schoolId, systemId, data) {
 		return fetch(baseUrl + `/schools/${schoolId}/systems/${systemId}/histories/confirmation`, {
 			method: 'POST',
 			headers: {
