@@ -44,6 +44,7 @@ var DeptInfo = (function () {
 	var $birthLimitBefore = $modalDeptInfo.find('#birthLimitBefore'); // 限制出生日期（以前）
 	var $memo = $modalDeptInfo.find('#memo'); // 給海聯的訊息
 	var $groupCode = $modalDeptInfo.find('#groupCode'); //類組
+    var $admissionSelectionQuota = $modalDeptInfo.find('#admissionSelectionQuota'); // 個人申請人數
 
 	// 所有審查項目
 	var $reviewDiv = $modalDeptInfo.find('#review-div');
@@ -458,51 +459,53 @@ var reviewItems = new Vue({ // 審查項目
 		validateReviewItems() {
 			var check = true;
 
-			for(let type of this.reviewItemsTypes) {
-				type.error = false;
-				type.engerror = false;
-				if (type.id == 8 || type.id == 26 || type.id == 46 || type.id == 66) {
-					type.recipient_error = false;
-					type.recipient_phone_error = false;
-					type.recieve_email_error = false;
-					type.recieve_address_error = false;
-				}
-			}
+			if ($('#admissionSelectionQuota').val() > 0) {
+                for (let type of this.reviewItemsTypes) {
+                    type.error = false;
+                    type.engerror = false;
+                    if (type.id == 8 || type.id == 26 || type.id == 46 || type.id == 66) {
+                        type.recipient_error = false;
+                        type.recipient_phone_error = false;
+                        type.recieve_email_error = false;
+                        type.recieve_address_error = false;
+                    }
+                }
 
-			for(let type of this.reviewItemsTypes) {
-				// 如果需要此審查項目
-				if (type.needed == true) {
-					// 先檢查是否有中文備註
-					if (type.description == "") {
-						type.error = true;
-						check = false;
-					}
-					if (type.eng_description == "") {
-						type.engerror = true;
-						check = false;
-					}
-					// 如果有需要紙本推薦函
-					if (type.need_paper == true) {
-						// 檢查紙本推薦函的所需欄位是否有填寫
-						if (type.recipient == '') {
-							type.recipient_error = true;
-							check = false;
-						}
-						if (type.recipient_phone == '') {
-							type.recipient_phone_error = true;
-							check = false;
-						}
-						if (type.recieve_email == '') {
-							type.recieve_email_error = true;
-							check = false;
-						}
-						if (type.recieve_address == '') {
-							type.recieve_address_error = true;
-							check = false;
-						}
-					}
-				}
-			}
+                for (let type of this.reviewItemsTypes) {
+                    // 如果需要此審查項目
+                    if (type.needed == true) {
+                        // 先檢查是否有中文備註
+                        if (type.description == "") {
+                            type.error = true;
+                            check = false;
+                        }
+                        if (type.eng_description == "") {
+                            type.engerror = true;
+                            check = false;
+                        }
+                        // 如果有需要紙本推薦函
+                        if (type.need_paper == true) {
+                            // 檢查紙本推薦函的所需欄位是否有填寫
+                            if (type.recipient == '') {
+                                type.recipient_error = true;
+                                check = false;
+                            }
+                            if (type.recipient_phone == '') {
+                                type.recipient_phone_error = true;
+                                check = false;
+                            }
+                            if (type.recieve_email == '') {
+                                type.recieve_email_error = true;
+                                check = false;
+                            }
+                            if (type.recieve_address == '') {
+                                type.recieve_address_error = true;
+                                check = false;
+                            }
+                        }
+                    }
+                }
+            }
 			return check;
 		},
 		getReviewItems() {
