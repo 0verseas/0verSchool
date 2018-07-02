@@ -229,34 +229,49 @@ var deptInfoTwoYear = (function () {
 	}
 
 	function _saveDeptDetail() {
-		if (_validateForm()) {
-			openLoading();
 
-			var sendData = _getFormData();
+		var checkcount = 0;
+		var sendData = _getFormData();
+		for (var pair of sendData.entries()) {
+			if( pair[0] == 'moe_check_failed' && pair[1] == 'true')
+				checkcount +=1;
+			if( pair[0] == 'teacher_quality_passed' && pair[1] == 'false')
+				checkcount +=1;
+		}
+		//console.log()
+		var isAllSet =false;
+		if(checkcount == 2)
+			isAllSet = confirm("經教育部查核被列為持續列管或不通過、\n師資質量未達「專科以上學校總量發展規模與資源條件標準」，\n\n該系所有名額會強制變為 0，您真的確認送出嗎？");
+		else
+			isAllSet =true;
 
-			School.setDeptInfo(_currentSystem, _currentDeptId, sendData)
-			.then((res) => {
-				if (res.ok) {
-					return res.json;
-				} else {
-					throw res;
-				}
-			})
-			.then((json) => {
-				alert("儲存成功");
+		if( isAllSet == true ) {
+			if (_validateForm()) {
+				openLoading();
+				School.setDeptInfo(_currentSystem, _currentDeptId, sendData)
+					.then((res) => {
+						if (res.ok) {
+							return res.json;
+						} else {
+							throw res;
+						}
+					})
+					.then((json) => {
+						alert("儲存成功");
 
-				stopLoading();
-			})
-			.catch((err) => {
-				err.json && err.json().then((data) => {
-					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
+						stopLoading();
+					})
+					.catch((err) => {
+						err.json && err.json().then((data) => {
+							console.error(data);
+							alert(`ERROR: \n${data.messages[0]}`);
 
-					stopLoading();
-				});
-			})
-		} else {
-			alert("有欄位輸入錯誤，請重新確認。");
+							stopLoading();
+						});
+					})
+			} else {
+				alert("有欄位輸入錯誤，請重新確認。");
+			}
 		}
 	}
 
