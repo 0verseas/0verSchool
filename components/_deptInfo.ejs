@@ -185,7 +185,14 @@
 						<div class="row">
 							<div id="descriptionForm" class="form-group col">
 								<label class="form-control-label text-danger" for="">中文系所簡介*</label><br />
-                                (可填寫是否提供身心障礙學生學習輔具資源及生活照輔措施等資源，以利學生先行了解並自行評估)<br />
+								<ol style="color: darkcyan; background-color: lightgoldenrodyellow; border-radius: 25px;">
+									<li>
+										系所簡介、課程領域、未來發展及特殊限制（如辨色異常或身心障礙宜慎重考慮），及是否提供身心障礙學生學習輔具資源及生活照輔措施資源等說明，以利學生先行了解並自行評估。
+									</li>
+									<li>
+										請勿在此填寫個人申請繳交資料說明。
+									</li>
+								</ol>
 								<textarea class="form-control " rows="4" id="description"></textarea>
 							</div>
 						</div>
@@ -196,23 +203,23 @@
 							</div>
 						</div>
 
+						<div id="selfEnrollmentChoose">
+							<% if(system == 'twoYear') { -%>
+							<%- include deptInfoForm/_selfEnrollmentTwoYear %>
+							<% } else { -%>
+							<%- include deptInfoForm/_selfEnrollmentOthers %>
+							<% } -%>
 
-						<% if(system == 'twoYear') { -%>
-						<%- include deptInfoForm/_selfEnrollmentTwoYear %>
-						<% } else { -%>
-						<%- include deptInfoForm/_selfEnrollmentOthers %>
-						<% } -%>
 
-
-						<% if(system == 'bachelor') { -%>
-						<%- include deptInfoForm/_quotaBachelor %>
-						<% } else { -%>
-						<%- include deptInfoForm/_quotaOthers %>
-						<% } -%>
-
+							<% if(system == 'bachelor') { -%>
+							<%- include deptInfoForm/_quotaBachelor %>
+							<% } else { -%>
+							<%- include deptInfoForm/_quotaOthers %>
+							<% } -%>
+						</div>
 						<hr>
 
-						<div class="row">
+						<div class="row" id="limitBlock">
 							<div class="col">
 								<div class="card">
 									<div class="card-header bg-primary text-white">
