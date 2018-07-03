@@ -75,6 +75,8 @@ var DeptInfo = (function () {
 	$deptFilterInput.on('keyup', _filterDeptInput); // 系所列表篩選
 	$hasReviewFee.on("change", _switchHasReviewFee); // 是否需要收審查費用
 	$hasBirthLimit.on("change", _switchHasBirthLimit); // 是否限制出生日期
+	$moeCheckFailed.on("change", _switchMoeCheckFailed); // 是否被列管
+	$teacherQualityPassed.on("change" ,_switchTeacherQualityPassed); // 是否師資不合格
 
 	/**
 	 * events
@@ -236,6 +238,8 @@ var DeptInfo = (function () {
 		});
 		_switchHasReviewFee();
 		_switchHasBirthLimit();
+		_switchMoeCheckFailed();
+		_switchTeacherQualityPassed();
 
 		reviewItems.initApplicationDocs(deptData.application_docs);
 
@@ -256,6 +260,49 @@ var DeptInfo = (function () {
 	function _switchHasBirthLimit() {
 		$birthLimitAfter.prop('disabled', !$hasBirthLimit.prop('checked'));
 		$birthLimitBefore.prop('disabled', !$hasBirthLimit.prop('checked'));
+	}
+
+	function _switchMoeCheckFailed() {
+		if ($moeCheckFailed.val() == 'Y') {
+			$('#descriptionForm').hide();
+			$('#engDescriptionForm').hide();
+			$('#selfEnrollmentChoose').hide();
+			$('#limitBlock').hide();
+			$('#review-div').hide();
+			$('#memoForm').hide();
+		}
+		else if($teacherQualityPassed.val() == 'Y') {
+			$('#descriptionForm').show();
+			$('#engDescriptionForm').show();
+			$('#selfEnrollmentChoose').show();
+			$('#limitBlock').show();
+			if($('#admissionSelectionQuota').val() > 0) {
+				$('#review-div').show();
+			}
+			$('#memoForm').show();
+		}
+		else;
+	}
+
+	function _switchTeacherQualityPassed() {
+		if ($teacherQualityPassed.val() == 'N') {
+			$('#descriptionForm').hide();
+			$('#engDescriptionForm').hide();
+			$('#selfEnrollmentChoose').hide();
+			$('#limitBlock').hide();
+			$('#memoForm').hide();
+		}
+		else if ($moeCheckFailed.val() == 'N'){
+			$('#descriptionForm').show();
+			$('#engDescriptionForm').show();
+			$('#selfEnrollmentChoose').show();
+			$('#limitBlock').show();
+			if($('#admissionSelectionQuota').val() > 0) {
+				$('#review-div').show();
+			}
+			$('#memoForm').show();
+		}
+		else ;
 	}
 
 	function validateForm() {
