@@ -290,6 +290,7 @@ var DeptInfo = (function () {
 			$('#engDescriptionForm').hide();
 			$('#selfEnrollmentChoose').hide();
 			$('#limitBlock').hide();
+			$('#review-div').hide();
 			$('#memoForm').hide();
 		}
 		else if ($moeCheckFailed.val() == 'N'){
