@@ -93,7 +93,7 @@
 	<span class="operator">＋</span>
 	<div style="width:8%;"> <!--class="col-1"-->
 		<div class="form-group">
-			<small id="" class="form-text text-muted">港二技自招</small>
+			<small id="" class="form-text text-muted">港二技單招</small>
 			<input type="text" class="form-control bg-success quota another_department_self_enrollment_quota" disabled>
 		</div>
 	</div>
@@ -137,7 +137,7 @@
 	<span class="operator">＋</span>
 	<div style="width:8%;"> <!--class="col-1"-->
 		<div class="form-group">
-			<small id="" class="form-text text-muted">港二技自招</small>
+			<small id="" class="form-text text-muted">港二技單招</small>
 			<input type="text" class="form-control bg-success quota self_enrollment_quota" disabled>
 		</div>
 	</div>
@@ -168,8 +168,9 @@
 </div>
 <div class="row mt-2">
 	<div class="col-12">
-		<h5>校自招與否：<span id="schoolHasSelf" class="text-danger"></span></h5>
-		<h6 class="text-danger twoYearOnly hide">*系所「是否自招」與「自招人數」要到系所資料裡去修改</h6>
+		<h5>校單招與否：<span id="schoolHasSelf" class="text-danger"></span></h5>
+		<h6 class="text-danger twoYearOnly hide" style="background-color: lightgoldenrodyellow; font-size: 25px; letter-spacing: 4px;margin-top: 2%;">
+			*港二技 系所「是否單招」與「單招人數」要到系所資料裡做修改</h6>
 	</div>
 </div>
 <!-- 學士only -->
@@ -183,11 +184,11 @@
 					<th>代碼</th>
 					<th>名稱</th>
 					<th style="width: 150px;">個人申請人數</th>
-					<th style="width: 100px;">餘額留用</th>
+					<th style="width: 125px;">餘額留用 <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" data-animation="false" title="個人申請分發後之餘額將流到聯合分發；聯合分發共5梯次，每梯次分發後之餘額將流用至下一梯次"></i></th>
 					<th style="width: 150px;">聯合分發人數</th>
 					<th style="width: 100px;">參考值 <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" data-animation="false" title="聯合分發人數不得低於參考值"></i></th>
 					<th style="width: 150px;">減招原因</th>
-					<th style="width: 100px;">是否自招</th>
+					<th style="width: 100px;">是否單招</th>
 					<th style="width: 100px;">系所總量</th>
 				</tr>
 			</thead>
@@ -222,8 +223,8 @@
 					<th>代碼</th>
 					<th>名稱</th>
 					<th style="width: 150px" class="text-center">聯招人數</th>
-					<th style="width: 100px" class="text-center">是否自招</th>
-					<th style="width: 150px" class="text-center">自招人數</th>
+					<th style="width: 100px" class="text-center">是否單招</th>
+					<th style="width: 150px" class="text-center">單招人數</th>
 					<th style="width: 150px" class="text-center">系所總量</th>
 				</tr>
 			</thead>
@@ -255,8 +256,8 @@
 					<th>代碼</th>
 					<th>名稱</th>
 					<th style="width: 150px">個人申請人數</th>
-					<th style="width: 100px;">是否自招</th>
-					<th style="width: 150px">自招人數</th>
+					<th style="width: 100px;">是否單招</th>
+					<th style="width: 150px">單招人數</th>
 					<th style="width: 150px" class="text-center">系所總量</th>
 				</tr>
 			</thead>
