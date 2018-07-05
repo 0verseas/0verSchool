@@ -166,7 +166,14 @@ var deptInfoTwoYear = (function () {
 
 	function _switchHasRiJian() { // 開日間 => 可自招、開聯招人數
 		$hasSelfEnrollment.prop('disabled', !$hasRiJian.prop('checked'));
-		if ($hasRiJian.prop('checked') || $hasSpecialClass.prop('checked')) { $admissionSelectionQuota.prop('disabled', false); } else { $admissionSelectionQuota.prop('disabled', true); }
+		if ( !$hasRiJian.prop('checked') )
+			$hasSelfEnrollment.prop("checked",false);
+		if ($hasRiJian.prop('checked') || $hasSpecialClass.prop('checked')) {
+			$admissionSelectionQuota.prop('disabled', false);
+		}
+		else {
+			$admissionSelectionQuota.prop('disabled', true);
+		}
 	}
 
 	function _switchHasSelfEnrollment() { // 開自招 => 開自招人數
