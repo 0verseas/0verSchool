@@ -187,12 +187,20 @@ var quotaDistributionMaster = (function () {
 			last_year_admission_amount,
 			last_year_surplus_admission_quota,
 			ratify_expanded_quota,
-            self_enrollment_quota
+            self_enrollment_quota,
+            school_has_self_enrollment
 		} = data;
 		$quota_last_year_admission_amount.val(last_year_admission_amount || 0);
 		$quota_last_year_surplus_admission_quota.val(last_year_surplus_admission_quota || 0);
 		$quota_ratify_expanded_quota.val(ratify_expanded_quota || 0);
-        $quota_selfSum.val(self_enrollment_quota || 0);
+
+        if (school_has_self_enrollment) {
+            $quota_selfSum.val(self_enrollment_quota || 0);
+        } else {
+            $quota_selfSum.val(0);
+            $quota_selfSum.attr('disabled', true);
+        }
+
 		_updateAllowTotal();
 	}
 

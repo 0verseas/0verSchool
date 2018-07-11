@@ -169,13 +169,24 @@ var quotaDistirbutionTwoYear = (function () {
 			ratify_expanded_quota,
 			another_department_admission_selection_quota,
 			another_department_admission_placement_quota,
-			another_department_self_enrollment_quota
+			another_department_self_enrollment_quota,
+            school_has_self_enrollment
 		} = data;
 		$quota_last_year_admission_amount.val(last_year_admission_amount || 0);
 		$quota_last_year_surplus_admission_quota.val(last_year_surplus_admission_quota || 0);
 		$quota_ratify_expanded_quota.val(ratify_expanded_quota || 0);
 		$quota_another_department_admission_selection_quota.val(another_department_admission_selection_quota || 0);
-		$quota_another_department_self_enrollment_quota.val(another_department_self_enrollment_quota || 0);
+
+        if (school_has_self_enrollment) {
+            $quota_another_department_self_enrollment_quota.val(another_department_self_enrollment_quota || 0);
+            $quota_self_enrollment_quota.val(999);
+        } else {
+            $quota_another_department_self_enrollment_quota.val(0);
+            $quota_another_department_self_enrollment_quota.attr('disabled', true);
+            $quota_self_enrollment_quota.val(0);
+            $quota_self_enrollment_quota.attr('disabled', true);
+        }
+
 		$quota_another_department_admission_placement_quota.val(another_department_admission_placement_quota || 0);
 		_updateAllowTotal();
 	}
