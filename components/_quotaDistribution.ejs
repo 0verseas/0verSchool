@@ -49,8 +49,8 @@
 	<span class="operator">＋</span>
 	<div class="col-2">
 		<div class="form-group">
-			<small id="" class="form-text text-muted">本年度單招小計</small>
-			<input type="text" class="form-control selfSum quota" disabled>
+			<small id="" class="form-text text-danger">本年度單招小計*</small>
+			<input type="number" min="0" class="form-control bg-success selfSum quota graduated_self_enrollment_quota required">
 		</div>
 	</div>
 	<span class="operator">＝</span>
@@ -257,8 +257,6 @@
 					<th>名稱</th>
 					<th style="width: 150px">個人申請人數</th>
 					<th style="width: 100px;">是否單招</th>
-					<th style="width: 150px">單招人數</th>
-					<th style="width: 150px" class="text-center">系所總量</th>
 				</tr>
 			</thead>
 			<tbody>

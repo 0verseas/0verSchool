@@ -13,7 +13,7 @@ var quotaDistributionPhd = (function () {
 	var $quota_ratify_expanded_quota = $page.find('.quota.ratify_expanded_quota'); // 本年度教育部核准擴增名額
 	var $quota_wantTotal = $page.find('.quota.wantTotal'); // 本年度欲招募總量
 	var $quota_admissionSum = $page.find('.quota.admissionSum'); // 本年度聯招小計
-	var $quota_selfSum = $page.find('.quota.selfSum'); // 本年度自招小計
+	var $quota_selfSum = $page.find('.quota.graduated_self_enrollment_quota'); // 本年度自招小計
 
 	// dept list
 	var $deptList = $page.find('#table-masterPhdDeptList');
@@ -22,13 +22,15 @@ var quotaDistributionPhd = (function () {
 	 * bind event
 	 */
 	// 是否自招的 checkbox
-	$deptList.on('click.toggleSelf', '.dept .isSelf', _handleToggleCheck);
+	//$deptList.on('click.toggleSelf', '.dept .isSelf', _handleToggleCheck);
 	// 填數字算總額
 	$deptList.on('change.sumTotal', '.dept .editableQuota', _handleQuotaChange);
 	// save/commit
 	$btn.on('click', _handleSave);
+    // 博士班自招 change
+    $quota_selfSum.on('change', _updateWantTotal);
 
-	/**
+    /**
 	 * init
 	 */
 	// show phd only
@@ -84,13 +86,13 @@ var quotaDistributionPhd = (function () {
 			return {
 				id: String($deptRow.data('id')),
 				has_self_enrollment: $deptRow.find('.isSelf').is(':checked'),
-				self_enrollment_quota: +$deptRow.find('.self_enrollment_quota').val(),
 				admission_selection_quota: +$deptRow.find('.admission_selection_quota').val(),
 			};
 		}).toArray();;
 
 		var data = {
-			departments: departments
+			departments: departments,
+            self_enrollment_quota: $quota_selfSum.val(),
 		};
 
 		$this.attr('disabled', true);
@@ -184,11 +186,13 @@ var quotaDistributionPhd = (function () {
 		var {
 			last_year_admission_amount,
 			last_year_surplus_admission_quota,
-			ratify_expanded_quota
+			ratify_expanded_quota,
+            self_enrollment_quota
 		} = data;
 		$quota_last_year_admission_amount.val(last_year_admission_amount || 0);
 		$quota_last_year_surplus_admission_quota.val(last_year_surplus_admission_quota || 0);
 		$quota_ratify_expanded_quota.val(ratify_expanded_quota || 0);
+        $quota_selfSum.val(self_enrollment_quota || 0);
 		_updateAllowTotal();
 	}
 
@@ -227,13 +231,11 @@ var quotaDistributionPhd = (function () {
 						</td>
 						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" /></td>
 						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${school_has_self_enrollment && has_self_enrollment ? 'checked' : ''} ${school_has_self_enrollment ? '' : 'disabled="disabled"'} ></td>
-						<td><input type="number" min="0" class="form-control editableQuota ${has_self_enrollment ? 'required' : ''} self_enrollment_quota" data-type="self_enrollment_quota" value="${+self_enrollment_quota}" ${school_has_self_enrollment && has_self_enrollment ? '' : 'disabled="disabled"'} /></td>
-						<td class="total text-center">${total}</td>
 					</tr>
 				`);
 		}
 		_updateQuotaSum('admission_selection_quota');
-		_updateQuotaSum('self_enrollment_quota');
+		// _updateQuotaSum('self_enrollment_quota');
 		_updateWantTotal();
 	}
 
@@ -246,12 +248,9 @@ var quotaDistributionPhd = (function () {
         $deptList.find('.dept').each(function (i, deptRow) {
             if (type === "admission_selection_quota") {
                 sum += +$(deptRow).find(`.${type}`).val();
-            } else {
-                if ($(deptRow).find('.isSelf:checked').is(":checked")) {
-                    sum += +$(deptRow).find(`.${type}`).val();
-                }
             }
         });
+
 		$ele[type].val(sum);
 	}
 
