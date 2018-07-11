@@ -165,7 +165,7 @@ var quotaDistributionPhd = (function () {
 		// 本年度欲招募總量必須小於或等於可招生總量
 		if (+$quota_wantTotal.val() > +$quota_allowTotal.val()) {
 			valid = false;
-			alert('各系所招生人數加總必須小於或等於可招生總量');
+			alert('各系所招生名額加總必須小於或等於可招生總量');
 		}
 		return valid;
 	}
