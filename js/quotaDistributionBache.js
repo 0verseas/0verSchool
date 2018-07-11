@@ -100,7 +100,7 @@ var quotaDistirbutionBache = (function () {
 		}).toArray();
 
 		var data = {
-			ratify_quota_for_self_enrollment: +$quota_self_enrollment_quota.val(), // 學士班自招
+			self_enrollment_quota: +$quota_self_enrollment_quota.val(), // 學士班自招
 			departments: departments
 		};
 
@@ -199,14 +199,14 @@ var quotaDistirbutionBache = (function () {
 			ratify_expanded_quota,
 			another_department_admission_selection_quota,
 			another_department_self_enrollment_quota,
-			ratify_quota_for_self_enrollment
+			self_enrollment_quota
 		} = data;
 		$quota_last_year_admission_amount.val(last_year_admission_amount || 0);
 		$quota_last_year_surplus_admission_quota.val(last_year_surplus_admission_quota || 0);
 		$quota_ratify_expanded_quota.val(ratify_expanded_quota || 0);
 		$quota_another_department_admission_selection_quota.val(another_department_admission_selection_quota || 0);
 		$quota_another_department_self_enrollment_quota.val(another_department_self_enrollment_quota || 0);
-		$quota_self_enrollment_quota.val(ratify_quota_for_self_enrollment || 0);
+		$quota_self_enrollment_quota.val(self_enrollment_quota || 0);
 		_updateAllowTotal();
 	}
 
