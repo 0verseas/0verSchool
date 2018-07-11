@@ -14,8 +14,8 @@ var quotaDistirbutionTwoYear = (function () {
 	var $quota_another_department_admission_selection_quota = $page.find('.quota.another_department_admission_selection_quota'); // 學士班個人申請
 	var $quota_another_department_admission_placement_quota = $page.find('.quota.another_department_admission_placement_quota'); // 學士班聯合分發
 	var $quota_admission_selection_quota = $page.find('.quota.admission_selection_quota'); // 港二技個人申請
-	var $quota_another_department_self_enrollment_quota = $page.find('.quota.another_department_self_enrollment_quota'); // 學士班自招
-	var $quota_self_enrollment_quota = $page.find('.quota.self_enrollment_quota'); // 港二技自招
+	var $quota_another_department_self_enrollment_quota = $page.find('.quota.another_department_self_enrollment_quota.twoyear'); // 學士班自招
+	var $quota_self_enrollment_quota = $page.find('.quota.self_enrollment_quota.twoyear'); // 港二技自招
 	var $quota_wantTotal = $page.find('.quota.wantTotal'); // 本年度欲招募總量
 	var $quota_admissionSum = $page.find('.quota.admissionSum'); // 本年度聯招小計
 	var $quota_selfSum = $page.find('.quota.selfSum'); // 本年度自招小計
@@ -26,6 +26,10 @@ var quotaDistirbutionTwoYear = (function () {
 	/**
 	 * bind event
 	 */
+    // 港二技自招 change
+    $quota_self_enrollment_quota.on('change', _handleSelfChanged);
+    // 學士班自招 change
+    $quota_another_department_self_enrollment_quota.on('change', _handleSelfChanged);
 	// 填數字算總額
 	$deptList.on('change.sumTotal', '.dept .editableQuota', _handleQuotaChange);
 	// save/commit
@@ -38,6 +42,11 @@ var quotaDistirbutionTwoYear = (function () {
 	$page.find('.twoYearOnly').removeClass('hide');
 	$page.find('.hide .required').removeClass('required');
 	_setData();
+
+    function _handleSelfChanged() {
+        _updateAdmissionSumSelfSum();
+        _updateWantTotal();
+    }
 
 	function _handleQuotaChange() {
 		var $this = $(this);
@@ -130,7 +139,7 @@ var quotaDistirbutionTwoYear = (function () {
 				throw res
 			}
 		}).then(function (json) {
-			_renderData(json)
+			_renderData(json);
 			if(json.review_at != null) {
 				$('#btn-save').attr('disabled', true).text('已鎖定');
 			}
