@@ -285,6 +285,7 @@ var deptInfoTwoYear = (function () {
 	function _setData() {
 		openLoading();
 
+		document.getElementById("quotaOtherLabel").innerHTML='『聯招』港二技名額數';
 		School.getSchoolInfo() // 取的校資料以檢視校鎖定了沒
 			.then(function(res) {
 				if(res.ok) {

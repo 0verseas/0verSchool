@@ -161,8 +161,8 @@
 								<label class="form-control-label text-danger" for="">招收性別限制*</label>
 								<select class="form-control" id="genderLimit">
 									<option value="">男女兼收</option>
-									<option value="M">限男</option>
-									<option value="F">限女</option>
+									<option value="M">限收男</option>
+									<option value="F">限收女</option>
 								</select>
 							</div>
 						</div>
@@ -170,15 +170,15 @@
 							<div id="moeCheckFailedForm" class="form-group col-6">
 								<label class="form-control-label text-danger" for=""><br />是否經教育部查核被列為持續列管或不通過*</label>
 								<select class="form-control" id="moeCheckFailed">
-									<option value="N">否</option>
-									<option value="Y">為持續列管或不通過</option>
+									<option value="N">通過</option>
+									<option value="Y">為持續列管或不通過（不得提供僑生名額）</option>
 								</select>
 							</div>
 							<div id="teacherQualityPassedForm" class="form-group col-6">
 								<label class="form-control-label text-danger" for="">師資質量是否達「專科以上學校總量發展規模與資源條件標準」附表五所定基準*</label>
 								<select class="form-control" id="teacherQualityPassed">
 									<option value="Y">已達所定基準</option>
-									<option value="N">未達所定基準</option>
+									<option value="N">未達所定基準（不得提供僑生名額）</option>
 								</select>
 							</div>
 						</div>
@@ -187,9 +187,9 @@
 								<label class="form-control-label text-danger" for="">中文系所簡介*</label><br />
 								<ol style="color: darkcyan; background-color: lightgoldenrodyellow; border-radius: 25px;">
 									<li>
-										系所簡介、課程領域、未來發展及特殊限制（如辨色異常或身心障礙宜慎重考慮），及是否提供身心障礙學生學習輔具資源及生活照輔措施資源等說明，以利學生先行了解並自行評估。
+										請填寫系所簡介、課程領域、未來發展或招生特殊限制（如辨色異常、身心障礙及是否提供身心障礙學生學習輔具資源及生活照輔措施資源）等說明，以利學生先行了解並自行評估。
 									</li>
-									<li>
+									<li style="color:red;">
 										請勿在此填寫個人申請繳交資料說明。
 									</li>
 								</ol>
@@ -425,7 +425,7 @@
 							</div>
 						</div>
 
-						<div class="row">
+						<div class="row" style="display:none;">
 							<div id="memoForm" class="form-group col">
 								<label class="form-control-label" for="">Memo</label>
 								<textarea class="form-control" rows="4" id="memo"></textarea>
