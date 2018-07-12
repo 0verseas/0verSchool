@@ -210,9 +210,11 @@ var quotaDistirbutionBache = (function () {
 
         if (school_has_self_enrollment) {
             $quota_self_enrollment_quota.val(self_enrollment_quota || 0);
+            $quota_another_department_self_enrollment_quota.val(another_department_self_enrollment_quota || 0);
         } else {
             $quota_self_enrollment_quota.val(0);
             $quota_self_enrollment_quota.attr('disabled', true);
+            $quota_another_department_self_enrollment_quota.val(0);
         }
 
 		_updateAllowTotal();

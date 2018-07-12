@@ -161,7 +161,7 @@ var quotaDistirbutionTwoYear = (function () {
 
 	function _renderData(json) {
 		_setQuota(json);
-		_setDeptList(json.departments);
+		_setDeptList(json.departments, json.school_has_self_enrollment);
 		_setEditor(json.creator, json.created_at);
 		$page.find('#schoolHasSelf').text(json.school_has_self_enrollment ? '是' : '否');
 	}
@@ -179,7 +179,8 @@ var quotaDistirbutionTwoYear = (function () {
 			another_department_admission_selection_quota,
 			another_department_admission_placement_quota,
 			another_department_self_enrollment_quota,
-            school_has_self_enrollment
+            school_has_self_enrollment,
+            self_enrollment_quota
 		} = data;
 		$quota_last_year_admission_amount.val(last_year_admission_amount || 0);
 		$quota_last_year_surplus_admission_quota.val(last_year_surplus_admission_quota || 0);
@@ -188,7 +189,7 @@ var quotaDistirbutionTwoYear = (function () {
 
         if (school_has_self_enrollment) {
             $quota_another_department_self_enrollment_quota.val(another_department_self_enrollment_quota || 0);
-            $quota_self_enrollment_quota.val(999);
+            $quota_self_enrollment_quota.val(self_enrollment_quota || 0);
         } else {
             $quota_another_department_self_enrollment_quota.val(0);
             $quota_another_department_self_enrollment_quota.attr('disabled', true);
@@ -233,15 +234,12 @@ var quotaDistirbutionTwoYear = (function () {
 							<div>${title}</div>
 							<small>${eng_title}</small>
 						</td>
-						<td class="text-center"><param class="admission_selection_quota" value="${+admission_selection_quota}" />${+admission_selection_quota}</td>
-						<td class="text-center"><span class="isSelf" data-type="self_enrollment_quota">${has_self_enrollment ? '是' : '否'}</span></td>
-						<td class="text-center"><param class="self_enrollment_quota" value="${+self_enrollment_quota}" />${+self_enrollment_quota}</td>
-						<td class="total text-center">${total}</td>
+						<td class="text-center"><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" /></td>
+						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${school_has_self_enrollment && has_self_enrollment ? 'checked' : ''} ${school_has_self_enrollment ? '' : 'disabled="disabled"'} ></td>
 					</tr>
 				`);
 		}
 		_updateQuotaSum('admission_selection_quota');
-		_updateQuotaSum('self_enrollment_quota');
 		_updateAdmissionSumSelfSum();
 		_updateWantTotal();
 	}
@@ -249,16 +247,11 @@ var quotaDistirbutionTwoYear = (function () {
 	function _updateQuotaSum(type) {
 		var $ele = {
 			admission_selection_quota: $quota_admission_selection_quota,
-			self_enrollment_quota: $quota_self_enrollment_quota
 		};
 		var sum = 0;
         $deptList.find('.dept').each(function (i, deptRow) {
             if (type === "admission_selection_quota") {
                 sum += +$(deptRow).find(`.${type}`).val();
-            } else {
-                if ($(deptRow).find('.isSelf:checked').is(":checked")) {
-                    sum += +$(deptRow).find(`.${type}`).val();
-                }
             }
         });
 		$ele[type].val(sum);
