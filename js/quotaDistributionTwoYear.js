@@ -5,6 +5,7 @@ var quotaDistirbutionTwoYear = (function () {
 	var $page = $('#pageContent');
 	var $btn = $page.find('#btn-save, #btn-commit');
 	var $lastEditionInfo = $page.find('#lastEditionInfo');
+    var baseUrl = env.baseUrl;
 
 	//quota
 	var $quota_allowTotal = $page.find('.quota.allowTotal'); // 本年度可招生總量
@@ -32,6 +33,10 @@ var quotaDistirbutionTwoYear = (function () {
     $quota_another_department_self_enrollment_quota.on('change', _handleSelfChanged);
 	// 填數字算總額
 	$deptList.on('change.sumTotal', '.dept .editableQuota', _handleQuotaChange);
+    // hasRiJian 聯動
+    $deptList.on('change', '.dept .hasRiJian', _switchHasRiJian);
+    // hasSpecialClass 聯動
+    $deptList.on('change', '.dept .hasSpecialClass', _switchHasSpecialClass);
 	// save/commit
 	$btn.on('click', _handleSave);
 
@@ -218,7 +223,11 @@ var quotaDistirbutionTwoYear = (function () {
 				eng_title,
 				admission_selection_quota,
 				has_self_enrollment,
-				self_enrollment_quota
+				self_enrollment_quota,
+                has_RiJian,
+                has_special_class,
+                approval_no_of_special_class,
+                approval_doc_of_special_class
 			} = dept;
             var total = (+admission_selection_quota);
 
@@ -236,12 +245,12 @@ var quotaDistirbutionTwoYear = (function () {
 							<div>${title}</div>
 							<small>${eng_title}</small>
 						</td>
-						<td class="text-center"><input type="checkbox"></td>
-						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${school_has_self_enrollment && has_self_enrollment ? 'checked' : ''} ${school_has_self_enrollment ? '' : 'disabled="disabled"'} ></td>
-						<td class="text-center"><input type="checkbox"></td>
-						<td class="text-center" style="width: 15%"><input type="text" class="form-control"></td>
-						<td><input type="file" id="approvalDocOfSpecialClass" disabled>已上傳檔案：<a id="approvalDocOfSpecialClassUrl" href=""></a></td>
-						<td class="text-center"><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" /></td>
+						<td class="text-center"><input type="checkbox" class="hasRiJian" ${has_RiJian ? 'checked' : ''} ${school_has_self_enrollment ? '' : 'disabled'} ></td>
+						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${school_has_self_enrollment && has_self_enrollment ? 'checked' : ''} ${has_RiJian ? '' : 'disabled'} ${school_has_self_enrollment ? '' : 'disabled'}></td>
+						<td class="text-center"><input type="checkbox" class="hasSpecialClass" ${has_special_class ? 'checked' : ''} ${school_has_self_enrollment ? '' : 'disabled'}></td>
+						<td class="text-center" style="width: 15%"><input type="text" class="form-control approvalNoOfSpecialClass" value="${approval_no_of_special_class || ''}" ${has_special_class ? '' : 'disabled'}></td>
+						<td><input type="file" class="approvalDocOfSpecialClass" ${has_special_class ? '' : 'disabled'}><br />已上傳檔案：<a class="approvalDocOfSpecialClassUrl" href="${baseUrl + "/storage/" + approval_doc_of_special_class}">${approval_doc_of_special_class || ''}</a></td>
+						<td class="text-center"><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" ${has_RiJian || has_special_class ? '' : 'disabled'}/></td>
 					</tr>
 				`);
 		}
@@ -249,6 +258,40 @@ var quotaDistirbutionTwoYear = (function () {
 		_updateAdmissionSumSelfSum();
 		_updateWantTotal();
 	}
+
+    function _switchHasRiJian() { // 開日間 => 可自招、開聯招人數
+        var $this = $(this);
+        var $isSelf = $this.parents('.dept').find('.isSelf');
+        var $admission_selection_quota = $this.parents('.dept').find('.editableQuota');
+        var $hasRiJian = $this.parents('.dept').find('.hasRiJian');
+        var $hasSpecialClass = $this.parents('.dept').find('.hasSpecialClass');
+
+        if ( !$hasRiJian.prop('checked') ) {
+            $isSelf.prop("checked", false);
+            $isSelf.prop('disabled', true);
+        } else {
+            $isSelf.prop('disabled', false);
+		}
+
+        if ($hasRiJian.prop('checked') || $hasSpecialClass.prop('checked')) {
+            $admission_selection_quota.prop('disabled', false);
+        } else {
+            $admission_selection_quota.prop('disabled', true);
+        }
+    }
+
+    function _switchHasSpecialClass() { // 開專班 => 開專班文號、電子檔，以及開聯招人數
+        var $this = $(this);
+        var $hasSpecialClass = $this.parents('.dept').find('.hasSpecialClass');
+        var $hasRiJian = $this.parents('.dept').find('.hasRiJian');
+        var $approvalNoOfSpecialClass = $this.parents('.dept').find('.approvalNoOfSpecialClass');
+        var $approvalDocOfSpecialClass = $this.parents('.dept').find('.approvalDocOfSpecialClass');
+        var $admissionSelectionQuota = $this.parents('.dept').find('.editableQuota');
+
+        $approvalNoOfSpecialClass.prop('disabled', !$hasSpecialClass.prop('checked'));
+        $approvalDocOfSpecialClass.prop('disabled', !$hasSpecialClass.prop('checked'));
+        if ($hasRiJian.prop('checked') || $hasSpecialClass.prop('checked')) { $admissionSelectionQuota.prop('disabled', false); } else { $admissionSelectionQuota.prop('disabled', true); }
+    }
 
 	function _updateQuotaSum(type) {
 		var $ele = {

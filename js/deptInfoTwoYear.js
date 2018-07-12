@@ -40,7 +40,7 @@ var deptInfoTwoYear = (function () {
 		selfEnrollmentQuotaForm: $modalDeptInfo.find('#selfEnrollmentQuotaForm'),
 		approvalNoOfSpecialClassForm: $modalDeptInfo.find('#approvalNoOfSpecialClassForm'),
 		approvalDocOfSpecialClassForm: $modalDeptInfo.find('#approvalDocOfSpecialClassForm')
-	}
+	};
 
 	/**
 	 * bind event
@@ -152,12 +152,12 @@ var deptInfoTwoYear = (function () {
 		$hasRiJian.prop("checked", deptData.has_RiJian);
 		$hasSelfEnrollment.prop("checked", deptData.has_self_enrollment);
 		$hasSpecialClass.prop("checked", deptData.has_special_class);
-		$approvalNoOfSpecialClass.val(deptData.approval_no_of_special_class)
+		$approvalNoOfSpecialClass.val(deptData.approval_no_of_special_class);
 		$approvalDocOfSpecialClassUrl.prop("href", baseUrl + "/storage/" + deptData.approval_doc_of_special_class);
 		$approvalDocOfSpecialClassUrl.text(deptData.approval_doc_of_special_class);
 		$admissionSelectionQuota.val(deptData.admission_selection_quota);
 		$selfEnrollmentQuota.val(deptData.self_enrollment_quota);
-	};
+	}
 
 	function _switchSchoolHasSelfEnrollment() { // 校可獨招 => 可開日間、專班
 		$hasRiJian.prop('disabled', !$schoolHasSelfEnrollment.prop('checked'));
