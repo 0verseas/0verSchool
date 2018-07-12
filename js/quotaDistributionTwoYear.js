@@ -78,12 +78,14 @@ var quotaDistirbutionTwoYear = (function () {
 			return {
 				id: String($deptRow.data('id')),
 				admission_selection_quota: +$deptRow.find('.admission_selection_quota').val(),
-				self_enrollment_quota: +$deptRow.find('.self_enrollment_quota').val()
+				has_self_enrollment: $deptRow.find('.isSelf').is(':checked'),
 			};
 		}).toArray();
 
 		var data = {
-			departments: departments
+			departments: departments,
+            self_enrollment_quota: +$quota_self_enrollment_quota.val(), // 港二技自招
+            another_self_enrollment_quota: +$quota_another_department_self_enrollment_quota.val(), // 學士班自招
 		};
 
 		$this.attr('disabled', true);
@@ -234,8 +236,12 @@ var quotaDistirbutionTwoYear = (function () {
 							<div>${title}</div>
 							<small>${eng_title}</small>
 						</td>
-						<td class="text-center"><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" /></td>
+						<td class="text-center"><input type="checkbox"></td>
 						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${school_has_self_enrollment && has_self_enrollment ? 'checked' : ''} ${school_has_self_enrollment ? '' : 'disabled="disabled"'} ></td>
+						<td class="text-center"><input type="checkbox"></td>
+						<td class="text-center" style="width: 15%"><input type="text" class="form-control"></td>
+						<td><input type="file" id="approvalDocOfSpecialClass" disabled>已上傳檔案：<a id="approvalDocOfSpecialClassUrl" href=""></a></td>
+						<td class="text-center"><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" /></td>
 					</tr>
 				`);
 		}
