@@ -93,7 +93,7 @@ var quotaDistirbutionTwoYear = (function () {
 			return;
 		}
         var validateStatus = true;
-		//openLoading();
+		openLoading();
 
 		var departments = $deptList.find('.dept').map(function (i, deptRow) {
 			let $deptRow = $(deptRow);
