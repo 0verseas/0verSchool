@@ -49,14 +49,14 @@ var deptInfoTwoYear = (function () {
 	$saveDeptDescriptionBtn.on('click', _saveDeptDescription); // 儲存｜送出學制資料
 	$lockSystemBtn.on('click', _lockSystem); //鎖定學制
 
-	$schoolHasSelfEnrollment.on("change", _switchSchoolHasSelfEnrollment); // 校可獨招 => 可開日間、專班
-	$hasRiJian.on("change", _switchHasRiJian); // 開日間 => 可自招、開聯招人數
-	$hasSelfEnrollment.on("change", _switchHasSelfEnrollment); // 開自招 => 開自招人數
-	$hasSpecialClass.on("change", _switchHasSpecialClass); // 開專班 => 開專班文號、電子檔，以及開聯招人數
+	//$schoolHasSelfEnrollment.on("change", _switchSchoolHasSelfEnrollment); // 校可獨招 => 可開日間、專班
+	//$hasRiJian.on("change", _switchHasRiJian); // 開日間 => 可自招、開聯招人數
+	//$hasSelfEnrollment.on("change", _switchHasSelfEnrollment); // 開自招 => 開自招人數
+	//$hasSpecialClass.on("change", _switchHasSpecialClass); // 開專班 => 開專班文號、電子檔，以及開聯招人數
 
 	$deptDetailSaveBtn.on('click', _saveDeptDetail);
 
-	$admissionSelectionQuota.on('keyup', _reviewDivAction);
+	// $admissionSelectionQuota.on('keyup', _reviewDivAction);
 
 	$sendPreviewPDFBtn.on('click', function () {
 		_getGuidelinesReplyForm('preview');
@@ -141,13 +141,14 @@ var deptInfoTwoYear = (function () {
 			document.getElementById("hasSelfEnrollmentText").innerHTML=txt;
 		}
 		_renderSpecialDeptDetail(deptData);
-		_switchHasSpecialClass();
-		_switchHasSelfEnrollment();
-		_switchHasRiJian();
-		_switchSchoolHasSelfEnrollment();
+		//_switchHasSpecialClass();
+		//_switchHasSelfEnrollment();
+		//_switchHasRiJian();
+		//_switchSchoolHasSelfEnrollment();
 	}
 
 	function _renderSpecialDeptDetail(deptData) {
+		/*
 		$schoolHasSelfEnrollment.prop("checked", deptData.school_has_self_enrollment);
 		$hasRiJian.prop("checked", deptData.has_RiJian);
 		$hasSelfEnrollment.prop("checked", deptData.has_self_enrollment);
@@ -155,8 +156,9 @@ var deptInfoTwoYear = (function () {
 		$approvalNoOfSpecialClass.val(deptData.approval_no_of_special_class);
 		$approvalDocOfSpecialClassUrl.prop("href", baseUrl + "/storage/" + deptData.approval_doc_of_special_class);
 		$approvalDocOfSpecialClassUrl.text(deptData.approval_doc_of_special_class);
-		$admissionSelectionQuota.val(deptData.admission_selection_quota);
 		$selfEnrollmentQuota.val(deptData.self_enrollment_quota);
+		*/
+		$admissionSelectionQuota.val(deptData.admission_selection_quota);
 	}
 
 	function _switchSchoolHasSelfEnrollment() { // 校可獨招 => 可開日間、專班
@@ -193,6 +195,7 @@ var deptInfoTwoYear = (function () {
 		for(form in formGroup) {
 			formGroup[form].removeClass("has-danger");
 		}
+		/*
 		if ($hasSpecialClass.prop("checked")) {
 			if (!_validateNotEmpty($approvalNoOfSpecialClass)) {formGroup.approvalNoOfSpecialClassForm.addClass("has-danger"); specialFormValidateStatus = false}
 		}
@@ -202,6 +205,7 @@ var deptInfoTwoYear = (function () {
 		if ($hasRiJian.prop('checked') || $hasSpecialClass.prop('checked')) {
 			if (!_validateNotEmpty($admissionSelectionQuota)) {formGroup.admissionSelectionQuotaForm.addClass("has-danger"); specialFormValidateStatus = false}
 		}
+		*/
 		if (specialFormValidateStatus && commonFormValidateStatus) {
 			return true;
 		} else {
@@ -216,6 +220,7 @@ var deptInfoTwoYear = (function () {
 
 	function _getFormData() {
 		var data = new FormData();
+		/*
 		data.append('has_RiJian', +$hasRiJian.prop('checked'));
 		data.append('has_self_enrollment', +$hasSelfEnrollment.prop('checked'));
 		data.append('has_special_class', $hasSpecialClass.prop('checked'));
@@ -227,6 +232,7 @@ var deptInfoTwoYear = (function () {
 		}
 		data.append('self_enrollment_quota', $selfEnrollmentQuota.val());
 		data.append('admission_selection_quota', $admissionSelectionQuota.val());
+		*/
 		var commonFormData = DeptInfo.getCommonFormData("twoYear");
 		var item;
 		for( item in commonFormData) {
@@ -304,7 +310,7 @@ var deptInfoTwoYear = (function () {
 				$('#lockSystem-btn').attr('disabled', false);
 				$('#lockSystem-tooltip').tooltip('disable');
 			}
-		})
+		});
 
 		School.getSystemInfo(_currentSystem) // 取得學制資料，沒有該學制則回上一頁
 		.then((res) => {
