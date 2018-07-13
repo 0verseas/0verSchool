@@ -37,6 +37,8 @@ var quotaDistirbutionTwoYear = (function () {
     $deptList.on('change', '.dept .hasRiJian', _switchHasRiJian);
     // hasSpecialClass 聯動
     $deptList.on('change', '.dept .hasSpecialClass', _switchHasSpecialClass);
+    // 檔案轉 base64
+    $deptList.on('change', '.dept .approvalDocOfSpecialClass', _handleFiletoB64);
 	// save/commit
 	$btn.on('click', _handleSave);
 
@@ -70,63 +72,101 @@ var quotaDistirbutionTwoYear = (function () {
 		}
 	}
 
+	function _handleFiletoB64() {
+        var $this = $(this);
+        var $approvalDocOfSpecialClass = $this.parents('.dept').find('.approvalDocOfSpecialClass');
+
+        if ($approvalDocOfSpecialClass.prop('files').length > 0) {
+            var reader = new FileReader();
+
+            reader.readAsDataURL($approvalDocOfSpecialClass.prop('files')[0]);
+
+            reader.onload = function (e) {
+                $this.parents('.dept').find('.approvalDocOfSpecialClassfileb64').val(e.target.result);
+            }
+        }
+	}
+
 	function _handleSave() {
 		var $this = $(this);
 		if (!_checkForm()) {
 			return;
 		}
-
-    openLoading();
+        var validateStatus = true;
+		//openLoading();
 
 		var departments = $deptList.find('.dept').map(function (i, deptRow) {
 			let $deptRow = $(deptRow);
+			var $hasSpecialClass = $deptRow.find('.hasSpecialClass');
+            var $approvalNoOfSpecialClass = $deptRow.find('.approvalNoOfSpecialClass');
+            var $hasSelfEnrollment = $deptRow.find('.isSelf');
+            var $hasRiJian = $deptRow.find('.hasRiJian');
+            var $admissionSelectionQuota = $deptRow.find('.admission_selection_quota');
+
+
+            $deptRow.find('td').removeClass("has-danger");
+
+            if ($hasSpecialClass.prop("checked")) {
+                if (!$approvalNoOfSpecialClass.val()) {
+                    $approvalNoOfSpecialClass.parent().addClass("has-danger");
+                	validateStatus = false;
+                }
+            }
+
+            if ($hasRiJian.prop('checked') || $hasSpecialClass.prop('checked')) {
+                if (!$admissionSelectionQuota.val()) {
+                    $admissionSelectionQuota.parent().addClass("has-danger");
+                	validateStatus = false;
+                }
+            }
+
 			return {
 				id: String($deptRow.data('id')),
-				admission_selection_quota: +$deptRow.find('.admission_selection_quota').val(),
-				has_self_enrollment: $deptRow.find('.isSelf').is(':checked'),
+				admission_selection_quota: +$admissionSelectionQuota.val(),
+				has_self_enrollment: $hasSelfEnrollment.is(':checked'),
+                has_RiJian: $hasRiJian.is(':checked'),
+                has_special_class: $hasSpecialClass.is(':checked'),
+                approval_no_of_special_class: $approvalNoOfSpecialClass.val(),
+                approval_doc_of_special_class: $deptRow.find('.approvalDocOfSpecialClassfileb64').val(),
 			};
 		}).toArray();
 
-		var data = {
-			departments: departments,
-            self_enrollment_quota: +$quota_self_enrollment_quota.val(), // 港二技自招
-            another_self_enrollment_quota: +$quota_another_department_self_enrollment_quota.val(), // 學士班自招
-		};
+		if (validateStatus) {
+            var data = {
+                departments: departments,
+                self_enrollment_quota: +$quota_self_enrollment_quota.val(), // 港二技自招
+                another_self_enrollment_quota: +$quota_another_department_self_enrollment_quota.val(), // 學士班自招
+            };
 
-		$this.attr('disabled', true);
-		School.setSystemQuota('twoYear', data).then(function (res) {
-			setTimeout(function () {
-				$this.attr('disabled', false);
-			}, 700);
-			if(res.ok) {
-				return res.json();
-			} else {
-				throw res;
-			}
-		}).then(function (json) {
-			alert('已儲存');
-			location.reload();
-		}).catch(function (err) {
-			err.json && err.json().then((data) => {
-				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
+            $this.attr('disabled', true);
+            School.setSystemQuota('twoYear', data).then(function (res) {
+                setTimeout(function () {
+                    $this.attr('disabled', false);
+                }, 700);
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    throw res;
+                }
+            }).then(function (json) {
+                alert('已儲存');
+                location.reload();
+            }).catch(function (err) {
+                err.json && err.json().then((data) => {
+                    console.error(data);
+                    alert(`ERROR: \n${data.messages[0]}`);
 
-				stopLoading();
-			})
-		});
+                    stopLoading();
+                })
+            });
+        } else {
+            alert("有欄位輸入錯誤，請重新確認。");
+            stopLoading();
+		}
 	}
 
 	function _checkForm() {
-		var $inputs = $page.find('.required');
 		var valid = true;
-		for (let input of $inputs) {
-			if (!$(input).val() || $(input).val() < 0) {
-				$(input).focus();
-				valid = false;
-				alert('輸入有誤');
-				break;
-			}
-		}
 
 		// 本年度欲招募總量必須小於或等於可招生總量
 		if (+$quota_wantTotal.val() > +$quota_allowTotal.val()) {
@@ -249,7 +289,7 @@ var quotaDistirbutionTwoYear = (function () {
 						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${school_has_self_enrollment && has_self_enrollment ? 'checked' : ''} ${has_RiJian ? '' : 'disabled'} ${school_has_self_enrollment ? '' : 'disabled'}></td>
 						<td class="text-center"><input type="checkbox" class="hasSpecialClass" ${has_special_class ? 'checked' : ''} ${school_has_self_enrollment ? '' : 'disabled'}></td>
 						<td class="text-center" style="width: 15%"><input type="text" class="form-control approvalNoOfSpecialClass" value="${approval_no_of_special_class || ''}" ${has_special_class ? '' : 'disabled'}></td>
-						<td><input type="file" class="approvalDocOfSpecialClass" ${has_special_class ? '' : 'disabled'}><br />已上傳檔案：<a class="approvalDocOfSpecialClassUrl" href="${baseUrl + "/storage/" + approval_doc_of_special_class}">${approval_doc_of_special_class || ''}</a></td>
+						<td><input type="file" class="approvalDocOfSpecialClass" ${has_special_class ? '' : 'disabled'}><br />已上傳檔案：<a class="approvalDocOfSpecialClassUrl" href="${baseUrl + "/storage/" + approval_doc_of_special_class}">${approval_doc_of_special_class || ''}</a><textarea class="approvalDocOfSpecialClassfileb64" hidden disabled ></textarea></td>
 						<td class="text-center"><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" ${has_RiJian || has_special_class ? '' : 'disabled'}/></td>
 					</tr>
 				`);
