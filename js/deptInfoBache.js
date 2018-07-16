@@ -39,7 +39,7 @@ var deptInfoBache = (function () {
 		admissionSelectionQuotaForm: $modalDeptInfo.find('#admissionSelectionQuotaForm'),
 		admissionPlacementQuotaForm: $modalDeptInfo.find('#admissionPlacementQuotaForm'),
 		decreaseReasonOfAdmissionPlacementForm: $modalDeptInfo.find('#decreaseReasonOfAdmissionPlacementForm')
-	}
+	};
 
 	/**
 	 * bind event
@@ -92,7 +92,7 @@ var deptInfoBache = (function () {
 		.catch(function(err) {
 			err.json && err.json().then(function(data) {
 				alert(data.messages[0]);
-			})
+			});
 			stopLoading();
 		});
 	}
@@ -151,7 +151,7 @@ var deptInfoBache = (function () {
 		_lastYearAdmissionPlacementAmount = deptData.last_year_admission_placement_amount;
 		_lastYearAdmissionPlacementQuota = deptData.last_year_admission_placement_quota;
 		_computeBachelorAdmissionTotalQuota();
-	};
+	}
 
 	function _switchSchoolHasSelfEnrollment() { // 校可獨招 => 系可獨招
 		$hasSelfEnrollment.prop('disabled', !$schoolHasSelfEnrollment.prop('checked'));
@@ -166,12 +166,12 @@ var deptInfoBache = (function () {
 		var commonFormValidateStatus = DeptInfo.validateForm();
 		var form;
 		for(form in formGroup) {
-			formGroup[form].removeClass("has-danger");
+			formGroup[form].removeClass("is-invalid");
 		}
-		if (!_validateNotEmpty($admissionSelectionQuota)) {formGroup.admissionSelectionQuotaForm.addClass("has-danger"); specialFormValidateStatus = false}
-		if (!_validateNotEmpty($admissionPlacementQuota)) {formGroup.admissionPlacementQuotaForm.addClass("has-danger"); specialFormValidateStatus = false}
+		if (!_validateNotEmpty($admissionSelectionQuota)) {formGroup.admissionSelectionQuotaForm.addClass("is-invalid"); specialFormValidateStatus = false}
+		if (!_validateNotEmpty($admissionPlacementQuota)) {formGroup.admissionPlacementQuotaForm.addClass("is-invalid"); specialFormValidateStatus = false}
 		if ((Math.min(_lastYearAdmissionPlacementAmount, _lastYearAdmissionPlacementQuota) > $admissionPlacementQuota.val())) {
-			if (!_validateNotEmpty($decreaseReasonOfAdmissionPlacement)) {formGroup.decreaseReasonOfAdmissionPlacementForm.addClass("has-danger"); specialFormValidateStatus = false}
+			if (!_validateNotEmpty($decreaseReasonOfAdmissionPlacement)) {formGroup.decreaseReasonOfAdmissionPlacementForm.addClass("is-invalid"); specialFormValidateStatus = false}
 		}
 		if (specialFormValidateStatus && commonFormValidateStatus) {
 			return true;
@@ -187,11 +187,6 @@ var deptInfoBache = (function () {
 
 	function _getFormData() {
 		var data = new FormData();
-		data.append('has_self_enrollment', +$hasSelfEnrollment.prop('checked'));
-		data.append('has_special_class', +$hasSpecialClass.prop('checked'));
-		data.append('admission_selection_quota', $admissionSelectionQuota.val());
-		data.append('admission_placement_quota', $admissionPlacementQuota.val());
-		data.append('decrease_reason_of_admission_placement', $decreaseReasonOfAdmissionPlacement.val());
 		var commonFormData = DeptInfo.getCommonFormData("bache");
 		var item;
 		for( item in commonFormData) {
@@ -201,7 +196,6 @@ var deptInfoBache = (function () {
 	}
 
 	function _saveDeptDetail() {
-
 		var checkcount = 0;
 		var sendData = _getFormData();
 		for (var pair of sendData.entries()) {
@@ -210,12 +204,12 @@ var deptInfoBache = (function () {
 			if( pair[0] == 'teacher_quality_passed' && pair[1] == 'false')
 				checkcount +=1;
 		}
-		//console.log()
-		var isAllSet =false;
+
+		var isAllSet = false;
 		if(checkcount == 2)
 			isAllSet = confirm("經教育部查核被列為持續列管或不通過、\n師資質量未達「專科以上學校總量發展規模與資源條件標準」，\n\n該系所有名額會強制變為 0，您真的確認送出嗎？");
 		else
-			isAllSet =true;
+			isAllSet = true;
 
 		if( isAllSet == true ) {
 			if (_validateForm()) {
@@ -266,7 +260,7 @@ var deptInfoBache = (function () {
 				$('#lockSystem-btn').attr('disabled', false);
 				$('#lockSystem-tooltip').tooltip('disable');
 			}
-		})
+		});
 
 		School.getSystemInfo(_currentSystem) // 取得學制資料，沒有該學制則回上一頁
 		.then((res) => {

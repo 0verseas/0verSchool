@@ -50,22 +50,22 @@ var DeptInfo = (function () {
 	var $reviewDiv = $modalDeptInfo.find('#review-div');
 
 	var formGroup = {
-		sortOrderForm: $modalDeptInfo.find('#sortOrderForm'),
-		urlForm: $modalDeptInfo.find('#urlForm'),
-		engUrlForm: $modalDeptInfo.find('#engUrlForm'),
-		mainGroupForm: $modalDeptInfo.find('#mainGroupForm'),
-		subGroupForm: $modalDeptInfo.find('#subGroupForm'),
-		genderLimitForm: $modalDeptInfo.find('#genderLimitForm'),
-        moeCheckFailedForm: $modalDeptInfo.find('#moeCheckFailedForm'),
-        teacherQualityPassedForm: $modalDeptInfo.find('#teacherQualityPassedForm'),
-		descriptionForm: $modalDeptInfo.find('#descriptionForm'),
-		engDescriptionForm: $modalDeptInfo.find('#engDescriptionForm'),
-		reviewFeeDetailForm: $modalDeptInfo.find('#reviewFeeDetailForm'),
-		engReviewFeeDetailForm: $modalDeptInfo.find('#engReviewFeeDetailForm'),
-		birthLimitAfterForm: $modalDeptInfo.find('#birthLimitAfterForm'),
-		birthLimitBeforeForm: $modalDeptInfo.find('#birthLimitBeforeForm'),
-		memoForm: $modalDeptInfo.find('#memoForm'),
-		groupCodeForm: $modalDeptInfo.find('#groupCodeForm')
+		sortOrderForm: $modalDeptInfo.find('#sortOrderForm input'),
+		urlForm: $modalDeptInfo.find('#urlForm input'),
+		engUrlForm: $modalDeptInfo.find('#engUrlForm input'),
+		mainGroupForm: $modalDeptInfo.find('#mainGroupForm select'),
+		subGroupForm: $modalDeptInfo.find('#subGroupForm select'),
+		genderLimitForm: $modalDeptInfo.find('#genderLimitForm select'),
+        moeCheckFailedForm: $modalDeptInfo.find('#moeCheckFailedForm select'),
+        teacherQualityPassedForm: $modalDeptInfo.find('#teacherQualityPassedForm select'),
+		descriptionForm: $modalDeptInfo.find('#descriptionForm textarea'),
+		engDescriptionForm: $modalDeptInfo.find('#engDescriptionForm textarea'),
+		reviewFeeDetailForm: $modalDeptInfo.find('#reviewFeeDetailForm textarea'),
+		engReviewFeeDetailForm: $modalDeptInfo.find('#engReviewFeeDetailForm textarea'),
+		birthLimitAfterForm: $modalDeptInfo.find('#birthLimitAfterForm input'),
+		birthLimitBeforeForm: $modalDeptInfo.find('#birthLimitBeforeForm input'),
+		memoForm: $modalDeptInfo.find('#memoForm textarea'),
+		groupCodeForm: $modalDeptInfo.find('#groupCodeForm select')
 	};
 
 	/**
@@ -88,32 +88,48 @@ var DeptInfo = (function () {
 	}
 
 	function saveDeptDescription(system) { // Description 儲存
-		var data = {
-			'description': $deptInfoDescription.val(),
-			'eng_description': $deptInfoEngDescription.val()
-		};
+		var check = true;
 
-		openLoading();
+		if (!_validateNotEmpty($deptInfoDescription)) {
+            $deptInfoDescription.addClass("is-invalid");
+			check = false;
+		}
 
-		School.setSystemInfo(system, data)
-		.then(function (res) {
-			if(res.ok) {
-				alert('儲存成功');
-				return res.json();
-			} else {
-				alert('儲存失敗');
-				throw res
-			}
-		}).then(function (json) {
-			location.reload();
-		}).catch(function (err) {
-			err.json && err.json().then((data) => {
-				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
+        if (!_validateNotEmpty($deptInfoEngDescription)) {
+            $deptInfoEngDescription.addClass("is-invalid");
+            check = false;
+        }
 
-				stopLoading();
-			});
-		});
+        if (check === true) {
+            var data = {
+                'description': $deptInfoDescription.val(),
+                'eng_description': $deptInfoEngDescription.val()
+            };
+
+            openLoading();
+
+            School.setSystemInfo(system, data)
+                .then(function (res) {
+                    if (res.ok) {
+                        alert('儲存成功');
+                        return res.json();
+                    } else {
+                        alert('儲存失敗');
+                        throw res
+                    }
+                }).then(function (json) {
+                location.reload();
+            }).catch(function (err) {
+                err.json && err.json().then((data) => {
+                    console.error(data);
+                    alert(`ERROR: \n${data.messages[0]}`);
+
+                    stopLoading();
+                });
+            });
+        } else {
+            alert("有欄位輸入錯誤，請重新確認。");
+		}
 	}
 
 	function renderDeptList(departments) { // 系所列表渲染
@@ -166,7 +182,7 @@ var DeptInfo = (function () {
 	}
 
 	function renderDeptSelect(system) {
-		var item = School.getDeptFormItem(system) // 產生系所詳細資料 Modal 中下拉式選單
+		var item = School.getDeptFormItem(system); // 產生系所詳細資料 Modal 中下拉式選單
 
 		item.then(res => { return res[0].json(); }) // 學群
 		.then(json => {
@@ -311,26 +327,27 @@ var DeptInfo = (function () {
 		var appDocCheck = true;
 		var form;
 		for(form in formGroup) {
-			formGroup[form].removeClass("has-danger");
+			formGroup[form].removeClass("is-invalid");
 		}
-		$('#recieveDeadlineDiv').removeClass("has-danger");
-		if (!_validateNotEmpty($sortOrder)) {formGroup.sortOrderForm.addClass("has-danger"); check = false}
-		if (!_validateNotEmpty($url)) {formGroup.urlForm.addClass("has-danger"); check = false}
-		if (!_validateUrlFormat($url)) {formGroup.urlForm.addClass("has-danger"); check = false}
-		if (!_validateUrlFormat($engUrl)) {formGroup.engUrlForm.addClass("has-danger"); check = false}
-		if (!_validateNotEmpty($mainGroup)) {formGroup.mainGroupForm.addClass("has-danger"); check = false}
-		if (!_validateNotEmpty($description)) {formGroup.descriptionForm.addClass("has-danger"); check = false}
-		if (!_validateNotEmpty($engDescription)) {formGroup.engDescriptionForm.addClass("has-danger"); check = false}
+		$('#recieveDeadlineDiv').removeClass("is-invalid");
+		console.log(formGroup.sortOrderForm);
+		if (!_validateNotEmpty($sortOrder)) {formGroup.sortOrderForm.addClass("is-invalid"); check = false}
+		if (!_validateNotEmpty($url)) {formGroup.urlForm.addClass("is-invalid"); check = false}
+		if (!_validateUrlFormat($url)) {formGroup.urlForm.addClass("is-invalid"); check = false}
+		if (!_validateUrlFormat($engUrl)) {formGroup.engUrlForm.addClass("is-invalid"); check = false}
+		if (!_validateNotEmpty($mainGroup)) {formGroup.mainGroupForm.addClass("is-invalid"); check = false}
+		if (!_validateNotEmpty($description)) {formGroup.descriptionForm.addClass("is-invalid"); check = false}
+		if (!_validateNotEmpty($engDescription)) {formGroup.engDescriptionForm.addClass("is-invalid"); check = false}
 		if ($hasReviewFee.prop("checked")) {
-			if (!_validateNotEmpty($reviewFeeDetail)) {formGroup.reviewFeeDetailForm.addClass("has-danger"); check = false}
-			if (!_validateNotEmpty($engReviewFeeDetail)) {formGroup.engReviewFeeDetailForm.addClass("has-danger"); check = false}
+			if (!_validateNotEmpty($reviewFeeDetail)) {formGroup.reviewFeeDetailForm.addClass("is-invalid"); check = false}
+			if (!_validateNotEmpty($engReviewFeeDetail)) {formGroup.engReviewFeeDetailForm.addClass("is-invalid"); check = false}
 		}
 		if ($hasBirthLimit.prop("checked")) {
 			var birthLimitAfterStatus = _validateNotEmpty($birthLimitAfter);
 			var birthLimitBeforeStatus = _validateNotEmpty($birthLimitBefore);
 			if (!(birthLimitAfterStatus || birthLimitBeforeStatus)) {
-				formGroup.birthLimitAfterForm.addClass("has-danger");
-				formGroup.birthLimitBeforeForm.addClass("has-danger");
+				formGroup.birthLimitAfterForm.addClass("is-invalid");
+				formGroup.birthLimitBeforeForm.addClass("is-invalid");
 				check = false
 			}
 		}
@@ -346,7 +363,7 @@ var DeptInfo = (function () {
 				if (type.needed && type.need_paper) {
 					// 檢查收件期限欄位是否為空
 					if (!_validateNotEmpty($('#recieveDeadline'))) {
-						$('#recieveDeadlineDiv').addClass("has-danger");
+						$('#recieveDeadline').addClass("is-invalid");
 						check = false
 					}
 				}
@@ -396,14 +413,10 @@ var DeptInfo = (function () {
 			has_review_fee: +$hasReviewFee.prop("checked"),
 			review_fee_detail: $reviewFeeDetail.val(),
 			eng_review_fee_detail: $engReviewFeeDetail.val(),
-			has_foreign_special_class: +$hasForeignSpecialClass.prop("checked"),
 			has_eng_taught: +$hasEngTaught.prop("checked"),
-			has_disabilities: +$hasDisabilities.prop("checked"),
-			has_BuHweiHwaWen: +$hasBuHweiHwaWen.prop("checked"),
 			has_birth_limit: +$hasBirthLimit.prop("checked"),
 			birth_limit_after: $birthLimitAfter.val(),
 			birth_limit_before: $birthLimitBefore.val(),
-			memo: $memo.val(),
 			application_docs: JSON.stringify(applicationDocs)
 		};
 

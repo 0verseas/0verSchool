@@ -275,7 +275,7 @@
 											<div class="form-inline">
 												<div id="birthLimitAfterForm" class="input-group mb-2 mr-sm-2 mb-sm-0">
 													<input type="text" class="form-control datepicker" id="birthLimitAfter">
-													<div class="input-group-prepend">
+													<div class="input-group-append">
 														<div class="input-group-text">
 															以後
 														</div>
@@ -285,7 +285,7 @@
 											<div class="form-inline" style="padding-top: 20px;">
 												<div id="birthLimitBeforeForm" class="input-group mb-2 mr-sm-2 mb-sm-0">
 													<input type="text" class="form-control datepicker" id="birthLimitBefore">
-													<div class="input-group-prepend">
+													<div class="input-group-append">
 														<div class="input-group-text">
 															以前
 														</div>
@@ -404,25 +404,25 @@
 
 													<div id="paper-form-div">
 														<div class="row">
-															<div class="form-group col-6" v-bind:class="{'has-danger': type.recipient_error}">
+															<div class="form-group col-6">
 																<label class="text-danger">收件人英文姓名*</label>
-																<input type="text" class="form-control" v-model="type.recipient" v-bind:disabled="!type.need_paper || !type.needed">
+																<input type="text" class="form-control" v-model="type.recipient" v-bind:disabled="!type.need_paper || !type.needed" v-bind:class="{'is-invalid': type.recipient_error}">
 															</div>
-															<div class="form-group col-6" v-bind:class="{'has-danger': type.recipient_phone_error}">
+															<div class="form-group col-6">
 																<label class="text-danger">聯絡電話*</label>
-																<input type="text" class="form-control" v-model="type.recipient_phone" v-bind:disabled="!type.need_paper || !type.needed">
+																<input type="text" class="form-control" v-model="type.recipient_phone" v-bind:disabled="!type.need_paper || !type.needed" v-bind:class="{'is-invalid': type.recipient_phone_error}">
 															</div>
 														</div>
 														<div class="row">
-															<div class="form-group col-12" v-bind:class="{'has-danger': type.recieve_address_error}">
+															<div class="form-group col-12">
 																<label class="text-danger">英文收件地址*</label>
-																<input type="text" class="form-control" v-model="type.recieve_address" v-bind:disabled="!type.need_paper || !type.needed">
+																<input type="text" class="form-control" v-model="type.recieve_address" v-bind:disabled="!type.need_paper || !type.needed" v-bind:class="{'is-invalid': type.recieve_address_error}">
 															</div>
 														</div>
 														<div class="row">
-															<div class="form-group col-6" v-bind:class="{'has-danger': type.recieve_email_error}">
+															<div class="form-group col-6">
 																<label class="text-danger">E-mail*</label>
-																<input type="email" class="form-control" v-model="type.recieve_email" v-bind:disabled="!type.need_paper || !type.needed">
+																<input type="email" class="form-control" v-model="type.recieve_email" v-bind:disabled="!type.need_paper || !type.needed" v-bind:class="{'is-invalid': type.recieve_email_error}">
 															</div>
 															<div class="form-group col-6" id="recieveDeadlineDiv">
 																<label class="text-danger">收件期限*</label>
@@ -434,18 +434,18 @@
 
 												<div class="row">
 													<div class="col-12">
-														<div class="form-group" v-bind:class="{'has-danger': type.error}">
+														<div class="form-group">
 															<label class="form-control-label" for="">審查項目中文說明</label>
-															<textarea class="form-control" rows="3" v-model="type.description"></textarea>
+															<textarea class="form-control" rows="3" v-model="type.description" v-bind:class="{'is-invalid': type.error}"></textarea>
 														</div>
 													</div>
 												</div>
 
 												<div class="row">
 													<div class="col-12">
-														<div class="form-group" v-bind:class="{'has-danger': type.engerror}">
+														<div class="form-group">
 															<label for="">審查項目英文說明</label>
-															<textarea class="form-control" rows="3" v-model="type.eng_description"></textarea>
+															<textarea class="form-control" rows="3" v-model="type.eng_description" v-bind:class="{'is-invalid': type.engerror}"></textarea>
 														</div>
 													</div>
 												</div>

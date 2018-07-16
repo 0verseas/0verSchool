@@ -46,23 +46,23 @@ var schoolInfo = (function () {
 	var text = '';
 	// form-group
 	var formGroup = {
-		phoneForm: $schoolInfoForm.find('#phoneForm'),
-		faxForm: $schoolInfoForm.find('#faxForm'),
-		urlForm: $schoolInfoForm.find('#urlForm'),
-		engUrlForm: $schoolInfoForm.find('#engUrlForm'),
-		addressForm: $schoolInfoForm.find('#addressForm'),
-		engAddressForm: $schoolInfoForm.find('#engAddressForm'),
-		organizationForm: $schoolInfoForm.find('#organizationForm'),
-		engOrganizationForm: $schoolInfoForm.find('#engOrganizationForm'),
-		dormInfoForm: $schoolInfoForm.find('#dormInfoForm'),
-		dormEngInfoForm: $schoolInfoForm.find('#dormEngInfoForm'),
-		scholarshipDeptForm: $schoolInfoForm.find('#scholarshipDeptForm'),
-		engScholarshipDeptForm: $schoolInfoForm.find('#engScholarshipDeptForm'),
-		scholarshipUrlForm: $schoolInfoForm.find('#scholarshipUrlForm'),
-		engScholarshipUrlForm: $schoolInfoForm.find('#engScholarshipUrlForm'),
-		ruleOfFiveYearStudentForm: $schoolInfoForm.find('#ruleOfFiveYearStudentForm'),
-		approvalNoOfSelfEnrollmentForm: $schoolInfoForm.find('#approvalNoOfSelfEnrollmentForm')
-	}
+		phoneForm: $schoolInfoForm.find('#phoneForm input'),
+		faxForm: $schoolInfoForm.find('#faxForm input'),
+		urlForm: $schoolInfoForm.find('#urlForm input'),
+		engUrlForm: $schoolInfoForm.find('#engUrlForm input'),
+		addressForm: $schoolInfoForm.find('#addressForm input'),
+		engAddressForm: $schoolInfoForm.find('#engAddressForm input'),
+		organizationForm: $schoolInfoForm.find('#organizationForm input'),
+		engOrganizationForm: $schoolInfoForm.find('#engOrganizationForm input'),
+		dormInfoForm: $schoolInfoForm.find('#dormInfoForm textarea'),
+		dormEngInfoForm: $schoolInfoForm.find('#dormEngInfoForm textarea'),
+		scholarshipDeptForm: $schoolInfoForm.find('#scholarshipDeptForm input'),
+		engScholarshipDeptForm: $schoolInfoForm.find('#engScholarshipDeptForm input'),
+		scholarshipUrlForm: $schoolInfoForm.find('#scholarshipUrlForm input'),
+		engScholarshipUrlForm: $schoolInfoForm.find('#engScholarshipUrlForm input'),
+		ruleOfFiveYearStudentForm: $schoolInfoForm.find('#ruleOfFiveYearStudentForm textarea'),
+		approvalNoOfSelfEnrollmentForm: $schoolInfoForm.find('#approvalNoOfSelfEnrollmentForm input')
+	};
 
 	/**
 	 * init
@@ -146,35 +146,35 @@ var schoolInfo = (function () {
 	function _validateForm() {
 		var check = true;
 
-		if (!_validateNotEmpty($phone)) {formGroup.phoneForm.addClass("has-danger"); check = false}
-		if (!_validateNotEmpty($fax)) {formGroup.faxForm.addClass("has-danger"); check = false}
-		if (!_validateNotEmpty($url)) {formGroup.urlForm.addClass("has-danger"); check = false}
-		// if (!_validateUrlFormat($url)) {formGroup.urlForm.addClass("has-danger"); check = false}
-		if (!_validateNotEmpty($address)) {formGroup.addressForm.addClass("has-danger"); check = false}
-		if (!_validateNotEmpty($organization)) {formGroup.organizationForm.addClass("has-danger"); check = false}
-		if (!_validateNotEmpty($engUrl)) {formGroup.engUrlForm.addClass("has-danger"); check = false}
-		if (!_validateNotEmpty($engAddress)) {formGroup.engAddressForm.addClass("has-danger"); check = false}
-		if (!_validateNotEmpty($engOrganization)) {formGroup.engOrganizationForm.addClass("has-danger"); check = false}
+		if (!_validateNotEmpty($phone)) {formGroup.phoneForm.addClass("is-invalid"); check = false}
+		if (!_validateNotEmpty($fax)) {formGroup.faxForm.addClass("is-invalid"); check = false}
+		if (!_validateNotEmpty($url)) {formGroup.urlForm.addClass("is-invalid"); check = false}
+		// if (!_validateUrlFormat($url)) {formGroup.urlForm.addClass("is-invalid"); check = false}
+		if (!_validateNotEmpty($address)) {formGroup.addressForm.addClass("is-invalid"); check = false}
+		if (!_validateNotEmpty($organization)) {formGroup.organizationForm.addClass("is-invalid"); check = false}
+		if (!_validateNotEmpty($engUrl)) {formGroup.engUrlForm.addClass("is-invalid"); check = false}
+		if (!_validateNotEmpty($engAddress)) {formGroup.engAddressForm.addClass("is-invalid"); check = false}
+		if (!_validateNotEmpty($engOrganization)) {formGroup.engOrganizationForm.addClass("is-invalid"); check = false}
 
 		if ($hasDorm.prop("checked")) {
-			if (!_validateNotEmpty($dormInfo)) {formGroup.dormInfoForm.addClass("has-danger"); check = false}
-			if (!_validateNotEmpty($dormEngInfo)) {formGroup.dormEngInfoForm.addClass("has-danger"); check = false}
+			if (!_validateNotEmpty($dormInfo)) {formGroup.dormInfoForm.addClass("is-invalid"); check = false}
+			if (!_validateNotEmpty($dormEngInfo)) {formGroup.dormEngInfoForm.addClass("is-invalid"); check = false}
 		}
 
 		if ($hasScholarship.prop("checked")) {
-			if (!_validateNotEmpty($scholarshipDept)) {formGroup.scholarshipDeptForm.addClass("has-danger"); check = false}
-			if (!_validateNotEmpty($scholarshipUrl)) {formGroup.scholarshipUrlForm.addClass("has-danger"); check = false}
-			// if (!_validateUrlFormat($scholarshipUrl)) {formGroup.scholarshipUrlForm.addClass("has-danger"); check = false}
-			if (!_validateNotEmpty($engScholarshipDept)) {formGroup.engScholarshipDeptForm.addClass("has-danger"); check = false}
-			if (!_validateNotEmpty($engScholarshipUrl)) {formGroup.engScholarshipUrlForm.addClass("has-danger"); check = false}
+			if (!_validateNotEmpty($scholarshipDept)) {formGroup.scholarshipDeptForm.addClass("is-invalid"); check = false}
+			if (!_validateNotEmpty($scholarshipUrl)) {formGroup.scholarshipUrlForm.addClass("is-invalid"); check = false}
+			// if (!_validateUrlFormat($scholarshipUrl)) {formGroup.scholarshipUrlForm.addClass("is-invalid"); check = false}
+			if (!_validateNotEmpty($engScholarshipDept)) {formGroup.engScholarshipDeptForm.addClass("is-invalid"); check = false}
+			if (!_validateNotEmpty($engScholarshipUrl)) {formGroup.engScholarshipUrlForm.addClass("is-invalid"); check = false}
 		}
 
 		if ($hasFiveYearStudentAllowed.prop("checked")) {
-			if (!_validateNotEmpty($ruleOfFiveYearStudent)) {formGroup.ruleOfFiveYearStudentForm.addClass("has-danger"); check = false}
+			if (!_validateNotEmpty($ruleOfFiveYearStudent)) {formGroup.ruleOfFiveYearStudentForm.addClass("is-invalid"); check = false}
 		}
 
 		if ($hasSelfEnrollment.prop("checked")) {
-			if (!_validateNotEmpty($approvalNoOfSelfEnrollment)) {formGroup.approvalNoOfSelfEnrollmentForm.addClass("has-danger"); check = false}
+			if (!_validateNotEmpty($approvalNoOfSelfEnrollment)) {formGroup.approvalNoOfSelfEnrollmentForm.addClass("is-invalid"); check = false}
 		}
 
 		return check;
@@ -185,16 +185,16 @@ var schoolInfo = (function () {
 		var check = true;
 
 		if (_validateNotEmpty($url)) {
-			if (!_validateUrlFormat($url)) {formGroup.urlForm.addClass("has-danger"); check = false}
+			if (!_validateUrlFormat($url)) {formGroup.urlForm.addClass("is-invalid"); check = false}
 		}
 		if (_validateNotEmpty($engUrl)) {
-			if (!_validateUrlFormat($engUrl)) {formGroup.engUrlForm.addClass("has-danger"); check = false}
+			if (!_validateUrlFormat($engUrl)) {formGroup.engUrlForm.addClass("is-invalid"); check = false}
 		}
 		if (_validateNotEmpty($scholarshipUrl)) {
-			if (!_validateUrlFormat($scholarshipUrl)) {formGroup.scholarshipUrlForm.addClass("has-danger"); check = false}
+			if (!_validateUrlFormat($scholarshipUrl)) {formGroup.scholarshipUrlForm.addClass("is-invalid"); check = false}
 		}
 		if (_validateNotEmpty($engScholarshipUrl)) {
-			if (!_validateUrlFormat($engScholarshipUrl)) {formGroup.engScholarshipUrlForm.addClass("has-danger"); check = false}
+			if (!_validateUrlFormat($engScholarshipUrl)) {formGroup.engScholarshipUrlForm.addClass("is-invalid"); check = false}
 		}
 
 		return check;
@@ -216,7 +216,7 @@ var schoolInfo = (function () {
 		var form;
 		// init highlight
 		for(form in formGroup) {
-			formGroup[form].removeClass("has-danger");
+			formGroup[form].removeClass("is-invalid");
 		}
 
 		var urlResult = _validateUrl();
@@ -258,7 +258,7 @@ var schoolInfo = (function () {
 			// init highlight
 			var form;
 			for (form in formGroup) {
-				formGroup[form].removeClass("has-danger");
+				formGroup[form].removeClass("is-invalid");
 			}
 
 			var urlResult = _validateUrl();
