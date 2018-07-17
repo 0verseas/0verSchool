@@ -34,10 +34,10 @@
 
     openLoading();
 
-		if(!Browser.checkBrowserSupport()) {
-			alert('請使用 Chrome, Firefox, Safari 或 Edge 版本 > 14 的瀏覽器。');
-			window.history.back();
-		};
+	if(!Browser.checkBrowserSupport()) {
+		alert('請使用 Chrome, Firefox, Safari 或 Edge 版本 > 14 的瀏覽器。');
+		window.history.back();
+	}
 	</script>
 </head>
 <body>
@@ -47,16 +47,16 @@
 		<% } else { -%>
 		<%- partial("login")%>
 		<% } -%>
-	</div>
-	<!-- Modal: edit account -->
-	<%- partial("components/_accountEditModal")%>
-	<script src="js/<%= current.source %>.js"></script>
-	<footer>
-		<div class="row">
-			<div class="col-12 text-center">
-				<small>E-mail：overseassurvey@gmail.com 電話：(049)2910960#2267 傳真：(049)2911182</small>
+		<!-- Modal: edit account -->
+		<%- partial("components/_accountEditModal")%>
+		<footer>
+			<div class="row">
+				<div class="col-12 text-center">
+					<small>E-mail：overseassurvey@gmail.com 電話：(049)2910960#2267 傳真：(049)2911182</small>
+				</div>
 			</div>
-		</div>
-	</footer>
+		</footer>
+	</div>
+	<script src="js/<%= current.source %>.js"></script>
 </body>
 </html>
