@@ -316,6 +316,10 @@ var quotaDistirbutionTwoYear = (function () {
             $admission_selection_quota.prop('disabled', false);
         } else {
             $admission_selection_quota.prop('disabled', true);
+            $admission_selection_quota.val(0);
+            _updateQuotaSum('admission_selection_quota');
+            _updateAdmissionSumSelfSum();
+            _updateWantTotal();
         }
     }
 
@@ -329,7 +333,15 @@ var quotaDistirbutionTwoYear = (function () {
 
         $approvalNoOfSpecialClass.prop('disabled', !$hasSpecialClass.prop('checked'));
         $approvalDocOfSpecialClass.prop('disabled', !$hasSpecialClass.prop('checked'));
-        if ($hasRiJian.prop('checked') || $hasSpecialClass.prop('checked')) { $admissionSelectionQuota.prop('disabled', false); } else { $admissionSelectionQuota.prop('disabled', true); }
+        if ($hasRiJian.prop('checked') || $hasSpecialClass.prop('checked')) {
+        	$admissionSelectionQuota.prop('disabled', false);
+        } else {
+        	$admissionSelectionQuota.prop('disabled', true);
+            $admissionSelectionQuota.val(0);
+            _updateQuotaSum('admission_selection_quota');
+            _updateAdmissionSumSelfSum();
+            _updateWantTotal();
+        }
     }
 
 	function _updateQuotaSum(type) {
