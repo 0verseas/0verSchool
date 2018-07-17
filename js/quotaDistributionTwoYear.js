@@ -135,7 +135,6 @@ var quotaDistirbutionTwoYear = (function () {
             var data = {
                 departments: departments,
                 self_enrollment_quota: +$quota_self_enrollment_quota.val(), // 港二技自招
-                another_self_enrollment_quota: +$quota_another_department_self_enrollment_quota.val(), // 學士班自招
             };
 
             $this.attr('disabled', true);
