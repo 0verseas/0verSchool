@@ -23,7 +23,8 @@ var quotaDistirbutionTwoYear = (function () {
 
 	// dept list
 	var $deptList = $page.find('#table-twoYearDeptList');
-
+    var $allDept;
+    var $schoolHasSelfEnrollment;
 	/**
 	 * bind event
 	 */
@@ -122,6 +123,7 @@ var quotaDistirbutionTwoYear = (function () {
 
 			return {
 				id: String($deptRow.data('id')),
+                sort_order: +$deptRow.find('.order-num').val(),
 				admission_selection_quota: +$admissionSelectionQuota.val(),
 				has_self_enrollment: $hasSelfEnrollment.is(':checked'),
                 has_RiJian: $hasRiJian.is(':checked'),
@@ -185,10 +187,15 @@ var quotaDistirbutionTwoYear = (function () {
 				throw res
 			}
 		}).then(function (json) {
+            $allDept = json.departments;
+            $schoolHasSelfEnrollment = json.school_has_self_enrollment;
+
 			_renderData(json);
+
 			if(json.review_at != null) {
 				$('#btn-save').attr('disabled', true).text('已鎖定');
 			}
+
 			stopLoading();
 		}).catch(function (err) {
 			if (err.status === 404) {
@@ -278,7 +285,19 @@ var quotaDistirbutionTwoYear = (function () {
 				.find('tbody')
 				.append(`
 					<tr class="dept" data-id="${id}">
-						<td>${sort_order}</td>
+						<td>
+							<div class="input-group">
+								<div class="input-group-prepend flex-column">
+									<button type="button" data-orderNum="${sort_order}" class="btn btn-outline-secondary btn-sm up-arrow">
+										<i class="fa fa-chevron-up" aria-hidden="true"></i>
+									</button>
+									<button type="button" data-orderNum="${sort_order}" class="btn btn-outline-secondary btn-sm down-arrow">
+										<i class="fa fa-chevron-down" aria-hidden="true"></i>
+									</button>
+								</div>
+								<input type="text" class="form-control order-num" size="2" value="${sort_order}">
+							</div>
+						</td>
 						<td>${id}</td>
 						<td>
 							<div>${title}</div>
@@ -287,7 +306,7 @@ var quotaDistirbutionTwoYear = (function () {
 						<td class="text-center"><input type="checkbox" class="hasRiJian" ${has_RiJian ? 'checked' : ''} ${school_has_self_enrollment ? '' : 'disabled'} ></td>
 						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${school_has_self_enrollment && has_self_enrollment ? 'checked' : ''} ${has_RiJian ? '' : 'disabled'} ${school_has_self_enrollment ? '' : 'disabled'}></td>
 						<td class="text-center"><input type="checkbox" class="hasSpecialClass" ${has_special_class ? 'checked' : ''} ${school_has_self_enrollment ? '' : 'disabled'}></td>
-						<td class="text-center" style="width: 15%"><input type="text" class="form-control approvalNoOfSpecialClass" value="${approval_no_of_special_class || ''}" ${has_special_class ? '' : 'disabled'}></td>
+						<td class="text-center"><input type="text" class="form-control approvalNoOfSpecialClass" value="${approval_no_of_special_class || ''}" ${has_special_class ? '' : 'disabled'}></td>
 						<td><input type="file" class="approvalDocOfSpecialClass" ${has_special_class ? '' : 'disabled'}><br />已上傳檔案：<a class="approvalDocOfSpecialClassUrl" href="${baseUrl + "/storage/" + approval_doc_of_special_class}">${approval_doc_of_special_class || ''}</a><textarea class="approvalDocOfSpecialClassfileb64" hidden disabled ></textarea></td>
 						<td class="text-center"><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" ${has_RiJian || has_special_class ? '' : 'disabled'}/></td>
 					</tr>
@@ -296,6 +315,14 @@ var quotaDistirbutionTwoYear = (function () {
 		_updateQuotaSum('admission_selection_quota');
 		_updateAdmissionSumSelfSum();
 		_updateWantTotal();
+
+        const $upArrow = $deptList.find('.up-arrow');
+        const $downArrow = $deptList.find('.down-arrow');
+        const $orderNum = $deptList.find('.order-num');
+
+        $upArrow.on("click", _prevOrder);
+        $downArrow.on("click", _nextOrder);
+        $orderNum.on("change", _changeOrder);
 	}
 
     function _switchHasRiJian() { // 開日間 => 可自招、開聯招人數
@@ -382,5 +409,96 @@ var quotaDistirbutionTwoYear = (function () {
 			+($quota_selfSum.val());
 		$quota_wantTotal.val(sum);
 	}
+
+    function _prevOrder() { //系所排序上移
+        const deptId = $(this).parents(".dept").data("id");
+        const movedDept = $allDept.find(function(element) {
+            return element.id === deptId.toString();
+        });
+
+        if (movedDept.sort_order > 1 && movedDept.sort_order <= $allDept.length) {
+            const targetOrder = movedDept.sort_order - 1;
+
+            const changedDept = $allDept.find(function (element) {
+                return element.sort_order === targetOrder;
+            });
+
+            movedDept.sort_order = targetOrder;
+
+            if (changedDept) {
+                changedDept.sort_order += 1;
+            }
+
+            _setDeptList($allDept, $schoolHasSelfEnrollment);
+        }
+    }
+
+    function _nextOrder() { //系所排序下移
+        const deptId = $(this).parents(".dept").data("id");
+        const movedDept = $allDept.find(function(element) {
+            return element.id === deptId.toString();
+        });
+
+        if (movedDept.sort_order >= 1 && movedDept.sort_order < $allDept.length) {
+            const targetOrder = movedDept.sort_order + 1;
+
+            const changedDept = $allDept.find(function (element) {
+                return element.sort_order === targetOrder;
+            });
+
+            movedDept.sort_order = targetOrder;
+
+            if (changedDept) {
+                changedDept.sort_order -= 1;
+            }
+
+            _setDeptList($allDept, $schoolHasSelfEnrollment);
+        }
+    }
+
+    function _changeOrder() { // 修改排序數字
+        const deptId = $(this).parents(".dept").data("id");
+        const movedDept = $allDept.find(function(element) {
+            return element.id === deptId.toString();
+        });
+
+        const origin_sort_order = movedDept.sort_order;
+
+        let currentNum = +$(this).val();
+
+        if (currentNum > $allDept.length || !Number.isInteger(currentNum)) {
+            currentNum = $allDept.length;
+        } else if (currentNum < 1) {
+            currentNum = 1;
+        } else {
+            currentNum = parseInt(currentNum);
+        }
+
+        const changedDept = $allDept.find(function (element) {
+            return element.sort_order === currentNum;
+        });
+
+        if (changedDept) {
+            for (let dept of $allDept) {
+                if (dept.id === movedDept.id) {
+                    dept.sort_order = currentNum;
+                } else {
+                    if (origin_sort_order - currentNum > 0) { //排序由後往前移
+                        if (dept.sort_order >= currentNum && dept.sort_order < origin_sort_order) {
+                            dept.sort_order++;
+                        }
+                    } else {
+                        if (dept.sort_order > origin_sort_order && dept.sort_order <= currentNum) {
+                            dept.sort_order--;
+                        }
+                    }
+                }
+            }
+        } else {
+            movedDept.sort_order = currentNum;
+        }
+
+        _setDeptList($allDept, $schoolHasSelfEnrollment);
+    }
 
 })();

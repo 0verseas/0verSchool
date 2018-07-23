@@ -17,6 +17,8 @@ var quotaDistributionMaster = (function () {
 
 	// dept list
 	var $deptList = $page.find('#table-masterPhdDeptList');
+    var $allDept;
+    var $schoolHasSelfEnrollment;
 
 	/**
 	 * bind event
@@ -85,6 +87,7 @@ var quotaDistributionMaster = (function () {
 			let $deptRow = $(deptRow);
 			return {
 				id: String($deptRow.data('id')),
+                sort_order: +$deptRow.find('.order-num').val(),
 				has_self_enrollment: $deptRow.find('.isSelf').is(':checked'),
 				admission_selection_quota: +$deptRow.find('.admission_selection_quota').val(),
 			};
@@ -128,14 +131,16 @@ var quotaDistributionMaster = (function () {
 				throw res
 			}
 		}).then(function (json) {
+            $allDept = json.departments;
+            $schoolHasSelfEnrollment = json.school_has_self_enrollment;
+
 			_renderData(json);
+
 			if(json.review_at != null) {
 				$('#btn-save').attr('disabled', true).text('已鎖定');
 			}
-		}).then(function () {
-			$.bootstrapSortable(true);
 
-			stopLoading();
+            stopLoading();
 		}).catch(function (err) {
 			if (err.status === 404) {
 				alert('沒有這個學制。 即將返回上一頁。');
@@ -231,7 +236,19 @@ var quotaDistributionMaster = (function () {
 				.find('tbody')
 				.append(`
 					<tr class="dept" data-id="${id}">
-						<td>${sort_order}</td>
+						<td>
+							<div class="input-group">
+								<div class="input-group-prepend flex-column">
+									<button type="button" data-orderNum="${sort_order}" class="btn btn-outline-secondary btn-sm up-arrow">
+										<i class="fa fa-chevron-up" aria-hidden="true"></i>
+									</button>
+									<button type="button" data-orderNum="${sort_order}" class="btn btn-outline-secondary btn-sm down-arrow">
+										<i class="fa fa-chevron-down" aria-hidden="true"></i>
+									</button>
+								</div>
+								<input type="text" class="form-control order-num" size="2" value="${sort_order}">
+							</div>
+						</td>
 						<td>${id}</td>
 						<td>
 							<div>${title}</div>
@@ -245,6 +262,14 @@ var quotaDistributionMaster = (function () {
 		_updateQuotaSum('admission_selection_quota');
 		// _updateQuotaSum('self_enrollment_quota');
 		_updateWantTotal();
+
+        const $upArrow = $deptList.find('.up-arrow');
+        const $downArrow = $deptList.find('.down-arrow');
+        const $orderNum = $deptList.find('.order-num');
+
+        $upArrow.on("click", _prevOrder);
+        $downArrow.on("click", _nextOrder);
+        $orderNum.on("change", _changeOrder);
 	}
 
 	function _updateQuotaSum(type) {
@@ -275,5 +300,96 @@ var quotaDistributionMaster = (function () {
 			+($quota_selfSum.val());
 		$quota_wantTotal.val(sum);
 	}
+
+    function _prevOrder() { //系所排序上移
+        const deptId = $(this).parents(".dept").data("id");
+        const movedDept = $allDept.find(function(element) {
+            return element.id === deptId.toString();
+        });
+
+        if (movedDept.sort_order > 1 && movedDept.sort_order <= $allDept.length) {
+            const targetOrder = movedDept.sort_order - 1;
+
+            const changedDept = $allDept.find(function (element) {
+                return element.sort_order === targetOrder;
+            });
+
+            movedDept.sort_order = targetOrder;
+
+            if (changedDept) {
+                changedDept.sort_order += 1;
+            }
+
+            _setDeptList($allDept, $schoolHasSelfEnrollment);
+        }
+    }
+
+    function _nextOrder() { //系所排序下移
+        const deptId = $(this).parents(".dept").data("id");
+        const movedDept = $allDept.find(function(element) {
+            return element.id === deptId.toString();
+        });
+
+        if (movedDept.sort_order >= 1 && movedDept.sort_order < $allDept.length) {
+            const targetOrder = movedDept.sort_order + 1;
+
+            const changedDept = $allDept.find(function (element) {
+                return element.sort_order === targetOrder;
+            });
+
+            movedDept.sort_order = targetOrder;
+
+            if (changedDept) {
+                changedDept.sort_order -= 1;
+            }
+
+            _setDeptList($allDept, $schoolHasSelfEnrollment);
+        }
+    }
+
+    function _changeOrder() { // 修改排序數字
+        const deptId = $(this).parents(".dept").data("id");
+        const movedDept = $allDept.find(function(element) {
+            return element.id === deptId.toString();
+        });
+
+        const origin_sort_order = movedDept.sort_order;
+
+        let currentNum = +$(this).val();
+
+        if (currentNum > $allDept.length || !Number.isInteger(currentNum)) {
+            currentNum = $allDept.length;
+        } else if (currentNum < 1) {
+            currentNum = 1;
+        } else {
+            currentNum = parseInt(currentNum);
+        }
+
+        const changedDept = $allDept.find(function (element) {
+            return element.sort_order === currentNum;
+        });
+
+        if (changedDept) {
+            for (let dept of $allDept) {
+                if (dept.id === movedDept.id) {
+                    dept.sort_order = currentNum;
+                } else {
+                    if (origin_sort_order - currentNum > 0) { //排序由後往前移
+                        if (dept.sort_order >= currentNum && dept.sort_order < origin_sort_order) {
+                            dept.sort_order++;
+                        }
+                    } else {
+                        if (dept.sort_order > origin_sort_order && dept.sort_order <= currentNum) {
+                            dept.sort_order--;
+                        }
+                    }
+                }
+            }
+        } else {
+            movedDept.sort_order = currentNum;
+        }
+
+        _setDeptList($allDept, $schoolHasSelfEnrollment);
+    }
 
 })();
