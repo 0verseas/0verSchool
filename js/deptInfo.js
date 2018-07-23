@@ -536,11 +536,11 @@ var reviewItems = new Vue({ // 審查項目
                     // 如果需要此審查項目
                     if (type.needed == true) {
                         // 先檢查是否有中文備註
-                        if (type.description == "") {
+                        if (type.description == "" && type.eng_description) {
                             type.error = true;
                             check = false;
                         }
-                        if (type.eng_description == "") {
+                        if (type.eng_description == ""  && type.description) {
                             type.engerror = true;
                             check = false;
                         }
