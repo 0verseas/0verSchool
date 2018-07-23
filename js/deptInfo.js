@@ -330,8 +330,6 @@ var DeptInfo = (function () {
 			formGroup[form].removeClass("is-invalid");
 		}
 		$('#recieveDeadlineDiv').removeClass("is-invalid");
-		console.log(formGroup.sortOrderForm);
-		if (!_validateNotEmpty($sortOrder)) {formGroup.sortOrderForm.addClass("is-invalid"); check = false}
 		if (!_validateNotEmpty($url)) {formGroup.urlForm.addClass("is-invalid"); check = false}
 		if (!_validateUrlFormat($url)) {formGroup.urlForm.addClass("is-invalid"); check = false}
 		if (!_validateUrlFormat($engUrl)) {formGroup.engUrlForm.addClass("is-invalid"); check = false}
@@ -400,7 +398,6 @@ var DeptInfo = (function () {
         }
 
 		var data = {
-			sort_order: $sortOrder.val(),
 			url: $url.val(),
 			eng_url: $engUrl.val(),
 			main_group: $mainGroup.val(),
