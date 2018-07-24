@@ -146,21 +146,13 @@ var deptInfoMaster = (function () {
 	}
 
 	function _validateForm() {
-		var specialFormValidateStatus = true;
 		var commonFormValidateStatus = DeptInfo.validateForm();
 		var form;
 		for(form in formGroup) {
 			formGroup[form].removeClass("has-danger");
 		}
-		if (!_validateNotEmpty($admissionSelectionQuota)) {formGroup.admissionSelectionQuotaForm.addClass("has-danger"); specialFormValidateStatus = false}
-		if ($hasSelfEnrollment.prop("checked")) {
-			if (!_validateNotEmpty($selfEnrollmentQuota)) {formGroup.selfEnrollmentQuotaForm.addClass("has-danger"); specialFormValidateStatus = false}
-		}
-		if (specialFormValidateStatus && commonFormValidateStatus) {
-			return true;
-		} else {
-			return false;
-		}
+
+        return commonFormValidateStatus;
 	}
 
 	function _getFormData() {
@@ -186,20 +178,27 @@ var deptInfoMaster = (function () {
 		var checkcount = 0;
 		var sendData = _getFormData();
 		for (var pair of sendData.entries()) {
-			if( pair[0] == 'moe_check_failed' && pair[1] == 'true')
-				checkcount +=1;
-			if( pair[0] == 'teacher_quality_passed' && pair[1] == 'false')
-				checkcount +=1;
-		}
-		//console.log()
-		var isAllSet =false;
-		if(checkcount == 2)
-			isAllSet = confirm("經教育部查核被列為持續列管或不通過、\n師資質量未達「專科以上學校總量發展規模與資源條件標準」，\n\n該系所有名額會強制變為 0，您真的確認送出嗎？");
-		else
-			isAllSet =true;
+            if( pair[0] == 'moe_check_failed' && pair[1] == 'true') {
+                checkcount++;
+            }
 
-		if( isAllSet == true ) {
-			if (_validateForm()) {
+            if( pair[0] == 'teacher_quality_passed' && pair[1] == 'false') {
+                checkcount++;
+            }
+		}
+
+		var isAllSet =false;
+
+        if (checkcount === 2) {
+            isAllSet = confirm("經教育部查核被列為持續列管或不通過、\n師資質量未達「專科以上學校總量發展規模與資源條件標準」，\n\n該系所有名額會強制變為 0，您真的確認送出嗎？");
+        } else {
+            isAllSet = true;
+        }
+
+		if( isAllSet === true ) {
+            const $validateResult = _validateForm();
+
+			if ($validateResult.length <= 0) {
 				openLoading();
 				School.setDeptInfo(_currentSystem, _currentDeptId, sendData)
 					.then((res) => {
@@ -223,7 +222,7 @@ var deptInfoMaster = (function () {
 						});
 					})
 			} else {
-				alert("有欄位輸入錯誤，請重新確認。");
+                alert($validateResult.join("\n"));
 			}
 		}
 	}
@@ -250,7 +249,7 @@ var deptInfoMaster = (function () {
 				$('#lockSystem-btn').attr('disabled', false);
 				$('#lockSystem-tooltip').tooltip('disable');
 			}
-		})
+		});
 
 		School.getSystemInfo(_currentSystem) // 取得學制資料，沒有該學制則回上一頁
 		.then((res) => {

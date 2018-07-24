@@ -189,28 +189,13 @@ var deptInfoTwoYear = (function () {
 	}
 
 	function _validateForm() {
-		var specialFormValidateStatus = true;
 		var commonFormValidateStatus = DeptInfo.validateForm();
 		var form;
 		for(form in formGroup) {
 			formGroup[form].removeClass("has-danger");
 		}
-		/*
-		if ($hasSpecialClass.prop("checked")) {
-			if (!_validateNotEmpty($approvalNoOfSpecialClass)) {formGroup.approvalNoOfSpecialClassForm.addClass("has-danger"); specialFormValidateStatus = false}
-		}
-		if ($hasSelfEnrollment.prop("checked")) {
-			if (!_validateNotEmpty($selfEnrollmentQuota)) {formGroup.selfEnrollmentQuotaForm.addClass("has-danger"); specialFormValidateStatus = false}
-		}
-		if ($hasRiJian.prop('checked') || $hasSpecialClass.prop('checked')) {
-			if (!_validateNotEmpty($admissionSelectionQuota)) {formGroup.admissionSelectionQuotaForm.addClass("has-danger"); specialFormValidateStatus = false}
-		}
-		*/
-		if (specialFormValidateStatus && commonFormValidateStatus) {
-			return true;
-		} else {
-			return false;
-		}
+
+        return commonFormValidateStatus;
 	}
 
 	// 檢查 form 是否為有值
@@ -220,19 +205,6 @@ var deptInfoTwoYear = (function () {
 
 	function _getFormData() {
 		var data = new FormData();
-		/*
-		data.append('has_RiJian', +$hasRiJian.prop('checked'));
-		data.append('has_self_enrollment', +$hasSelfEnrollment.prop('checked'));
-		data.append('has_special_class', $hasSpecialClass.prop('checked'));
-		data.append('approval_no_of_special_class', $approvalNoOfSpecialClass.val());
-		if ($approvalDocOfSpecialClass.prop('files').length > 0) {
-			data.append('approval_doc_of_special_class', $approvalDocOfSpecialClass.prop('files')[0]);
-		} else {
-			data.append('approval_doc_of_special_class', "");
-		}
-		data.append('self_enrollment_quota', $selfEnrollmentQuota.val());
-		data.append('admission_selection_quota', $admissionSelectionQuota.val());
-		*/
 		var commonFormData = DeptInfo.getCommonFormData("twoYear");
 		var item;
 		for( item in commonFormData) {
@@ -246,20 +218,27 @@ var deptInfoTwoYear = (function () {
 		var checkcount = 0;
 		var sendData = _getFormData();
 		for (var pair of sendData.entries()) {
-			if( pair[0] == 'moe_check_failed' && pair[1] == 'true')
-				checkcount +=1;
-			if( pair[0] == 'teacher_quality_passed' && pair[1] == 'false')
-				checkcount +=1;
-		}
-		//console.log()
-		var isAllSet =false;
-		if(checkcount == 2)
-			isAllSet = confirm("經教育部查核被列為持續列管或不通過、\n師資質量未達「專科以上學校總量發展規模與資源條件標準」，\n\n該系所有名額會強制變為 0，您真的確認送出嗎？");
-		else
-			isAllSet =true;
+            if( pair[0] == 'moe_check_failed' && pair[1] == 'true') {
+                checkcount++;
+            }
 
-		if( isAllSet == true ) {
-			if (_validateForm()) {
+            if( pair[0] == 'teacher_quality_passed' && pair[1] == 'false') {
+                checkcount++;
+            }
+		}
+
+		var isAllSet =false;
+
+        if (checkcount === 2) {
+            isAllSet = confirm("經教育部查核被列為持續列管或不通過、\n師資質量未達「專科以上學校總量發展規模與資源條件標準」，\n\n該系所有名額會強制變為 0，您真的確認送出嗎？");
+        } else {
+            isAllSet = true;
+        }
+
+		if( isAllSet === true ) {
+            const $validateResult = _validateForm();
+
+			if ($validateResult.length <= 0) {
 				openLoading();
 				School.setDeptInfo(_currentSystem, _currentDeptId, sendData)
 					.then((res) => {
@@ -283,7 +262,7 @@ var deptInfoTwoYear = (function () {
 						});
 					})
 			} else {
-				alert("有欄位輸入錯誤，請重新確認。");
+                alert($validateResult.join("\n"));
 			}
 		}
 	}

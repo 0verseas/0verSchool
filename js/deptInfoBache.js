@@ -162,22 +162,13 @@ var deptInfoBache = (function () {
 	}
 
 	function _validateForm() {
-		var specialFormValidateStatus = true;
 		var commonFormValidateStatus = DeptInfo.validateForm();
 		var form;
 		for(form in formGroup) {
 			formGroup[form].removeClass("is-invalid");
 		}
-		if (!_validateNotEmpty($admissionSelectionQuota)) {formGroup.admissionSelectionQuotaForm.addClass("is-invalid"); specialFormValidateStatus = false}
-		if (!_validateNotEmpty($admissionPlacementQuota)) {formGroup.admissionPlacementQuotaForm.addClass("is-invalid"); specialFormValidateStatus = false}
-		if ((Math.min(_lastYearAdmissionPlacementAmount, _lastYearAdmissionPlacementQuota) > $admissionPlacementQuota.val())) {
-			if (!_validateNotEmpty($decreaseReasonOfAdmissionPlacement)) {formGroup.decreaseReasonOfAdmissionPlacementForm.addClass("is-invalid"); specialFormValidateStatus = false}
-		}
-		if (specialFormValidateStatus && commonFormValidateStatus) {
-			return true;
-		} else {
-			return false;
-		}
+
+		return commonFormValidateStatus;
 	}
 
 	// 檢查 form 是否為有值
@@ -199,20 +190,27 @@ var deptInfoBache = (function () {
 		var checkcount = 0;
 		var sendData = _getFormData();
 		for (var pair of sendData.entries()) {
-			if( pair[0] == 'moe_check_failed' && pair[1] == 'true')
-				checkcount +=1;
-			if( pair[0] == 'teacher_quality_passed' && pair[1] == 'false')
-				checkcount +=1;
+			if( pair[0] == 'moe_check_failed' && pair[1] == 'true') {
+                checkcount++;
+            }
+
+			if( pair[0] == 'teacher_quality_passed' && pair[1] == 'false') {
+                checkcount++;
+            }
 		}
 
 		var isAllSet = false;
-		if(checkcount == 2)
-			isAllSet = confirm("經教育部查核被列為持續列管或不通過、\n師資質量未達「專科以上學校總量發展規模與資源條件標準」，\n\n該系所有名額會強制變為 0，您真的確認送出嗎？");
-		else
-			isAllSet = true;
 
-		if( isAllSet == true ) {
-			if (_validateForm()) {
+		if (checkcount === 2) {
+            isAllSet = confirm("經教育部查核被列為持續列管或不通過、\n師資質量未達「專科以上學校總量發展規模與資源條件標準」，\n\n該系所有名額會強制變為 0，您真的確認送出嗎？");
+        } else {
+            isAllSet = true;
+        }
+
+		if( isAllSet === true ) {
+			const $validateResult = _validateForm();
+
+			if ($validateResult.length <= 0) {
 				openLoading();
 				School.setDeptInfo(_currentSystem, _currentDeptId, sendData)
 					.then((res) => {
@@ -234,7 +232,7 @@ var deptInfoBache = (function () {
 						stopLoading();
 					})
 			} else {
-				alert("有欄位輸入錯誤，請重新確認。");
+				alert($validateResult.join("\n"));
 			}
 		}
 	}

@@ -323,22 +323,48 @@ var DeptInfo = (function () {
 	}
 
 	function validateForm() {
-		var check = true;
-		var appDocCheck = true;
+		var check = [];
+		var appDocCheck;
 		var form;
 		for(form in formGroup) {
 			formGroup[form].removeClass("is-invalid");
 		}
 		$('#recieveDeadlineDiv').removeClass("is-invalid");
-		if (!_validateNotEmpty($url)) {formGroup.urlForm.addClass("is-invalid"); check = false}
-		if (!_validateUrlFormat($url)) {formGroup.urlForm.addClass("is-invalid"); check = false}
-		if (!_validateUrlFormat($engUrl)) {formGroup.engUrlForm.addClass("is-invalid"); check = false}
-		if (!_validateNotEmpty($mainGroup)) {formGroup.mainGroupForm.addClass("is-invalid"); check = false}
-		if (!_validateNotEmpty($description)) {formGroup.descriptionForm.addClass("is-invalid"); check = false}
-		if (!_validateNotEmpty($engDescription)) {formGroup.engDescriptionForm.addClass("is-invalid"); check = false}
+		if (!_validateNotEmpty($url) || !_validateUrlFormat($url)) {
+			formGroup.urlForm.addClass("is-invalid");
+			check.push('系所中文網址輸入錯誤');
+		}
+
+        if (!_validateNotEmpty($engUrl) || !_validateUrlFormat($engUrl)) {
+            formGroup.engUrlForm.addClass("is-invalid");
+            check.push('系所英文網址輸入錯誤');
+        }
+
+		if (!_validateNotEmpty($mainGroup)) {
+			formGroup.mainGroupForm.addClass("is-invalid");
+            check.push('系所主要學群選擇錯誤');
+		}
+
+		if (!_validateNotEmpty($description)) {
+			formGroup.descriptionForm.addClass("is-invalid");
+            check.push('中文系所簡介未填寫');
+		}
+
+		if (!_validateNotEmpty($engDescription)) {
+			formGroup.engDescriptionForm.addClass("is-invalid");
+            check.push('英文系所簡介未填寫');
+		}
+
 		if ($hasReviewFee.prop("checked")) {
-			if (!_validateNotEmpty($reviewFeeDetail)) {formGroup.reviewFeeDetailForm.addClass("is-invalid"); check = false}
-			if (!_validateNotEmpty($engReviewFeeDetail)) {formGroup.engReviewFeeDetailForm.addClass("is-invalid"); check = false}
+			if (!_validateNotEmpty($reviewFeeDetail)) {
+				formGroup.reviewFeeDetailForm.addClass("is-invalid");
+				check.push('審查費用中文說明未填寫');
+			}
+
+			if (!_validateNotEmpty($engReviewFeeDetail)) {
+				formGroup.engReviewFeeDetailForm.addClass("is-invalid");
+                check.push('審查費用英文說明未填寫');
+			}
 		}
 		if ($hasBirthLimit.prop("checked")) {
 			var birthLimitAfterStatus = _validateNotEmpty($birthLimitAfter);
@@ -346,7 +372,7 @@ var DeptInfo = (function () {
 			if (!(birthLimitAfterStatus || birthLimitBeforeStatus)) {
 				formGroup.birthLimitAfterForm.addClass("is-invalid");
 				formGroup.birthLimitBeforeForm.addClass("is-invalid");
-				check = false
+                check.push('出生日期至少需填一項');
 			}
 		}
 
@@ -362,13 +388,14 @@ var DeptInfo = (function () {
 					// 檢查收件期限欄位是否為空
 					if (!_validateNotEmpty($('#recieveDeadline'))) {
 						$('#recieveDeadline').addClass("is-invalid");
-						check = false
+                        check.push('紙本推薦函收件期限未填寫');
 					}
 				}
 			}
 		}
 
-		return check && appDocCheck;
+		//return check && appDocCheck;
+		return check.concat(appDocCheck);
 	}
 
 	function getCommonFormData(system) {
@@ -515,7 +542,7 @@ var reviewItems = new Vue({ // 審查項目
 			this.applicationDocs = applicationDocs;
 		},
 		validateReviewItems() {
-			var check = true;
+			var check = [];
 
 			if ($('#admissionSelectionQuota').val() > 0) {
                 for (let type of this.reviewItemsTypes) {
@@ -530,35 +557,36 @@ var reviewItems = new Vue({ // 審查項目
                 }
 
                 for (let type of this.reviewItemsTypes) {
+                	console.log(type.name);
                     // 如果需要此審查項目
                     if (type.needed == true) {
                         // 先檢查是否有中文備註
                         if (type.description == "" && type.eng_description) {
                             type.error = true;
-                            check = false;
+                            check.push(type.name + ' 中文備註未填寫');
                         }
                         if (type.eng_description == ""  && type.description) {
                             type.engerror = true;
-                            check = false;
+                            check.push(type.name + ' 英文備註未填寫');
                         }
                         // 如果有需要紙本推薦函
                         if (type.need_paper == true) {
                             // 檢查紙本推薦函的所需欄位是否有填寫
                             if (type.recipient == '') {
                                 type.recipient_error = true;
-                                check = false;
+                                check.push('紙本推薦函收件人未填寫');
                             }
                             if (type.recipient_phone == '') {
                                 type.recipient_phone_error = true;
-                                check = false;
+                                check.push('紙本推薦函收件人電話未填寫');
                             }
                             if (type.recieve_email == '') {
                                 type.recieve_email_error = true;
-                                check = false;
+                                check.push('紙本推薦函收件人 Email 未填寫');
                             }
                             if (type.recieve_address == '') {
                                 type.recieve_address_error = true;
-                                check = false;
+                                check.push('紙本推薦函收件人地址未填寫');
                             }
                         }
                     }
