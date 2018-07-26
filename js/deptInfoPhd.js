@@ -32,7 +32,7 @@ var deptInfoPhd = (function () {
 	var formGroup = {
 		admissionSelectionQuotaForm: $modalDeptInfo.find('#admissionSelectionQuotaForm'),
 		selfEnrollmentQuotaForm: $modalDeptInfo.find('#selfEnrollmentQuotaForm')
-	}
+	};
 
 	/**
 	 * bind event

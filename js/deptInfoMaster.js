@@ -32,7 +32,7 @@ var deptInfoMaster = (function () {
 	var formGroup = {
 		admissionSelectionQuotaForm: $modalDeptInfo.find('#admissionSelectionQuotaForm'),
 		selfEnrollmentQuotaForm: $modalDeptInfo.find('#selfEnrollmentQuotaForm')
-	}
+	};
 
 	/**
 	 * bind event
@@ -134,7 +134,7 @@ var deptInfoMaster = (function () {
 		$hasSpecialClass.prop("checked", deptData.has_special_class);
 		$admissionSelectionQuota.val(deptData.admission_selection_quota);
 		$selfEnrollmentQuota.val(deptData.self_enrollment_quota);
-	};
+	}
 
 	function _switchSchoolHasSelfEnrollment() { // 校可獨招 => 系可獨招
 		$hasSelfEnrollment.prop('disabled', !$schoolHasSelfEnrollment.prop('checked'));

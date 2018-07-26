@@ -441,6 +441,7 @@ var DeptInfo = (function () {
 			has_birth_limit: +$hasBirthLimit.prop("checked"),
 			birth_limit_after: $birthLimitAfter.val(),
 			birth_limit_before: $birthLimitBefore.val(),
+			memo: $memo.val(),
 			application_docs: JSON.stringify(applicationDocs)
 		};
 
