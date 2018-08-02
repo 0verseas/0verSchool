@@ -224,11 +224,7 @@ var DeptInfo = (function () {
 		}
 		$genderLimit.val(deptData.gender_limit);
 
-		if (deptData.moe_check_failed === true) {
-            $moeCheckFailed.val("Y");
-		} else {
-            $moeCheckFailed.val("N");
-		}
+        $moeCheckFailed.val(deptData.moe_check_failed);
 
 		if (deptData.teacher_quality_passed === true) {
             $teacherQualityPassed.val("Y");
@@ -279,7 +275,7 @@ var DeptInfo = (function () {
 	}
 
 	function _switchMoeCheckFailed() {
-		if ($moeCheckFailed.val() == 'Y') {
+		if ($moeCheckFailed.val() == '1') {
 			$('#descriptionForm').hide();
 			$('#engDescriptionForm').hide();
 			$('#selfEnrollmentChoose').hide();
@@ -287,7 +283,7 @@ var DeptInfo = (function () {
 			$('#review-div').hide();
 			$('#memoForm').hide();
 		}
-		else if($teacherQualityPassed.val() == 'Y') {
+		else if($teacherQualityPassed.val() == '1') {
 			$('#descriptionForm').show();
 			$('#engDescriptionForm').show();
 			$('#selfEnrollmentChoose').show();
@@ -301,7 +297,7 @@ var DeptInfo = (function () {
 	}
 
 	function _switchTeacherQualityPassed() {
-		if ($teacherQualityPassed.val() == 'N') {
+		if ($teacherQualityPassed.val() == '2') {
 			$('#descriptionForm').hide();
 			$('#engDescriptionForm').hide();
 			$('#selfEnrollmentChoose').hide();
@@ -309,7 +305,7 @@ var DeptInfo = (function () {
 			$('#review-div').hide();
 			$('#memoForm').hide();
 		}
-		else if ($moeCheckFailed.val() == 'N'){
+		else if ($moeCheckFailed.val() == '2'){
 			$('#descriptionForm').show();
 			$('#engDescriptionForm').show();
 			$('#selfEnrollmentChoose').show();
@@ -408,15 +404,7 @@ var DeptInfo = (function () {
 				doc.recieve_deadline = $('#recieveDeadline').val();
 			}
 		}
-
-		var $moe_check_failed_data = true;
 		var $teacher_quality_passed_data = false;
-
-        if ($moeCheckFailed.val() === "Y") {
-            $moe_check_failed_data = true;
-		} else {
-            $moe_check_failed_data = false;
-		}
 
         if ($teacherQualityPassed.val() === "Y") {
             $teacher_quality_passed_data = true;
@@ -430,7 +418,7 @@ var DeptInfo = (function () {
 			main_group: $mainGroup.val(),
 			sub_group: $subGroup.val(),
 			gender_limit: $genderLimit.val(),
-            moe_check_failed: $moe_check_failed_data,
+            moe_check_failed: $moeCheckFailed.val(),
             teacher_quality_passed: $teacher_quality_passed_data,
 			description: $description.val(),
 			eng_description: $engDescription.val(),
