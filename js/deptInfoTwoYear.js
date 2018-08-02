@@ -218,7 +218,7 @@ var deptInfoTwoYear = (function () {
 		var checkcount = 0;
 		var sendData = _getFormData();
 		for (var pair of sendData.entries()) {
-            if( pair[0] == 'moe_check_failed' && pair[1] == 'true') {
+            if( pair[0] == 'moe_check_failed' && pair[1] == 1) {
                 checkcount++;
             }
 
@@ -227,7 +227,7 @@ var deptInfoTwoYear = (function () {
             }
 		}
 
-		var isAllSet =false;
+		var isAllSet = false;
 
         if (checkcount === 2) {
             isAllSet = confirm("經教育部查核被列為持續列管或不通過、\n師資質量未達「專科以上學校總量發展規模與資源條件標準」，\n\n該系所有名額會強制變為 0，您真的確認送出嗎？");

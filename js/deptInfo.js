@@ -305,7 +305,7 @@ var DeptInfo = (function () {
 			$('#review-div').hide();
 			$('#memoForm').hide();
 		}
-		else if ($moeCheckFailed.val() == '2'){
+		else if ($moeCheckFailed.val() != '1'){
 			$('#descriptionForm').show();
 			$('#engDescriptionForm').show();
 			$('#selfEnrollmentChoose').show();

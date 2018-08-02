@@ -190,7 +190,7 @@ var deptInfoBache = (function () {
 		var checkcount = 0;
 		var sendData = _getFormData();
 		for (var pair of sendData.entries()) {
-			if( pair[0] == 'moe_check_failed' && pair[1] == 'true') {
+			if( pair[0] == 'moe_check_failed' && pair[1] == 1) {
                 checkcount++;
             }
 
