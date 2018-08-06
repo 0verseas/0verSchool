@@ -216,6 +216,10 @@ var quotaDistributionMaster = (function () {
         });
 
 		$deptList.find('tbody').html('');
+
+		var count = 1;
+		var sort_num;
+
 		for (let dept of list) {
 			var {
 				id,
@@ -232,6 +236,12 @@ var quotaDistributionMaster = (function () {
 				total += (+self_enrollment_quota);
 			}
 
+			if (sort_order !== count) {
+                sort_num = count;
+			} else {
+                sort_num = sort_order;
+			}
+
 			$deptList
 				.find('tbody')
 				.append(`
@@ -239,14 +249,14 @@ var quotaDistributionMaster = (function () {
 						<td>
 							<div class="input-group">
 								<div class="input-group-prepend flex-column">
-									<button type="button" data-orderNum="${sort_order}" class="btn btn-outline-secondary btn-sm up-arrow">
+									<button type="button" data-orderNum="${sort_num}" class="btn btn-outline-secondary btn-sm up-arrow">
 										<i class="fa fa-chevron-up" aria-hidden="true"></i>
 									</button>
-									<button type="button" data-orderNum="${sort_order}" class="btn btn-outline-secondary btn-sm down-arrow">
+									<button type="button" data-orderNum="${sort_num}" class="btn btn-outline-secondary btn-sm down-arrow">
 										<i class="fa fa-chevron-down" aria-hidden="true"></i>
 									</button>
 								</div>
-								<input type="text" class="form-control order-num" size="2" value="${sort_order}">
+								<input type="text" class="form-control order-num" size="3" value="${sort_num}">
 							</div>
 						</td>
 						<td>${id}</td>
@@ -258,6 +268,8 @@ var quotaDistributionMaster = (function () {
 						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${school_has_self_enrollment && has_self_enrollment ? 'checked' : ''} ${school_has_self_enrollment ? '' : 'disabled="disabled"'} ></td>
 					</tr>
 				`);
+
+			count++;
 		}
 		_updateQuotaSum('admission_selection_quota');
 		// _updateQuotaSum('self_enrollment_quota');

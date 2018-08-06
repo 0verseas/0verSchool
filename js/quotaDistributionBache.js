@@ -233,6 +233,9 @@ var quotaDistirbutionBache = (function () {
 
 		$deptList.find('tbody').html('');
 
+        var count = 1;
+        var sort_num;
+
 		for (let dept of list) {
 			var {
 				id,
@@ -254,6 +257,13 @@ var quotaDistirbutionBache = (function () {
 
 			var checked = school_has_self_enrollment ? ( has_self_enrollment ? 'checked' : '') : 'disabled';
 			var checked2 = ( admission_quota_pass ? 'checked' : '');
+
+            if (sort_order !== count) {
+                sort_num = count;
+            } else {
+                sort_num = sort_order;
+            }
+
 			$deptList
 				.find('tbody')
 				.append(`
@@ -261,14 +271,14 @@ var quotaDistirbutionBache = (function () {
 						<td>
 							<div class="input-group">
 								<div class="input-group-prepend flex-column">
-									<button type="button" data-orderNum="${sort_order}" class="btn btn-outline-secondary btn-sm up-arrow">
+									<button type="button" data-orderNum="${sort_num}" class="btn btn-outline-secondary btn-sm up-arrow">
 										<i class="fa fa-chevron-up" aria-hidden="true"></i>
 									</button>
-									<button type="button" data-orderNum="${sort_order}" class="btn btn-outline-secondary btn-sm down-arrow">
+									<button type="button" data-orderNum="${sort_num}" class="btn btn-outline-secondary btn-sm down-arrow">
 										<i class="fa fa-chevron-down" aria-hidden="true"></i>
 									</button>
 								</div>
-								<input type="text" class="form-control order-num" size="2" value="${sort_order}">
+								<input type="text" class="form-control order-num" size="3" value="${sort_num}">
 							</div>
 						</td>
 						<td>${id}</td>
@@ -285,6 +295,8 @@ var quotaDistirbutionBache = (function () {
 						<td class="total text-center">${total}</td>
 					</tr>
 				`);
+
+            count++;
 		}
 		_updateQuotaSum('admission_selection_quota');
 		_updateQuotaSum('admission_placement_quota');
