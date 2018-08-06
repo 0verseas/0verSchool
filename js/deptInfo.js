@@ -281,7 +281,7 @@ var DeptInfo = (function () {
 			$('#selfEnrollmentChoose').hide();
 			$('#limitBlock').hide();
 			$('#review-div').hide();
-			$('#memoForm').hide();
+			//$('#memoForm').hide();
 		}
 		else if($teacherQualityPassed.val() == 'Y') {
 			$('#descriptionForm').show();
@@ -303,7 +303,7 @@ var DeptInfo = (function () {
 			$('#selfEnrollmentChoose').hide();
 			$('#limitBlock').hide();
 			$('#review-div').hide();
-			$('#memoForm').hide();
+			//$('#memoForm').hide();
 		}
 		else if ($moeCheckFailed.val() != '1'){
 			$('#descriptionForm').show();
