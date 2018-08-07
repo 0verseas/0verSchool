@@ -319,7 +319,7 @@ var quotaDistributionMaster = (function () {
             return element.id === deptId.toString();
         });
 
-        if (movedDept.sort_order > 1 && movedDept.sort_order <= $allDept.length) {
+        if (movedDept.sort_order > 1 && movedDept.sort_order <= $allDept.length + 1) {
             const targetOrder = movedDept.sort_order - 1;
 
             const changedDept = $allDept.find(function (element) {
@@ -342,7 +342,7 @@ var quotaDistributionMaster = (function () {
             return element.id === deptId.toString();
         });
 
-        if (movedDept.sort_order >= 1 && movedDept.sort_order < $allDept.length) {
+        if (movedDept.sort_order >= 1 && movedDept.sort_order <= $allDept.length) {
             const targetOrder = movedDept.sort_order + 1;
 
             const changedDept = $allDept.find(function (element) {

@@ -318,7 +318,7 @@ var quotaDistributionPhd = (function () {
             return element.id === deptId.toString();
         });
 
-        if (movedDept.sort_order > 1 && movedDept.sort_order <= $allDept.length) {
+        if (movedDept.sort_order > 1 && movedDept.sort_order <= $allDept.length + 1) {
             const targetOrder = movedDept.sort_order - 1;
 
             const changedDept = $allDept.find(function (element) {
@@ -341,7 +341,7 @@ var quotaDistributionPhd = (function () {
             return element.id === deptId.toString();
         });
 
-        if (movedDept.sort_order >= 1 && movedDept.sort_order < $allDept.length) {
+        if (movedDept.sort_order >= 1 && movedDept.sort_order <= $allDept.length) {
             const targetOrder = movedDept.sort_order + 1;
 
             const changedDept = $allDept.find(function (element) {
@@ -369,7 +369,7 @@ var quotaDistributionPhd = (function () {
         let currentNum = +$(this).val();
 
         if (currentNum > $allDept.length || !Number.isInteger(currentNum)) {
-            currentNum = $allDept.length;
+            currentNum = $allDept.length + 1;
         } else if (currentNum < 1) {
             currentNum = 1;
         } else {
