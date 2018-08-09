@@ -22,7 +22,7 @@ var DeptInfo = (function () {
 	var $id = $modalDeptInfo.find('#id'); // Can't edit ，系所代碼
 	var $cardCode = $modalDeptInfo.find('#cardCode'); // Can't edit，讀卡代碼
 	var $title = $modalDeptInfo.find('#title'); // Can't edit，中文名稱
-	var $engTitle = $modalDeptInfo.find('#engTitle'); // Can't edit，英文名稱
+	var $engTitle = $modalDeptInfo.find('#engTitle'); // Can't edit unless add at this year is true，英文名稱
 	var $url = $modalDeptInfo.find('#url'); // 系中文網站網址
 	var $engUrl = $modalDeptInfo.find('#engUrl'); // 系英文網站網址
 	var $mainGroup = $modalDeptInfo.find('#mainGroup'); // select bar，主要隸屬學群
@@ -51,6 +51,7 @@ var DeptInfo = (function () {
 
 	var formGroup = {
 		sortOrderForm: $modalDeptInfo.find('#sortOrderForm input'),
+        engTitleForm: $modalDeptInfo.find('#engTitleForm input'),
 		urlForm: $modalDeptInfo.find('#urlForm input'),
 		engUrlForm: $modalDeptInfo.find('#engUrlForm input'),
 		mainGroupForm: $modalDeptInfo.find('#mainGroupForm select'),
@@ -215,6 +216,19 @@ var DeptInfo = (function () {
         }
 		$title.val(deptData.title);
 		$engTitle.val(deptData.eng_title);
+
+        var label = $($engTitle).parent().find('label');
+
+		if (deptData.add_at_this_year === true) {
+            $engTitle.prop('disabled', false);
+            label.text('英文名稱*');
+            label.addClass('text-danger');
+		} else {
+            $engTitle.prop('disabled', true);
+            label.text('英文名稱');
+            label.removeClass('text-danger');
+		}
+
 		$url.val(deptData.url);
 		$engUrl.val(deptData.eng_url);
 		$mainGroup.val(deptData.main_group);
@@ -326,6 +340,11 @@ var DeptInfo = (function () {
 			formGroup[form].removeClass("is-invalid");
 		}
 		$('#recieveDeadlineDiv').removeClass("is-invalid");
+        if (!_validateNotEmpty($engTitle)) {
+            formGroup.engTitleForm.addClass("is-invalid");
+            check.push('系所英文名稱輸入錯誤');
+        }
+
 		if (!_validateNotEmpty($url) || !_validateUrlFormat($url)) {
 			formGroup.urlForm.addClass("is-invalid");
 			check.push('系所中文網址輸入錯誤');
@@ -413,6 +432,7 @@ var DeptInfo = (function () {
         }
 
 		var data = {
+        	eng_title: $engTitle.val(),
 			url: $url.val(),
 			eng_url: $engUrl.val(),
 			main_group: $mainGroup.val(),
