@@ -258,7 +258,7 @@ var quotaDistirbutionBache = (function () {
 			var checked = school_has_self_enrollment ? ( has_self_enrollment ? 'checked' : '') : 'disabled';
 			var checked2 = ( admission_quota_pass ? 'checked' : '');
 
-            if (sort_order !== count) {
+            if (sort_order !== count && sort_order != '99') {
                 sort_num = count;
             } else {
                 sort_num = sort_order;
