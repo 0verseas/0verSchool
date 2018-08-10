@@ -38,6 +38,10 @@
 		alert('請使用 Chrome, Firefox, Safari 或 Edge 版本 > 14 的瀏覽器。');
 		window.history.back();
 	}
+
+	if (!env.isProduction) {
+		document.title='簡章調查系統-測試站';
+	}
 	</script>
 </head>
 <body>

@@ -16,7 +16,7 @@
 				<div class="col-xl-3">
 					<img src="/img/logo.png" alt="overseas" width="100%">
 				</div>
-				<div class="col-xl-9">
+				<div class="col-xl-9" id="sidebarWrapWord">
 					<small>海外聯招會委員學校平台</small><br />
 					簡章調查系統
 				</div>
@@ -62,3 +62,8 @@
 <link rel="stylesheet" href="./css/sidebar.css">
 <script src="./js/accountEditModal.js"></script>
 <script src="./js/sidebar.js"></script>
+<script>
+	if (!env.isProduction) {
+		document.getElementById('sidebarWrapWord').innerHTML='<small>海外聯招會委員學校平台</small><br />簡章調查系統-測試站';
+	}
+</script>

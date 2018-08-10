@@ -1,6 +1,6 @@
 <header class="header clearfix">
 	<nav class="navbar navbar-light">
-		<span class="navbar-brand" href="#">
+		<span class="navbar-brand" href="#" id="navbar-brand-logo">
 			<img
 			src="/img/logo.png"
 			height="30"
@@ -61,3 +61,8 @@
 	</div>
 </div>
 <script src="https://rawgit.com/emn178/js-sha256/master/src/sha256.js"></script>
+<script>
+	if (!env.isProduction) {
+		document.getElementById('navbar-brand-logo').innerHTML='<img src="/img/logo.png" height="30" class="d-inline-block align-top">名額暨簡章調查系統-測試站';
+	}
+</script>
