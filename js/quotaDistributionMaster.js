@@ -236,7 +236,7 @@ var quotaDistributionMaster = (function () {
 				total += (+self_enrollment_quota);
 			}
 
-			if (sort_order !== count && sort_order != '99') {
+			if (sort_order !== count) {
                 sort_num = count;
 			} else {
                 sort_num = sort_order;
