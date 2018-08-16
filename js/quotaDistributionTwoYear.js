@@ -313,9 +313,9 @@ var quotaDistirbutionTwoYear = (function () {
 							<div>${title}</div>
 							<small>${eng_title}</small>
 						</td>
-						<td class="text-center"><input type="checkbox" class="hasRiJian" ${has_RiJian ? 'checked' : ''} ${school_has_self_enrollment ? '' : 'disabled'} ></td>
+						<td class="text-center"><input type="checkbox" class="hasRiJian" ${has_RiJian ? 'checked' : ''}></td>
 						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${school_has_self_enrollment && has_self_enrollment ? 'checked' : ''} ${has_RiJian ? '' : 'disabled'} ${school_has_self_enrollment ? '' : 'disabled'}></td>
-						<td class="text-center"><input type="checkbox" class="hasSpecialClass" ${has_special_class ? 'checked' : ''} ${school_has_self_enrollment ? '' : 'disabled'}></td>
+						<td class="text-center"><input type="checkbox" class="hasSpecialClass" ${has_special_class ? 'checked' : ''}></td>
 						<td class="text-center"><input type="text" class="form-control approvalNoOfSpecialClass" value="${approval_no_of_special_class || ''}" ${has_special_class ? '' : 'disabled'}></td>
 						<td><input type="file" class="approvalDocOfSpecialClass" ${has_special_class ? '' : 'disabled'}><br />已上傳檔案：<a class="approvalDocOfSpecialClassUrl" href="${baseUrl + "/storage/" + approval_doc_of_special_class}">${approval_doc_of_special_class || ''}</a><textarea class="approvalDocOfSpecialClassfileb64" hidden disabled ></textarea></td>
 						<td class="text-center"><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" ${has_RiJian || has_special_class ? '' : 'disabled'}/></td>
@@ -344,11 +344,15 @@ var quotaDistirbutionTwoYear = (function () {
         var $hasRiJian = $this.parents('.dept').find('.hasRiJian');
         var $hasSpecialClass = $this.parents('.dept').find('.hasSpecialClass');
 
+        // $schoolHasSelfEnrollment
+
         if ( !$hasRiJian.prop('checked') ) {
             $isSelf.prop("checked", false);
             $isSelf.prop('disabled', true);
         } else {
-            $isSelf.prop('disabled', false);
+        	if ($schoolHasSelfEnrollment) {
+				$isSelf.prop('disabled', false);
+			}
 		}
 
         if ($hasRiJian.prop('checked') || $hasSpecialClass.prop('checked')) {
