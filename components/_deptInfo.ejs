@@ -7,11 +7,27 @@
 	</div>
 	<div class="col-6 text-right">
 		<button class="btn btn-success" id="sendPreviewPDF-btn">
-			寄送預覽版 PDF
+			<% if(system == 'bachelor') { -%>
+				寄送學士班預覽版 PDF
+			<% } else if(system == 'twoYear') { -%>
+				寄送港二技預覽版 PDF
+			<% } else if(system == 'master') { -%>
+				寄送碩士班預覽版 PDF
+			<% } else { -%>
+				寄送博士班預覽版 PDF
+			<% } -%>
 		</button>
 
 		<button class="btn btn-warning hide" id="sendFormalPDF-btn">
-			寄送正式版 PDF
+			<% if(system == 'bachelor') { -%>
+				寄送學士班正式版 PDF
+			<% } else if(system == 'twoYear') { -%>
+				寄送港二技正式版 PDF
+			<% } else if(system == 'master') { -%>
+				寄送碩士班正式版 PDF
+			<% } else { -%>
+				寄送博士班正式版 PDF
+			<% } -%>
 		</button>
 
 		<span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="請先鎖定學校資料！" id="lockSystem-tooltip">
