@@ -18,7 +18,7 @@
 	</div>
 </div>
 
-<div id="bachelor_quota">
+<!-- <div id="bachelor_quota">
 	<div class="row">
 		<div class="col-2">
 			<h4 class="float-right">學士班 (含港二技)</h4>
@@ -54,9 +54,9 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
 
-<div id="master_quota">
+<!-- <div id="master_quota">
 	<div class="row">
 		<div class="col-1">
 			<h4 class="float-right">碩士班</h4>
@@ -92,9 +92,9 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
 
-<div id="phd_quota">
+<!-- <div id="phd_quota">
 	<div class="row">
 		<div class="col-1">
 			<h4 class="float-right">博士班</h4>
@@ -130,7 +130,71 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
+
+
+
+
+<table style="border:3px #cccccc solid;" cellpadding="10" border='1'>
+	<tr>
+		<th>班別</th>
+		<th>核定總量</th>
+		<th>上限（總量10％）</th>
+		<th>欲使用名額</th>
+		<th>班別間流用</th>
+		<th>本地生缺額</th>
+		<th>申請109增量</th>
+		<th>總實際招生名額</th>
+	</tr>
+	<tr id="bachelor_quota">
+		<td>學士班<br/>(含港二技)</td>
+		<td><input type="number" class="form-control" id="last_year_admission_amount_bache_multiply_10" disabled></td>
+		<td><input type="number" class="form-control" id="last_year_admission_amount_bache" disabled></td>
+		<td><input type="number" min="0" class="form-control" id="quota_used_bache" required></td>
+		<td><input type="number" class="form-control" id="quota_passed_bache" required></td>
+		<td><input type="number" min="0" class="form-control" id="last_year_surplus_admission_quota_bache" required></td>
+		<td><input type="number" min="0" class="form-control" id="expanded_quota_bache" required></td>
+		<td><input type="number" class="form-control" id="allowTotal_bache" disabled></td>
+	</tr>
+	<tr id="master_quota">
+		<td>碩士班</td>
+		<td><input type="number" class="form-control" id="last_year_admission_amount_master_multiply_10" disabled></td>
+		<td><input type="number" class="form-control" id="last_year_admission_amount_master" disabled></td>
+		<td><input type="number" min="0" class="form-control" id="quota_used_master" required></td>
+		<td><input type="number" class="form-control" id="quota_passed_master" required></td>
+		<td><input type="number" min="0" class="form-control" id="last_year_surplus_admission_quota_master" required></td>
+		<td><input type="number" min="0" class="form-control" id="expanded_quota_master" required></td>
+		<td><input type="number" class="form-control" id="allowTotal_master" disabled></td>
+	</tr>
+	<tr id="phd_quota">
+		<td>博士班</td>
+		<td><input type="number" class="form-control" id="last_year_admission_amount_phd_multiply_10" disabled></td>
+		<td><input type="number" class="form-control" id="last_year_admission_amount_phd" disabled></td>
+		<td><input type="number" min="0" class="form-control" id="quota_used_phd" required></td>
+		<td><input type="number" class="form-control" id="quota_passed_phd" required></td>
+		<td><input type="number" min="0" class="form-control" id="last_year_surplus_admission_quota_phd" required></td>
+		<td><input type="number" min="0" class="form-control" id="expanded_quota_phd" required></td>
+		<td><input type="number" class="form-control" id="allowTotal_phd" disabled></td>
+	</tr>
+</table>
+<hr />
+
+<table id="medicine_quota" style="border:3px #d3d61c solid;" cellpadding="10" border='1'>
+	<tr>
+		<th>學士班總實際招生名額</th>
+		<th>醫學系</th>
+		<th>牙醫系</th>
+		<th>中醫系</th>
+		<th>其他科系可用名額</th>
+	</tr>
+	<tr>
+		<td><input type="number" class="form-control" id="allowTotal_bache_2" disabled></td>
+		<td><input type="number" min="0" class="form-control" id="quota_medicine" required></td>
+		<td><input type="number" min="0" class="form-control" id="quota_dentist" required></td>
+		<td><input type="number" min="0" class="form-control" id="quota_chinese_medicine" required></td>
+		<td><input type="number" class="form-control" id="allow_except_medicine" disabled></td>
+	</tr>
+</table>
 
 <div class="row" style="padding-top: 3%;">
 	<div class="form-group col-9 offset-1">
@@ -145,7 +209,7 @@
 </div>
 
 <hr />
-<hr />
+
 
 <div class="row" style="font-size:18px">
 	<ul>
