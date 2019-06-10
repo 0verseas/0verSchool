@@ -40,6 +40,7 @@ var systemQuota = (function () {
 
 	var $description= $('#description'); // 學制流用需求描述
 	var schoolid;
+	var has_medicine_dept;
 	$last_year_surplus_admission_quota_bache.on('change', _handleQuotaChanged);
 	$quota_used_bache.on('change', _handleQuotaChanged);
 	$quota_passed_bache.on('change', _handleQuotaChanged);
@@ -94,6 +95,7 @@ var systemQuota = (function () {
 					document.getElementById("btn-confirm").disabled = true;
 					document.getElementById("btn-save").disabled = true;
 				}
+				has_medicine_dept = json.has_medicine_dept;
 				if( json.has_medicine_dept == 0)
 					document.getElementById("medicine_quota").style.display="none";
 				else{
@@ -295,11 +297,14 @@ var systemQuota = (function () {
 			"PhD_expanded_quota": $expanded_quota_phd.val(),
 			"PhD_quota_used_bache": $quota_used_phd.val(),
 			"PhD_quota_passed_bache": $quota_passed_phd.val(),
-			"Bachelor_quota_medicine": $quota_medicine.val(),
-			"Bachelor_quota_dentist": $quota_dentist.val(),
-			"Bachelor_quota_chinese_medicine": $quota_chinese_medicine.val(),
 			"description": $description.val(),
 			"data_confirm": false
+		}
+
+		if( has_medicine_dept == 1){
+			data["Bachelor_quota_medicine"] = $quota_medicine.val();
+			data["Bachelor_quota_dentist"] = $quota_dentist.val();
+			data["Bachelor_quota_chinese_medicine"] = $quota_chinese_medicine.val();
 		}
 		School.setFirstSystemQuota(schoolid, data).then(function (res) {
 			// setTimeout(function () {
@@ -353,6 +358,13 @@ var systemQuota = (function () {
 			"description": $description.val(),
 			"data_confirm": true
 			}
+
+			if( has_medicine_dept == 1){
+				data["Bachelor_quota_medicine"] = $quota_medicine.val();
+				data["Bachelor_quota_dentist"] = $quota_dentist.val();
+				data["Bachelor_quota_chinese_medicine"] = $quota_chinese_medicine.val();
+			}
+
 			School.setFirstSystemQuota(schoolid, data).then(function (res) {
 				// setTimeout(function () {
 				// 	$this.attr('disabled', false);
