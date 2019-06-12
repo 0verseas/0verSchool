@@ -99,7 +99,7 @@ var systemQuota = (function () {
 				if( json.has_medicine_dept == 0)
 					document.getElementById("medicine_quota").style.display="none";
 				else{
-					document.getElementById("btn-pdf").disabled = true;
+
 				}
 
 				_renderData(json);
@@ -213,15 +213,15 @@ var systemQuota = (function () {
 		// 班別間流用若為負，絕對值不得超出欲使用名額
 		if( parseInt($quota_passed_bache.val()) + parseInt($quota_used_bache.val()) < 0 ){
 			$quota_passed_bache.val( 0 );
-			alert("班別間流用之絕對值不得超出欲使用名額");
+			alert("班別間流用不得流超出欲使用名額");
 		}
 		if( parseInt($quota_passed_master.val()) + parseInt($quota_used_master.val()) < 0 ){
 			$quota_passed_master.val( 0 );
-			alert("班別間流用之絕對值不得超出欲使用名額");
+			alert("班別間流用不得流超出欲使用名額");
 		}
 		if( parseInt($quota_passed_phd.val()) + parseInt($quota_used_phd.val()) < 0){
 			$quota_passed_phd.val( 0 );
-			alert("班別間流用之絕對值不得超出欲使用名額");
+			alert("班別間流用不得流超出欲使用名額");
 		}
 
 		// 欲使用名額 < 總量10％ ，不得填本地生缺額、擴增名額
