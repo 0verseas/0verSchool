@@ -377,6 +377,10 @@ var systemQuota = (function () {
 				}
 			}).then(function (json) {
 				alert('已儲存並鎖定');
+
+				if( $expanded_quota_bache.val() > 0 || $expanded_quota_master.val() > 0 ||$expanded_quota_phd.val() > 0){
+					alert("您有申請僑、港澳生名額增量，請記得填列「109招生名額增量調查表」並回傳！ （詳情請看底下說明）");
+				}
 				location.reload();
 			}).catch(function (err) {
 				err.json && err.json().then((data) => {
