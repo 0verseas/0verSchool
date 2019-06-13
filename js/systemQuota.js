@@ -101,7 +101,6 @@ var systemQuota = (function () {
 				else{
 
 				}
-
 				_renderData(json);
 			}).then(function () {
 				stopLoading();
@@ -185,6 +184,7 @@ var systemQuota = (function () {
 		$allowTotal_bache.val( parseInt($quota_used_bache.val()) + parseInt($quota_passed_bache.val()) + parseInt($last_year_surplus_admission_quota_bache.val()) + parseInt($expanded_quota_bache.val()));
 		$allowTotal_master.val( parseInt($quota_used_master.val()) + parseInt($quota_passed_master.val()) + parseInt($last_year_surplus_admission_quota_master.val()) + parseInt($expanded_quota_master.val()));
 		$allowTotal_phd.val( parseInt($quota_used_phd.val()) + parseInt($quota_passed_phd.val()) + parseInt($last_year_surplus_admission_quota_phd.val()) + parseInt($expanded_quota_phd.val()));
+		$allowTotal_bache_2.val(parseInt($quota_used_bache.val()) + parseInt($quota_passed_bache.val()) + parseInt($last_year_surplus_admission_quota_bache.val()) + parseInt($expanded_quota_bache.val()));
 	}
 
 	function checkQuotaValidate() {
@@ -283,7 +283,8 @@ var systemQuota = (function () {
 			$quota_passed_bache.val(0);
 			$quota_passed_master.val(0);
 			$quota_passed_phd.val(0);
-			alert("班別間留用相加總和應為 0 ，請重新填寫")
+			alert("班別間留用相加總和應為 0 ，請重新填寫");
+			return;
 		}
 		var data= {
 			"Bachelor_last_year_surplus_admission_quota": $last_year_surplus_admission_quota_bache.val(),
@@ -337,7 +338,8 @@ var systemQuota = (function () {
 			$quota_passed_bache.val(0);
 			$quota_passed_master.val(0);
 			$quota_passed_phd.val(0);
-			alert("班別間留用相加總和應為 0 ，請重新填寫")
+			alert("班別間留用相加總和應為 0 ，請重新填寫");
+			return;
 		}
 
 		var isAllSet = confirm("確認後就「無法再次更改資料」，您真的確認送出嗎？");
