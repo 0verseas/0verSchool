@@ -276,9 +276,10 @@ var systemQuota = (function () {
 	}
 
 	function _handleSave(){
-
 		// 檢查班別間流用相加應為 0
-		if ( parseInt($quota_passed_bache.val()) + parseInt($quota_passed_master.val()) + parseInt($quota_passed_phd.val()) != 0 ){
+		if ( (parseInt($quota_passed_bache.val()) || 0 )+
+				(parseInt($quota_passed_master.val()) || 0)+
+				(parseInt($quota_passed_phd.val()) || 0) != 0 ){
 			$quota_passed_bache.val(0);
 			$quota_passed_master.val(0);
 			$quota_passed_phd.val(0);
@@ -330,7 +331,9 @@ var systemQuota = (function () {
 
 	function _handleConfirm(){
 		// 檢查班別間流用相加應為 0
-		if ( parseInt($quota_passed_bache.val()) + parseInt($quota_passed_master.val()) + parseInt($quota_passed_phd.val()) != 0 ){
+		if ( (parseInt($quota_passed_bache.val()) || 0 )+
+				(parseInt($quota_passed_master.val()) || 0)+
+				(parseInt($quota_passed_phd.val()) || 0) != 0 ){
 			$quota_passed_bache.val(0);
 			$quota_passed_master.val(0);
 			$quota_passed_phd.val(0);
