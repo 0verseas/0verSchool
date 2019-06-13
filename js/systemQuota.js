@@ -352,9 +352,6 @@ var systemQuota = (function () {
 			"PhD_expanded_quota": $expanded_quota_phd.val(),
 			"PhD_quota_used_bache": $quota_used_phd.val(),
 			"PhD_quota_passed_bache": $quota_passed_phd.val(),
-			"Bachelor_quota_medicine": $quota_medicine.val(),
-			"Bachelor_quota_dentist": $quota_dentist.val(),
-			"Bachelor_quota_chinese_medicine": $quota_chinese_medicine.val(),
 			"description": $description.val(),
 			"data_confirm": true
 			}
