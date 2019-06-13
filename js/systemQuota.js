@@ -339,6 +339,11 @@ var systemQuota = (function () {
 			$quota_passed_phd.val(0);
 			alert("班別間留用相加總和應為 0 ，請重新填寫")
 		}
+		// 醫學 + 牙醫 + 中醫 應該<= 學士班可用總額
+		if(parseInt($quota_medicine.val()) + parseInt($quota_dentist.val()) + parseInt($quota_chinese_medicine.val()) >= parseInt($allowTotal_bache.val())){
+			alert("醫學系、牙醫系、中醫系名額總和超過學士班名額");
+			return;
+		}
 
 		var isAllSet = confirm("確認後就「無法再次更改資料」，您真的確認送出嗎？");
 		if (isAllSet === true) {
