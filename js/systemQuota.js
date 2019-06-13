@@ -287,7 +287,7 @@ var systemQuota = (function () {
 			return;
 		}
 		// 醫學 + 牙醫 + 中醫 應該<= 學士班可用總額
-		if(parseInt($quota_medicine.val()) + parseInt($quota_dentist.val()) + parseInt($quota_chinese_medicine.val()) >= parseInt($allowTotal_bache.val())){
+		if(parseInt($quota_medicine.val()) + parseInt($quota_dentist.val()) + parseInt($quota_chinese_medicine.val()) > parseInt($allowTotal_bache.val())){
 			alert("醫學系、牙醫系、中醫系名額總和超過學士班名額");
 			return;
 		}
@@ -347,7 +347,7 @@ var systemQuota = (function () {
 			return;
 		}
 		// 醫學 + 牙醫 + 中醫 應該<= 學士班可用總額
-		if(parseInt($quota_medicine.val()) + parseInt($quota_dentist.val()) + parseInt($quota_chinese_medicine.val()) >= parseInt($allowTotal_bache.val())){
+		if(parseInt($quota_medicine.val()) + parseInt($quota_dentist.val()) + parseInt($quota_chinese_medicine.val()) > parseInt($allowTotal_bache.val())){
 			alert("醫學系、牙醫系、中醫系名額總和超過學士班名額");
 			return;
 		}
