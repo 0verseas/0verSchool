@@ -185,6 +185,7 @@ var systemQuota = (function () {
 		$allowTotal_master.val( parseInt($quota_used_master.val()) + parseInt($quota_passed_master.val()) + parseInt($last_year_surplus_admission_quota_master.val()) + parseInt($expanded_quota_master.val()));
 		$allowTotal_phd.val( parseInt($quota_used_phd.val()) + parseInt($quota_passed_phd.val()) + parseInt($last_year_surplus_admission_quota_phd.val()) + parseInt($expanded_quota_phd.val()));
 		$allowTotal_bache_2.val(parseInt($quota_used_bache.val()) + parseInt($quota_passed_bache.val()) + parseInt($last_year_surplus_admission_quota_bache.val()) + parseInt($expanded_quota_bache.val()));
+		$allow_except_medicine.val(parseInt($allowTotal_bache.val()) - parseInt($quota_medicine.val()) - parseInt($quota_dentist.val()) -parseInt($quota_chinese_medicine.val()));
 	}
 
 	function checkQuotaValidate() {
@@ -208,6 +209,20 @@ var systemQuota = (function () {
 		}
 		if( $quota_used_phd.val() < 0 ){
 			$quota_used_phd.val( 0 );
+		}
+
+		// 欲使用名額為 0，班別間流用也需為 0
+		if( $quota_used_bache.val() == 0 && $quota_passed_bache.val() != 0 ){
+			$quota_passed_bache.val(0);
+			alert("學士班未規劃名額，則不得流用名額至其他班別");
+		}
+		if( $quota_used_master.val() == 0 && $quota_passed_master.val() != 0 ){
+			$quota_passed_master.val(0);
+			alert("碩士班未規劃名額，則不得流用名額至其他班別");
+		}
+		if( $quota_used_phd.val() == 0 && $quota_passed_phd.val() != 0 ){
+			$quota_passed_phd.val(0);
+			alert("博士班未規劃名額，則不得流用名額至其他班別");
 		}
 
 		// 班別間流用若為負，絕對值不得超出欲使用名額
@@ -280,10 +295,10 @@ var systemQuota = (function () {
 		if ( (parseInt($quota_passed_bache.val()) || 0 )+
 				(parseInt($quota_passed_master.val()) || 0)+
 				(parseInt($quota_passed_phd.val()) || 0) != 0 ){
+			alert("班別間留用相加總和應為 0 ，請重新填寫");
 			$quota_passed_bache.val(0);
 			$quota_passed_master.val(0);
 			$quota_passed_phd.val(0);
-			alert("班別間留用相加總和應為 0 ，請重新填寫");
 			return;
 		}
 		// 醫學 + 牙醫 + 中醫 應該<= 學士班可用總額
@@ -340,10 +355,10 @@ var systemQuota = (function () {
 		if ( (parseInt($quota_passed_bache.val()) || 0 )+
 				(parseInt($quota_passed_master.val()) || 0)+
 				(parseInt($quota_passed_phd.val()) || 0) != 0 ){
+			alert("班別間留用相加總和應為 0 ，請重新填寫");
 			$quota_passed_bache.val(0);
 			$quota_passed_master.val(0);
 			$quota_passed_phd.val(0);
-			alert("班別間留用相加總和應為 0 ，請重新填寫");
 			return;
 		}
 		// 醫學 + 牙醫 + 中醫 應該<= 學士班可用總額
