@@ -212,17 +212,27 @@ var systemQuota = (function () {
 		}
 
 		// 欲使用名額為 0，班別間流用也需為 0
-		if( $quota_used_bache.val() == 0 && $quota_passed_bache.val() != 0 ){
+		// 核定總量為 0（無該班別或停招等），不得流用名額或申請增量
+		if( $last_year_admission_amount_bache_multiply_10.val() == 0 &&
+			($quota_passed_bache.val() != 0 || $last_year_surplus_admission_quota_bache.val() != 0 || $expanded_quota_bache.val() != 0)){
 			$quota_passed_bache.val(0);
-			alert("學士班未規劃名額，則不得流用名額至其他班別");
+			$last_year_surplus_admission_quota_bache.val(0);
+			$expanded_quota_bache.val(0);
+			alert("學士班未規劃名額，不得流用名額或申請增量");
 		}
-		if( $quota_used_master.val() == 0 && $quota_passed_master.val() != 0 ){
+		if( $last_year_admission_amount_master_multiply_10.val() == 0 &&
+			($quota_passed_master.val() != 0 || $last_year_surplus_admission_quota_master.val() != 0 || $expanded_quota_master.val() != 0) ){
 			$quota_passed_master.val(0);
-			alert("碩士班未規劃名額，則不得流用名額至其他班別");
+			$last_year_surplus_admission_quota_master.val(0);
+			$expanded_quota_master.val(0);
+			alert("碩士班未規劃名額，不得流用名額或申請增量");
 		}
-		if( $quota_used_phd.val() == 0 && $quota_passed_phd.val() != 0 ){
+		if( $last_year_admission_amount_phd_multiply_10.val() == 0 &&
+			($quota_passed_phd.val() != 0 || $last_year_surplus_admission_quota_phd.val() != 0 || $expanded_quota_phd.val() != 0) ){
 			$quota_passed_phd.val(0);
-			alert("博士班未規劃名額，則不得流用名額至其他班別");
+			$last_year_surplus_admission_quota_phd.val(0);
+			$expanded_quota_phd.val(0);
+			alert("博士班未規劃名額，不得流用名額或申請增量");
 		}
 
 		// 班別間流用若為負，絕對值不得超出欲使用名額
