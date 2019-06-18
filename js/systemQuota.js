@@ -190,45 +190,45 @@ var systemQuota = (function () {
 
 	function checkQuotaValidate() {
 		// 0 <= 欲使用名額 <= 總量10％
-		if( $quota_used_bache.val() > $last_year_admission_amount_bache.val() ){
+		if( parseInt($quota_used_bache.val()) > parseInt($last_year_admission_amount_bache.val()) ){
 			$quota_used_bache.val( $last_year_admission_amount_bache.val() );
 		}
-		if( $quota_used_bache.val() < 0 ){
+		if( parseInt($quota_used_bache.val()) < 0 ){
 			$quota_used_bache.val( 0 );
 		}
 
-		if( $quota_used_master.val() > $last_year_admission_amount_master.val() ){
+		if( parseInt($quota_used_master.val()) > parseInt($last_year_admission_amount_master.val()) ){
 			$quota_used_master.val( $last_year_admission_amount_master.val() );
 		}
-		if( $quota_used_master.val() < 0 ){
+		if( parseInt($quota_used_master.val()) < 0 ){
 			$quota_used_master.val( 0 );
 		}
 
-		if( $quota_used_phd.val() > $last_year_admission_amount_phd.val() ){
+		if( parseInt($quota_used_phd.val()) > parseInt($last_year_admission_amount_phd.val()) ){
 			$quota_used_phd.val( $last_year_admission_amount_phd.val() );
 		}
-		if( $quota_used_phd.val() < 0 ){
+		if( parseInt($quota_used_phd.val()) < 0 ){
 			$quota_used_phd.val( 0 );
 		}
 
 		// 欲使用名額為 0，班別間流用也需為 0
 		// 核定總量為 0（無該班別或停招等），不得流用名額或申請增量
-		if( $last_year_admission_amount_bache_multiply_10.val() == 0 &&
-			($quota_passed_bache.val() != 0 || $last_year_surplus_admission_quota_bache.val() != 0 || $expanded_quota_bache.val() != 0)){
+		if( parseInt($last_year_admission_amount_bache_multiply_10.val()) == 0 &&
+			(parseInt($quota_passed_bache.val()) != 0 || parseInt($last_year_surplus_admission_quota_bache.val()) != 0 || parseInt($expanded_quota_bache.val()) != 0)){
 			$quota_passed_bache.val(0);
 			$last_year_surplus_admission_quota_bache.val(0);
 			$expanded_quota_bache.val(0);
 			alert("學士班未規劃名額，不得流用名額或申請增量");
 		}
-		if( $last_year_admission_amount_master_multiply_10.val() == 0 &&
-			($quota_passed_master.val() != 0 || $last_year_surplus_admission_quota_master.val() != 0 || $expanded_quota_master.val() != 0) ){
+		if( parseInt($last_year_admission_amount_master_multiply_10.val()) == 0 &&
+			(parseInt($quota_passed_master.val()) != 0 || parseInt($last_year_surplus_admission_quota_master.val()) != 0 || parseInt($expanded_quota_master.val()) != 0) ){
 			$quota_passed_master.val(0);
 			$last_year_surplus_admission_quota_master.val(0);
 			$expanded_quota_master.val(0);
 			alert("碩士班未規劃名額，不得流用名額或申請增量");
 		}
-		if( $last_year_admission_amount_phd_multiply_10.val() == 0 &&
-			($quota_passed_phd.val() != 0 || $last_year_surplus_admission_quota_phd.val() != 0 || $expanded_quota_phd.val() != 0) ){
+		if( parseInt($last_year_admission_amount_phd_multiply_10.val()) == 0 &&
+			(parseInt($quota_passed_phd.val()) != 0 || parseInt($last_year_surplus_admission_quota_phd.val()) != 0 || parseInt($expanded_quota_phd.val()) != 0) ){
 			$quota_passed_phd.val(0);
 			$last_year_surplus_admission_quota_phd.val(0);
 			$expanded_quota_phd.val(0);
@@ -250,30 +250,30 @@ var systemQuota = (function () {
 		}
 
 		// 欲使用名額 < 總量10％ ，不得填本地生缺額、擴增名額
-		if( $quota_used_bache.val() < $last_year_admission_amount_bache.val() &&
+		if( parseInt($quota_used_bache.val()) < parseInt($last_year_admission_amount_bache.val()) &&
 			(
-				$last_year_surplus_admission_quota_bache.val() != 0 ||
-				$expanded_quota_bache.val() != 0
+				parseInt($last_year_surplus_admission_quota_bache.val()) != 0 ||
+				parseInt($expanded_quota_bache.val()) != 0
 			)
 		){
 			$last_year_surplus_admission_quota_bache.val(0);
 			$expanded_quota_bache.val(0);
 			alert("學士班未使用完總量上限，不得填寫本地生缺額、擴增名額");
 		}
-		if( $quota_used_master.val() < $last_year_admission_amount_master.val() &&
+		if( parseInt($quota_used_master.val()) < parseInt($last_year_admission_amount_master.val()) &&
 			(
-				$last_year_surplus_admission_quota_master.val() != 0 ||
-				$expanded_quota_master.val() != 0
+				parseInt($last_year_surplus_admission_quota_master.val()) != 0 ||
+				parseInt($expanded_quota_master.val()) != 0
 			)
 		){
 			$last_year_surplus_admission_quota_master.val(0);
 			$expanded_quota_master.val(0);
 			alert("碩士班未使用完總量上限，不得填寫本地生缺額、擴增名額");
 		}
-		if( $quota_used_phd.val() < $last_year_admission_amount_phd.val() &&
+		if( parseInt($quota_used_phd.val()) < parseInt($last_year_admission_amount_phd.val()) &&
 			(
-				$last_year_surplus_admission_quota_phd.val() != 0 ||
-				$expanded_quota_phd.val() != 0
+				parseInt($last_year_surplus_admission_quota_phd.val()) != 0 ||
+				parseInt($expanded_quota_phd.val()) != 0
 			)
 		){
 			$last_year_surplus_admission_quota_phd.val(0);
@@ -283,7 +283,7 @@ var systemQuota = (function () {
 	}
 
 	function _handleMedicineQuotaChanged() {
-		if( $quota_medicine.val() < 0 || $quota_dentist.val() < 0 || $quota_chinese_medicine.val() < 0){
+		if( parseInt($quota_medicine.val()) < 0 || parseInt($quota_dentist.val()) < 0 || parseInt($quota_chinese_medicine.val()) < 0){
 			$quota_medicine.val(0);
 			$quota_dentist.val(0);
 			$quota_chinese_medicine.val(0);
@@ -415,7 +415,7 @@ var systemQuota = (function () {
 			}).then(function (json) {
 				alert('已儲存並鎖定');
 
-				if( $expanded_quota_bache.val() > 0 || $expanded_quota_master.val() > 0 ||$expanded_quota_phd.val() > 0){
+				if( parseInt($expanded_quota_bache.val()) > 0 || parseInt($expanded_quota_master.val()) > 0 || parseInt($expanded_quota_phd.val()) > 0){
 					alert("您有申請僑、港澳生名額增量，請記得填列「109招生名額增量調查表」並回傳！ （詳情請看底下說明）");
 				}
 				location.reload();
