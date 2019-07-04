@@ -221,11 +221,11 @@ var DeptInfo = (function () {
 
 		if (deptData.add_at_this_year === true) {
             $engTitle.prop('disabled', false);
-            label.text('英文名稱*');
+            label.text('英文名稱（應與學校英文學位授予名稱一致）*');
             label.addClass('text-danger');
 		} else {
-            $engTitle.prop('disabled', true);
-            label.text('英文名稱');
+            $engTitle.prop('disabled', false);
+            label.text('英文名稱（應與學校英文學位授予名稱一致）');
             label.removeClass('text-danger');
 		}
 
