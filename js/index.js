@@ -37,6 +37,11 @@ var schoolInfo = (function () {
 	var $approvalNoOfSelfEnrollment = $schoolInfoForm.find('#approvalNoOfSelfEnrollment');
 	var $approvalDocOfSelfEnrollment = $schoolInfoForm.find('#approvalDocOfSelfEnrollment');
 	var $approvalDocOfSelfEnrollmentUrl = $schoolInfoForm.find('#approvalDocOfSelfEnrollmentUrl');
+	// 緬甸師培專案
+	var $hasMyanmarTeacherEducation = $schoolInfoForm.find('#hasMyanmarTeacherEducation');
+	var $myanmarScholarshipInfo = $schoolInfoForm.find('#myanmarScholarshipInfo');
+	var $myanmarDormInfo = $schoolInfoForm.find('#myanmarDormInfo');
+	var $myanmarNote = $schoolInfoForm.find('#myanmarNote');
 
 	// Button
 	var $schoolInfoBtn = $schoolInfoForm.find('#btn-save');
@@ -61,7 +66,10 @@ var schoolInfo = (function () {
 		scholarshipUrlForm: $schoolInfoForm.find('#scholarshipUrlForm input'),
 		engScholarshipUrlForm: $schoolInfoForm.find('#engScholarshipUrlForm input'),
 		ruleOfFiveYearStudentForm: $schoolInfoForm.find('#ruleOfFiveYearStudentForm textarea'),
-		approvalNoOfSelfEnrollmentForm: $schoolInfoForm.find('#approvalNoOfSelfEnrollmentForm input')
+		approvalNoOfSelfEnrollmentForm: $schoolInfoForm.find('#approvalNoOfSelfEnrollmentForm input'),
+		myanmarEducationTeacherScholarshipForm: $schoolInfoForm.find('#myanmarEducationTeacherScholarshipForm textarea'),
+		myanmarEducationTeacherDormForm: $schoolInfoForm.find('#myanmarEducationTeacherDormForm textarea'),
+		myanmarEducationTeacherNoteForm: $schoolInfoForm.find('#myanmarEducationTeacherNoteForm textarea')
 	};
 
 	/**
@@ -78,6 +86,7 @@ var schoolInfo = (function () {
 	$hasScholarship.on("change", _switchScholarshipStatus);
 	$hasFiveYearStudentAllowed.on("change", _switchFiveYearStudentStatus);
 	$hasSelfEnrollment.on("change", _switchSelfEnrollmentStatus);
+	$hasMyanmarTeacherEducation.on("change", _switchMyanmarTeacherEducation);
 	$schoolInfoBtn.on("click", _setSchoolInfo);
 	$schoolLockBtn.on("click", _lockschool);
 	$downloadExcel.on("click", _downloadExcel);
@@ -104,6 +113,12 @@ var schoolInfo = (function () {
 		$approvalDocOfSelfEnrollment.prop('disabled', !$hasSelfEnrollment.prop('checked'));
 	}
 
+	function _switchMyanmarTeacherEducation() { // 切換「緬甸師培專案」狀態
+		$myanmarScholarshipInfo.prop('disabled', !$hasMyanmarTeacherEducation.prop('checked'));
+		$myanmarDormInfo.prop('disabled', !$hasMyanmarTeacherEducation.prop('checked'));
+		$myanmarNote.prop('disabled', !$hasMyanmarTeacherEducation.prop('checked'));
+	}
+
 	// 整理 form 資料
 	function _getFormData() {
 		var data = new FormData();
@@ -119,6 +134,7 @@ var schoolInfo = (function () {
 		data.append('has_scholarship', +$hasScholarship.prop('checked'));
 		data.append('has_five_year_student_allowed', +$hasFiveYearStudentAllowed.prop('checked'));
 		data.append('has_self_enrollment', +$hasSelfEnrollment.prop('checked'));
+		data.append('has_myanmar_teacher_education', +$hasMyanmarTeacherEducation.prop('checked'));
 
 		if ($hasDorm.prop('checked')) {
 			data.append('dorm_info', $dormInfo.val());
@@ -137,6 +153,11 @@ var schoolInfo = (function () {
 		if ($hasSelfEnrollment.prop('checked')) {
 			data.append('approval_no_of_self_enrollment', $approvalNoOfSelfEnrollment.val());
 			data.append('approval_doc_of_self_enrollment', $approvalDocOfSelfEnrollment.prop('files')[0]);
+		}
+		if($hasMyanmarTeacherEducation.prop('checked')) {
+			data.append('myanmar_scholarship_info', $myanmarScholarshipInfo.val());
+			data.append('myanmar_dorm_info', $myanmarDormInfo.val());
+			data.append('myanmar_note', $myanmarNote.val());
 		}
 
 		return data;
@@ -175,6 +196,12 @@ var schoolInfo = (function () {
 
 		if ($hasSelfEnrollment.prop("checked")) {
 			if (!_validateNotEmpty($approvalNoOfSelfEnrollment)) {formGroup.approvalNoOfSelfEnrollmentForm.addClass("is-invalid"); check = false}
+		}
+
+		if($hasMyanmarTeacherEducation.prop("checked")) {
+			if (!_validateNotEmpty($myanmarScholarshipInfo)) {formGroup.myanmarEducationTeacherScholarshipForm.addClass("is-invalid"); check = false;}
+			if (!_validateNotEmpty($myanmarDormInfo)) {formGroup.myanmarEducationTeacherDormForm.addClass("is-invalid"); check = false;}
+			//if (!_validateNotEmpty($myanmarNote)) {formGroup.myanmarEducationTeacherNoteForm.addClass("is-invalid"); check = false;}
 		}
 
 		return check;
@@ -332,6 +359,21 @@ var schoolInfo = (function () {
 			$approvalDocOfSelfEnrollmentUrl.prop("href", "http://localhost:8000/storage/" + schoolData.approval_doc_of_self_enrollment);
 			$approvalDocOfSelfEnrollmentUrl.text(SEDocTitle);
 		}
+		// 緬甸師培專案
+		$hasMyanmarTeacherEducation.prop("checked", schoolData.has_myanmar_teacher_education);
+		if(schoolData.myanmar_Scholarship_info == null) {
+			// TODO: 待補預設文字
+			$str = '*****預設文字供參考，請自行更改說明*****'+
+			'例：1.提供第一學年免繳學雜費及免繳住宿費，自第二學年起，前一學年成績達七十分以上，且參與學校舉辦活動情況，以評估其續免學雜費之資格，減免期限最長為四年；在學期間，修習教育學程課程之學分費全免。'+
+			'2.應於在學期間修習師資培育教育專業學程，若於入學後第四學期尚未修習者，即終止獎助。'+
+			'3.如辦理休學將停止受獎資格。'+
+			'4.以上將依據本校「緬甸華校師培專案獎助金要點」辦理。';
+			$myanmarScholarshipInfo.val($str);
+		}
+		else { $myanmarScholarshipInfo.val(schoolData.myanmar_scholarship_info); }
+
+		$myanmarDormInfo.val(schoolData.myanmar_dorm_info);
+		$myanmarNote.val(schoolData.myanmar_note);
 	}
 
 	// init
@@ -360,6 +402,7 @@ var schoolInfo = (function () {
 			_switchScholarshipStatus();
 			_switchFiveYearStudentStatus();
 			_switchSelfEnrollmentStatus();
+			_switchMyanmarTeacherEducation();
 
 			stopLoading();
 		}).catch(function(err) {
