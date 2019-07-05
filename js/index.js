@@ -361,17 +361,16 @@ var schoolInfo = (function () {
 		}
 		// 緬甸師培專案
 		$hasMyanmarTeacherEducation.prop("checked", schoolData.has_myanmar_teacher_education);
-		if(schoolData.myanmar_Scholarship_info == null) {
-			// TODO: 待補預設文字
-			$str = '*****預設文字供參考，請自行更改說明*****'+
-			'例：1.提供第一學年免繳學雜費及免繳住宿費，自第二學年起，前一學年成績達七十分以上，且參與學校舉辦活動情況，以評估其續免學雜費之資格，減免期限最長為四年；在學期間，修習教育學程課程之學分費全免。'+
-			'2.應於在學期間修習師資培育教育專業學程，若於入學後第四學期尚未修習者，即終止獎助。'+
-			'3.如辦理休學將停止受獎資格。'+
-			'4.以上將依據本校「緬甸華校師培專案獎助金要點」辦理。';
-			$myanmarScholarshipInfo.val($str);
-		}
-		else { $myanmarScholarshipInfo.val(schoolData.myanmar_scholarship_info); }
-
+		//console.log(schoolData.myanmar_Scholarship_info);
+		// if(schoolData.myanmar_Scholarship_info == null) {
+		// 	// TODO: 待補預設文字
+		// 	$str = '*****預設文字供參考，請自行更改說明*****'+'<br />'+
+		// 	'例：1.提供第一學年免繳學雜費及免繳住宿費';
+		// 	//$myanmarScholarshipInfo.val($str);
+		// 	document.getElementById("myanmarScholarshipInfo").innerHTML = $str;
+		// }
+		// else { $myanmarScholarshipInfo.val(schoolData.myanmar_scholarship_info); }
+		$myanmarScholarshipInfo.val(schoolData.myanmar_scholarship_info);
 		$myanmarDormInfo.val(schoolData.myanmar_dorm_info);
 		$myanmarNote.val(schoolData.myanmar_note);
 	}
