@@ -21,8 +21,10 @@ var DeptInfo = (function () {
 	var $sortOrder = $modalDeptInfo.find('#sortOrder'); // 簡章順序
 	var $id = $modalDeptInfo.find('#id'); // Can't edit ，系所代碼
 	var $cardCode = $modalDeptInfo.find('#cardCode'); // Can't edit，讀卡代碼
+	var $titleMain = $modalDeptInfo.find('#titleMain');  // 核定系名
+	var $titleDivision = $modalDeptInfo.find('#titleDivision');  // 分組名稱
 	var $title = $modalDeptInfo.find('#title'); // Can't edit，中文名稱
-	var $engTitle = $modalDeptInfo.find('#engTitle'); // Can't edit unless add at this year is true，英文名稱
+	var $engTitle = $modalDeptInfo.find('#engTitle'); // Can't edit unless add at this year is true in the past, but now open to edit，英文名稱
 	var $url = $modalDeptInfo.find('#url'); // 系中文網站網址
 	var $engUrl = $modalDeptInfo.find('#engUrl'); // 系英文網站網址
 	var $mainGroup = $modalDeptInfo.find('#mainGroup'); // select bar，主要隸屬學群
@@ -209,11 +211,14 @@ var DeptInfo = (function () {
 	}
 
 	function renderCommonDeptDetail(deptData, system) {
+		console.log(deptData.title);
 		$sortOrder.val(deptData.sort_order);
 		$id.val(deptData.id);
         if (system === "bache") {
             $cardCode.val(deptData.card_code);
         }
+        $titleMain.val(deptData.title_main);  // 核定系名
+        $titleDivision.val(deptData.title_division);  // 分組名稱
 		$title.val(deptData.title);
 		$engTitle.val(deptData.eng_title);
 
