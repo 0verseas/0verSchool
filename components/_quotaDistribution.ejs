@@ -10,23 +10,36 @@
 </div>
 <hr />
 <div class="row">
-	<div class="col-2">
+	<div class="col-2" style="display:none">
 		<div class="form-group">
 			<small id="" class="form-text text-muted">107 總量 * 10%</small>
 			<input type="text" class="form-control last_year_admission_amount quota" disabled>
 		</div>
 	</div>
-	<span class="operator">＋</span>
 	<div class="col-2">
 		<div class="form-group">
-			<small id="" class="form-text text-muted">107 本地生招生缺額</small>
-			<input type="text" class="form-control last_year_surplus_admission_quota quota" disabled>
+			<small id="" class="form-text text-muted">108總量*10%之欲使用名額</small>
+			<input type="text" class="form-control quota_used quota" disabled>
+		</div>
+	</div>
+	<span class="operator">＋</span>
+	<div class="col-1">
+		<div class="form-group">
+			<small id="" class="form-text text-muted">班別間流用</small>
+			<input type="text" class="form-control quota_passed quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＋</span>
 	<div class="col-2">
 		<div class="form-group">
-			<small id="" class="form-text text-muted">108 擴增名額</small>
+			<small id="" class="form-text text-muted">108 本地生招生缺額</small>
+			<input type="text" class="form-control last_year_surplus_admission_quota quota" disabled>
+		</div>
+	</div>
+	<span class="operator">＋</span>
+	<div class="col-1">
+		<div class="form-group">
+			<small id="" class="form-text text-muted">109 擴增名額</small>
 			<input type="text" class="form-control ratify_expanded_quota quota" disabled>
 		</div>
 	</div>
