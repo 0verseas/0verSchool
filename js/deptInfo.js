@@ -211,7 +211,6 @@ var DeptInfo = (function () {
 	}
 
 	function renderCommonDeptDetail(deptData, system) {
-		console.log(deptData.title);
 		$sortOrder.val(deptData.sort_order);
 		$id.val(deptData.id);
         if (system === "bache") {
@@ -224,15 +223,19 @@ var DeptInfo = (function () {
 
         var label = $($engTitle).parent().find('label');
 
-		if (deptData.add_at_this_year === true) {
+		/*if (deptData.add_at_this_year === true) {
             $engTitle.prop('disabled', false);
             label.text('英文名稱（應與學校英文學位授予名稱一致）*');
             label.addClass('text-danger');
 		} else {
-            $engTitle.prop('disabled', false);
+            $engTitle.prop('disabled', true);
             label.text('英文名稱（應與學校英文學位授予名稱一致）');
             label.removeClass('text-danger');
-		}
+		}*/
+		// 開放修改英文名稱（原本是只有當年新加入的才可以）
+		$engTitle.prop('disabled', false);
+		label.text('英文名稱（應與學校英文學位授予名稱一致）*');
+		label.addClass('text-danger');
 
 		$url.val(deptData.url);
 		$engUrl.val(deptData.eng_url);
