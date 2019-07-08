@@ -148,9 +148,9 @@ var DeptInfo = (function () {
 			$deptList
 				.find('tbody')
 				.append(`
-					<tr>
+					<tr class="btn-editDeptInfo" data-deptid="${value.id}">
 						<td>
-							<span class="btn-editDeptInfo" data-deptid="${value.id}"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+							<i class="fa fa-pencil" aria-hidden="true"></i>
 						</td>
 						<td>${value.sort_order}</td>
 						<td>${value.id}</td>
