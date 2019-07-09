@@ -26,6 +26,7 @@ var quotaDistirbutionBache = (function () {
 	var $deptList = $page.find('#table-bacheDeptList');
 	var $allDept;
 	var $schoolHasSelfEnrollment;
+	var $schoolHasMyanmarTeacherEducation;
 
 	/**
 	 * bind event
@@ -100,7 +101,8 @@ var quotaDistirbutionBache = (function () {
 				admission_quota_pass: $deptRow.find('.isDeptPass').is(':checked'),
 				admission_selection_quota: +$deptRow.find('.admission_selection_quota').val(),
 				admission_placement_quota: +$deptRow.find('.admission_placement_quota').val(),
-				decrease_reason_of_admission_placement: $deptRow.find('.decrease_reason_of_admission_placement').val() || null
+				decrease_reason_of_admission_placement: $deptRow.find('.decrease_reason_of_admission_placement').val() || null,
+				myanmar_teacher_education: +$deptRow.find('.isMyanmar').is(':checked')
 			};
 		}).toArray();
 
@@ -110,6 +112,7 @@ var quotaDistirbutionBache = (function () {
 		};
 
 		$this.attr('disabled', true);
+		console.log(data);
 		School.setSystemQuota('bachelor', data).then(function (res) {
 			setTimeout(function () {
 				$this.attr('disabled', false);
@@ -164,6 +167,7 @@ var quotaDistirbutionBache = (function () {
 		}).then(function (json) {
 			$allDept = json.departments;
 			$schoolHasSelfEnrollment = json.school_has_self_enrollment;
+			$schoolHasMyanmarTeacherEducation = json.school_has_myanmer_teacher_education
 
 			_renderData(json);
 
@@ -188,8 +192,9 @@ var quotaDistirbutionBache = (function () {
 	}
 
 	function _renderData(json) {
+		console.log(json);
 		_setQuota(json);
-		_setDeptList(json.departments, json.school_has_self_enrollment);
+		_setDeptList(json.departments, json.school_has_self_enrollment, json.school_has_myanmer_teacher_education);
 		_setEditor(json.creator, json.created_at);
 		$page.find('#schoolHasSelf').text(json.school_has_self_enrollment ? '是' : '否');
 	}
@@ -231,7 +236,7 @@ var quotaDistirbutionBache = (function () {
 		_updateAllowTotal();
 	}
 
-	function _setDeptList(list, school_has_self_enrollment) {
+	function _setDeptList(list, school_has_self_enrollment, school_has_myanmer_teacher_education) {
         // 預設排序
         list.sort(function (a, b) {
             return a.sort_order - b.sort_order;
@@ -255,7 +260,8 @@ var quotaDistirbutionBache = (function () {
 				has_self_enrollment,
 				self_enrollment_quota,
 				decrease_reason_of_admission_placement,
-				admission_quota_pass
+				admission_quota_pass,
+				myanmar_teacher_education
 			} = dept;
 			var total = (+admission_selection_quota) + (+admission_placement_quota) + (+self_enrollment_quota || 0);
 			var reference = last_year_admission_placement_amount > last_year_admission_placement_quota ? last_year_admission_placement_quota : last_year_admission_placement_amount;
@@ -263,6 +269,7 @@ var quotaDistirbutionBache = (function () {
 
 			var checked = school_has_self_enrollment ? ( has_self_enrollment ? 'checked' : '') : 'disabled';
 			var checked2 = ( admission_quota_pass ? 'checked' : '');
+			var checked3 = school_has_myanmer_teacher_education? ( myanmar_teacher_education ? 'checked' : '') : 'disabled';
 
             if (sort_order !== count) {
                 sort_num = count;
@@ -298,6 +305,7 @@ var quotaDistirbutionBache = (function () {
 						<td class="reference text-center" data-val="${reference}">${reference}</td>
 						<td><textarea class="form-control decrease_reason_of_admission_placement" cols="50" rows="1" ${noNeedToWriteReason ? 'disabled' : ''} >${decrease_reason_of_admission_placement || ''}</textarea></td>
 						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${checked} ></td>
+						<td class="text-center"><input type="checkbox" class="isMyanmar" data-type="myanmar_teacher_education" ${checked3} ></td>
 						<td class="total text-center">${total}</td>
 					</tr>
 				`);
@@ -376,7 +384,7 @@ var quotaDistirbutionBache = (function () {
                 changedDept.sort_order += 1;
             }
 
-            _setDeptList($allDept, $schoolHasSelfEnrollment);
+            _setDeptList($allDept, $schoolHasSelfEnrollment, $schoolHasMyanmarTeacherEducation);
         }
     }
 
@@ -399,7 +407,7 @@ var quotaDistirbutionBache = (function () {
                 changedDept.sort_order -= 1;
             }
 
-            _setDeptList($allDept, $schoolHasSelfEnrollment);
+            _setDeptList($allDept, $schoolHasSelfEnrollment, $schoolHasMyanmarTeacherEducation);
         }
     }
 
@@ -445,7 +453,7 @@ var quotaDistirbutionBache = (function () {
             movedDept.sort_order = currentNum;
 		}
 
-        _setDeptList($allDept, $schoolHasSelfEnrollment);
+        _setDeptList($allDept, $schoolHasSelfEnrollment, $schoolHasMyanmarTeacherEducation);
     }
 
 })();
