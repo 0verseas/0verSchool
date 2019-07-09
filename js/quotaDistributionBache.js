@@ -281,7 +281,14 @@ var quotaDistirbutionBache = (function () {
 			var checked = school_has_self_enrollment ? ( has_self_enrollment ? 'checked' : '') : 'disabled';
 			var checked2 = ( admission_quota_pass ? 'checked' : '');
 			var checked3 = school_has_myanmer_teacher_education? ( myanmar_teacher_education ? 'checked' : '') : 'disabled';
-
+			console.log(title);
+			if( title == "醫學系") {
+				var checked4 = "disabled";
+			}
+			else {
+				var checked4 = "";
+			}
+			
             if (sort_order !== count) {
                 sort_num = count;
             } else {
@@ -310,9 +317,9 @@ var quotaDistirbutionBache = (function () {
 							<div>${title}</div>
 							<div>${eng_title}</div>
 						</td>
-						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
+						<td><input type="number" min="0" ${checked4} class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
 						<td class="text-center"><input type="checkbox" class="isDeptPass" data-type="deptPass" ${checked2} ></td>
-						<td><input type="number" min="0" class="form-control editableQuota required admission_placement_quota" data-type="admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
+						<td><input type="number" min="0" ${checked4} class="form-control editableQuota required admission_placement_quota" data-type="admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
 						<td class="reference text-center" data-val="${reference}">${reference}</td>
 						<td><textarea class="form-control decrease_reason_of_admission_placement" cols="50" rows="1" ${noNeedToWriteReason ? 'disabled' : ''} >${decrease_reason_of_admission_placement || ''}</textarea></td>
 						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${checked} ></td>
