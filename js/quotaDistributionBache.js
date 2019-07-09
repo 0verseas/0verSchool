@@ -51,6 +51,18 @@ var quotaDistirbutionBache = (function () {
 		_updateWantTotal();
 	}
 
+	function _handleDeptPassChange() {
+		var $this = $(this);
+		var $single_deptPass = $this.parents('.dept').find('.isDeptPass');
+		var $single_admission_placement_quota = $this.parents('.dept').find('.admission_placement_quota').val()
+		// console.log($single_deptPass.is(':checked'));
+		// console.log($single_admission_placement_quota);
+		
+		if( $single_deptPass.is(':checked') == true && $single_admission_placement_quota == 0){
+			alert("該系聯合分發名額為 0，確定要流用嘛？");
+		}
+	}
+
 	function _handleQuotaChange() {
 		var $this = $(this);
 		var sum = 0;
@@ -192,7 +204,6 @@ var quotaDistirbutionBache = (function () {
 	}
 
 	function _renderData(json) {
-		console.log(json);
 		_setQuota(json);
 		_setDeptList(json.departments, json.school_has_self_enrollment, json.school_has_myanmer_teacher_education);
 		_setEditor(json.creator, json.created_at);
@@ -320,10 +331,15 @@ var quotaDistirbutionBache = (function () {
         const $upArrow = $deptList.find('.up-arrow');
         const $downArrow = $deptList.find('.down-arrow');
         const $orderNum = $deptList.find('.order-num');
+		const $DeptPass = $deptList.find('.isDeptPass');
+		const $single_admission_placement_quota = $deptList.find('.admission_placement_quota');
 
         $upArrow.on("click", _prevOrder);
         $downArrow.on("click", _nextOrder);
         $orderNum.on("change", _changeOrder);
+		// 餘額留用 change
+		$DeptPass.on('change', _handleDeptPassChange);
+		$single_admission_placement_quota.on('change', _handleDeptPassChange);
 	}
 
 	function _updateQuotaSum(type) {
