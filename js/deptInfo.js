@@ -22,7 +22,7 @@ var DeptInfo = (function () {
 	var $id = $modalDeptInfo.find('#id'); // Can't edit ，系所代碼
 	var $cardCode = $modalDeptInfo.find('#cardCode'); // Can't edit，讀卡代碼
 	var $titleMain = $modalDeptInfo.find('#titleMain');  // 核定系名
-	var $titleDivision = $modalDeptInfo.find('#titleDivision');  // 分組名稱
+	var $titleDivision = $modalDeptInfo.find('#titleDivision');  // 招生分組
 	var $title = $modalDeptInfo.find('#title'); // Can't edit，中文名稱
 	var $engTitle = $modalDeptInfo.find('#engTitle'); // Can't edit unless add at this year is true in the past, but now open to edit，英文名稱
 	var $url = $modalDeptInfo.find('#url'); // 系中文網站網址
@@ -217,7 +217,7 @@ var DeptInfo = (function () {
             $cardCode.val(deptData.card_code);
         }
         $titleMain.val(deptData.title_main);  // 核定系名
-        $titleDivision.val(deptData.title_division);  // 分組名稱
+        $titleDivision.val(deptData.title_division);  // 招生分組
 		$title.val(deptData.title);
 		$engTitle.val(deptData.eng_title);
 
