@@ -96,6 +96,16 @@ var quotaDistirbutionBache = (function () {
 		}
 	}
 
+	// 「是否招生緬甸師培生」核取方塊
+	function _handleMyanmarTeacherEduChange() {
+		var $this = $(this);
+		var $admission_selection_quota = $this.parents('.dept').find('.admission_selection_quota').val();  // 個人申請名額
+		var $myanmar_teacher_education = $this.parents('.dept').find('.isMyanmar');
+		if($myanmar_teacher_education.is(':checked')==true && $admission_selection_quota==0){
+			alert("該系有招收緬甸師培生，但個人申請名額為 0");
+		}
+	}
+
 	function _handleSave() {
 		var $this = $(this);
 		if (!_checkForm()) {
@@ -340,6 +350,8 @@ var quotaDistirbutionBache = (function () {
         const $orderNum = $deptList.find('.order-num');
 		const $DeptPass = $deptList.find('.isDeptPass');
 		const $single_admission_placement_quota = $deptList.find('.admission_placement_quota');
+		const $myanmar_teacher_education = $deptList.find('.isMyanmar');  // 是否招生緬甸師培生
+		const $admission_selection_quota = $deptList.find('.admission_selection_quota');  // 個人申請名額
 
         $upArrow.on("click", _prevOrder);
         $downArrow.on("click", _nextOrder);
@@ -347,6 +359,8 @@ var quotaDistirbutionBache = (function () {
 		// 餘額留用 change
 		$DeptPass.on('change', _handleDeptPassChange);
 		$single_admission_placement_quota.on('change', _handleDeptPassChange);
+		$myanmar_teacher_education.on('change', _handleMyanmarTeacherEduChange);
+		$admission_selection_quota.on('change', _handleMyanmarTeacherEduChange);
 	}
 
 	function _updateQuotaSum(type) {
