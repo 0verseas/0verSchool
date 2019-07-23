@@ -348,7 +348,7 @@ var schoolInfo = (function () {
 		$ruleOfFiveYearStudent.text(schoolData.rule_of_five_year_student);
 		if (schoolData.rule_doc_of_five_year_student) {
 			var FYSDocTitle = schoolData['rule_doc_of_five_year_student'].substring(schoolData['rule_doc_of_five_year_student'].lastIndexOf("/") + 1);
-			$ruleDocOfFiveYearStudentUrl.prop("href", "http://localhost:8000/storage/" + schoolData.rule_doc_of_five_year_student);
+			$ruleDocOfFiveYearStudentUrl.prop("href", env.baseUrl + "/storage/" + schoolData.rule_doc_of_five_year_student);
 			$ruleDocOfFiveYearStudentUrl.text(FYSDocTitle);
 		}
 		// 單獨招收僑生（自招）
@@ -356,7 +356,7 @@ var schoolInfo = (function () {
 		$approvalNoOfSelfEnrollment.val(schoolData.approval_no_of_self_enrollment);
 		if (schoolData.approval_doc_of_self_enrollment) {
 			var SEDocTitle = schoolData['approval_doc_of_self_enrollment'].substring(schoolData['approval_doc_of_self_enrollment'].lastIndexOf("/") + 1);
-			$approvalDocOfSelfEnrollmentUrl.prop("href", "http://localhost:8000/storage/" + schoolData.approval_doc_of_self_enrollment);
+			$approvalDocOfSelfEnrollmentUrl.prop("href", env.baseUrl + "/storage/" + schoolData.approval_doc_of_self_enrollment);
 			$approvalDocOfSelfEnrollmentUrl.text(SEDocTitle);
 		}
 		// 緬甸師培專案
