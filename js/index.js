@@ -393,6 +393,10 @@ var schoolInfo = (function () {
 				document.getElementById("btn-save").disabled = true;
 				$('#btn-lock-school').removeClass('btn-danger').addClass('btn-success').prop('disabled', true).text('已鎖定')
 			}
+			// 有招收緬甸師培生才可以選要不要勾「是否招收緬甸師培生」
+			if(json.has_myanmar_teacher_education == 1){
+				$hasMyanmarTeacherEducation.prop('disabled', false);
+			}
 			return json.info_status
 		}).then(function(infoStatus) {
 			var role = User.getUserInfo().school_editor.has_admin;
