@@ -51,6 +51,8 @@ var login = (function () {
 		}).catch(function(err) {
 			if (err == 401) {
 				$errMsg.finish().show().text('帳號密碼錯誤。').fadeOut(1500);
+			} else if(err == 429){  // 429 Too Many Requests
+				$errMsg.finish().show().text('錯誤次數太多，請稍後再試。').fadeOut(3000);
 			}
 		})
 	}
