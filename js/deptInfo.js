@@ -21,8 +21,10 @@ var DeptInfo = (function () {
 	var $sortOrder = $modalDeptInfo.find('#sortOrder'); // 簡章順序
 	var $id = $modalDeptInfo.find('#id'); // Can't edit ，系所代碼
 	var $cardCode = $modalDeptInfo.find('#cardCode'); // Can't edit，讀卡代碼
+	var $titleMain = $modalDeptInfo.find('#titleMain');  // 核定系名
+	var $titleDivision = $modalDeptInfo.find('#titleDivision');  // 招生分組
 	var $title = $modalDeptInfo.find('#title'); // Can't edit，中文名稱
-	var $engTitle = $modalDeptInfo.find('#engTitle'); // Can't edit unless add at this year is true，英文名稱
+	var $engTitle = $modalDeptInfo.find('#engTitle'); // Can't edit unless add at this year is true in the past, but now open to edit，英文名稱
 	var $url = $modalDeptInfo.find('#url'); // 系中文網站網址
 	var $engUrl = $modalDeptInfo.find('#engUrl'); // 系英文網站網址
 	var $mainGroup = $modalDeptInfo.find('#mainGroup'); // select bar，主要隸屬學群
@@ -146,9 +148,9 @@ var DeptInfo = (function () {
 			$deptList
 				.find('tbody')
 				.append(`
-					<tr>
+					<tr class="btn-editDeptInfo" data-deptid="${value.id}">
 						<td>
-							<span class="btn-editDeptInfo" data-deptid="${value.id}"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+							<i class="fa fa-pencil" aria-hidden="true"></i>
 						</td>
 						<td>${value.sort_order}</td>
 						<td>${value.id}</td>
@@ -214,20 +216,26 @@ var DeptInfo = (function () {
         if (system === "bache") {
             $cardCode.val(deptData.card_code);
         }
+        $titleMain.val(deptData.title_main);  // 核定系名
+        $titleDivision.val(deptData.title_division);  // 招生分組
 		$title.val(deptData.title);
 		$engTitle.val(deptData.eng_title);
 
         var label = $($engTitle).parent().find('label');
 
-		if (deptData.add_at_this_year === true) {
+		/*if (deptData.add_at_this_year === true) {
             $engTitle.prop('disabled', false);
-            label.text('英文名稱*');
+            label.text('英文名稱（應與學校英文學位授予名稱一致）*');
             label.addClass('text-danger');
 		} else {
             $engTitle.prop('disabled', true);
-            label.text('英文名稱');
+            label.text('英文名稱（應與學校英文學位授予名稱一致）');
             label.removeClass('text-danger');
-		}
+		}*/
+		// 開放修改英文名稱（原本是只有當年新加入的才可以）
+		$engTitle.prop('disabled', false);
+		label.text('英文名稱（應與學校英文學位授予名稱一致）*');
+		label.addClass('text-danger');
 
 		$url.val(deptData.url);
 		$engUrl.val(deptData.eng_url);

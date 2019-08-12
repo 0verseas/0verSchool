@@ -10,30 +10,43 @@
 </div>
 <hr />
 <div class="row">
-	<div class="col-2">
+	<div class="col-2" style="display:none">
 		<div class="form-group">
 			<small id="" class="form-text text-muted">107 總量 * 10%</small>
 			<input type="text" class="form-control last_year_admission_amount quota" disabled>
 		</div>
 	</div>
-	<span class="operator">＋</span>
 	<div class="col-2">
 		<div class="form-group">
-			<small id="" class="form-text text-muted">107 本地生招生缺額</small>
-			<input type="text" class="form-control last_year_surplus_admission_quota quota" disabled>
+			<small id="" class="form-text text-muted">108總量*10%之欲使用名額</small>
+			<input type="text" class="form-control quota_used quota" disabled>
+		</div>
+	</div>
+	<span class="operator">＋</span>
+	<div class="col-1">
+		<div class="form-group">
+			<small id="" class="form-text text-muted">班別間流用</small>
+			<input type="text" class="form-control quota_passed quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＋</span>
 	<div class="col-2">
 		<div class="form-group">
-			<small id="" class="form-text text-muted">108 擴增名額</small>
+			<small id="" class="form-text text-muted">108 本地生招生缺額</small>
+			<input type="text" class="form-control last_year_surplus_admission_quota quota" disabled>
+		</div>
+	</div>
+	<span class="operator">＋</span>
+	<div class="col-1">
+		<div class="form-group">
+			<small id="" class="form-text text-muted">109 擴增名額</small>
 			<input type="text" class="form-control ratify_expanded_quota quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＝</span>
 	<div class="col-3">
 		<div class="form-group">
-			<small id="" class="form-text text-muted">108 僑生招生總量</small>
+			<small id="" class="form-text text-muted">109 僑生招生總量</small>
 			<input type="text" class="form-control allowTotal quota" disabled>
 		</div>
 	</div>
@@ -42,14 +55,14 @@
 <div class="row masterOnly phdOnly hide">
 	<div class="col-2">
 		<div class="form-group">
-			<small id="" class="form-text text-muted">108 聯招小計</small>
+			<small id="" class="form-text text-muted">109 聯招小計</small>
 			<input type="text" class="form-control admissionSum quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＋</span>
 	<div class="col-2">
 		<div class="form-group">
-			<small id="" class="form-text text-danger">108 單招小計*</small>
+			<small id="" class="form-text text-danger">109 單招小計*</small>
 			<input type="number" min="0" class="form-control bg-success text-white selfSum quota graduated_self_enrollment_quota required">
 		</div>
 	</div>
@@ -154,14 +167,14 @@
 	<span>　</span>
 	<div style="width:33%;"> <!--class="col-3 "-->
 		<div class="form-group">
-			<small id="" class="form-text text-muted">108 聯招小計</small>
+			<small id="" class="form-text text-muted">109 聯招小計</small>
 			<input type="text" class="form-control bg-info text-white quota admissionSum" disabled>
 		</div>
 	</div>
 	<span>　　　</span>
 	<div style="width:19%;"> <!--class="col-2"-->
 		<div class="form-group">
-			<small id="" class="form-text text-muted">108 單招小計</small>
+			<small id="" class="form-text text-muted">109 單招小計</small>
 			<input type="text" class="form-control bg-success text-white quota selfSum" disabled>
 		</div>
 	</div>
@@ -187,6 +200,7 @@
 					<th style="width: 100px;">參考值 <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" data-animation="false" title="聯合分發名額數不得低於參考值"></i></th>
 					<th style="width: 150px;">減招原因</th>
 					<th style="width: 90px;">是否單招</th>
+					<th style="width: 110px;">是否招生緬甸師培生</th>
 					<th style="width: 100px;">小計</th>
 				</tr>
 			</thead>

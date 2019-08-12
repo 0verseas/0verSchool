@@ -9,6 +9,8 @@ var quotaDistirbutionBache = (function () {
 	//quota
 	var $quota_allowTotal = $page.find('.quota.allowTotal'); // 本年度可招生總量
 	var $quota_last_year_admission_amount = $page.find('.quota.last_year_admission_amount'); // 去年招生名額 * 10%
+	var $quota_used = $page.find('.quota.quota_used'); // 欲使用名額
+	var $quota_passed = $page.find('.quota.quota_passed'); // 班別間流用
 	var $quota_last_year_surplus_admission_quota = $page.find('.quota.last_year_surplus_admission_quota'); // 去年本地生招生缺額數*
 	var $quota_ratify_expanded_quota = $page.find('.quota.ratify_expanded_quota'); // 本年度教育部核准擴增名額
 	var $quota_admission_selection_quota = $page.find('.quota.admission_selection_quota'); // 學士班個人申請
@@ -24,6 +26,7 @@ var quotaDistirbutionBache = (function () {
 	var $deptList = $page.find('#table-bacheDeptList');
 	var $allDept;
 	var $schoolHasSelfEnrollment;
+	var $schoolHasMyanmarTeacherEducation;
 
 	/**
 	 * bind event
@@ -46,6 +49,18 @@ var quotaDistirbutionBache = (function () {
 	function _handleSelfChanged() {
 		_updateAdmissionSumSelfSum();
 		_updateWantTotal();
+	}
+
+	function _handleDeptPassChange() {
+		var $this = $(this);
+		var $single_deptPass = $this.parents('.dept').find('.isDeptPass');
+		var $single_admission_placement_quota = $this.parents('.dept').find('.admission_placement_quota').val()
+		// console.log($single_deptPass.is(':checked'));
+		// console.log($single_admission_placement_quota);
+		
+		if( $single_deptPass.is(':checked') == true && $single_admission_placement_quota == 0){
+			alert("該系聯合分發名額為 0，確定要流用嘛？");
+		}
 	}
 
 	function _handleQuotaChange() {
@@ -81,6 +96,16 @@ var quotaDistirbutionBache = (function () {
 		}
 	}
 
+	// 「是否招生緬甸師培生」核取方塊
+	function _handleMyanmarTeacherEduChange() {
+		var $this = $(this);
+		var $admission_selection_quota = $this.parents('.dept').find('.admission_selection_quota').val();  // 個人申請名額
+		var $myanmar_teacher_education = $this.parents('.dept').find('.isMyanmar');
+		if($myanmar_teacher_education.is(':checked')==true && $admission_selection_quota==0){
+			alert("該系有招收緬甸師培生，但個人申請名額為 0");
+		}
+	}
+
 	function _handleSave() {
 		var $this = $(this);
 		if (!_checkForm()) {
@@ -98,7 +123,8 @@ var quotaDistirbutionBache = (function () {
 				admission_quota_pass: $deptRow.find('.isDeptPass').is(':checked'),
 				admission_selection_quota: +$deptRow.find('.admission_selection_quota').val(),
 				admission_placement_quota: +$deptRow.find('.admission_placement_quota').val(),
-				decrease_reason_of_admission_placement: $deptRow.find('.decrease_reason_of_admission_placement').val() || null
+				decrease_reason_of_admission_placement: $deptRow.find('.decrease_reason_of_admission_placement').val() || null,
+				myanmar_teacher_education: +$deptRow.find('.isMyanmar').is(':checked')
 			};
 		}).toArray();
 
@@ -108,6 +134,7 @@ var quotaDistirbutionBache = (function () {
 		};
 
 		$this.attr('disabled', true);
+		console.log(data);
 		School.setSystemQuota('bachelor', data).then(function (res) {
 			setTimeout(function () {
 				$this.attr('disabled', false);
@@ -162,6 +189,7 @@ var quotaDistirbutionBache = (function () {
 		}).then(function (json) {
 			$allDept = json.departments;
 			$schoolHasSelfEnrollment = json.school_has_self_enrollment;
+			$schoolHasMyanmarTeacherEducation = json.school_has_myanmer_teacher_education
 
 			_renderData(json);
 
@@ -187,7 +215,7 @@ var quotaDistirbutionBache = (function () {
 
 	function _renderData(json) {
 		_setQuota(json);
-		_setDeptList(json.departments, json.school_has_self_enrollment);
+		_setDeptList(json.departments, json.school_has_self_enrollment, json.school_has_myanmer_teacher_education);
 		_setEditor(json.creator, json.created_at);
 		$page.find('#schoolHasSelf').text(json.school_has_self_enrollment ? '是' : '否');
 	}
@@ -205,13 +233,17 @@ var quotaDistirbutionBache = (function () {
 			another_department_admission_selection_quota,
 			another_department_self_enrollment_quota,
 			self_enrollment_quota,
-            school_has_self_enrollment
+			school_has_self_enrollment,
+			quota_used,
+			quota_passed
 		} = data;
 		$quota_last_year_admission_amount.val(last_year_admission_amount || 0);
 		$quota_last_year_surplus_admission_quota.val(last_year_surplus_admission_quota || 0);
 		$quota_ratify_expanded_quota.val(ratify_expanded_quota || 0);
 		$quota_another_department_admission_selection_quota.val(another_department_admission_selection_quota || 0);
 		$quota_another_department_self_enrollment_quota.val(another_department_self_enrollment_quota || 0);
+		$quota_used.val(quota_used || 0);
+		$quota_passed.val(quota_passed || 0);
 
         if (school_has_self_enrollment) {
             $quota_self_enrollment_quota.val(self_enrollment_quota || 0);
@@ -225,7 +257,7 @@ var quotaDistirbutionBache = (function () {
 		_updateAllowTotal();
 	}
 
-	function _setDeptList(list, school_has_self_enrollment) {
+	function _setDeptList(list, school_has_self_enrollment, school_has_myanmer_teacher_education) {
         // 預設排序
         list.sort(function (a, b) {
             return a.sort_order - b.sort_order;
@@ -249,7 +281,8 @@ var quotaDistirbutionBache = (function () {
 				has_self_enrollment,
 				self_enrollment_quota,
 				decrease_reason_of_admission_placement,
-				admission_quota_pass
+				admission_quota_pass,
+				myanmar_teacher_education
 			} = dept;
 			var total = (+admission_selection_quota) + (+admission_placement_quota) + (+self_enrollment_quota || 0);
 			var reference = last_year_admission_placement_amount > last_year_admission_placement_quota ? last_year_admission_placement_quota : last_year_admission_placement_amount;
@@ -257,7 +290,15 @@ var quotaDistirbutionBache = (function () {
 
 			var checked = school_has_self_enrollment ? ( has_self_enrollment ? 'checked' : '') : 'disabled';
 			var checked2 = ( admission_quota_pass ? 'checked' : '');
-
+			var checked3 = school_has_myanmer_teacher_education? ( myanmar_teacher_education ? 'checked' : '') : 'disabled';
+			console.log(title);
+			if( title == "醫學系") {
+				var checked4 = "disabled";
+			}
+			else {
+				var checked4 = "";
+			}
+			
             if (sort_order !== count) {
                 sort_num = count;
             } else {
@@ -286,12 +327,13 @@ var quotaDistirbutionBache = (function () {
 							<div>${title}</div>
 							<div>${eng_title}</div>
 						</td>
-						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
+						<td><input type="number" min="0" ${checked4} class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
 						<td class="text-center"><input type="checkbox" class="isDeptPass" data-type="deptPass" ${checked2} ></td>
-						<td><input type="number" min="0" class="form-control editableQuota required admission_placement_quota" data-type="admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
+						<td><input type="number" min="0" ${checked4} class="form-control editableQuota required admission_placement_quota" data-type="admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
 						<td class="reference text-center" data-val="${reference}">${reference}</td>
 						<td><textarea class="form-control decrease_reason_of_admission_placement" cols="50" rows="1" ${noNeedToWriteReason ? 'disabled' : ''} >${decrease_reason_of_admission_placement || ''}</textarea></td>
 						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${checked} ></td>
+						<td class="text-center"><input type="checkbox" class="isMyanmar" data-type="myanmar_teacher_education" ${checked3} ></td>
 						<td class="total text-center">${total}</td>
 					</tr>
 				`);
@@ -306,10 +348,19 @@ var quotaDistirbutionBache = (function () {
         const $upArrow = $deptList.find('.up-arrow');
         const $downArrow = $deptList.find('.down-arrow');
         const $orderNum = $deptList.find('.order-num');
+		const $DeptPass = $deptList.find('.isDeptPass');
+		const $single_admission_placement_quota = $deptList.find('.admission_placement_quota');
+		const $myanmar_teacher_education = $deptList.find('.isMyanmar');  // 是否招生緬甸師培生
+		const $admission_selection_quota = $deptList.find('.admission_selection_quota');  // 個人申請名額
 
         $upArrow.on("click", _prevOrder);
         $downArrow.on("click", _nextOrder);
         $orderNum.on("change", _changeOrder);
+		// 餘額留用 change
+		$DeptPass.on('change', _handleDeptPassChange);
+		$single_admission_placement_quota.on('change', _handleDeptPassChange);
+		$myanmar_teacher_education.on('change', _handleMyanmarTeacherEduChange);
+		$admission_selection_quota.on('change', _handleMyanmarTeacherEduChange);
 	}
 
 	function _updateQuotaSum(type) {
@@ -325,7 +376,8 @@ var quotaDistirbutionBache = (function () {
 	}
 
 	function _updateAllowTotal() {
-		var sum = +($quota_last_year_admission_amount.val()) +
+		var sum = +($quota_used.val()) +
+			+($quota_passed.val())+
 			+($quota_last_year_surplus_admission_quota.val()) +
 			+($quota_ratify_expanded_quota.val());
 		$quota_allowTotal.val(sum);
@@ -369,7 +421,7 @@ var quotaDistirbutionBache = (function () {
                 changedDept.sort_order += 1;
             }
 
-            _setDeptList($allDept, $schoolHasSelfEnrollment);
+            _setDeptList($allDept, $schoolHasSelfEnrollment, $schoolHasMyanmarTeacherEducation);
         }
     }
 
@@ -392,7 +444,7 @@ var quotaDistirbutionBache = (function () {
                 changedDept.sort_order -= 1;
             }
 
-            _setDeptList($allDept, $schoolHasSelfEnrollment);
+            _setDeptList($allDept, $schoolHasSelfEnrollment, $schoolHasMyanmarTeacherEducation);
         }
     }
 
@@ -438,7 +490,7 @@ var quotaDistirbutionBache = (function () {
             movedDept.sort_order = currentNum;
 		}
 
-        _setDeptList($allDept, $schoolHasSelfEnrollment);
+        _setDeptList($allDept, $schoolHasSelfEnrollment, $schoolHasMyanmarTeacherEducation);
     }
 
 })();

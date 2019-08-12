@@ -12,6 +12,8 @@ var quotaDistirbutionTwoYear = (function () {
 	var $quota_last_year_admission_amount = $page.find('.quota.last_year_admission_amount'); // 去年招生名額 * 10%
 	var $quota_last_year_surplus_admission_quota = $page.find('.quota.last_year_surplus_admission_quota'); // 去年本地生招生缺額數*
 	var $quota_ratify_expanded_quota = $page.find('.quota.ratify_expanded_quota'); // 本年度教育部核准擴增名額
+	var $quota_used = $page.find('.quota.quota_used'); // 欲使用名額
+	var $quota_passed = $page.find('.quota.quota_passed'); // 班別間流用
 	var $quota_another_department_admission_selection_quota = $page.find('.quota.another_department_admission_selection_quota'); // 學士班個人申請
 	var $quota_another_department_admission_placement_quota = $page.find('.quota.another_department_admission_placement_quota'); // 學士班聯合分發
 	var $quota_admission_selection_quota = $page.find('.quota.admission_selection_quota'); // 港二技個人申請
@@ -233,12 +235,17 @@ var quotaDistirbutionTwoYear = (function () {
 			another_department_admission_placement_quota,
 			another_department_self_enrollment_quota,
             school_has_self_enrollment,
-            self_enrollment_quota
+			self_enrollment_quota,
+			quota_used,
+			quota_passed
 		} = data;
 		$quota_last_year_admission_amount.val(last_year_admission_amount || 0);
 		$quota_last_year_surplus_admission_quota.val(last_year_surplus_admission_quota || 0);
 		$quota_ratify_expanded_quota.val(ratify_expanded_quota || 0);
 		$quota_another_department_admission_selection_quota.val(another_department_admission_selection_quota || 0);
+		$quota_used.val(quota_used || 0);
+		$quota_passed.val(quota_passed || 0);
+
 
         if (school_has_self_enrollment) {
             $quota_another_department_self_enrollment_quota.val(another_department_self_enrollment_quota || 0);
@@ -414,7 +421,9 @@ var quotaDistirbutionTwoYear = (function () {
 	}
 
 	function _updateAllowTotal() {
-		var sum = +($quota_last_year_admission_amount.val()) +
+		//var sum = +($quota_last_year_admission_amount.val()) +
+		var sum = +($quota_used.val()) +
+			+($quota_passed.val())+
 			+($quota_last_year_surplus_admission_quota.val()) +
 			+($quota_ratify_expanded_quota.val());
 		$quota_allowTotal.val(sum);

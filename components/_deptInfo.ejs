@@ -142,10 +142,20 @@
 						</div>
 						<div class="row">
 							<div class="form-group col-6">
-								<label class="form-control-label" for="">中文名稱</label>
-								<input type="text" class="form-control" id="title" disabled>
+								<label class="form-control-label" for="">核定系名</label>
+								<input type="text" class="form-control" id="titleMain" disabled>
 							</div>
 							<div id="engTitleForm" class="form-group col-6">
+								<label class="form-control-label" for="">招生分組</label>
+								<input type="text" class="form-control" id="titleDivision" disabled>
+							</div>
+						</div>
+						<div class="row">
+							<!--<div class="form-group col-6">
+								<label class="form-control-label" for="">中文名稱</label>
+								<input type="text" class="form-control" id="title" disabled>
+							</div>-->
+							<div id="engTitleForm" class="form-group col-12">
 								<label class="form-control-label" for="">英文名稱</label>
 								<input type="text" class="form-control" id="engTitle" disabled>
 							</div>
@@ -222,13 +232,13 @@
 										請勿在此填寫個人申請繳交資料說明。
 									</li>
 								</ol>
-								<textarea class="form-control " rows="4" id="description"></textarea>
+								<textarea class="form-control " rows="4" id="description" placeholder="請輸入系所中文描述"></textarea>
 							</div>
 						</div>
 						<div class="row">
 							<div id="engDescriptionForm" class="form-group col">
 								<label class="form-control-label text-danger" for="">英文系所簡介*</label>
-								<textarea class="form-control" rows="4" id="engDescription"></textarea>
+								<textarea class="form-control" rows="4" id="engDescription" placeholder="Please enter a description about this department in English."></textarea>
 							</div>
 						</div>
 
@@ -453,7 +463,7 @@
 													<div class="col-12">
 														<div class="form-group">
 															<label class="form-control-label" for="">審查項目中文說明</label>
-															<textarea class="form-control" rows="3" v-model="type.description" v-bind:class="{'is-invalid': type.error}"></textarea>
+															<textarea class="form-control" rows="3" v-model="type.description" v-bind:class="{'is-invalid': type.error}" placeholder="請輸入詳細說明，如份數與類型（畢業證書 / 修業證明 / 離校證明 / 在學證明）等"></textarea>
 														</div>
 													</div>
 												</div>
@@ -462,7 +472,7 @@
 													<div class="col-12">
 														<div class="form-group">
 															<label for="">審查項目英文說明</label>
-															<textarea class="form-control" rows="3" v-model="type.eng_description" v-bind:class="{'is-invalid': type.engerror}"></textarea>
+															<textarea class="form-control" rows="3" v-model="type.eng_description" v-bind:class="{'is-invalid': type.engerror}" placeholder="Please enter a detailed description in English, such as the number of copies and type (graduation certificate / enrollment certificate / leaving certificate / school attendance certificate), etc."></textarea>
 														</div>
 													</div>
 												</div>
