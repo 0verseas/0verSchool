@@ -60,8 +60,7 @@ var deptInfoBache = (function () {
 		_getGuidelinesReplyForm('preview');
 	}); // 列印學制資訊 (預覽版)
 	$sendFormalPDFBtn.on('click', function () {
-		// _getGuidelinesReplyForm('formal');
-		alert("敬請期待正式站開放");
+		_getGuidelinesReplyForm('formal');
 	}); // 列印學制資訊 (正式版)
 
 	$lockSystemBtn.on('click', _lockSystem);
