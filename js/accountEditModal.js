@@ -79,6 +79,10 @@ $(document).ready(function () {
 					break;
 				}
 			}
+			// 檢查兩次輸入的密碼如果不同
+			if (passwordSecond.val() !== password.val()) {
+				valid = false;
+			}
 			return valid;
 		}
 
