@@ -21,6 +21,7 @@ $(document).ready(function () {
 		var emailWarning = $('#email-warning');
 		var passwordCheckDiv = $('#password-check-div');
 		var passwordCheck = $('#password-check');
+		var passwordComplex = $('#password-complex');  // 「密碼複雜度不足」提醒字樣
 
 		$storeBtn.on('click', _store);
 		password.on('input', _doubleCheck);
@@ -29,6 +30,7 @@ $(document).ready(function () {
 
 		// 密碼二次確認
 		function _doubleCheck() {
+			// 確認兩次輸入的密碼是否相同
 			if (passwordSecond.val() !== password.val()) {
 				passwordCheckDiv.addClass('has-danger');
 				passwordSecond.addClass('form-control-danger');
@@ -38,6 +40,9 @@ $(document).ready(function () {
 				passwordSecond.removeClass('form-control-danger');
 				passwordCheck.hide();
 			}
+
+			// 確認密碼複雜度是否足夠
+			passwordComplexCheck(password.val());
 		}
 
 		function _checkEmail() {
@@ -130,6 +135,18 @@ $(document).ready(function () {
 					stopLoading();
 				});
 			});
+		}
+
+		// 確認密碼複雜度
+		function passwordComplexCheck(input) {
+			// 至少8碼且大寫、小寫、數字或特殊符號（數字那一排不含反斜線和豎線）至少兩種
+			// ^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[~!@#$%^&*()_+\-=]).{8,}$
+			const reg = /^((?=.*\d)(?=.*[A-Z])|(?=.*[a-z])(?=.*[A-Z])|(?=.*\d)(?=.*[a-z])|(?=.*\d)(?=.*[~!@#$%^&*()_+\-=])|(?=.*[a-z])(?=.*[~!@#$%^&*()_+\-=])|(?=.*[A-Z])(?=.*[~!@#$%^&*()_+\-=])).{8,}$/;
+			if(reg.test(input)){  // 符合條件
+				passwordComplex.hide();
+			} else {  // 不符合的話就顯示提示文字
+				passwordComplex.show();
+			}
 		}
 
 		return {
