@@ -145,6 +145,7 @@ var DeptInfo = (function () {
 		$deptList.find('tbody').html('');
 		departments.forEach(function (value, index) {
 			var updateAt = moment(value.created_at).format('YYYY/MM/DD HH:mm:ss');
+			let engTitle = encodeHtmlCharacters(value.eng_title);  // department english title
 			$deptList
 				.find('tbody')
 				.append(`
@@ -156,7 +157,7 @@ var DeptInfo = (function () {
 						<td>${value.id}</td>
 						<td>
 							<div>${value.title}</div>
-							<div>${value.eng_title}</div>
+							<div>${engTitle}</div>
 						</td>
 						<td>${value.created_by}</td>
 						<td>${updateAt}</td>
@@ -478,6 +479,15 @@ var DeptInfo = (function () {
 	function _validateUrlFormat(el) {
 		var regexp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
 		return regexp.test(el.val());
+	}
+
+	// 轉換一些敏感字元避免 XSS
+	function encodeHtmlCharacters(bareString) {
+		return bareString.replace(/&/g, "&amp;")  // 轉換 &
+			.replace(/</g, "&lt;").replace(/>/g, "&gt;")  // 轉換 < 及 >
+			.replace(/'/g, "&apos;").replace(/"/g, "&quot;")  // 轉換英文的單雙引號
+			.replace(/ /g, " &nbsp;")
+			;
 	}
 
 	return {
