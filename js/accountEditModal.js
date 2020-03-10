@@ -101,6 +101,10 @@ $(document).ready(function () {
 			// check password is changed
 			var storedPassword = null;
 			if (password.val()) {
+				if (!passwordComplexCheck(password.val())){
+					alert('密碼複雜度不足');
+					return;
+				}
 				storedPassword = sha256(password.val());
 			}
 			var userInfo = {
@@ -144,8 +148,10 @@ $(document).ready(function () {
 			const reg = /^((?=.*\d)(?=.*[A-Z])|(?=.*[a-z])(?=.*[A-Z])|(?=.*\d)(?=.*[a-z])|(?=.*\d)(?=.*[~!@#$%^&*()_+\-=])|(?=.*[a-z])(?=.*[~!@#$%^&*()_+\-=])|(?=.*[A-Z])(?=.*[~!@#$%^&*()_+\-=])).{8,}$/;
 			if(reg.test(input)){  // 符合條件
 				passwordComplex.hide();
+				return true;
 			} else {  // 不符合的話就顯示提示文字
 				passwordComplex.show();
+				return false;
 			}
 		}
 
