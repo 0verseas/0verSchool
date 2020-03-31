@@ -298,6 +298,8 @@ var quotaDistirbutionTwoYear = (function () {
                 sort_num = sort_order;
             }
 
+            let english_title = encodeHtmlCharacters(eng_title);
+
 			$deptList
 				.find('tbody')
 				.append(`
@@ -318,7 +320,7 @@ var quotaDistirbutionTwoYear = (function () {
 						<td>${id}</td>
 						<td>
 							<div>${title}</div>
-							<small>${eng_title}</small>
+							<small>${english_title}</small>
 						</td>
 						<td class="text-center"><input type="checkbox" class="hasRiJian" ${has_RiJian ? 'checked' : ''}></td>
 						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${school_has_self_enrollment && has_self_enrollment ? 'checked' : ''} ${has_RiJian ? '' : 'disabled'} ${school_has_self_enrollment ? '' : 'disabled'}></td>
@@ -525,5 +527,14 @@ var quotaDistirbutionTwoYear = (function () {
 
         _setDeptList($allDept, $schoolHasSelfEnrollment);
     }
+
+	// 轉換一些敏感字元避免 XSS
+	function encodeHtmlCharacters(bareString) {
+		return bareString.replace(/&/g, "&amp;")  // 轉換 &
+			.replace(/</g, "&lt;").replace(/>/g, "&gt;")  // 轉換 < 及 >
+			.replace(/'/g, "&apos;").replace(/"/g, "&quot;")  // 轉換英文的單雙引號
+			.replace(/ /g, " &nbsp;")
+			;
+	}
 
 })();

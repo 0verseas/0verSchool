@@ -57,7 +57,7 @@ var quotaDistirbutionBache = (function () {
 		var $single_admission_placement_quota = $this.parents('.dept').find('.admission_placement_quota').val()
 		// console.log($single_deptPass.is(':checked'));
 		// console.log($single_admission_placement_quota);
-		
+
 		if( $single_deptPass.is(':checked') == true && $single_admission_placement_quota == 0){
 			alert("該系聯合分發名額為 0，確定要流用嘛？");
 		}
@@ -298,12 +298,14 @@ var quotaDistirbutionBache = (function () {
 			else {
 				var checked4 = "";
 			}
-			
+
             if (sort_order !== count) {
                 sort_num = count;
             } else {
                 sort_num = sort_order;
             }
+
+			let english_title = encodeHtmlCharacters(eng_title);
 
 			$deptList
 				.find('tbody')
@@ -325,7 +327,7 @@ var quotaDistirbutionBache = (function () {
 						<td>${id}</td>
 						<td>
 							<div>${title}</div>
-							<div>${eng_title}</div>
+							<div>${english_title}</div>
 						</td>
 						<td><input type="number" min="0" ${checked4} class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
 						<td class="text-center"><input type="checkbox" class="isDeptPass" data-type="deptPass" ${checked2} ></td>
@@ -492,5 +494,14 @@ var quotaDistirbutionBache = (function () {
 
         _setDeptList($allDept, $schoolHasSelfEnrollment, $schoolHasMyanmarTeacherEducation);
     }
+
+	// 轉換一些敏感字元避免 XSS
+	function encodeHtmlCharacters(bareString) {
+		return bareString.replace(/&/g, "&amp;")  // 轉換 &
+			.replace(/</g, "&lt;").replace(/>/g, "&gt;")  // 轉換 < 及 >
+			.replace(/'/g, "&apos;").replace(/"/g, "&quot;")  // 轉換英文的單雙引號
+			.replace(/ /g, " &nbsp;")
+			;
+	}
 
 })();

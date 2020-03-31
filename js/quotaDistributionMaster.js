@@ -248,6 +248,8 @@ var quotaDistributionMaster = (function () {
                 sort_num = sort_order;
 			}
 
+			let english_title = encodeHtmlCharacters(eng_title);
+
 			$deptList
 				.find('tbody')
 				.append(`
@@ -268,7 +270,7 @@ var quotaDistributionMaster = (function () {
 						<td>${id}</td>
 						<td>
 							<div>${title}</div>
-							<small>${eng_title}</small>
+							<small>${english_title}</small>
 						</td>
 						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" /></td>
 						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${school_has_self_enrollment && has_self_enrollment ? 'checked' : ''} ${school_has_self_enrollment ? '' : 'disabled="disabled"'} ></td>
@@ -411,5 +413,14 @@ var quotaDistributionMaster = (function () {
 
         _setDeptList($allDept, $schoolHasSelfEnrollment);
     }
+
+	// 轉換一些敏感字元避免 XSS
+	function encodeHtmlCharacters(bareString) {
+		return bareString.replace(/&/g, "&amp;")  // 轉換 &
+			.replace(/</g, "&lt;").replace(/>/g, "&gt;")  // 轉換 < 及 >
+			.replace(/'/g, "&apos;").replace(/"/g, "&quot;")  // 轉換英文的單雙引號
+			.replace(/ /g, " &nbsp;")
+			;
+	}
 
 })();
