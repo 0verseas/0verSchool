@@ -16,9 +16,9 @@ var systemQuota = (function () {
 	var $last_year_surplus_admission_quota_bache = $('#last_year_surplus_admission_quota_bache'); // 去年本地生招生缺額數籲提供給今年
 	var $expanded_quota_bache = $('#expanded_quota_bache'); // 擴增名額
 	var $allowTotal_bache = $('#allowTotal_bache'); // 實際招收名額
-	var $quota_medicine = $('#quota_medicine'); // 醫學名額
-	var $quota_dentist = $('#quota_dentist'); // 牙醫名額
-	var $quota_chinese_medicine = $('#quota_chinese_medicine'); // 中醫名額
+	var $quota_medicine_selection = $('#quota_medicine_selection'); // 醫學系個人申請名額
+	var $quota_medicine_placement = $('#quota_medicine_placement'); // 醫學系聯合分發名額
+	var $quota_medicine_self = $('#quota_medicine_self'); // 醫學系單獨招生名額
 	var $allowTotal_bache_2 = $('#allowTotal_bache_2'); // 實際招收名額 for 醫學顯示
 	var $allow_except_medicine = $('#allow_except_medicine'); // 扣除醫牙可招收名額
 
@@ -54,9 +54,9 @@ var systemQuota = (function () {
 	$quota_passed_phd.on('change', _handleQuotaChanged);
 	$expanded_quota_phd.on('change', _handleQuotaChanged);
 
-	$quota_medicine.on('change', _handleMedicineQuotaChanged);
-	$quota_dentist.on('change', _handleMedicineQuotaChanged);
-	$quota_chinese_medicine.on('change', _handleMedicineQuotaChanged);
+	$quota_medicine_selection.on('change', _handleMedicineQuotaChanged);
+	$quota_medicine_placement.on('change', _handleMedicineQuotaChanged);
+	$quota_medicine_self.on('change', _handleMedicineQuotaChanged);
 
 	_setData();
 
@@ -160,14 +160,14 @@ var systemQuota = (function () {
 
 			if( data.has_medicine_dept == 1) {
 				$allowTotal_bache_2.val(data.bachelor.quota_used + data.bachelor.quota_passed + data.bachelor.last_year_surplus_admission_quota + data.bachelor.expanded_quota);
-				$quota_medicine.val(data.bachelor.quota_medicine);
-				$quota_dentist.val(data.bachelor.quota_dentist);
-				$quota_chinese_medicine.val(data.bachelor.quota_chinese_medicine);
+				$quota_medicine_selection.val(data.bachelor.quota_medicine_selection);
+				$quota_medicine_placement.val(data.bachelor.quota_medicine_placement);
+				$quota_medicine_self.val(data.bachelor.quota_medicine_self);
 				$allow_except_medicine.val(
 					parseInt($allowTotal_bache.val()) -
-					parseInt($quota_medicine.val()) -
-					parseInt($quota_dentist.val()) -
-					parseInt($quota_chinese_medicine.val())
+					parseInt($quota_medicine_selection.val()) -
+					parseInt($quota_medicine_placement.val()) -
+					parseInt($quota_medicine_self.val())
 				);
 			}
 			$description.val(data.description);
@@ -185,7 +185,7 @@ var systemQuota = (function () {
 		$allowTotal_master.val( parseInt($quota_used_master.val()) + parseInt($quota_passed_master.val()) + parseInt($last_year_surplus_admission_quota_master.val()) + parseInt($expanded_quota_master.val()));
 		$allowTotal_phd.val( parseInt($quota_used_phd.val()) + parseInt($quota_passed_phd.val()) + parseInt($last_year_surplus_admission_quota_phd.val()) + parseInt($expanded_quota_phd.val()));
 		$allowTotal_bache_2.val(parseInt($quota_used_bache.val()) + parseInt($quota_passed_bache.val()) + parseInt($last_year_surplus_admission_quota_bache.val()) + parseInt($expanded_quota_bache.val()));
-		$allow_except_medicine.val(parseInt($allowTotal_bache.val()) - parseInt($quota_medicine.val()) - parseInt($quota_dentist.val()) -parseInt($quota_chinese_medicine.val()));
+		$allow_except_medicine.val(parseInt($allowTotal_bache.val()) - parseInt($quota_medicine_selection.val()) - parseInt($quota_medicine_placement.val()) -parseInt($quota_medicine_self.val()));
 	}
 
 	function checkQuotaValidate() {
@@ -283,20 +283,20 @@ var systemQuota = (function () {
 	}
 
 	function _handleMedicineQuotaChanged() {
-		if( parseInt($quota_medicine.val()) < 0 || parseInt($quota_dentist.val()) < 0 || parseInt($quota_chinese_medicine.val()) < 0){
-			$quota_medicine.val(0);
-			$quota_dentist.val(0);
-			$quota_chinese_medicine.val(0);
+		if( parseInt($quota_medicine_selection.val()) < 0 || parseInt($quota_medicine_placement.val()) < 0 || parseInt($quota_medicine_self.val()) < 0){
+			$quota_medicine_selection.val(0);
+			$quota_medicine_placement.val(0);
+			$quota_medicine_self.val(0);
 		}
 
-		if(  parseInt($quota_medicine.val()) +  parseInt($quota_dentist.val()) +  parseInt($quota_chinese_medicine.val()) > $allowTotal_bache.val() ){
+		if(  parseInt($quota_medicine_selection.val()) +  parseInt($quota_medicine_placement.val()) +  parseInt($quota_medicine_self.val()) > $allowTotal_bache.val() ){
 			alert("醫學系 + 牙醫系 + 中醫系 之名額 大於 可招收名額！");
-			$quota_medicine.val(0);
-			$quota_dentist.val(0);
-			$quota_chinese_medicine.val(0);
+			$quota_medicine_selection.val(0);
+			$quota_medicine_placement.val(0);
+			$quota_medicine_self.val(0);
 		}
 
-		$allow_except_medicine.val( parseInt($allowTotal_bache.val()) - parseInt($quota_medicine.val()) - parseInt($quota_dentist.val()) - parseInt($quota_chinese_medicine.val()));
+		$allow_except_medicine.val( parseInt($allowTotal_bache.val()) - parseInt($quota_medicine_selection.val()) - parseInt($quota_medicine_placement.val()) - parseInt($quota_medicine_self.val()));
 
 	}
 
@@ -312,7 +312,7 @@ var systemQuota = (function () {
 			return;
 		}
 		// 醫學 + 牙醫 + 中醫 應該<= 學士班可用總額
-		if(parseInt($quota_medicine.val()) + parseInt($quota_dentist.val()) + parseInt($quota_chinese_medicine.val()) > parseInt($allowTotal_bache.val())){
+		if(parseInt($quota_medicine_selection.val()) + parseInt($quota_medicine_placement.val()) + parseInt($quota_medicine_self.val()) > parseInt($allowTotal_bache.val())){
 			alert("醫學系、牙醫系、中醫系名額總和超過學士班名額");
 			return;
 		}
@@ -333,11 +333,11 @@ var systemQuota = (function () {
 			"data_confirm": false
 		}
 
-		if( has_medicine_dept == 1){
-			data["Bachelor_quota_medicine"] = $quota_medicine.val();
-			data["Bachelor_quota_dentist"] = $quota_dentist.val();
-			data["Bachelor_quota_chinese_medicine"] = $quota_chinese_medicine.val();
-		}
+		// if( has_medicine_dept == 1){
+		// 	data["Bachelor_quota_medicine"] = $quota_medicine_selection.val();
+		// 	data["Bachelor_quota_dentist"] = $quota_medicine_placement.val();
+		// 	data["Bachelor_quota_chinese_medicine"] = $quota_medicine_self.val();
+		// }
 		School.setFirstSystemQuota(schoolid, data).then(function (res) {
 			// setTimeout(function () {
 			// 	$this.attr('disabled', false);
@@ -372,10 +372,10 @@ var systemQuota = (function () {
 			return;
 		}
 		// 醫學 + 牙醫 + 中醫 應該<= 學士班可用總額
-		if(parseInt($quota_medicine.val()) + parseInt($quota_dentist.val()) + parseInt($quota_chinese_medicine.val()) > parseInt($allowTotal_bache.val())){
-			alert("醫學系、牙醫系、中醫系名額總和超過學士班名額");
-			return;
-		}
+		// if(parseInt($quota_medicine.val()) + parseInt($quota_dentist.val()) + parseInt($quota_chinese_medicine.val()) > parseInt($allowTotal_bache.val())){
+		// 	alert("醫學系、牙醫系、中醫系名額總和超過學士班名額");
+		// 	return;
+		// }
 
 		var isAllSet = confirm("確認後就「無法再次更改資料」，您真的確認送出嗎？");
 		if (isAllSet === true) {
@@ -396,11 +396,11 @@ var systemQuota = (function () {
 			"data_confirm": true
 			}
 
-			if( has_medicine_dept == 1){
-				data["Bachelor_quota_medicine"] = $quota_medicine.val();
-				data["Bachelor_quota_dentist"] = $quota_dentist.val();
-				data["Bachelor_quota_chinese_medicine"] = $quota_chinese_medicine.val();
-			}
+			// if( has_medicine_dept == 1){
+			// 	data["Bachelor_quota_medicine"] = $quota_medicine_selection.val();
+			// 	data["Bachelor_quota_dentist"] = $quota_medicine_placement.val();
+			// 	data["Bachelor_quota_chinese_medicine"] = $quota_medicine_self.val();
+			// }
 
 			School.setFirstSystemQuota(schoolid, data).then(function (res) {
 				// setTimeout(function () {
