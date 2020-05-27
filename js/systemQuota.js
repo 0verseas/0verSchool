@@ -159,9 +159,9 @@ var systemQuota = (function () {
 			}
 
 			if( data.has_medicine_dept == 1) {
-				quota_medicine_selection_val = (data.bachelor.quota_medicine_selection) ?data.bachelor.quota_medicine_selection :'0';
-				quota_medicine_placement_val = (data.bachelor.quota_medicine_placement) ?data.bachelor.quota_medicine_placement :'0';
-				quota_medicine_self_val = (data.bachelor.quota_medicine_self) ?data.bachelor.quota_medicine_self :'0';
+				let quota_medicine_selection_val = (data.bachelor.quota_medicine_selection) ?data.bachelor.quota_medicine_selection :'0';
+				let quota_medicine_placement_val = (data.bachelor.quota_medicine_placement) ?data.bachelor.quota_medicine_placement :'0';
+				let quota_medicine_self_val = (data.bachelor.quota_medicine_self) ?data.bachelor.quota_medicine_self :'0';
 				$allowTotal_bache_2.val(data.bachelor.quota_used + data.bachelor.quota_passed + data.bachelor.last_year_surplus_admission_quota + data.bachelor.expanded_quota);
 				$quota_medicine_selection.val(quota_medicine_selection_val);
 				$quota_medicine_placement.val(quota_medicine_placement_val);
