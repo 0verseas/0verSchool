@@ -277,12 +277,18 @@ var DeptInfo = (function () {
 		_switchTeacherQualityPassed();
 
 		reviewItems.initApplicationDocs(deptData.application_docs);
+		// 初始化渲染師長推薦函上傳方法的選項
+		let upload_letter_method = deptData.recommendation_letter_upload_method === null ? '' : deptData.recommendation_letter_upload_method;
+		$modalDeptInfo.find('#recommendation-letter-upload-method').val(upload_letter_method);
 
 		let applicationDocs = deptData.application_docs;
 		// 拿到師長推薦函的紙本推薦函收件期限
 		for (let doc of applicationDocs) {
 			if (doc.paper != null) {
 				$('#recieveDeadline').val(doc.paper.deadline);
+				// 紙本推薦函就不需要選師長推薦函上傳方式了
+				$modalDeptInfo.find('#recommendation-letter-upload-method').val('-1');
+				$modalDeptInfo.find('#recommendation-letter-upload-method').attr('disabled', true);
 			}
 		}
 	}
