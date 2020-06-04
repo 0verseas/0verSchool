@@ -468,6 +468,11 @@ var DeptInfo = (function () {
 			application_docs: JSON.stringify(applicationDocs)
 		};
 
+        // 師長推薦函上傳管道
+        if ($modalDeptInfo.find('#recommendation-letter-upload-method').val() !== null){  // 有需要推薦函且不是紙本才需要丟
+        	data.recommendation_letter_upload_method = $modalDeptInfo.find('#recommendation-letter-upload-method').val();
+		}
+
 		if (system === "bache") {
 			data.group_code = $groupCode.val();
 		} else {
