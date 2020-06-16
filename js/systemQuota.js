@@ -94,6 +94,10 @@ var systemQuota = (function () {
 					document.getElementById("btn-confirm").textContent = "已鎖定";
 					document.getElementById("btn-confirm").disabled = true;
 					document.getElementById("btn-save").disabled = true;
+				} else {
+					document.getElementById('btn-pdf').textContent = "提交後才能下載PDF";
+					document.getElementById('btn-pdf').disabled = true;
+					$('#btn-pdf').removeClass('btn-success').addClass('btn-danger');	
 				}
 				has_medicine_dept = json.has_medicine_dept;
 				if( json.has_medicine_dept == 0)
