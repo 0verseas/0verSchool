@@ -234,7 +234,8 @@ var quotaDistributionPhd = (function () {
 				eng_title,
 				admission_selection_quota,
 				has_self_enrollment,
-				self_enrollment_quota
+				self_enrollment_quota,
+				teacher_quality_passed
 			} = dept;
             var total = (+admission_selection_quota);
 
@@ -272,7 +273,7 @@ var quotaDistributionPhd = (function () {
 							<div>${title}</div>
 							<small>${english_title}</small>
 						</td>
-						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" /></td>
+						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" ${teacher_quality_passed ? '' : 'disabled'} /></td>
 						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${school_has_self_enrollment && has_self_enrollment ? 'checked' : ''} ${school_has_self_enrollment ? '' : 'disabled="disabled"'} ></td>
 					</tr>
 				`);

@@ -282,6 +282,7 @@ var quotaDistirbutionBache = (function () {
 				self_enrollment_quota,
 				decrease_reason_of_admission_placement,
 				admission_quota_pass,
+				teacher_quality_passed,
 				myanmar_teacher_education
 			} = dept;
 			var total = (+admission_selection_quota) + (+admission_placement_quota) + (+self_enrollment_quota || 0);
@@ -297,6 +298,11 @@ var quotaDistirbutionBache = (function () {
 			}
 			else {
 				var checked4 = "";
+			}
+
+			// 師資未達標準 => 名額龜苓膏 + 不可修改
+			if (!teacher_quality_passed){
+				var checked4 = "disabled";
 			}
 
             if (sort_order !== count) {
