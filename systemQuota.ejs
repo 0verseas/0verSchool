@@ -137,19 +137,21 @@
 
 <table style="border:4px #CFAA9E solid;" cellpadding="12" border='2'>
 	<tr>
-		<th style="border-right:3px #CFAA9E solid; width:7%">班別</th>
-		<th style="width:9%">核定總量</th>
-		<th style="border-right:3px #CFAA9E solid; width:9%">上限<br/>（總量10％）</th>
-		<th>欲使用名額</th>
-		<th>班別間流用 <i class="fa fa-info-circle" id="quota_passed_info" aria-hidden="true" data-toggle="tooltip" data-placement="top" data-animation="false" title="可以是負數，班別間流用相加為零即可。"></i></th>
-		<th>本地生缺額</th>
-		<th style="border-right:3px #CFAA9E solid;">申請110增量</th>
-		<th>總實際招生名額</th>
+		<th style="text-align: center; border-right:3px #CFAA9E solid; width:7%">班別</th>
+		<th style="text-align: center; width:9%">核定總量</th>
+		<th style="text-align: center; width:9%">上限<br/>（總量10％）</th>
+		<th style="text-align: center; border-right:3px #CFAA9E solid; width:9%">試辦計畫名額</th>
+		<th style="text-align: center;">欲使用名額</th>
+		<th style="text-align: center;">班別間流用 <i class="fa fa-info-circle" id="quota_passed_info" aria-hidden="true" data-toggle="tooltip" data-placement="top" data-animation="false" title="可以是負數，班別間流用相加為零即可。"></i></th>
+		<th style="text-align: center;">本地生缺額</th>
+		<th style="text-align: center; border-right:3px #CFAA9E solid;">申請110增量</th>
+		<th style="text-align: center;">總實際招生名額</th>
 	</tr>
 	<tr id="bachelor_quota">
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;">學士班<br/>(含港二技)</td>
+		<td style="text-align: center; border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;">學士班<br/>(含港二技)</td>
 		<td style="border-top:3px #CFAA9E solid;"><input type="number" class="form-control" id="last_year_admission_amount_bache_multiply_10" disabled></td>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;" ><input type="number" class="form-control" id="last_year_admission_amount_bache" disabled></td>
+		<td style="border-top:3px #CFAA9E solid;" ><input type="number" class="form-control" id="last_year_admission_amount_bache" disabled></td>
+		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;" ><input type="number" class="form-control" id="trial_quota_bache" disabled></td>
 		<td style="border-top:3px #CFAA9E solid;"><input type="number" min="0" class="form-control" id="quota_used_bache" required></td>
 		<td style="border-top:3px #CFAA9E solid;"><input type="number" class="form-control" id="quota_passed_bache" required></td>
 		<td style="border-top:3px #CFAA9E solid;"><input type="number" min="0" class="form-control" id="last_year_surplus_admission_quota_bache" required></td>
@@ -157,9 +159,10 @@
 		<td style="border-top:3px #CFAA9E solid;"><input type="number" class="form-control" id="allowTotal_bache" disabled></td>
 	</tr>
 	<tr id="master_quota">
-		<td style="border-right:3px #CFAA9E solid;">碩士班</td>
+		<td style="text-align: center; border-right:3px #CFAA9E solid;">碩士班</td>
 		<td><input type="number" class="form-control" id="last_year_admission_amount_master_multiply_10" disabled></td>
-		<td style="border-right:3px #CFAA9E  solid;"><input type="number" class="form-control" id="last_year_admission_amount_master" disabled></td>
+		<td style="border-right:3px"><input type="number" class="form-control" id="last_year_admission_amount_master" disabled></td>
+		<td style="border-right:3px #CFAA9E solid;" ><input type="number" class="form-control" id="trial_quota_master" disabled></td>
 		<td><input type="number" min="0" class="form-control" id="quota_used_master" required></td>
 		<td><input type="number" class="form-control" id="quota_passed_master" required></td>
 		<td><input type="number" min="0" class="form-control" id="last_year_surplus_admission_quota_master" required></td>
@@ -167,9 +170,10 @@
 		<td><input type="number" class="form-control" id="allowTotal_master" disabled></td>
 	</tr>
 	<tr id="phd_quota">
-		<td style="border-right:3px #CFAA9E solid;">博士班</td>
+		<td style="text-align: center; border-right:3px #CFAA9E solid;">博士班</td>
 		<td><input type="number" class="form-control" id="last_year_admission_amount_phd_multiply_10" disabled></td>
-		<td style="border-right:3px #CFAA9E solid;"><input type="number" class="form-control" id="last_year_admission_amount_phd" disabled></td>
+		<td style="border-right:3px"><input type="number" class="form-control" id="last_year_admission_amount_phd" disabled></td>
+		<td style="border-right:3px #CFAA9E solid;" ><input type="number" class="form-control" id="trial_quota_phd" disabled></td>
 		<td><input type="number" min="0" class="form-control" id="quota_used_phd" required></td>
 		<td><input type="number" class="form-control" id="quota_passed_phd" required></td>
 		<td><input type="number" min="0" class="form-control" id="last_year_surplus_admission_quota_phd" required></td>
@@ -191,44 +195,48 @@
 			<div class="card-body">
 				<table style="border:4px #CFAA9E solid;" cellpadding="12" border='2'>
 					<tr>
-						<th style="border-right:3px #CFAA9E solid; width:7%">班別</th>
-						<th style="width:9%">核定總量</th>
-						<th style="border-right:3px #CFAA9E solid; width:9%">上限<br/>（總量10％）</th>
-						<th>欲使用名額</th>
-						<th>班別間流用</th>
-						<th>本地生缺額</th>
-						<th style="border-right:3px #CFAA9E solid;">申請110增量</th>
-						<th>總實際招生名額</th>
+						<th style="text-align: center; border-right:3px #CFAA9E solid; width:7%">班別</th>
+						<th style="text-align: center; width:9%">核定總量</th>
+						<th style="text-align: center; width:9%">上限<br/>（總量10％）</th>
+						<th style="text-align: center; border-right:3px #CFAA9E solid; width:9%">試辦計畫名額</th>
+						<th style="text-align: center;">欲使用名額</th>
+						<th style="text-align: center;">班別間流用</th>
+						<th style="text-align: center;">本地生缺額</th>
+						<th style="text-align: center; border-right:3px #CFAA9E solid;">申請110增量</th>
+						<th style="text-align: center;">總實際招生名額</th>
 					</tr>
 					<tr id="bachelor_quota">
-						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;">學士班<br/>(含港二技)</td>
+						<td style="text-align: center; border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;">學士班<br/>(含港二技)</td>
 						<td style="border-top:3px #CFAA9E solid;"><input type="number" class="form-control" value="1234" disabled></td>
-						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;" ><input type="number" class="form-control" value="123" disabled></td>
+						<td style="border-top:3px #CFAA9E solid;"><input type="number" class="form-control" value="123" disabled></td>
+						<td style="border-top:3px #CFAA9E  solid; border-right:3px #CFAA9E solid;" ><input type="number" class="form-control"value="4" disabled></td>
 						<td style="border-top:3px #CFAA9E solid;"><input type="number" min="0" class="form-control" value="123" disabled></td>
-						<td style="border-top:3px #CFAA9E solid;"><input type="number" class="form-control" value="-23" disabled></td>
+						<td style="border-top:3px #CFAA9E solid;"><input type="number" class="form-control" value="-27" disabled></td>
 						<td style="border-top:3px #CFAA9E solid;"><input type="number" min="0" class="form-control" value="0" disabled></td>
 						<td style="border-right:3px #CFAA9E solid;border-top:3px #CFAA9E solid;"><input type="number" min="0" class="form-control" value="0" disabled></td>
 						<td style="border-top:3px #CFAA9E solid;"><input type="number" class="form-control" value="100" disabled></td>
 					</tr>
 					<tr id="master_quota">
-						<td style="border-right:3px #CFAA9E solid;">碩士班</td>
+						<td style="text-align: center; border-right:3px #CFAA9E solid;">碩士班</td>
 						<td><input type="number" class="form-control" value="666" disabled></td>
-						<td style="border-right:3px #CFAA9E  solid;"><input type="number" class="form-control" value="66" disabled></td>
+						<td><input type="number" class="form-control" value="66" disabled></td>
+						<td style="border-right:3px #CFAA9E solid;" ><input type="number" class="form-control"value="6" disabled></td>
 						<td><input type="number" min="0" class="form-control" value="66" disabled></td>
-						<td><input type="number" class="form-control" value="19" disabled></td>
-						<td><input type="number" min="0" class="form-control" value="5" disabled></td>
+						<td><input type="number" class="form-control" value="20" disabled></td>
+						<td><input type="number" min="0" class="form-control" value="8" disabled></td>
 						<td style="border-right:3px #CFAA9E solid;"><input type="number" min="0" class="form-control" value="0" disabled></td>
-						<td><input type="number" class="form-control" value="90" disabled></td>
+						<td><input type="number" class="form-control" value="100" disabled></td>
 					</tr>
 					<tr id="phd_quota">
-						<td style="border-right:3px #CFAA9E solid;">博士班</td>
+						<td style="text-align: center; border-right:3px #CFAA9E solid;">博士班</td>
 						<td><input type="number" class="form-control" value="94" disabled></td>
-						<td style="border-right:3px #CFAA9E solid;"><input type="number" class="form-control" value="9" disabled></td>
+						<td><input type="number" class="form-control" value="9" disabled></td>
+						<td style="border-right:3px #CFAA9E solid;" ><input type="number" class="form-control"value="4" disabled></td>
 						<td><input type="number" min="0" class="form-control" value="9" disabled></td>
-						<td><input type="number" class="form-control" value="4" disabled></td>
+						<td><input type="number" class="form-control" value="7" disabled></td>
 						<td><input type="number" min="0" class="form-control" value="0" disabled></td>
-						<td style="border-right:3px #CFAA9E solid;"><input type="number" min="0" class="form-control" value="2" disabled></td>
-						<td><input type="number" class="form-control" value="15" disabled></td>
+						<td style="border-right:3px #CFAA9E solid;"><input type="number" min="0" class="form-control" value="5" disabled></td>
+						<td><input type="number" class="form-control" value="25" disabled></td>
 					</tr>
 				</table>
 			</div>
@@ -239,11 +247,11 @@
 <br />
 <table id="medicine_quota" style="border:4px #D499B9 solid;" cellpadding="10" border='1' align="center">
 	<tr>
-		<th style="border-right:3px #D499B9 solid;">學士班總實際招生名額</th>
-		<th>醫學系個人申請名額</th>
-		<th>醫學系聯合分發名額</th>
-		<th style="border-right:3px #D499B9 solid;">醫學系單獨招生名額</th>
-		<th>其他科系可用名額</th>
+		<th style="text-align: center;  border-right:3px #D499B9 solid;">學士班總實際招生名額</th>
+		<th style="text-align: center;">醫學系個人申請名額</th>
+		<th style="text-align: center;">醫學系聯合分發名額</th>
+		<th style="text-align: center; border-right:3px #D499B9 solid;">醫學系單獨招生名額</th>
+		<th style="text-align: center;">其他科系可用名額</th>
 	</tr>
 	<tr>
 		<td style="border-right:3px #D499B9 solid; border-top:3px #D499B9 solid;"><input type="number" class="form-control" id="allowTotal_bache_2" disabled></td>
