@@ -11,7 +11,6 @@ var systemQuota = (function () {
 	//quota
 	var $last_year_admission_amount_bache_multiply_10 = $('#last_year_admission_amount_bache_multiply_10'); // 去年總招生名額
 	var $last_year_admission_amount_bache = $('#last_year_admission_amount_bache'); // 去年招生名額 * 10%
-	const $trial_quota_bache = $('#trial_quota_bache'); //學士班試辦名額
 	var $quota_used_bache = $('#quota_used_bache'); // 欲使用名額
 	var $quota_passed_bache = $('#quota_passed_bache'); // 班別間流用
 	var $last_year_surplus_admission_quota_bache = $('#last_year_surplus_admission_quota_bache'); // 去年本地生招生缺額數籲提供給今年
@@ -25,7 +24,6 @@ var systemQuota = (function () {
 
 	var $last_year_admission_amount_master_multiply_10= $('#last_year_admission_amount_master_multiply_10'); // 去年總招生名額
 	var $last_year_admission_amount_master= $('#last_year_admission_amount_master'); // 去年招生名額 * 10%
-	const $trial_quota_master = $('#trial_quota_master'); //碩士班試辦名額
 	var $quota_used_master = $('#quota_used_master'); // 欲使用名額
 	var $quota_passed_master = $('#quota_passed_master'); // 班別間流用
 	var $last_year_surplus_admission_quota_master = $('#last_year_surplus_admission_quota_master'); // 去年本地生招生缺額數籲提供給今年
@@ -34,7 +32,6 @@ var systemQuota = (function () {
 
 	var $last_year_admission_amount_phd_multiply_10= $('#last_year_admission_amount_phd_multiply_10'); // 去年總招生名額
 	var $last_year_admission_amount_phd = $('#last_year_admission_amount_phd'); // 去年招生名額 * 10%
-	const $trial_quota_phd = $('#trial_quota_phd'); //碩士班試辦名額
 	var $quota_used_phd = $('#quota_used_phd'); // 欲使用名額
 	var $quota_passed_phd = $('#quota_passed_phd'); // 班別間流用
 	var $last_year_surplus_admission_quota_phd= $('#last_year_surplus_admission_quota_phd'); // 去年本地生招生缺額數籲提供給今年
@@ -136,37 +133,33 @@ var systemQuota = (function () {
 		}
 
 		function _setQuota(data) {
-			console.log(data);
 			if(data.bachelor != null) {
 				$last_year_admission_amount_bache_multiply_10.val(data.bachelor.last_year_admission_amount_multiply_10);
 				$last_year_surplus_admission_quota_bache.val(data.bachelor.last_year_surplus_admission_quota);
-				$trial_quota_bache.val(data.bachelor.trial_quota);
 				$quota_used_bache.val(data.bachelor.quota_used);
 				$quota_passed_bache.val(data.bachelor.quota_passed);
 				$last_year_admission_amount_bache.val(data.bachelor.last_year_admission_amount);
 				$expanded_quota_bache.val(data.bachelor.expanded_quota);
-				$allowTotal_bache.val(data.bachelor.quota_used + data.bachelor.quota_passed + data.bachelor.last_year_surplus_admission_quota + data.bachelor.expanded_quota + data.bachelor.trial_quota);
+				$allowTotal_bache.val(data.bachelor.quota_used + data.bachelor.quota_passed + data.bachelor.last_year_surplus_admission_quota + data.bachelor.expanded_quota);
 			}
 
 			if( data.master != null) {
 				$last_year_admission_amount_master_multiply_10.val(data.master.last_year_admission_amount_multiply_10);
 				$last_year_surplus_admission_quota_master.val(data.master.last_year_surplus_admission_quota);
-				$trial_quota_master.val(data.master.trial_quota);
 				$quota_used_master.val(data.master.quota_used);
 				$quota_passed_master.val(data.master.quota_passed);
 				$last_year_admission_amount_master.val(data.master.last_year_admission_amount);
 				$expanded_quota_master.val(data.master.expanded_quota);
-				$allowTotal_master.val(data.master.quota_used + data.master.quota_passed + data.master.last_year_surplus_admission_quota + data.master.expanded_quota + data.master.trial_quota);
+				$allowTotal_master.val(data.master.quota_used + data.master.quota_passed + data.master.last_year_surplus_admission_quota + data.master.expanded_quota);
 			}
 			if( data.phd != null) {
 				$last_year_admission_amount_phd_multiply_10.val(data.phd.last_year_admission_amount_multiply_10);
 				$last_year_surplus_admission_quota_phd.val(data.phd.last_year_surplus_admission_quota);
-				$trial_quota_phd.val(data.phd.trial_quota);
 				$quota_used_phd.val(data.phd.quota_used);
 				$quota_passed_phd.val(data.phd.quota_passed);
 				$last_year_admission_amount_phd.val(data.phd.last_year_admission_amount);
 				$expanded_quota_phd.val(data.phd.expanded_quota);
-				$allowTotal_phd.val(data.phd.quota_used + data.phd.quota_passed + data.phd.last_year_surplus_admission_quota + data.phd.expanded_quota +data.phd.trial_quota);
+				$allowTotal_phd.val(data.phd.quota_used + data.phd.quota_passed + data.phd.last_year_surplus_admission_quota + data.phd.expanded_quota);
 			}
 
 			if( data.has_medicine_dept == 1) {
@@ -195,10 +188,10 @@ var systemQuota = (function () {
 	function _handleQuotaChanged() {
 		checkQuotaValidate();
 
-		$allowTotal_bache.val(parseInt($trial_quota_bache.val()) + parseInt($quota_used_bache.val()) + parseInt($quota_passed_bache.val()) + parseInt($last_year_surplus_admission_quota_bache.val()) + parseInt($expanded_quota_bache.val()));
-		$allowTotal_master.val(parseInt($trial_quota_master.val()) + parseInt($quota_used_master.val()) + parseInt($quota_passed_master.val()) + parseInt($last_year_surplus_admission_quota_master.val()) + parseInt($expanded_quota_master.val()));
-		$allowTotal_phd.val( parseInt($trial_quota_phd.val()) + parseInt($quota_used_phd.val()) + parseInt($quota_passed_phd.val()) + parseInt($last_year_surplus_admission_quota_phd.val()) + parseInt($expanded_quota_phd.val()));
-		$allowTotal_bache_2.val(parseInt($trial_quota_bache.val()) + parseInt($quota_used_bache.val()) + parseInt($quota_passed_bache.val()) + parseInt($last_year_surplus_admission_quota_bache.val()) + parseInt($expanded_quota_bache.val()));
+		$allowTotal_bache.val( parseInt($quota_used_bache.val()) + parseInt($quota_passed_bache.val()) + parseInt($last_year_surplus_admission_quota_bache.val()) + parseInt($expanded_quota_bache.val()));
+		$allowTotal_master.val( parseInt($quota_used_master.val()) + parseInt($quota_passed_master.val()) + parseInt($last_year_surplus_admission_quota_master.val()) + parseInt($expanded_quota_master.val()));
+		$allowTotal_phd.val( parseInt($quota_used_phd.val()) + parseInt($quota_passed_phd.val()) + parseInt($last_year_surplus_admission_quota_phd.val()) + parseInt($expanded_quota_phd.val()));
+		$allowTotal_bache_2.val(parseInt($quota_used_bache.val()) + parseInt($quota_passed_bache.val()) + parseInt($last_year_surplus_admission_quota_bache.val()) + parseInt($expanded_quota_bache.val()));
 		$allow_except_medicine.val(parseInt($allowTotal_bache.val()) - parseInt($quota_medicine_selection.val()) - parseInt($quota_medicine_placement.val()) -parseInt($quota_medicine_self.val()));
 	}
 
