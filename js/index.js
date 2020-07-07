@@ -88,7 +88,7 @@ var schoolInfo = (function () {
 	$hasSelfEnrollment.on("change", _switchSelfEnrollmentStatus);
 	$hasMyanmarTeacherEducation.on("change", _switchMyanmarTeacherEducation);
 	$schoolInfoBtn.on("click", _setSchoolInfo);
-	$schoolLockBtn.on("click", check_bachelor_quota);
+	$schoolLockBtn.on("click", _lockschool);
 	$downloadExcel.on("click", _downloadExcel);
 
 	function _switchDormStatus() { // 切換「宿舍」狀態
@@ -495,83 +495,4 @@ var schoolInfo = (function () {
 			alert(text);
 		}
 	}
-
-	//確認學士班（含港二季）給定的招生名額是否分配完
-	function check_bachelor_quota(){
-		let allowTotal = 0;
-		let wantTotal = 0;
-
-		School.getSystemQuota('bachelor').then(function (res) {
-			if(res.ok) {
-				return res.json();
-			} else {
-				throw res
-			}
-		}).then(function (json) {
-			allowTotal = json.last_year_surplus_admission_quota + json.quota_used + json.quota_passed + json.ratify_expanded_quota;
-			 wantTotal = json.self_enrollment_quota + json.another_department_self_enrollment_quota + json.another_department_admission_selection_quota;
-			for(let i = 0; i<json.departments.length;i++){
-				wantTotal+=json.departments[i].admission_placement_quota + json.departments[i].admission_selection_quota;
-			}
-			if(allowTotal != wantTotal){
-				alert('學士班（含港二季）各系所招生名額加總必須等於可招生總量');
-				return ;
-			} else {
-				check_master_quota();
-			}	
-		})
-	}
-
-	//確認碩士班給定的招生名額是否分配完
-	function check_master_quota(){
-		let allowTotal = 0;
-		let wantTotal = 0;
-		
-		School.getSystemQuota('master').then(function (res) {
-			if(res.ok) {
-				return res.json();
-			} else {
-				throw res
-			}
-		}).then(function (json) {
-			allowTotal = json.last_year_surplus_admission_quota + json.quota_used + json.quota_passed + json.ratify_expanded_quota;
-			 wantTotal = json.self_enrollment_quota ;
-			for(let i = 0; i<json.departments.length;i++){
-				wantTotal+=json.departments[i].admission_selection_quota;
-			}
-			if(allowTotal != wantTotal){
-				alert('碩士班各系所招生名額加總必須等於可招生總量');
-				return ;
-			} else {
-				check_phd_quota();
-			}
-		})
-	}
-
-	//確認博士班給定的招生名額是否分配完
-	function check_phd_quota(){
-		let allowTotal = 0;
-		let wantTotal = 0;
-		
-		School.getSystemQuota('phd').then(function (res) {
-			if(res.ok) {
-				return res.json();
-			} else {
-				throw res
-			}
-		}).then(function (json) {
-			allowTotal = json.last_year_surplus_admission_quota + json.quota_used + json.quota_passed + json.ratify_expanded_quota;
-			 wantTotal = json.self_enrollment_quota ;
-			for(let i = 0; i<json.departments.length;i++){
-				wantTotal+=json.departments[i].admission_selection_quota;
-			}
-			if(allowTotal != wantTotal){
-				alert('博士班各系所招生名額加總必須等於可招生總量');
-				return ;
-			} else {
-				_lockschool();
-			}
-		})
-	}
-
 })();
