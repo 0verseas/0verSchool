@@ -47,6 +47,7 @@ var DeptInfo = (function () {
 	var $memo = $modalDeptInfo.find('#memo'); // 給海聯的訊息
 	var $groupCode = $modalDeptInfo.find('#groupCode'); //類組
     var $admissionSelectionQuota = $modalDeptInfo.find('#admissionSelectionQuota'); // 個人申請人數
+	var $deptPdfBtn = $modalDe
 
 	// 所有審查項目
 	var $reviewDiv = $modalDeptInfo.find('#review-div');
@@ -501,6 +502,11 @@ var DeptInfo = (function () {
 			;
 	}
 
+	// 單一系所預覽 pdf
+	function previewDeptPdf(system, deptid) {
+		// TODO: 轉換學制？
+	}
+
 	return {
 		renderDescription,
 		saveDeptDescription,
@@ -510,7 +516,8 @@ var DeptInfo = (function () {
 		validateForm,
 		getCommonFormData,
 		formGroup,
-		$reviewDiv
+		$reviewDiv,
+		previewDeptPdf,
 	}
 
 })();

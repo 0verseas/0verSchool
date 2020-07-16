@@ -116,6 +116,11 @@ var School = (function () {
 		.all(urls.map(grabContent))
 	}
 
+	// 單一系所預覽 pdf
+	function getDeptPdf() {
+		//
+	}
+
 	return {
 		getSchoolInfo,
 		setSchoolInfo,
@@ -129,7 +134,8 @@ var School = (function () {
 		getDeptInfo,
 		setDeptInfo,
 		getDeptFormItem,
-		getGuidelinesReplyForm
+		getGuidelinesReplyForm,
+		getDeptPdf,
 	};
 
 })();
