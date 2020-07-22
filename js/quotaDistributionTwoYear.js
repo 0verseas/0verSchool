@@ -299,6 +299,7 @@ var quotaDistirbutionTwoYear = (function () {
                 sort_num = sort_order;
             }
 
+			let department_title = encodeHtmlCharacters(title);
             let english_title = encodeHtmlCharacters(eng_title);
 
 			$deptList
@@ -320,7 +321,7 @@ var quotaDistirbutionTwoYear = (function () {
 						</td>
 						<td>${id}</td>
 						<td>
-							<div>${title}</div>
+							<div>${department_title}</div>
 							<small>${english_title}</small>
 						</td>
 						<td class="text-center"><input type="checkbox" class="hasRiJian" ${has_RiJian ? 'checked' : ''}></td>

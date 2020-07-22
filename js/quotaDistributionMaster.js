@@ -249,6 +249,7 @@ var quotaDistributionMaster = (function () {
                 sort_num = sort_order;
 			}
 
+			let department_title = encodeHtmlCharacters(title);
 			let english_title = encodeHtmlCharacters(eng_title);
 
 			$deptList
@@ -270,7 +271,7 @@ var quotaDistributionMaster = (function () {
 						</td>
 						<td>${id}</td>
 						<td>
-							<div>${title}</div>
+							<div>${department_title}</div>
 							<small>${english_title}</small>
 						</td>
 						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" ${teacher_quality_passed ? '' : 'disabled'} /></td>
