@@ -402,9 +402,9 @@
 														<div id="recommendation-letter-upload-method-form" class="form-group col-6">
 															<select id="recommendation-letter-upload-method" class="form-control" v-bind:disabled="type.need_paper || !type.needed">
 																<option value="" style="display: none" v-bind:selected="!type.needed" selected disabled>===== 請選擇接受的系統上傳方式 =====</option>
-																<option value="0">接受學生及 email 邀請上傳</option>
-																<option value="1">僅接受學生自行上傳</option>
-																<option value="2">僅接受 email 邀請上傳</option>
+																<option value="0">由〔學生自行上傳〕或〔email 邀請師長上傳〕</option>
+																<option value="1">由〔學生自行上傳〕</option>
+																<option value="2">由學生〔email 邀請師長上傳〕</option>
 																<option value="-1" disabled v-bind:selected="type.need_paper">紙本推薦函（不透過系統上傳）</option>
 															</select>
 														</div>
