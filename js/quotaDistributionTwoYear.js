@@ -171,10 +171,10 @@ var quotaDistirbutionTwoYear = (function () {
 	function _checkForm() {
 		var valid = true;
 
-		// 本年度欲招募總量必須等於可招生總量
-		if (+$quota_wantTotal.val() != +$quota_allowTotal.val()) {
+		// 本年度欲招募總量必須小於等於可招生總量
+		if (+$quota_wantTotal.val() > +$quota_allowTotal.val()) {
 			valid = false;
-			alert('各系所招生名額加總必須等於可招生總量');
+			alert('各系所招生名額加總必須小於等於可招生總量');
 		}
 		return valid;
 	}
@@ -284,7 +284,8 @@ var quotaDistirbutionTwoYear = (function () {
                 has_RiJian,
                 has_special_class,
                 approval_no_of_special_class,
-                approval_doc_of_special_class
+                approval_doc_of_special_class,
+				teacher_quality_passed
 			} = dept;
             var total = (+admission_selection_quota);
 
@@ -298,6 +299,7 @@ var quotaDistirbutionTwoYear = (function () {
                 sort_num = sort_order;
             }
 
+			let department_title = encodeHtmlCharacters(title);
             let english_title = encodeHtmlCharacters(eng_title);
 
 			$deptList
@@ -319,7 +321,7 @@ var quotaDistirbutionTwoYear = (function () {
 						</td>
 						<td>${id}</td>
 						<td>
-							<div>${title}</div>
+							<div>${department_title}</div>
 							<small>${english_title}</small>
 						</td>
 						<td class="text-center"><input type="checkbox" class="hasRiJian" ${has_RiJian ? 'checked' : ''}></td>
@@ -327,7 +329,7 @@ var quotaDistirbutionTwoYear = (function () {
 						<td class="text-center"><input type="checkbox" class="hasSpecialClass" ${has_special_class ? 'checked' : ''}></td>
 						<td class="text-center"><input type="text" class="form-control approvalNoOfSpecialClass" value="${approval_no_of_special_class || ''}" ${has_special_class ? '' : 'disabled'}></td>
 						<td><input type="file" class="approvalDocOfSpecialClass" ${has_special_class ? '' : 'disabled'}><br />已上傳檔案：<a class="approvalDocOfSpecialClassUrl" href="${baseUrl + "/storage/" + approval_doc_of_special_class}">${approval_doc_of_special_class || ''}</a><textarea class="approvalDocOfSpecialClassfileb64" hidden disabled ></textarea></td>
-						<td class="text-center"><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" ${has_RiJian || has_special_class ? '' : 'disabled'}/></td>
+						<td class="text-center"><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" ${has_RiJian || has_special_class ? '' : 'disabled'} ${teacher_quality_passed ? '' : 'disabled'}/></td>
 					</tr>
 				`);
 

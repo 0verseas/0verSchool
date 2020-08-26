@@ -495,5 +495,4 @@ var schoolInfo = (function () {
 			alert(text);
 		}
 	}
-
 })();

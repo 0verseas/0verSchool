@@ -146,6 +146,7 @@ var DeptInfo = (function () {
 		departments.forEach(function (value, index) {
 			var updateAt = moment(value.created_at).format('YYYY/MM/DD HH:mm:ss');
 			let engTitle = encodeHtmlCharacters(value.eng_title);  // department english title
+			let title = encodeHtmlCharacters(value.title); // department title
 			$deptList
 				.find('tbody')
 				.append(`
@@ -156,7 +157,7 @@ var DeptInfo = (function () {
 						<td>${value.sort_order}</td>
 						<td>${value.id}</td>
 						<td>
-							<div>${value.title}</div>
+							<div>${title}</div>
 							<div>${engTitle}</div>
 						</td>
 						<td>${value.created_by}</td>
@@ -447,6 +448,7 @@ var DeptInfo = (function () {
         }
 
 		var data = {
+			title_division: $titleDivision.val(),
         	eng_title: $engTitle.val(),
 			url: $url.val(),
 			eng_url: $engUrl.val(),

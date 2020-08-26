@@ -147,7 +147,7 @@
 							</div>
 							<div id="engTitleForm" class="form-group col-6">
 								<label class="form-control-label" for="">招生分組</label>
-								<input type="text" class="form-control" id="titleDivision" disabled>
+								<input type="text" class="form-control" id="titleDivision">
 							</div>
 						</div>
 						<div class="row">
@@ -226,7 +226,10 @@
 								<label class="form-control-label text-danger" for="">中文系所簡介*</label><br />
 								<ol style="color: darkcyan; background-color: lightgoldenrodyellow; border-radius: 25px;">
 									<li>
-										請填寫系所簡介、課程領域、未來發展或招生特殊限制（如辨色異常、身心障礙及是否提供身心障礙學生學習輔具資源及生活照輔措施資源）等說明，以利學生先行了解並自行評估。
+										請填寫系所簡介、課程領域及未來發展等說明，以利學生了解該科系內容。
+									</li>
+									<li>
+										如有招生特殊限制（如辨色異常、身心障礙及是否提供身心障礙學生學習輔具資源及生活照輔措施資源），請依據教育部108年8月26日臺教高（四）字第1080114654號函之「各大專校院招生簡章校系分則說明或備註字句調整建議參考」撰寫系所分則說明或備註。
 									</li>
 									<li style="color:red;">
 										請勿在此填寫個人申請繳交資料說明。
@@ -399,9 +402,9 @@
 														<div id="recommendation-letter-upload-method-form" class="form-group col-6">
 															<select id="recommendation-letter-upload-method" class="form-control" v-bind:disabled="type.need_paper || !type.needed">
 																<option value="" style="display: none" v-bind:selected="!type.needed" selected disabled>===== 請選擇接受的系統上傳方式 =====</option>
-																<option value="0">接受學生及 email 邀請上傳</option>
-																<option value="1">僅接受學生自行上傳</option>
-																<option value="2">僅接受 email 邀請上傳</option>
+																<option value="0">由〔學生自行上傳〕或〔email 邀請師長上傳〕</option>
+																<option value="1">由〔學生自行上傳〕</option>
+																<option value="2">由學生〔email 邀請師長上傳〕</option>
 																<option value="-1" disabled v-bind:selected="type.need_paper">紙本推薦函（不透過系統上傳）</option>
 															</select>
 														</div>

@@ -73,9 +73,9 @@ var deptInfoMaster = (function () {
 		})
 		.then(function(data) {
 			if (mode === 'formal') {
-				alert('寄送正式版 PDF 成功，請至信箱確認。');
+				alert('正在產生正式版 PDF，請在稍後至信箱確認。');
 			} else {
-				alert('寄送預覽版 PDF 成功，請至信箱確認。');
+				alert('正在產生寄送預覽版 PDF，請在稍後至信箱確認。');
 			}
 			stopLoading();
 		})

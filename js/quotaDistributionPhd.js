@@ -169,10 +169,10 @@ var quotaDistributionPhd = (function () {
 				break;
 			}
 		}
-		// 本年度欲招募總量必須等於可招生總量
-		if (+$quota_wantTotal.val() != +$quota_allowTotal.val()) {
+		// 本年度欲招募總量必須小於等於可招生總量
+		if (+$quota_wantTotal.val() > +$quota_allowTotal.val()) {
 			valid = false;
-			alert('各系所招生名額加總必須等於可招生總量');
+			alert('各系所招生名額加總必須小於等於可招生總量');
 		}
 		return valid;
 	}
@@ -234,7 +234,8 @@ var quotaDistributionPhd = (function () {
 				eng_title,
 				admission_selection_quota,
 				has_self_enrollment,
-				self_enrollment_quota
+				self_enrollment_quota,
+				teacher_quality_passed
 			} = dept;
             var total = (+admission_selection_quota);
 
@@ -248,6 +249,7 @@ var quotaDistributionPhd = (function () {
                 sort_num = sort_order;
             }
 
+			let department_title = encodeHtmlCharacters(title);
 			let english_title = encodeHtmlCharacters(eng_title);
 
 			$deptList
@@ -269,10 +271,10 @@ var quotaDistributionPhd = (function () {
 						</td>
 						<td>${id}</td>
 						<td>
-							<div>${title}</div>
+							<div>${department_title}</div>
 							<small>${english_title}</small>
 						</td>
-						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" /></td>
+						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" ${teacher_quality_passed ? '' : 'disabled'} /></td>
 						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${school_has_self_enrollment && has_self_enrollment ? 'checked' : ''} ${school_has_self_enrollment ? '' : 'disabled="disabled"'} ></td>
 					</tr>
 				`);

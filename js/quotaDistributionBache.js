@@ -169,10 +169,10 @@ var quotaDistirbutionBache = (function () {
 			}
 		}
 
-		// 本年度欲招募總量必須等於可招生總量
-		if (+$quota_wantTotal.val() != +$quota_allowTotal.val()) {
+		// 本年度欲招募總量必須小於等於可招生總量
+		if (+$quota_wantTotal.val() > +$quota_allowTotal.val()) {
 			valid = false;
-			alert('各系所招生名額加總必須等於可招生總量');
+			alert('各系所招生名額加總必須小於等於可招生總量');
 		}
 		return valid;
 	}
@@ -282,6 +282,7 @@ var quotaDistirbutionBache = (function () {
 				self_enrollment_quota,
 				decrease_reason_of_admission_placement,
 				admission_quota_pass,
+				teacher_quality_passed,
 				myanmar_teacher_education
 			} = dept;
 			var total = (+admission_selection_quota) + (+admission_placement_quota) + (+self_enrollment_quota || 0);
@@ -299,12 +300,18 @@ var quotaDistirbutionBache = (function () {
 				var checked4 = "";
 			}
 
+			// 師資未達標準 => 名額龜苓膏 + 不可修改
+			if (!teacher_quality_passed){
+				var checked4 = "disabled";
+			}
+
             if (sort_order !== count) {
                 sort_num = count;
             } else {
                 sort_num = sort_order;
             }
 
+			let department_title = encodeHtmlCharacters(title);
 			let english_title = encodeHtmlCharacters(eng_title);
 
 			$deptList
@@ -326,7 +333,7 @@ var quotaDistirbutionBache = (function () {
 						</td>
 						<td>${id}</td>
 						<td>
-							<div>${title}</div>
+							<div>${department_title}</div>
 							<div>${english_title}</div>
 						</td>
 						<td><input type="number" min="0" ${checked4} class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
