@@ -35,12 +35,7 @@ var login = (function () {
 		if (e.type == 'keydown' && e.keyCode != 13) {
 			return;
 		}
-		const jump = confirm('這是測試站，目前已關閉，如果要跳轉到正式站請按確認。');
-		if(jump){
-			window.location.href='https://school.overseas.ncnu.edu.tw/school/login.html';
-		}else{
-			return;
-		}
+
 		// 確認驗證碼是否一致
 		let code = $identifyingCode.val();
 		// 通通轉大寫後比對
