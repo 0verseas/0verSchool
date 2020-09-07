@@ -63,6 +63,7 @@ var deptInfoMaster = (function () {
 	_setData();
 
 	function _getGuidelinesReplyForm(mode = 'preview') {
+		openLoading();
 		School.getGuidelinesReplyForm(_currentSystem,{mode})
 		.then(function(res) {
 			if (res.ok) {
