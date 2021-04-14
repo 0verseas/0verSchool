@@ -500,8 +500,7 @@ var DeptInfo = (function () {
 		return bareString.replace(/&/g, "&amp;")  // 轉換 &
 			.replace(/</g, "&lt;").replace(/>/g, "&gt;")  // 轉換 < 及 >
 			.replace(/'/g, "&apos;").replace(/"/g, "&quot;")  // 轉換英文的單雙引號
-			.replace(/ /g, " &nbsp;")
-			;
+			.replace(/ /g, " &nbsp;");
 	}
 
 	return {
@@ -551,6 +550,11 @@ var reviewItems = new Vue({ // 審查項目
 					type.recieve_email = '';
 					type.recieve_address = '';
 				}
+				if(type.name != '作品集'){
+					type.upload_restrictions = '上傳檔案類型限制為：pdf、png 或 jpg 檔，單一檔案大小不得超過 4 MB。'
+				} else {
+					type.upload_restrictions = '上傳檔案類型限制為：pdf、png、jpg、mp3、mp4 或 avi 檔，單一檔案大小不得超過 8 MB。'
+				}
 			}
 			this.reviewItemsTypes = reviewItemsTypes;
 		},
@@ -598,7 +602,6 @@ var reviewItems = new Vue({ // 審查項目
                 }
 
                 for (let type of this.reviewItemsTypes) {
-                	console.log(type.name);
                     // 如果需要此審查項目
                     if (type.needed == true) {
                         // 先檢查是否有中文備註
