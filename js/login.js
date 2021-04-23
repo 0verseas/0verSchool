@@ -80,8 +80,8 @@ var login = (function () {
                     }
                 }).then(function (json) {
                     // console.log(json);
-					window.location.href = '/school/index.html';
-					// window.location.href = '/school/systemQuota.html'
+					// window.location.href = '/school/index.html';
+					window.location.href = '/school/systemQuota.html'
                 }).catch(function (err) {
                     console.log(err);
                     if (err.status == 401) {
