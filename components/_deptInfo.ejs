@@ -207,7 +207,7 @@
 						<div class="row">
 							<div id="moeCheckFailedForm" class="form-group col-6">
 								<label class="form-control-label text-danger" for=""><br />是否經教育部查核被列為持續列管或不通過*</label>
-								<select class="form-control" id="moeCheckFailed">
+								<select class="form-control" id="moeCheckFailed" disabled>
 									<option value="2">未納入查核</option>
 									<option value="0">通過</option>
 									<option value="1">為持續列管或不通過（不得提供僑生名額）</option>
@@ -433,7 +433,7 @@
 																<input type="email" class="form-control" v-model="type.recieve_email" v-bind:disabled="!type.need_paper || !type.needed" v-bind:class="{'is-invalid': type.recieve_email_error}">
 															</div>
 															<div class="form-group col-6" id="recieveDeadlineDiv">
-																<label class="text-danger">收件期限*（建議2021年1月10日前截止）</label>
+																<label class="text-danger">收件期限*（建議2022年1月10日前截止）</label>
 																<input id="recieveDeadline" type="text" class="form-control datepicker" v-bind:disabled="!type.need_paper || !type.needed">
 															</div>
 														</div>
@@ -458,6 +458,9 @@
 													</div>
 												</div>
 											</div>
+										</div>
+										<div class="card-footer text-muted">
+											{{type.upload_restrictions }}
 										</div>
 									</div>
 									<hr>
