@@ -12,13 +12,13 @@
 <div class="row">
 	<div class="col-2" style="display:none">
 		<div class="form-group">
-			<small id="" class="form-text text-muted">108 總量 * 10%</small>
+			<small id="" class="form-text text-muted"><%= year - 1912%> 總量 * 10%</small>
 			<input type="text" class="form-control last_year_admission_amount quota" disabled>
 		</div>
 	</div>
 	<div class="col-2">
 		<div class="form-group">
-			<small id="" class="form-text text-muted">109總量*10%之欲使用名額</small>
+			<small id="" class="form-text text-muted"><%= year - 1911%>總量*10%之欲使用名額</small>
 			<input type="text" class="form-control quota_used quota" disabled>
 		</div>
 	</div>
@@ -32,21 +32,21 @@
 	<span class="operator">＋</span>
 	<div class="col-2">
 		<div class="form-group">
-			<small id="" class="form-text text-muted">109 本地生招生缺額</small>
+			<small id="" class="form-text text-muted"><%= year - 1911%> 本地生招生缺額</small>
 			<input type="text" class="form-control last_year_surplus_admission_quota quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＋</span>
 	<div class="col-1">
 		<div class="form-group">
-			<small id="" class="form-text text-muted">110 擴增名額</small>
+			<small id="" class="form-text text-muted"><%= year - 1910%> 擴增名額</small>
 			<input type="text" class="form-control ratify_expanded_quota quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＝</span>
 	<div class="col-3">
 		<div class="form-group">
-			<small id="" class="form-text text-muted">110 僑生招生總量</small>
+			<small id="" class="form-text text-muted"><%= year - 1910%> 僑生招生總量</small>
 			<input type="text" class="form-control allowTotal quota" disabled>
 		</div>
 	</div>
@@ -55,14 +55,14 @@
 <div class="row masterOnly phdOnly hide">
 	<div class="col-2">
 		<div class="form-group">
-			<small id="" class="form-text text-muted">110 聯招小計</small>
+			<small id="" class="form-text text-muted"><%= year - 1910%> 聯招小計</small>
 			<input type="text" class="form-control admissionSum quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＋</span>
 	<div class="col-2">
 		<div class="form-group">
-			<small id="" class="form-text text-danger">110 單招小計*</small>
+			<small id="" class="form-text text-danger"><%= year - 1910%> 單招小計*</small>
 			<input type="number" min="0" class="form-control bg-success text-white selfSum quota graduated_self_enrollment_quota required">
 		</div>
 	</div>
@@ -167,14 +167,14 @@
 	<span>　</span>
 	<div style="width:33%;"> <!--class="col-3 "-->
 		<div class="form-group">
-			<small id="" class="form-text text-muted">110 聯招小計</small>
+			<small id="" class="form-text text-muted"><%= year - 1910%> 聯招小計</small>
 			<input type="text" class="form-control bg-info text-white quota admissionSum" disabled>
 		</div>
 	</div>
 	<span>　　　</span>
 	<div style="width:19%;"> <!--class="col-2"-->
 		<div class="form-group">
-			<small id="" class="form-text text-muted">110 單招小計</small>
+			<small id="" class="form-text text-muted"><%= year - 1910%> 單招小計</small>
 			<input type="text" class="form-control bg-success text-white quota selfSum" disabled>
 		</div>
 	</div>
