@@ -85,7 +85,7 @@ var login = (function () {
                 }).catch(function (err) {
                     console.log(err);
                     if (err.status == 401) {
-                        $errMsg.finish().show().text('帳號密碼錯誤。').fadeOut(1500);
+                        $errMsg.finish().show().text('帳號或密碼錯誤。').fadeOut(5000);
                     } else if (err.status == 403) {
                         $errMsg.finish().show().text('Google reCAPTCHA verification failed').fadeOut(5000);
                     }
