@@ -122,7 +122,7 @@ var schoolInfo = (function () {
 	// 整理 form 資料
 	function _getFormData() {
 		var data = new FormData();
-		data.append('address', $address.val());
+		// data.append('address', $address.val());
 		data.append('eng_address', $engAddress.val());
 		data.append('organization', $organization.val());
 		data.append('eng_organization', $engOrganization.val());
@@ -171,7 +171,7 @@ var schoolInfo = (function () {
 		if (!_validateNotEmpty($fax)) {formGroup.faxForm.addClass("is-invalid"); check = false}
 		if (!_validateNotEmpty($url)) {formGroup.urlForm.addClass("is-invalid"); check = false}
 		// if (!_validateUrlFormat($url)) {formGroup.urlForm.addClass("is-invalid"); check = false}
-		if (!_validateNotEmpty($address)) {formGroup.addressForm.addClass("is-invalid"); check = false}
+		// if (!_validateNotEmpty($address)) {formGroup.addressForm.addClass("is-invalid"); check = false}
 		if (!_validateNotEmpty($organization)) {formGroup.organizationForm.addClass("is-invalid"); check = false}
 		if (!_validateNotEmpty($engUrl)) {formGroup.engUrlForm.addClass("is-invalid"); check = false}
 		if (!_validateNotEmpty($engAddress)) {formGroup.engAddressForm.addClass("is-invalid"); check = false}
