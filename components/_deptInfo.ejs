@@ -249,16 +249,16 @@
 
 						<div id="selfEnrollmentChoose">
 							<% if(system == 'twoYear') { -%>
-							<%- include deptInfoForm/_selfEnrollmentTwoYear %>
+							<%- include ('deptInfoForm/_selfEnrollmentTwoYear') %>
 							<% } else { -%>
-							<%- include deptInfoForm/_selfEnrollmentOthers %>
+							<%- include ('deptInfoForm/_selfEnrollmentOthers') %>
 							<% } -%>
 
 
 							<% if(system == 'bachelor') { -%>
-							<%- include deptInfoForm/_quotaBachelor %>
+							<%- include ('deptInfoForm/_quotaBachelor') %>
 							<% } else { -%>
-							<%- include deptInfoForm/_quotaOthers %>
+							<%- include ('deptInfoForm/_quotaOthers') %>
 							<% } -%>
 						</div>
 						<hr>
