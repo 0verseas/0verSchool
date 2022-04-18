@@ -65,6 +65,9 @@ var systemQuota = (function () {
 	$btnPdf.on('click', _handlePDF);
 
 	function _setData() {
+		if(env.stage == 2){
+			location.href = "./index.html";
+		}
 		openLoading();
 
 		User.isLogin().then(function(res) { // 取得校碼

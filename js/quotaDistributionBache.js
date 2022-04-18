@@ -41,6 +41,9 @@ var quotaDistirbutionBache = (function () {
 	/**
 	 * init
 	 */
+	if(env.stage == 1){
+		location.href = "./systemQuota.html";
+	}
 	// show bache only
 	$page.find('.bacheOnly').removeClass('hide');
 	$page.find('*[data-toggle=tooltip]').tooltip();

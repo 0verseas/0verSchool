@@ -37,6 +37,9 @@ var quotaDistributionPhd = (function () {
     /**
 	 * init
 	 */
+	if(env.stage == 1){
+			location.href = "./systemQuota.html";
+	}
 	// show phd only
 	$page.find('.phdOnly').removeClass('hide');
 	$page.find('.hide .required').removeClass('required');

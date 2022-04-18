@@ -377,6 +377,9 @@ var schoolInfo = (function () {
 
 	// init
 	function _getSchoolData() {
+		if(env.stage == 1){
+			location.href = "./systemQuota.html";
+		}
 		openLoading();
 
 		School.getSchoolInfo()

@@ -49,6 +49,9 @@ var quotaDistirbutionTwoYear = (function () {
 	 * init
 	 */
 	// show bache only
+	if(env.stage == 1){
+		location.href = "./systemQuota.html";
+	}
 	$page.find('.twoYearOnly').removeClass('hide');
 	$page.find('.hide .required').removeClass('required');
 	_setData();
