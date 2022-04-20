@@ -286,26 +286,36 @@ var quotaDistirbutionBache = (function () {
 				decrease_reason_of_admission_placement,
 				admission_quota_pass,
 				teacher_quality_passed,
-				myanmar_teacher_education
+				myanmar_teacher_education,
+				is_extended_department
 			} = dept;
 			var total = (+admission_selection_quota) + (+admission_placement_quota) + (+self_enrollment_quota || 0);
 			var reference = last_year_admission_placement_amount > last_year_admission_placement_quota ? last_year_admission_placement_quota : last_year_admission_placement_amount;
 			var noNeedToWriteReason = +reference <= +admission_placement_quota;
 
+			let extended_department = (is_extended_department == 0) ?false :true;
 			var checked = school_has_self_enrollment ? ( has_self_enrollment ? 'checked' : '') : 'disabled';
-			var checked2 = ( admission_quota_pass ? 'checked' : '');
+			var checked2 = ( (admission_quota_pass && !extended_department) ? 'checked' : '');
 			var checked3 = school_has_myanmer_teacher_education? ( myanmar_teacher_education ? 'checked' : '') : 'disabled';
-			console.log(title);
+			var checked6 = '';
+			// console.log(title);
 			if( title == "醫學系") {
 				var checked4 = "disabled";
+				var checked5 = "disabled";
 			}
 			else {
 				var checked4 = "";
+				var checked5 = "";
 			}
 
 			// 師資未達標準 => 名額龜苓膏 + 不可修改
 			if (!teacher_quality_passed){
 				var checked4 = "disabled";
+			}
+
+			if(extended_department){
+				checked5 = 'disabled';
+				checked6 = 'disabled';
 			}
 
             if (sort_order !== count) {
@@ -316,6 +326,13 @@ var quotaDistirbutionBache = (function () {
 
 			let department_title = encodeHtmlCharacters(title);
 			let english_title = encodeHtmlCharacters(eng_title);
+
+			if(is_extended_department == 1){
+				department_title = department_title+'&nbsp;&nbsp;<span class="badge badge-warning">重點產業系所</span>';
+			}
+			if(is_extended_department == 2){
+				department_title = department_title+'&nbsp;&nbsp;<span class="badge badge-warning">國際專班</span>';
+			}
 
 			$deptList
 				.find('tbody')
@@ -340,8 +357,8 @@ var quotaDistirbutionBache = (function () {
 							<div>${english_title}</div>
 						</td>
 						<td><input type="number" min="0" ${checked4} class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
-						<td class="text-center"><input type="checkbox" class="isDeptPass" data-type="deptPass" ${checked2} ></td>
-						<td><input type="number" min="0" ${checked4} class="form-control editableQuota required admission_placement_quota" data-type="admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
+						<td class="text-center"><input type="checkbox" class="isDeptPass" data-type="deptPass" ${checked2} ${checked6}></td>
+						<td><input type="number" min="0" ${checked5} class="form-control editableQuota required admission_placement_quota" data-type="admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
 						<td class="reference text-center" data-val="${reference}">${reference}</td>
 						<td><textarea class="form-control decrease_reason_of_admission_placement" cols="50" rows="1" ${noNeedToWriteReason ? 'disabled' : ''} >${decrease_reason_of_admission_placement || ''}</textarea></td>
 						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${checked} ></td>
