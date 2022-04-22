@@ -20,7 +20,6 @@ var DeptInfo = (function () {
 	var $modalDeptInfo = $('#modal-deptInfo');
 	var $sortOrder = $modalDeptInfo.find('#sortOrder'); // 簡章順序
 	var $id = $modalDeptInfo.find('#id'); // Can't edit ，系所代碼
-	var $cardCode = $modalDeptInfo.find('#cardCode'); // Can't edit，讀卡代碼
 	var $titleMain = $modalDeptInfo.find('#titleMain');  // 核定系名
 	var $titleDivision = $modalDeptInfo.find('#titleDivision');  // 招生分組
 	var $title = $modalDeptInfo.find('#title'); // Can't edit，中文名稱
@@ -215,9 +214,6 @@ var DeptInfo = (function () {
 	function renderCommonDeptDetail(deptData, system) {
 		$sortOrder.val(deptData.sort_order);
 		$id.val(deptData.id);
-        if (system === "bache") {
-            $cardCode.val(deptData.card_code);
-        }
         $titleMain.val(deptData.title_main);  // 核定系名
         $titleDivision.val(deptData.title_division);  // 招生分組
 		$title.val(deptData.title);

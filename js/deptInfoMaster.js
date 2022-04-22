@@ -60,6 +60,9 @@ var deptInfoMaster = (function () {
 	 * init
 	 */
 
+	if(env.stage == 1){
+			location.href = "./systemQuota.html";
+	}
 	_setData();
 
 	function _getGuidelinesReplyForm(mode = 'preview') {

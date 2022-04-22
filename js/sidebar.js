@@ -43,6 +43,13 @@ var Sidebar = (function () {
 	}
 
 	function showUserInfo() {
+		if(env.stage == 1){
+			$('.first-stage-item').show();
+			$('.second-stage-item').hide();
+		} else if(env.stage == 2){
+			$('.first-stage-item').hide();
+			$('.second-stage-item').show();
+		}
 		var userInfo = User.getUserInfo();
 		if (!userInfo) {
 			setTimeout(showUserInfo, 1);

@@ -37,6 +37,9 @@ var quotaDistributionMaster = (function () {
 	/**
 	 * init
 	 */
+	if(env.stage == 1){
+		location.href = "./systemQuota.html";
+	}
 	// show master only
 	$page.find('.masterOnly').removeClass('hide');
 	$page.find('.hide .required').removeClass('required');
