@@ -296,7 +296,7 @@ var quotaDistirbutionBache = (function () {
 			let extended_department = (is_extended_department == 0) ?false :true;
 			var checked = school_has_self_enrollment ? ( has_self_enrollment ? 'checked' : '') : 'disabled';
 			var checked2 = ( (admission_quota_pass && !extended_department) ? 'checked' : '');
-			var checked3 = school_has_myanmer_teacher_education? ( myanmar_teacher_education ? 'checked' : '') : 'disabled';
+			var checked3 = (school_has_myanmer_teacher_education && !extended_department)? ( myanmar_teacher_education ? 'checked' : '') : 'disabled';
 			var checked6 = '';
 			// console.log(title);
 			if( title == "醫學系") {
@@ -331,7 +331,7 @@ var quotaDistirbutionBache = (function () {
 				department_title = department_title+'&nbsp;&nbsp;<span class="badge badge-warning">重點產業系所</span>';
 			}
 			if(is_extended_department == 2){
-				department_title = department_title+'&nbsp;&nbsp;<span class="badge badge-warning">國際專班</span>';
+				department_title = department_title+'&nbsp;&nbsp;<span class="badge badge-warning">國際專修部</span>';
 			}
 
 			$deptList

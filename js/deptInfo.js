@@ -151,7 +151,7 @@ var DeptInfo = (function () {
 				title = title+'&nbsp;&nbsp;<span class="badge badge-warning">重點產業系所</span>';
 			}
 			if(value.is_extended_department == 2){
-				title = title+'&nbsp;&nbsp;<span class="badge badge-warning">國際專班</span>';
+				title = title+'&nbsp;&nbsp;<span class="badge badge-warning">國際專修部</span>';
 			}
 			$deptList
 				.find('tbody')
@@ -224,7 +224,7 @@ var DeptInfo = (function () {
 		if(deptData.is_extended_department == 1){
 			$extendedTag.text('重點產業系所')
 		} else if(deptData.is_extended_department == 2){
-			$extendedTag.text('國際專班')
+			$extendedTag.text('國際專修部')
 		} else {
 			$extendedTag.text('')
 		}
