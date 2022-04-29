@@ -116,6 +116,28 @@ var School = (function () {
 		.all(urls.map(grabContent))
 	}
 
+	function getSchoolLogoFile() {
+		return fetch(baseUrl + `/editors/logo-upload`, {
+			method: 'GET',
+			credentials: 'include'
+		});
+	}
+
+	function uploadSchoolLogoFile(data) {
+		return fetch(baseUrl + `/editors/logo-upload`, {
+			method: 'POST',
+			body: data,
+			credentials: 'include'
+		});
+	}
+
+	function deleteSchoolLogoFile(fileName) {
+		return fetch(baseUrl + `/editors/logo-upload/${fileName}`, {
+			method: 'DELETE',
+			credentials: 'include'
+		});
+	}
+
 	return {
 		getSchoolInfo,
 		setSchoolInfo,
@@ -129,7 +151,10 @@ var School = (function () {
 		getDeptInfo,
 		setDeptInfo,
 		getDeptFormItem,
-		getGuidelinesReplyForm
+		getGuidelinesReplyForm,
+		getSchoolLogoFile,
+		uploadSchoolLogoFile,
+		deleteSchoolLogoFile
 	};
 
 })();

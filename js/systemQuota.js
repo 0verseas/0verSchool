@@ -41,6 +41,9 @@ var systemQuota = (function () {
 	var $description= $('#description'); // 學制流用需求描述
 	var schoolid;
 	var has_medicine_dept;
+	let $uploadedFile = "";// 已上傳檔案名稱
+	const $uploadedFileDeleteButton = $('#logo-delete');
+
 	$last_year_surplus_admission_quota_bache.on('change', _handleQuotaChanged);
 	$quota_used_bache.on('change', _handleQuotaChanged);
 	$quota_passed_bache.on('change', _handleQuotaChanged);
@@ -57,6 +60,9 @@ var systemQuota = (function () {
 	$quota_medicine_selection.on('change', _handleMedicineQuotaChanged);
 	$quota_medicine_placement.on('change', _handleMedicineQuotaChanged);
 	$quota_medicine_self.on('change', _handleMedicineQuotaChanged);
+
+	$('body').on('change.upload', '.file-upload', _handleUpload);// 上傳按鈕事件
+	$uploadedFileDeleteButton.on('click', _handleDelete);
 
 	_setData();
 
@@ -111,7 +117,7 @@ var systemQuota = (function () {
 				_renderData(json);
 			}).then(function () {
 				stopLoading();
-				}).catch(function (err) {
+			}).catch(function (err) {
 				if (err.status === 404) {
 					alert('沒有這個學校。 即將返回上一頁。');
 					window.history.back();
@@ -123,6 +129,29 @@ var systemQuota = (function () {
 						stopLoading();
 					});
 				}
+			});
+
+			School.getSchoolLogoFile()
+			.then(function (res) {
+				if(res.ok) {
+					return res.json();
+				} else {
+					throw res
+				}
+			})
+			.then(function (data){
+				$uploadedFile = data;
+			})
+			.then(function(){
+				_renderUploadedArea();
+			})
+			.catch(function (err) {
+				err.json && err.json().then((data) => {
+					console.error(data);
+					alert(`ERROR: \n${data.messages[0]}`);
+
+					stopLoading();
+				});
 			});
 		}).catch(function(err) {
 			if (err == 401) {
@@ -443,6 +472,145 @@ var systemQuota = (function () {
 	function _handlePDF() {
 		window.open (env.baseUrl + '/schools/'+ schoolid + '/quotas-reply-form', '_blank');
 	}
+
+	// 渲染已上傳檔案區域事件
+	function _renderUploadedArea(){
+		let uploadedAreaHtml = '';
+		const $uploadedFileArea = document.getElementById(`logo-uploaded-files`)
+
+		if($uploadedFile != ""){
+			$btnConfirm.prop('disabled', false);
+			const fileType = _getFileType($uploadedFile.split('.')[1]);
+			let type = '';
+			let height = '';
+			if(fileType === 'img'){
+				type = 'image/png';
+			} else {
+				type = 'application/pdf';
+				height = '450';
+			}
+			uploadedAreaHtml += `
+				<embed src="${env.baseUrl}/editors/logo-upload/${$uploadedFile}" width="600" height="${height}" type="${type}">
+			`
+		} else{
+			$btnConfirm.prop('disabled', true);
+		}
+
+        $uploadedFileArea.innerHTML = uploadedAreaHtml;
+	}
+
+	// 上傳事件
+    async function _handleUpload(){
+		// 先取得要上傳的檔案類型
+        const type = $(this).data('type');
+		// 取得學生欲上傳的檔案
+		const fileList = this.files;
+
+		// 沒有上傳檔案 直接return
+		if(fileList.length <= 0){
+			return;
+		}
+
+		// 檢查檔案大小 不超過4MB 在放進senData中
+		let sendData = new FormData();
+		for (let i = 0; i < fileList.length; i++) {
+			//有不可接受的副檔名存在
+			if(!checkFile(fileList[i])){
+                return ;
+            }
+			if(sizeConversion(fileList[i].size,8)){
+				alert("檔案過大，上傳檔案不能超過 8 MB。");
+				return;
+			}
+			sendData.append('files[]', fileList[i]);
+		}
+
+		await openLoading();
+		// 將檔案傳送到後端
+		const response = await School.uploadSchoolLogoFile(sendData);
+		if(response.ok){
+			alert('上傳成功');
+			// 後端會回傳上傳後該類型的已上傳檔案名稱陣列
+			$uploadedFile = await response.json();
+			// 重新渲染已上傳檔案區域
+			_renderUploadedArea();
+		} else {
+			const code = response.status;
+			const data = await response.json();
+			const message = data.messages[0];
+			alert('上傳失敗，'+message);
+		}
+
+		await stopLoading();
+		return;
+    }
+
+	// 刪除事件
+	async function _handleDelete(){
+		if(confirm('確定要刪除上傳檔案？')){
+			await openLoading();
+			const response = await School.deleteSchoolLogoFile($uploadedFile);	
+			if(response.ok){
+				alert('刪除成功');
+				// 後端會回傳上傳後該類型的已上傳檔案名稱陣列
+				$uploadedFile = await response.json();
+				// 重新渲染已上傳檔案區域
+				_renderUploadedArea();
+			} else {
+				const code = response.status;
+				const data = await response.json();
+				const message = data.messages[0];
+				alert('刪除失敗，'+message);
+			}
+			await stopLoading();
+		}
+		return;
+    }
+
+	//檔案大小計算是否超過 limit MB
+	function sizeConversion(size,limit) {
+		let maxSize = limit*1024*1024;
+
+		return size >=maxSize;
+	}
+
+	// 副檔名與檔案型態對應（回傳值須符合 font-awesome 規範）
+	function _getFileType(fileNameExtension = '') {
+		switch (fileNameExtension) {
+			case 'doc':
+			case 'docx':
+				return 'word';
+
+			case 'mp3':
+				return 'audio';
+
+			case 'mp4':
+			case 'avi':
+				return 'video';
+
+			case 'pdf':
+			case 'ai':
+				return 'pdf';
+
+			default:
+				return 'img';
+		}
+	}
+
+	//檢查檔案類型
+    function checkFile(selectfile){
+        var extension = new Array(".jpg", ".png", ".jpeg", ".ai"); //可接受的附檔名
+        var fileExtension = selectfile.name; //fakepath
+        //看副檔名是否在可接受名單
+        fileExtension = fileExtension.substring(fileExtension.lastIndexOf('.')).toLowerCase();  // 副檔名通通轉小寫
+        if (extension.indexOf(fileExtension) < 0) {
+			alert(`上傳失敗，"${fileExtension}" 非可接受的檔案類型副檔名。`)
+            selectfile.value = null;
+            return false;
+        } else {
+            return true;
+        }
+    }
 
 
 })();

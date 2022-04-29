@@ -266,6 +266,43 @@
 
 </div>
 
+<div class="card" id="upload-logo-area">
+	<div class="card-header bg-primary text-white">
+		校徽上傳區域
+	</div>
+	<div class="card-body">
+		<div class="alert alert-warning">
+			只能上傳一個檔案，可接受副檔名為 <strong class="text-danger">.jpg、.png、.ai</strong> 的檔案，檔案大小需 <strong class="text-danger">小於 8 Mbytes</strong> ，建議解析度大於 <strong class="text-danger"> 300 DPI </strong> 。
+		</div>
+
+		<div class="row btn-upload" style="margin-bottom: 15px;">
+			<div class="col form-inline">
+				<div>
+					<input type="file" class="filestyle file-upload" id="logo-upload"
+					data-btnClass="btn-success"
+					data-input="false"
+					data-type="logo"
+					data-text=" 上傳檔案"
+					data-Icon="<i class='fa fa-upload fa-fw' aria-hidden='true'/>"
+					>
+				</div>
+
+				<div style="margin-left: 15px;">
+					<button type="button" class="btn btn-danger btn-delFile" id="logo-delete"><i class="fa fa-trash-o" aria-hidden="true"></i> 刪除檔案</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="card">
+			<div class="card-body">
+				<h4 class="card-title"><span>已上傳檔案</span> </h4>
+				<div id="logo-uploaded-files">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <hr />
 
 
@@ -289,3 +326,5 @@
 		</button>
 	</div>
 </div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-filestyle/1.3.0/bootstrap-filestyle.min.js"> </script>
