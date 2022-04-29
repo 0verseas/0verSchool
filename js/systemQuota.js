@@ -42,6 +42,7 @@ var systemQuota = (function () {
 	var schoolid;
 	var has_medicine_dept;
 	let $uploadedFile = "";// 已上傳檔案名稱
+	const $schoolLogoHandleButtonArea = $('.btn-upload');
 	const $uploadedFileDeleteButton = $('#logo-delete');
 
 	$last_year_surplus_admission_quota_bache.on('change', _handleQuotaChanged);
@@ -103,6 +104,7 @@ var systemQuota = (function () {
 					document.getElementById("btn-confirm").textContent = "已鎖定";
 					document.getElementById("btn-confirm").disabled = true;
 					document.getElementById("btn-save").disabled = true;
+					$schoolLogoHandleButtonArea.hide();
 				} else {
 					document.getElementById('btn-pdf').textContent = "提交後才能下載PDF";
 					document.getElementById('btn-pdf').disabled = true;
@@ -480,6 +482,7 @@ var systemQuota = (function () {
 
 		if($uploadedFile != ""){
 			$btnConfirm.prop('disabled', false);
+			$uploadedFileDeleteButton.show();
 			const fileType = _getFileType($uploadedFile.split('.')[1]);
 			let type = '';
 			let height = '';
@@ -494,6 +497,7 @@ var systemQuota = (function () {
 			`
 		} else{
 			$btnConfirm.prop('disabled', true);
+			$uploadedFileDeleteButton.hide();
 		}
 
         $uploadedFileArea.innerHTML = uploadedAreaHtml;
@@ -556,6 +560,9 @@ var systemQuota = (function () {
 
 	// 刪除事件
 	function _handleDelete(){
+		if($uploadedFile == ""){
+			return;
+		}
 		if(confirm('確定要刪除上傳檔案？')){
 			openLoading();
 			School.deleteSchoolLogoFile($uploadedFile).then(function(res){
