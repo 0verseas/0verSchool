@@ -500,9 +500,7 @@ var systemQuota = (function () {
 	}
 
 	// 上傳事件
-    async function _handleUpload(){
-		// 先取得要上傳的檔案類型
-        const type = $(this).data('type');
+    function _handleUpload(){
 		// 取得學生欲上傳的檔案
 		const fileList = this.files;
 
@@ -525,44 +523,65 @@ var systemQuota = (function () {
 			sendData.append('files[]', fileList[i]);
 		}
 
-		await openLoading();
+		openLoading();
 		// 將檔案傳送到後端
-		const response = await School.uploadSchoolLogoFile(sendData);
-		if(response.ok){
+		School.uploadSchoolLogoFile(sendData)
+		.then(function(res){
+			if (res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		})
+		.then(function(data){
+			// 後端會回傳已上傳檔案名稱
+			$uploadedFile = data;
 			alert('上傳成功');
-			// 後端會回傳上傳後該類型的已上傳檔案名稱陣列
-			$uploadedFile = await response.json();
+		})
+		.then(function(){
 			// 重新渲染已上傳檔案區域
 			_renderUploadedArea();
-		} else {
-			const code = response.status;
-			const data = await response.json();
-			const message = data.messages[0];
-			alert('上傳失敗，'+message);
-		}
+			stopLoading();
+		})
+		.catch(function (err) {
+			err.json && err.json().then((data) => {
+				console.error(data);
+				alert(`上傳失敗: \n${data.messages[0]}`);
 
-		await stopLoading();
+				stopLoading();
+			})
+		});
 		return;
     }
 
 	// 刪除事件
-	async function _handleDelete(){
+	function _handleDelete(){
 		if(confirm('確定要刪除上傳檔案？')){
-			await openLoading();
-			const response = await School.deleteSchoolLogoFile($uploadedFile);	
-			if(response.ok){
+			openLoading();
+			School.deleteSchoolLogoFile($uploadedFile).then(function(res){
+				if (res.ok) {
+					return res.json();
+				} else {
+					throw res;
+				}
+			})
+			.then(function(data){
+				// 後端會回傳已上傳檔案名稱
+				$uploadedFile = data;
 				alert('刪除成功');
-				// 後端會回傳上傳後該類型的已上傳檔案名稱陣列
-				$uploadedFile = await response.json();
+			})
+			.then(function(){
 				// 重新渲染已上傳檔案區域
 				_renderUploadedArea();
-			} else {
-				const code = response.status;
-				const data = await response.json();
-				const message = data.messages[0];
-				alert('刪除失敗，'+message);
-			}
-			await stopLoading();
+				stopLoading();
+			})
+			.catch(function (err) {
+				err.json && err.json().then((data) => {
+					console.error(data);
+					alert(`刪除失敗: \n${data.messages[0]}`);
+					stopLoading();
+				})
+			});
 		}
 		return;
     }
@@ -599,8 +618,8 @@ var systemQuota = (function () {
 
 	//檢查檔案類型
     function checkFile(selectfile){
-        var extension = new Array(".jpg", ".png", ".jpeg", ".ai"); //可接受的附檔名
-        var fileExtension = selectfile.name; //fakepath
+        let extension = new Array(".jpg", ".png", ".jpeg", ".ai"); //可接受的附檔名
+        let fileExtension = selectfile.name; //fakepath
         //看副檔名是否在可接受名單
         fileExtension = fileExtension.substring(fileExtension.lastIndexOf('.')).toLowerCase();  // 副檔名通通轉小寫
         if (extension.indexOf(fileExtension) < 0) {
