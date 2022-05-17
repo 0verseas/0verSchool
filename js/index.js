@@ -261,7 +261,7 @@ var schoolInfo = (function () {
 
 		School.setSchoolInfo(sendData)
 		.then(function(res) {
-			console.log(sendData);
+			// console.log(sendData);
 			if(res.ok) {
 				alert('儲存成功');
 				location.reload();
@@ -302,7 +302,7 @@ var schoolInfo = (function () {
 
 			School.setSchoolInfo(sendData)
 				.then(function (res) {
-					console.log(sendData);
+					// console.log(sendData);
 					if (res.ok) {
 						alert('鎖定成功');
 						location.reload();
