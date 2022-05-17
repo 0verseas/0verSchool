@@ -33,9 +33,6 @@ var DeptInfo = (function () {
     var $teacherQualityPassed = $modalDeptInfo.find('#teacherQualityPassed'); // select bar，師資質量是否達「專科以上學校總量發展規模與資源條件標準」附表五所定基準
 	var $description = $modalDeptInfo.find('#description'); // textarea，選系中文說明
 	var $engDescription = $modalDeptInfo.find('#engDescription'); // textarea，選系英文說明
-	var $hasReviewFee = $modalDeptInfo.find('#hasReviewFee'); // checkbox，是否需要收審查費用
-	var $reviewFeeDetail = $modalDeptInfo.find('#reviewFeeDetail'); // textarea，審查費用中文說明
-	var $engReviewFeeDetail = $modalDeptInfo.find('#engReviewFeeDetail'); // textarea，審查費用英文說明
 	var $hasForeignSpecialClass = $modalDeptInfo.find('#hasForeignSpecialClass'); // checkbox，是否招收外生專班
 	var $hasEngTaught = $modalDeptInfo.find('#hasEngTaught'); // checkbox，是否為全英文授課
 	var $hasDisabilities = $modalDeptInfo.find('#hasDisabilities'); // checkbox，是否招收身障學生
@@ -62,8 +59,6 @@ var DeptInfo = (function () {
         teacherQualityPassedForm: $modalDeptInfo.find('#teacherQualityPassedForm select'),
 		descriptionForm: $modalDeptInfo.find('#descriptionForm textarea'),
 		engDescriptionForm: $modalDeptInfo.find('#engDescriptionForm textarea'),
-		reviewFeeDetailForm: $modalDeptInfo.find('#reviewFeeDetailForm textarea'),
-		engReviewFeeDetailForm: $modalDeptInfo.find('#engReviewFeeDetailForm textarea'),
 		birthLimitAfterForm: $modalDeptInfo.find('#birthLimitAfterForm input'),
 		birthLimitBeforeForm: $modalDeptInfo.find('#birthLimitBeforeForm input'),
 		memoForm: $modalDeptInfo.find('#memoForm textarea'),
@@ -75,7 +70,6 @@ var DeptInfo = (function () {
 	 */
 
 	$deptFilterInput.on('keyup', _filterDeptInput); // 系所列表篩選
-	$hasReviewFee.on("change", _switchHasReviewFee); // 是否需要收審查費用
 	$hasBirthLimit.on("change", _switchHasBirthLimit); // 是否限制出生日期
 	$moeCheckFailed.on("change", _switchMoeCheckFailed); // 是否被列管
 	$teacherQualityPassed.on("change" ,_switchTeacherQualityPassed); // 是否師資不合格
@@ -254,9 +248,6 @@ var DeptInfo = (function () {
 
         $description.val(deptData.description);
 		$engDescription.val(deptData.eng_description);
-		$hasReviewFee.prop("checked", deptData.has_review_fee);
-		$reviewFeeDetail.val(deptData.review_fee_detail);
-		$engReviewFeeDetail.val(deptData.eng_review_fee_detail);
 		$hasForeignSpecialClass.prop("checked", deptData.has_foreign_special_class);
 		$hasEngTaught.prop("checked", deptData.has_eng_taught);
 		$hasDisabilities.prop("checked", deptData.has_disabilities);
@@ -268,7 +259,6 @@ var DeptInfo = (function () {
 		$('.datepicker').datepicker({
 			format: 'yyyy-mm-dd'
 		});
-		_switchHasReviewFee();
 		_switchHasBirthLimit();
 		_switchMoeCheckFailed();
 		_switchTeacherQualityPassed();
@@ -288,11 +278,6 @@ var DeptInfo = (function () {
 				$modalDeptInfo.find('#recommendation-letter-upload-method').attr('disabled', true);
 			}
 		}
-	}
-
-	function _switchHasReviewFee() {
-		$reviewFeeDetail.prop('disabled', !$hasReviewFee.prop('checked'));
-		$engReviewFeeDetail.prop('disabled', !$hasReviewFee.prop('checked'));
 	}
 
 	function _switchHasBirthLimit() {
@@ -382,17 +367,6 @@ var DeptInfo = (function () {
             check.push('英文系所簡介未填寫');
 		}
 
-		if ($hasReviewFee.prop("checked")) {
-			if (!_validateNotEmpty($reviewFeeDetail)) {
-				formGroup.reviewFeeDetailForm.addClass("is-invalid");
-				check.push('審查費用中文說明未填寫');
-			}
-
-			if (!_validateNotEmpty($engReviewFeeDetail)) {
-				formGroup.engReviewFeeDetailForm.addClass("is-invalid");
-                check.push('審查費用英文說明未填寫');
-			}
-		}
 		if ($hasBirthLimit.prop("checked")) {
 			var birthLimitAfterStatus = _validateNotEmpty($birthLimitAfter);
 			var birthLimitBeforeStatus = _validateNotEmpty($birthLimitBefore);
@@ -455,9 +429,6 @@ var DeptInfo = (function () {
             teacher_quality_passed: $teacher_quality_passed_data,
 			description: $description.val(),
 			eng_description: $engDescription.val(),
-			has_review_fee: +$hasReviewFee.prop("checked"),
-			review_fee_detail: $reviewFeeDetail.val(),
-			eng_review_fee_detail: $engReviewFeeDetail.val(),
 			has_eng_taught: +$hasEngTaught.prop("checked"),
 			has_birth_limit: +$hasBirthLimit.prop("checked"),
 			birth_limit_after: $birthLimitAfter.val(),
