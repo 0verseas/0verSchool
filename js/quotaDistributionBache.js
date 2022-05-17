@@ -137,7 +137,7 @@ var quotaDistirbutionBache = (function () {
 		};
 
 		$this.attr('disabled', true);
-		console.log(data);
+		// console.log(data);
 		School.setSystemQuota('bachelor', data).then(function (res) {
 			setTimeout(function () {
 				$this.attr('disabled', false);
@@ -295,7 +295,7 @@ var quotaDistirbutionBache = (function () {
 			var checked = school_has_self_enrollment ? ( has_self_enrollment ? 'checked' : '') : 'disabled';
 			var checked2 = ( admission_quota_pass ? 'checked' : '');
 			var checked3 = school_has_myanmer_teacher_education? ( myanmar_teacher_education ? 'checked' : '') : 'disabled';
-			console.log(title);
+			// console.log(title);
 			if( title == "醫學系") {
 				var checked4 = "disabled";
 			}
