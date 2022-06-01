@@ -14,14 +14,19 @@ var quotaDistirbutionTwoYear = (function () {
 	var $quota_ratify_expanded_quota = $page.find('.quota.ratify_expanded_quota'); // 本年度教育部核准擴增名額
 	var $quota_used = $page.find('.quota.quota_used'); // 欲使用名額
 	var $quota_passed = $page.find('.quota.quota_passed'); // 班別間流用
-	var $quota_another_department_admission_selection_quota = $page.find('.quota.another_department_admission_selection_quota'); // 學士班個人申請
-	var $quota_another_department_admission_placement_quota = $page.find('.quota.another_department_admission_placement_quota'); // 學士班聯合分發
-	var $quota_admission_selection_quota = $page.find('.quota.admission_selection_quota'); // 港二技個人申請
-	var $quota_another_department_self_enrollment_quota = $page.find('.quota.another_department_self_enrollment_quota.twoyear'); // 學士班自招
-	var $quota_self_enrollment_quota = $page.find('.quota.self_enrollment_quota.twoyear'); // 港二技自招
+	var $bachelor_quota_admission_selection_quota = $page.find('.quota.bacheloar_admission_selection_quota'); // 學士班個人申請
+	var $bachelor_quota_admission_placement_quota = $page.find('.quota.bacheloar_admission_placement_quota'); // 學士班聯合分發
+	var $bachelor_quota_self_enrollment_quota = $page.find('.quota.bacheloar_self_enrollment_quota'); // 學士班自招
+	var $twoTech_admission_selection_quota = $page.find('.quota.twoTech_admission_selection_quota'); // 港二技個人申請
+	var $twoTech_self_enrollment_quota = $page.find('.quota.twoTech_self_enrollment_quota'); // 港二技自招
 	var $quota_wantTotal = $page.find('.quota.wantTotal'); // 本年度欲招募總量
 	var $quota_admissionSum = $page.find('.quota.admissionSum'); // 本年度聯招小計
 	var $quota_selfSum = $page.find('.quota.selfSum'); // 本年度自招小計
+	const $div_admssionSum = $page.find('.admissionSumDiv');// 聯招小計Div
+	const $div_selfSum = $page.find('.selfSumDiv');// 聯招小計Div
+	const $symbol_add = $page.find('.sumAddSymbol');
+	const $text_bachelor_self_enrollment = $page.find('.bacheloar_self_enrollment_text');
+	const $text_twoTech_self_enrollment = $page.find('.twoTech_self_enrollment_text');
 
 	// dept list
 	var $deptList = $page.find('#table-twoYearDeptList');
@@ -31,9 +36,9 @@ var quotaDistirbutionTwoYear = (function () {
 	 * bind event
 	 */
     // 港二技自招 change
-    $quota_self_enrollment_quota.on('change', _handleSelfChanged);
+    $twoTech_self_enrollment_quota.on('change', _handleSelfChanged);
     // 學士班自招 change
-    $quota_another_department_self_enrollment_quota.on('change', _handleSelfChanged);
+    $bachelor_quota_self_enrollment_quota.on('change', _handleSelfChanged);
 	// 填數字算總額
 	$deptList.on('change.sumTotal', '.dept .editableQuota', _handleQuotaChange);
     // hasRiJian 聯動
@@ -54,6 +59,14 @@ var quotaDistirbutionTwoYear = (function () {
 	}
 	$page.find('.twoYearOnly').removeClass('hide');
 	$page.find('.hide .required').removeClass('required');
+	// 對部份物件做初始化調整
+	$twoTech_self_enrollment_quota.prop('disabled', false).get(0).type = 'number';
+	$div_admssionSum.removeClass('col-2').css('margin-left','15px');
+	$div_selfSum.removeClass('col-2');
+	$symbol_add.text('　　　').removeClass('operator');
+	$text_bachelor_self_enrollment.addClass('text-muted');
+	$text_twoTech_self_enrollment.addClass('text-danger');
+
 	_setData();
 
     function _handleSelfChanged() {
@@ -141,7 +154,7 @@ var quotaDistirbutionTwoYear = (function () {
 		if (validateStatus) {
             var data = {
                 departments: departments,
-                self_enrollment_quota: +$quota_self_enrollment_quota.val(), // 港二技自招
+                self_enrollment_quota: +$twoTech_self_enrollment_quota.val(), // 港二技自招
             };
 
             $this.attr('disabled', true);
@@ -245,22 +258,22 @@ var quotaDistirbutionTwoYear = (function () {
 		$quota_last_year_admission_amount.val(last_year_admission_amount || 0);
 		$quota_last_year_surplus_admission_quota.val(last_year_surplus_admission_quota || 0);
 		$quota_ratify_expanded_quota.val(ratify_expanded_quota || 0);
-		$quota_another_department_admission_selection_quota.val(another_department_admission_selection_quota || 0);
+		$bachelor_quota_admission_selection_quota.val(another_department_admission_selection_quota || 0);
 		$quota_used.val(quota_used || 0);
 		$quota_passed.val(quota_passed || 0);
 
 
         if (school_has_self_enrollment) {
-            $quota_another_department_self_enrollment_quota.val(another_department_self_enrollment_quota || 0);
-            $quota_self_enrollment_quota.val(self_enrollment_quota || 0);
+            $bachelor_quota_self_enrollment_quota.val(another_department_self_enrollment_quota || 0);
+            $twoTech_self_enrollment_quota.val(self_enrollment_quota || 0);
         } else {
-            $quota_another_department_self_enrollment_quota.val(0);
-            $quota_another_department_self_enrollment_quota.attr('disabled', true);
-            $quota_self_enrollment_quota.val(0);
-            $quota_self_enrollment_quota.attr('disabled', true);
+            $bachelor_quota_self_enrollment_quota.val(0);
+            $bachelor_quota_self_enrollment_quota.attr('disabled', true);
+            $twoTech_self_enrollment_quota.val(0);
+            $twoTech_self_enrollment_quota.attr('disabled', true);
         }
 
-		$quota_another_department_admission_placement_quota.val(another_department_admission_placement_quota || 0);
+		$bachelor_quota_admission_placement_quota.val(another_department_admission_placement_quota || 0);
 		_updateAllowTotal();
 	}
 
@@ -403,7 +416,7 @@ var quotaDistirbutionTwoYear = (function () {
 
 	function _updateQuotaSum(type) {
 		var $ele = {
-			admission_selection_quota: $quota_admission_selection_quota,
+			admission_selection_quota: $twoTech_admission_selection_quota,
 		};
 		var sum = 0;
         $deptList.find('.dept').each(function (i, deptRow) {
@@ -416,14 +429,14 @@ var quotaDistirbutionTwoYear = (function () {
 
 	function _updateAdmissionSumSelfSum() {
 		$quota_admissionSum.val(
-			+$quota_another_department_admission_selection_quota.val() +
-			+$quota_another_department_admission_placement_quota.val() +
-			+$quota_admission_selection_quota.val()
+			+$bachelor_quota_admission_selection_quota.val() +
+			+$bachelor_quota_admission_placement_quota.val() +
+			+$twoTech_admission_selection_quota.val()
 		);
 
 		$quota_selfSum.val(
-			+$quota_another_department_self_enrollment_quota.val() +
-			+$quota_self_enrollment_quota.val()
+			+$bachelor_quota_self_enrollment_quota.val() +
+			+$twoTech_self_enrollment_quota.val()
 		);
 	}
 
