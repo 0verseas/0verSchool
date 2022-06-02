@@ -269,6 +269,7 @@ var quotaDistirbutionTwoYear = (function () {
         } else {
             $bachelor_quota_self_enrollment_quota.val(0);
             $bachelor_quota_self_enrollment_quota.attr('disabled', true);
+			$twoTech_self_enrollment_quota.get(0).type = 'text';
             $twoTech_self_enrollment_quota.val(0);
             $twoTech_self_enrollment_quota.attr('disabled', true);
         }
