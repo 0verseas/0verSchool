@@ -215,6 +215,7 @@ var quotaDistributionPhd = (function () {
 		if (school_has_self_enrollment) {
             $quota_selfSum.val(self_enrollment_quota || 0);
         } else {
+			$quota_selfSum.get(0).type = 'text';
             $quota_selfSum.val(0);
             $quota_selfSum.attr('disabled', true);
 		}
