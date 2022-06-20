@@ -15,7 +15,7 @@ var quotaDistributionMaster = (function () {
 	var $quota_passed = $page.find('.quota.quota_passed'); // 班別間流用
 	var $quota_wantTotal = $page.find('.quota.wantTotal'); // 本年度欲招募總量
 	var $quota_admissionSum = $page.find('.quota.admissionSum'); // 本年度聯招小計
-	var $quota_selfSum = $page.find('.quota.graduated_self_enrollment_quota'); // 本年度自招小計
+	const $quota_selfSum = $page.find('.quota.selfSum'); // 本年度自招小計
 
 	// dept list
 	var $deptList = $page.find('#table-masterPhdDeptList');
@@ -43,6 +43,10 @@ var quotaDistributionMaster = (function () {
 	// show master only
 	$page.find('.masterOnly').removeClass('hide');
 	$page.find('.hide .required').removeClass('required');
+	// 對部份物件做初始化調整
+	$quota_admissionSum.removeClass('bg-info').removeClass('text-white');
+	$quota_selfSum.prop('disabled', false).get(0).type = 'number';
+
 	_setData();
 
 	function _handleToggleCheck() {
@@ -211,6 +215,7 @@ var quotaDistributionMaster = (function () {
         if (school_has_self_enrollment) {
             $quota_selfSum.val(self_enrollment_quota || 0);
         } else {
+			$quota_selfSum.get(0).type = 'text';
             $quota_selfSum.val(0);
             $quota_selfSum.attr('disabled', true);
         }
