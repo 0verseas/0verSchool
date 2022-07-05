@@ -115,6 +115,65 @@ var School = (function () {
 		return Promise
 		.all(urls.map(grabContent))
 	}
+	
+	function getAddNewDepartmentApplyList(){
+		return fetch(baseUrl + `/editors/add-new-department-apply-list`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		});
+	}
+
+	function getAddNewDepartmentApplyInfo(id){
+		return fetch(baseUrl + `/editors/add-new-department-apply-list/${id}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		});
+	}
+
+	function saveAddNewDepartmentApplyInfo(data){
+		return fetch(baseUrl + `/editors/add-new-department-apply-list`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data),
+			credentials: 'include'
+		});
+	}
+
+	function deleteAddNewDepartmentApply(id){
+		return fetch(baseUrl + `/editors/add-new-department-apply-list/${id}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		});
+	}
+
+	function uploadAddNewDepartmentApplyFile(id,data){
+		return fetch(baseUrl + `/editors/add-new-department-apply-list/file/${id}`, {
+			method: 'POST',
+			body: data,
+			credentials: 'include'
+		});
+	}
+
+	function deleteAddNewDepartmentApplyFile(id,fileName){
+		return fetch(baseUrl + `/editors/add-new-department-apply-list/file/${id}/${fileName}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			credentials: 'include'
+		});
+	}
 
 	return {
 		getSchoolInfo,
@@ -129,7 +188,14 @@ var School = (function () {
 		getDeptInfo,
 		setDeptInfo,
 		getDeptFormItem,
-		getGuidelinesReplyForm
+		getGuidelinesReplyForm,
+		getAddNewDepartmentApplyList,
+		getAddNewDepartmentApplyInfo,
+		saveAddNewDepartmentApplyInfo,
+		deleteAddNewDepartmentApply,
+		uploadAddNewDepartmentApplyFile,
+		deleteAddNewDepartmentApplyFile
+
 	};
 
 })();

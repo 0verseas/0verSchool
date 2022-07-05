@@ -1,0 +1,45 @@
+.table td, tr{
+    text-align: center;
+}
+
+.table > tbody > tr > th {
+	vertical-align: middle;
+}
+
+.table > tfoot > tr > th {
+	vertical-align: middle;
+}
+
+.img-thumbnail {
+	max-width: 200px;
+	max-height: 200px;
+	margin: 2px;
+}
+
+/* 非圖片檔案用 icon 當縮圖 */
+.non-img-file-thumbnail {
+	width: 140px;
+	height: 158px;
+	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.non-img-file-thumbnail > i {
+	display: block;
+	font-size: 9rem;
+}
+
+.non-img-file-ori {
+	font-size: 10rem;
+}
+
+.non-img-file-download {
+	/* 有點空間，比較好看 */
+	margin-top: 1rem;
+}
+
+li {
+	/*上下都留空增加行距*/
+	margin: 5px auto;
+}
