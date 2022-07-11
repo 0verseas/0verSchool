@@ -191,8 +191,8 @@ var DeptInfo = (function () {
 
 		item.then(res => { return res[0].json(); }) // 學群
 		.then(json => {
-			// 列表初始化
-			$mainGroup.html('<option value="">無</option>');
+			// 列表初始化 
+			// $mainGroup.html('<option value="">無</option>');
 			$subGroup.html('<option value="">無</option>');
 			json.forEach((value, index) => {
 				$mainGroup
