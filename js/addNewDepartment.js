@@ -10,6 +10,7 @@
     const $newBtn = $('#new-btn'); // 新增請求按鈕
 
     // 請求編輯模板物件
+    const $applyTitle = $('#applyModalHeader'); // 模板的Title
     const $action = $('#action') // 請求之動作
     const $system = $('#system') // 請求之系所學制
     const $departmentType = $('#department-type') // 請求之系所類型
@@ -151,7 +152,6 @@
             const group = group_array[data.group_code];
             const deptTitle = (data.dept_title) ?data.dept_title:'';
             let status = '';
-            let editClass = '';
             let buttonStatus = '';
             let buttonColor = '';
             if(data.applied_at != null){
@@ -165,11 +165,10 @@
                 buttonStatus = 'disabled';
             } else {
                 status = '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> 點擊編輯';
-                editClass += ' btn-editApplyInfo';
                 buttonColor = 'btn-outline-info';
             }
             
-            let listHtml = `<tr class="${editClass}" data-id="${data.id}">`;
+            let listHtml = `<tr class="btn-editApplyInfo" data-id="${data.id}">`;
             listHtml += `<td>${index+1+((page-1)*10)}</td>`;
             listHtml += `<td>${system}</td>`;
             listHtml += `<td>${action}</td>`;
@@ -327,28 +326,73 @@
             $conbineDeptIdInput1.val(json[0].conbine_dept_id_1);
             $conbineDeptIdInput2.val(json[0].conbine_dept_id_2);
 
+            $departmentTitle.attr('disabled',true);
+            $deptIdInput.attr('disabled',true);
+            $oldDepeTitleInput.attr('disabled',true);
+            $newDepeTitleInput.attr('disabled',true);
+            $oldGroupCodeSelector.attr('disabled',true);
+            $newGroupCodeSelector.attr('disabled',true);
+            $conbineDeptIdInput1.attr('disabled',true);
+            $conbineDeptIdInput2.attr('disabled',true);
+
             $deptIdForm.hide();
             $changeDepartmentTitleForm.hide();
             $changeGroupCodeForm.hide();
             $ConbineDeptIdForm.hide();
 
+            const $applied = (json[0].applied_at != null);
+            $applyDetailedInput.show();
+            if($applied){
+                $saveBtn.attr('disabled',true).hide();
+                $appliedBtn.attr('disabled',true).hide();
+                $deleteBtn.attr('disabled',true).hide();
+                $uploadFileBtn.attr('disabled',true);
+                $deleteFileBtn.attr('disabled',true).hide();
+                $('.btn-upload').hide();
+                if(json[0].completed_at != null){
+                    $applyTitle.html(`<i class="text-success fa fa-check" aria-hidden="true"> 處理完畢</i>`);
+                } else {
+                    $applyTitle.html(`<i class="text-warning fa fa-hourglass-half" aria-hidden="true"> 等候處理</i>`);
+                }
+            } else {
+                $applyTitle.html(`<i class="text-primary fa fa-file-text" aria-hidden="true"> 尚未發送</i>`);
+                $departmentTitle.attr('disabled',false);
+                $saveBtn.attr('disabled',false).show();
+                $appliedBtn.attr('disabled',false).show();
+                $deleteBtn.attr('disabled',false).show();
+                $uploadFileBtn.attr('disabled',false);
+                $deleteFileBtn.attr('disabled',false).show();
+                $('.btn-upload').show();
+            }
             switch(json[0].action_id){
                 case 1:
                     $applyDetailedInput.hide();
                     break;
                 case 2:
-                    $applyDetailedInput.show();
                     $deptIdForm.show();
                     $changeDepartmentTitleForm.show();
+                    if(!$applied){
+                        $deptIdInput.attr('disabled',false);
+                        $oldDepeTitleInput.attr('disabled',false);
+                        $newDepeTitleInput.attr('disabled',false);
+                    }
                     break;
                 case 3:
-                    $applyDetailedInput.show();
                     $deptIdForm.show();
                     $changeGroupCodeForm.show();
+                    if(!$applied){
+                        $deptIdInput.attr('disabled',false);
+                        $oldGroupCodeSelector.attr('disabled',false);
+                        $newGroupCodeSelector.attr('disabled',false);
+                    }
                     break;
                 case 4:
-                    $applyDetailedInput.show();
                     $ConbineDeptIdForm.show();
+                    if(!$applied){
+                        $deptIdInput.attr('disabled',false);
+                        $conbineDeptIdInput1.attr('disabled',false);
+                        $conbineDeptIdInput2.attr('disabled',false);
+                    }
                     break;
             }
             $uploadedFiles = json[1];            
