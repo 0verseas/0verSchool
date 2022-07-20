@@ -20,6 +20,7 @@ var DeptInfo = (function () {
 	var $modalDeptInfo = $('#modal-deptInfo');
 	var $sortOrder = $modalDeptInfo.find('#sortOrder'); // 簡章順序
 	var $id = $modalDeptInfo.find('#id'); // Can't edit ，系所代碼
+	var $extendedTag = $modalDeptInfo.find('#extendedTag'); // Can't edit，讀卡代碼
 	var $titleMain = $modalDeptInfo.find('#titleMain');  // 核定系名
 	var $titleDivision = $modalDeptInfo.find('#titleDivision');  // 招生分組
 	var $title = $modalDeptInfo.find('#title'); // Can't edit，中文名稱
@@ -140,6 +141,12 @@ var DeptInfo = (function () {
 			var updateAt = moment(value.created_at).format('YYYY/MM/DD HH:mm:ss');
 			let engTitle = encodeHtmlCharacters(value.eng_title);  // department english title
 			let title = encodeHtmlCharacters(value.title); // department title
+			if(value.is_extended_department == 1){
+				title = title+'&nbsp;&nbsp;<span class="badge badge-warning">重點產業系所</span>';
+			}
+			if(value.is_extended_department == 2){
+				title = title+'&nbsp;&nbsp;<span class="badge badge-warning">國際專修部</span>';
+			}
 			$deptList
 				.find('tbody')
 				.append(`
@@ -184,8 +191,8 @@ var DeptInfo = (function () {
 
 		item.then(res => { return res[0].json(); }) // 學群
 		.then(json => {
-			// 列表初始化
-			$mainGroup.html('<option value="">無</option>');
+			// 列表初始化 
+			// $mainGroup.html('<option value="">無</option>');
 			$subGroup.html('<option value="">無</option>');
 			json.forEach((value, index) => {
 				$mainGroup
@@ -208,6 +215,13 @@ var DeptInfo = (function () {
 	function renderCommonDeptDetail(deptData, system) {
 		$sortOrder.val(deptData.sort_order);
 		$id.val(deptData.id);
+		if(deptData.is_extended_department == 1){
+			$extendedTag.text('重點產業系所')
+		} else if(deptData.is_extended_department == 2){
+			$extendedTag.text('國際專修部')
+		} else {
+			$extendedTag.text('')
+		}
         $titleMain.val(deptData.title_main);  // 核定系名
         $titleDivision.val(deptData.title_division);  // 招生分組
 		$title.val(deptData.title);

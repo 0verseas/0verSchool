@@ -127,7 +127,7 @@
 						</div>
 						<div class="row">
 							<div class="form-group col-6">
-								<label class="form-control-label" for="">核定系名</label>
+								<label class="form-control-label" for="">核定系名 <span class="badge badge-warning" id="extendedTag"></span></label>
 								<input type="text" class="form-control" id="titleMain" disabled>
 							</div>
 							<div id="engTitleForm" class="form-group col-6">
@@ -418,7 +418,7 @@
 																<input type="email" class="form-control" v-model="type.recieve_email" v-bind:disabled="!type.need_paper || !type.needed" v-bind:class="{'is-invalid': type.recieve_email_error}">
 															</div>
 															<div class="form-group col-6" id="recieveDeadlineDiv">
-																<label class="text-danger">收件期限*（建議2022年1月10日前截止）</label>
+																<label class="text-danger">收件期限*（建議<%= year - (-1)%>年1月10日前截止）</label>
 																<input id="recieveDeadline" type="text" class="form-control datepicker" v-bind:disabled="!type.need_paper || !type.needed">
 															</div>
 														</div>

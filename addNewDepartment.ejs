@@ -1,0 +1,321 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.0.8/pagination.css">
+
+<h2 class="text-center title">新增或變更系所</h2>
+
+<hr>
+
+<div class="row" id="form-addNewDepartmentApply">
+	<div class="col-12">
+        
+        <div class="card">
+            <div class="card-header bg-primary text-white">注意事項</div>
+            <div class="card-body">
+                <p>
+                    <strong class="text-danger">新增請求說明</strong>
+                    <ol>
+                        <li>
+                            請先選擇學制。
+                        </li>
+                        <li>
+                            接著選擇要進行的動作。
+                        </li>
+                        <li>
+                            然後選擇學系類型。
+                        </li>
+                        <li>
+                            之後選擇學系類組。
+                        </li>
+                        <li>
+                            最後填寫核定系名。
+                        </li>
+                    </ol>
+                </p>
+                <p>
+                    <strong class="text-danger">請求填寫說明</strong>
+                    <ol>
+                        <li>
+                            請記得點擊請求，填寫詳細資訊並上傳核定公文。
+                        </li>
+                        <li>
+                            填寫完畢並確認無誤後，請按下發送請求按鈕。
+                        </li>
+                    </ol>
+                </p>
+            </div>
+        </div>
+
+        <hr>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>學制</th>
+                    <th>動作</th>
+                    <th>學系類型</th>
+                    <th>類組</th>
+                    <th>核定系名</th>
+                    <th><th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th>
+                        <select class="form-control" id="system-selector" disabled>
+                            <option value="0" selected disabled hidden>請選擇</option>
+                            <option value="1">學士班</option>
+                            <option value="2">港二技</option>
+                            <option value="3">碩士班</option>
+                            <option value="4">博士班</option>
+                        </select>
+                    </th>
+                    <th>
+                        <select class="form-control" id="action-selector" disabled>
+                            <option value="0" selected disabled hidden>請先選擇學制</option>
+                            <option value="1">新增系所</option>
+                            <option value="2">更改系名</option>
+                            <option value="3">更換類組</option>
+                            <option value="4">合併系所</option>
+                        </select>
+                    </th>
+                    <th>
+                        <select class="form-control" id="type-selector" disabled>
+                            <option value="-1" selected disabled hidden>請先選擇學制</option>
+                            <option value="0">一般系所</option>
+                            <option value="1">重點產業系所</option>
+                            <option value="2">國際專修班</option>
+                        </select>
+                    </th>
+                    <th>
+                        <select class="form-control" id="group-selector">
+                            <option value="0" selected disabled hidden>請選擇</option>
+                            <option value="1">第一類組</option>
+                            <option value="2">第二類組</option>
+                            <option value="3">第三類組</option>
+                        </select>
+                    </th>
+                    <th>
+                        <input class="input" type="text" id="title-input" style="text-align: center;" maxlength="191">
+                    </th>
+                    <th>
+                        <button class="btn btn-outline-primary" id="new-btn"><i class="fa fa-plus fa-fw" aria-hidden="true"></i> 新增請求</button>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody id="apply-list">
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
+
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-hover">
+                        <div id="pagination-container">
+                        </div>
+                    </table>
+                </div>
+            </div>
+        </table>
+
+        <div class="modal fade" id="editApplyModal" tabindex="-1" role="dialog" aria-labelledby="editApplyTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content" id="modal-apply">
+                    <div class="modal-header">
+                        <h5 id="applyModalHeader"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <form>
+                                <div class="row">
+                                    <div id="diplomaForm" class="form-group col-6">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    請求動作
+                                                </div>
+                                            </div>
+                                            <input type="text" class="form-control" id="action" disabled>
+                                        </div>
+                                    </div>
+                                    <div id="yearForm" class="form-group col-6">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    系所學制
+                                                </div>
+                                            </div>
+                                            <input type="text" class="form-control" id="system" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div id="diplomaForm" class="form-group col-6">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    系所類型
+                                                </div>
+                                            </div>
+                                            <input type="text" class="form-control" id="department-type" disabled>
+                                        </div>
+                                    </div>
+                                    <div id="yearForm" class="form-group col-6">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    系所類組
+                                                </div>
+                                            </div>
+                                            <input type="text" class="form-control" id="department-group" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div id="candidateForm" class="form-group col-12">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text text-danger">
+                                                    核定系名
+                                                </div>
+                                            </div>
+                                            <input type="text" class="form-control" maxlength="191" id="department-title" placeholder="必填欄位 ANGKA GILIRAN">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card apply-detailed-input hide">
+                                    <div class="card-header bg-primary text-white">
+                                        詳細資訊
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="form-group col-12" id="deptIdForm">
+                                                <label for="chinese">學系代碼</label>
+                                                <input type="text" class="form-control" maxlength="5" id="dept-id">
+                                            </div>
+                                        </div>
+
+                                        <div class="row" id="changeDepartmentTitleForm">
+                                            <div class="form-group col-6">
+                                                <label for="english">原系所名稱</label>
+                                                <input type="text" class="form-control" maxlength="191" id="old-dept-title">
+                                            </div>
+                                            
+                                            <div class="form-group col-6">
+                                                <label for="chinese">新系所名稱</label>
+                                                <input type="text" class="form-control" maxlength="191" id="new-dept-title">
+                                            </div>
+                                        </div>
+
+                                        <div class="row" id="changeGroupCodeForm">
+                                            <div class="form-group col-6">
+                                                <label for="english">原系所類組</label>
+                                                <select class="form-control" id="old-group-code-selector">
+                                                    <option value="0" selected disabled hidden>請選擇</option>
+                                                    <option value="1">第一類組</option>
+                                                    <option value="2">第二類組</option>
+                                                    <option value="3">第三類組</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-6">
+                                                <label for="english">新系所類組</label>
+                                                <select class="form-control" id="new-group-code-selector">
+                                                    <option value="0" selected disabled hidden>請選擇</option>
+                                                    <option value="1">第一類組</option>
+                                                    <option value="2">第二類組</option>
+                                                    <option value="3">第三類組</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row" id="ConbineDeptIdForm">
+                                            <div class="form-group col-6">
+                                                <label for="english">欲合併系所代碼-1</label>
+                                                <input type="text" class="form-control" maxlength="5" id="conbine-dept-id-1">
+                                            </div>
+
+                                            <div class="form-group col-6">
+                                                <label for="english">欲合併系所代碼-2</label>
+                                                <input type="text" class="form-control" maxlength="5" id="conbine-dept-id-2">
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="card" id="uploadFileArea">
+                                    <div class="card-header bg-primary text-white">
+                                        上傳核定公文區域
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="alert alert-warning">
+                                            可接受副檔名為 <strong class="text-danger">pdf、jpg、png</strong> 的檔案，單一個檔案大小需 <strong class="text-danger">小於 4 Mbytes</strong> 。
+                                        </div>
+
+                                        <div class="row btn-upload" style="margin-bottom: 15px;">
+                                            <div class="col-12">
+                                                <input type="file" class="filestyle file-upload" id="file-upload"
+                                                data-btnClass="btn-success"
+                                                data-input="false"
+                                                data-text=" 選取檔案"
+                                                data-Icon="<i class='fa fa-folder-open' aria-hidden='true'/>"
+                                                multiple>
+                                            </div>
+                                        </div>
+    
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title"><span>已上傳檔案</span> <small class="text-muted">(點圖可放大或刪除)</small></h4>
+                                                <div id="uploadedFileArea">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" id="save-btn"><i class="fa fa-save" aria-hidden="true"></i> 儲存資訊</button>
+                        <button class="btn btn-success" id="applied-btn"><i class="fa fa-send" aria-hidden="true"></i> 發送請求</button>
+                        <button class="btn btn-danger" id="delete-btn"><i class="fa fa-trash" aria-hidden="true"></i> 刪除請求</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-sign-out" aria-hidden="true"></i> 離開</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade img-modal" tabindex="-1" role="dialog" aria-labelledby="imgModal" aria-hidden="true" id="img-modal">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-body text-center" id="img-modal-body">
+				<img src="" class="img-fluid rounded img-ori">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger delete-file"><i class="fa fa-trash" aria-hidden="true"></i> 刪除</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-sign-out" aria-hidden="true"></i> 離開</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.0.8/pagination.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-filestyle/1.3.0/bootstrap-filestyle.min.js"> </script>
