@@ -15,7 +15,17 @@ var quotaDistributionPhd = (function () {
 	var $quota_passed = $page.find('.quota.quota_passed'); // 班別間流用
 	var $quota_wantTotal = $page.find('.quota.wantTotal'); // 本年度欲招募總量
 	var $quota_admissionSum = $page.find('.quota.admissionSum'); // 本年度聯招小計
-	var $quota_selfSum = $page.find('.quota.selfSum'); // 本年度自招小計
+	const $quota_selfSum = $page.find('.quota.selfSum'); // 本年度自招小計
+
+	const $ratify_quota_for_main_industries_department = $page.find('.ratify_quota_for_main_industries_department');
+
+	const $general_department_admission_selection_quota = $page.find('.general_department_admission_selection_quota');
+	const $general_department_self_enrollment_quota = $page.find('.general_department_self_enrollment_quota');
+	const $general_department_sum = $page.find('.general_department_sum');
+
+	const $main_industries_department_admission_selection_quota = $page.find('.main_industries_department_admission_selection_quota');
+	const $main_industries_department_self_enrollment_quota = $page.find('.main_industries_department_self_enrollment_quota');
+	const $main_industries_department_sum = $page.find('.main_industries_department_sum');
 
 	// dept list
 	var $deptList = $page.find('#table-masterPhdDeptList');
@@ -32,7 +42,8 @@ var quotaDistributionPhd = (function () {
 	// save/commit
 	$btn.on('click', _handleSave);
     // 博士班自招 change
-    $quota_selfSum.on('change', _updateWantTotal);
+    $general_department_self_enrollment_quota.on('change', _handleGeneralDepartmentSelfChanged);
+	$main_industries_department_self_enrollment_quota.on('change', _handleMainIndustriesDepartmentSelfChanged);
 
     /**
 	 * init
@@ -44,10 +55,38 @@ var quotaDistributionPhd = (function () {
 	$page.find('.phdOnly').removeClass('hide');
 	$page.find('.hide .required').removeClass('required');
 	// 對部份物件做初始化調整
-	$quota_admissionSum.removeClass('bg-info').removeClass('text-white');
-	$quota_selfSum.prop('disabled', false).get(0).type = 'number';
+	$('.add_system_text').each(function (index){
+		$(this).text('博士班'+$(this).text());
+		$(this).html($(this).html().replace('重點產業系所',`<a class="font-weight-bold" style="color:#8035E4;">重點產業系所</a>`));
+	});
 
 	_setData();
+
+	function _handleGeneralDepartmentSelfChanged() {
+		$general_department_sum.val(
+			+$general_department_admission_selection_quota.val() +
+			+$general_department_self_enrollment_quota.val()
+		);
+
+		_handleSelfChanged();
+	}
+
+	function _handleMainIndustriesDepartmentSelfChanged() {
+		$main_industries_department_sum.val(
+			+$main_industries_department_admission_selection_quota.val() +
+			+$main_industries_department_self_enrollment_quota.val()
+		);
+
+		_handleSelfChanged();
+	}
+
+	function _handleSelfChanged() {
+		$quota_selfSum.val(
+			+$general_department_self_enrollment_quota.val() +
+			+$main_industries_department_self_enrollment_quota.val()
+		);
+        _updateWantTotal();
+    }
 
 	function _handleToggleCheck() {
 		var $this = $(this);
@@ -76,10 +115,13 @@ var quotaDistributionPhd = (function () {
 		});
 		$this.parents('.dept').find('.total').text(sum);
 
+		const deptType = $this.parents('.dept').data('type');
 		// update sum admission_selection_quota / self_enrollment_quota
 		var quotaType = $this.data('type');
 		if (quotaType) {
+			_updateDepartmentQuotaSum(deptType);
 			_updateQuotaSum(quotaType);
+			_updateTypeDepartmentTotal(deptType);
 			_updateWantTotal();
 		}
 	}
@@ -99,12 +141,15 @@ var quotaDistributionPhd = (function () {
                 sort_order: +$deptRow.find('.order-num').val(),
 				has_self_enrollment: $deptRow.find('.isSelf').is(':checked'),
 				admission_selection_quota: +$deptRow.find('.admission_selection_quota').val(),
+				is_extended_department: $deptRow.data('type'),
 			};
 		}).toArray();
 
 		var data = {
 			departments: departments,
             self_enrollment_quota: $quota_selfSum.val(),
+			general_department_self_enrollment_quota: +$general_department_self_enrollment_quota.val(),
+			main_industries_department_self_enrollment_quota: +$main_industries_department_self_enrollment_quota.val(),
 		};
 
 		$this.attr('disabled', true);
@@ -176,6 +221,11 @@ var quotaDistributionPhd = (function () {
 				break;
 			}
 		}
+		// 本年度主要產業系所欲招募總量必須大於等於教育部核定擴增招收名額
+		if (+$ratify_quota_for_main_industries_department.val() > +$main_industries_department_sum.val()) {
+			valid = false;
+			alert('主要產業系所欲招募總量必須大於等於重點產業系所招生名額');
+		}
 		// 本年度欲招募總量必須小於等於可招生總量
 		if (+$quota_wantTotal.val() > +$quota_allowTotal.val()) {
 			valid = false;
@@ -197,20 +247,26 @@ var quotaDistributionPhd = (function () {
 	}
 
 	function _setQuota(data) {
-		var {
+		const {
 			last_year_admission_amount,
 			last_year_surplus_admission_quota,
 			ratify_expanded_quota,
+			ratify_quota_for_main_industries_department,
             self_enrollment_quota,
 			school_has_self_enrollment,
 			quota_used,
-			quota_passed
+			quota_passed,
+			main_industries_department_self_enrollment_quota,
+			general_department_self_enrollment_quota,
 		} = data;
 		$quota_last_year_admission_amount.val(last_year_admission_amount || 0);
 		$quota_last_year_surplus_admission_quota.val(last_year_surplus_admission_quota || 0);
 		$quota_ratify_expanded_quota.val(ratify_expanded_quota || 0);
 		$quota_used.val(quota_used || 0);
 		$quota_passed.val(quota_passed || 0);
+		$ratify_quota_for_main_industries_department.val(ratify_quota_for_main_industries_department || 0);
+		$general_department_self_enrollment_quota.val(general_department_self_enrollment_quota || 0);
+		$main_industries_department_self_enrollment_quota.val(main_industries_department_self_enrollment_quota || 0);
 
 		if (school_has_self_enrollment) {
             $quota_selfSum.val(self_enrollment_quota || 0);
@@ -269,37 +325,41 @@ var quotaDistributionPhd = (function () {
 			}
 
 			$deptList
-				.find('tbody')
-				.append(`
-					<tr class="dept" data-id="${id}">
-						<td>
-							<div class="input-group">
-								<div class="input-group-prepend flex-column">
-									<button type="button" data-orderNum="${sort_num}" class="btn btn-outline-secondary btn-sm up-arrow">
-										<i class="fa fa-chevron-up" aria-hidden="true"></i>
-									</button>
-									<button type="button" data-orderNum="${sort_num}" class="btn btn-outline-secondary btn-sm down-arrow">
-										<i class="fa fa-chevron-down" aria-hidden="true"></i>
-									</button>
-								</div>
-								<input type="text" class="form-control order-num" size="3" value="${sort_num}">
+			.find('tbody')
+			.append(`
+				<tr class="dept" data-id="${id}" data-type="${is_extended_department}">
+					<td>
+						<div class="input-group">
+							<div class="btn-group-vertical">
+								<button type="button" data-orderNum="${sort_num}" class="btn btn-outline-secondary btn-sm up-arrow">
+									<i class="fa fa-chevron-up" aria-hidden="true"></i>
+								</button>
+								<button type="button" data-orderNum="${sort_num}" class="btn btn-outline-secondary btn-sm down-arrow">
+									<i class="fa fa-chevron-down" aria-hidden="true"></i>
+								</button>
 							</div>
-						</td>
-						<td>${id}</td>
-						<td>
-							<div>${department_title}</div>
-							<small>${english_title}</small>
-						</td>
-						<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" ${teacher_quality_passed ? '' : 'disabled'} /></td>
-						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${school_has_self_enrollment && has_self_enrollment ? 'checked' : ''} ${school_has_self_enrollment ? '' : 'disabled="disabled"'} ></td>
-					</tr>
-				`);
+							<input type="text" class="form-control order-num" size="3" value="${sort_num}">
+						</div>
+					</td>
+					<td>${id}</td>
+					<td>
+						<div>${department_title}</div>
+						<small>${english_title}</small>
+					</td>
+					<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" ${teacher_quality_passed ? '' : 'disabled'} /></td>
+					<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${school_has_self_enrollment && has_self_enrollment ? 'checked' : ''} ${school_has_self_enrollment ? '' : 'disabled="disabled"'} ></td>
+				</tr>
+			`);
 
             count++;
 		}
 		_updateQuotaSum('admission_selection_quota');
+		_updateDepartmentQuotaSum(0);
+		_updateDepartmentQuotaSum(1);
 		// _updateQuotaSum('self_enrollment_quota');
 		_updateWantTotal();
+		_updateTypeDepartmentTotal(0);
+		_updateTypeDepartmentTotal(1);
 
         const $upArrow = $deptList.find('.up-arrow');
         const $downArrow = $deptList.find('.down-arrow');
@@ -338,6 +398,42 @@ var quotaDistributionPhd = (function () {
 		var sum = +($quota_admissionSum.val()) +
 			+($quota_selfSum.val());
 		$quota_wantTotal.val(sum);
+	}
+
+	function _updateDepartmentQuotaSum(type){
+		let sum = 0;
+		$deptList.find('.dept').each(function (i, deptRow) {
+			let $deptRow = $(deptRow);
+			if($deptRow.data('type') == type){
+				sum += +$deptRow.find(`.admission_selection_quota`).val();
+			}
+		});
+
+		switch(type){
+			case 0:
+				$general_department_admission_selection_quota.val(sum);
+				break;
+			case 1:
+				$main_industries_department_admission_selection_quota.val(sum);
+				break;
+		}
+	}
+
+	function _updateTypeDepartmentTotal(type) {
+		switch(type){
+			case 0:
+				$general_department_sum.val(
+					+$general_department_admission_selection_quota.val() +
+					+$general_department_self_enrollment_quota.val()
+				);
+				break;
+			case 1:
+				$main_industries_department_sum.val(
+					+$main_industries_department_admission_selection_quota.val() +
+					+$main_industries_department_self_enrollment_quota.val()
+				)
+				break;	
+		}			
 	}
 
     function _prevOrder() { //系所排序上移

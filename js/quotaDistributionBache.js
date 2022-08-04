@@ -21,11 +21,25 @@ var quotaDistirbutionBache = (function () {
 	var $quota_wantTotal = $page.find('.quota.wantTotal'); // 本年度欲招募總量
 	var $quota_admissionSum = $page.find('.quota.admissionSum'); // 本年度聯招小計
 	var $quota_selfSum = $page.find('.quota.selfSum'); // 本年度自招小計
-	const $div_admssionSum = $page.find('.admissionSumDiv');// 聯招小計Div
-	const $div_selfSum = $page.find('.selfSumDiv');// 聯招小計Div
 	const $symbol_add = $page.find('.sumAddSymbol');
 	const $text_bachelor_self_enrollment = $page.find('.bacheloar_self_enrollment_text');
-	const $text_twoTech_self_enrollment = $page.find('.twoTech_self_enrollment_text');
+
+	const $general_department_admission_selection_quota = $page.find('.general_department_admission_selection_quota');
+	const $general_department_admission_placement_quota = $page.find('.general_department_admission_placement_quota');
+	const $general_department_self_enrollment_quota = $page.find('.general_department_self_enrollment_quota');
+	const $general_department_sum = $page.find('.general_department_sum');
+
+	const $main_industries_department_admission_selection_quota = $page.find('.main_industries_department_admission_selection_quota');
+	const $main_industries_department_admission_placement_quota = $page.find('.main_industries_department_admission_placement_quota');
+	const $main_industries_department_self_enrollment_quota = $page.find('.main_industries_department_self_enrollment_quota');
+	const $main_industries_department_sum = $page.find('.main_industries_department_sum');
+
+	const $international_specialized_program_admission_selection_quota = $page.find('.international_specialized_program_admission_selection_quota');
+	const $international_specialized_program_self_enrollment_quota = $page.find('.international_specialized_program_self_enrollment_quota');
+	const $international_specialized_program_sum = $page.find('.international_specialized_program_sum');
+
+	const $ratify_quota_for_main_industries_department = $page.find('.ratify_quota_for_main_industries_department');
+	const $ratify_quota_for_international_specialized_program = $page.find('.ratify_quota_for_international_specialized_program');
 
 	// dept list
 	var $deptList = $page.find('#table-bacheDeptList');
@@ -36,8 +50,10 @@ var quotaDistirbutionBache = (function () {
 	/**
 	 * bind event
 	 */
-	// 學士班自招 change
-	$bachelor_quota_self_enrollment_quota.on('change', _handleSelfChanged);
+	// 學士班單獨招生名額變動事件
+	$general_department_self_enrollment_quota.on('change', _handleGeneralDepartmentSelfChanged);
+	$main_industries_department_self_enrollment_quota.on('change', _handleMainIndustriesDepartmentSelfChanged);
+	$international_specialized_program_self_enrollment_quota.on('change', _handleInternationalSpecializedProgramSelfChanged);
 	// 填數字算總額
 	$deptList.on('change.sumTotal', '.dept .editableQuota', _handleQuotaChange);
 	// save/commit
@@ -53,16 +69,52 @@ var quotaDistirbutionBache = (function () {
 	$page.find('.bacheOnly').removeClass('hide');
 	$page.find('*[data-toggle=tooltip]').tooltip();
 	// 對部份物件做初始化調整
-	$bachelor_quota_self_enrollment_quota.prop('disabled', false).get(0).type = 'number';
-	$div_admssionSum.removeClass('col-2').css('margin-left','15px');
-	$div_selfSum.removeClass('col-2');
+	$('.add_system_text').each(function (index){
+		$(this).text('學士班'+$(this).text());
+		$(this).html($(this).html().replace('重點產業系所',`<a class="font-weight-bold" style="color:#8035E4;">重點產業系所</a>`));
+		$(this).html($(this).html().replace('國際專修部',`<a class="font-weight-bold" style="color:#E47535;">國際專修部</a>`));
+	});
 	$symbol_add.text('　　　').removeClass('operator');
-	$text_bachelor_self_enrollment.addClass('text-danger');
-	$text_twoTech_self_enrollment.addClass('text-muted');
+	$text_bachelor_self_enrollment.text('*'+$text_bachelor_self_enrollment.text());
+	$text_bachelor_self_enrollment.addClass('text-danger font-weight-bold');
 
 	_setData();
 
+	function _handleGeneralDepartmentSelfChanged() {
+		$general_department_sum.val(
+			+$general_department_admission_selection_quota.val() +
+			+$general_department_admission_placement_quota.val() +
+			+$general_department_self_enrollment_quota.val()
+		);
+
+		_handleSelfChanged();
+	}
+
+	function _handleMainIndustriesDepartmentSelfChanged() {
+		$main_industries_department_sum.val(
+			+$main_industries_department_admission_selection_quota.val() +
+			+$main_industries_department_admission_placement_quota.val() +
+			+$main_industries_department_self_enrollment_quota.val()
+		);
+
+		_handleSelfChanged();
+	}
+
+	function _handleInternationalSpecializedProgramSelfChanged() {
+		$international_specialized_program_sum.val(
+			+$international_specialized_program_admission_selection_quota.val() +
+			+$international_specialized_program_self_enrollment_quota.val()
+		);
+
+		_handleSelfChanged();
+	}
+
 	function _handleSelfChanged() {
+		$bachelor_quota_self_enrollment_quota.val(
+			+$general_department_self_enrollment_quota.val() +
+			+$main_industries_department_self_enrollment_quota.val() +
+			+$international_specialized_program_self_enrollment_quota.val()
+		);
 		_updateAdmissionSumSelfSum();
 		_updateWantTotal();
 	}
@@ -89,10 +141,13 @@ var quotaDistirbutionBache = (function () {
 
 		// update sum admission_selection_quota / admission_placement_quota / self_enrollment_quota
 		var quotaType = $this.data('type');
+		const deptType = $this.parents('.dept').data('type')
 		if (quotaType) {
 			_updateQuotaSum(quotaType);
+			_updateDepartmentQuotaSum(deptType, quotaType);
 			_updateAdmissionSumSelfSum();
 			_updateWantTotal();
+			_updateTypeDepartmentTotal(deptType);
 
 			// 看看要不要寫減招原因
 			if (quotaType == 'admission_placement_quota') {
@@ -140,12 +195,16 @@ var quotaDistirbutionBache = (function () {
 				admission_selection_quota: +$deptRow.find('.admission_selection_quota').val(),
 				admission_placement_quota: +$deptRow.find('.admission_placement_quota').val(),
 				decrease_reason_of_admission_placement: $deptRow.find('.decrease_reason_of_admission_placement').val() || null,
-				myanmar_teacher_education: +$deptRow.find('.isMyanmar').is(':checked')
+				myanmar_teacher_education: +$deptRow.find('.isMyanmar').is(':checked'),
+				is_extended_department: $deptRow.data('type'),
 			};
 		}).toArray();
 
 		var data = {
 			self_enrollment_quota: +$bachelor_quota_self_enrollment_quota.val(), // 學士班自招
+			general_department_self_enrollment_quota: +$general_department_self_enrollment_quota.val(),
+			main_industries_department_self_enrollment_quota: +$main_industries_department_self_enrollment_quota.val(),
+			international_specialized_program_self_enrollment_quota: +$international_specialized_program_self_enrollment_quota.val(),
 			departments: departments
 		};
 
@@ -183,6 +242,17 @@ var quotaDistirbutionBache = (function () {
 				alert('輸入有誤');
 				break;
 			}
+		}
+		// 本年度主要產業系所欲招募總量必須大於等於教育部核定擴增招收名額
+		if (+$ratify_quota_for_main_industries_department.val() > +$main_industries_department_sum.val()) {
+			valid = false;
+			alert('主要產業系所欲招募總量必須大於等於重點產業系所招生名額');
+		}
+
+		// 本年度國際專修部欲招募總量必須大於等於教育部核定擴增招收名額
+		if (+$ratify_quota_for_international_specialized_program.val() > +$international_specialized_program_sum.val()) {
+			valid = false;
+			alert('國際專修部欲招募總量必須大於等於國際專修部招生名額');
 		}
 
 		// 本年度欲招募總量必須小於等於可招生總量
@@ -242,13 +312,18 @@ var quotaDistirbutionBache = (function () {
 	}
 
 	function _setQuota(data) {
-		var {
+		const {
 			last_year_admission_amount,
 			last_year_surplus_admission_quota,
 			ratify_expanded_quota,
+			ratify_quota_for_international_specialized_program,
+			ratify_quota_for_main_industries_department,
 			another_department_admission_selection_quota,
 			another_department_self_enrollment_quota,
 			self_enrollment_quota,
+			international_specialized_program_self_enrollment_quota,
+			main_industries_department_self_enrollment_quota,
+			general_department_self_enrollment_quota,
 			school_has_self_enrollment,
 			quota_used,
 			quota_passed
@@ -260,6 +335,11 @@ var quotaDistirbutionBache = (function () {
 		$twoTech_self_enrollment_quota.val(another_department_self_enrollment_quota || 0);
 		$quota_used.val(quota_used || 0);
 		$quota_passed.val(quota_passed || 0);
+		$ratify_quota_for_main_industries_department.val(ratify_quota_for_main_industries_department || 0);
+		$ratify_quota_for_international_specialized_program.val(ratify_quota_for_international_specialized_program || 0);
+		$general_department_self_enrollment_quota.val(general_department_self_enrollment_quota || 0);
+		$main_industries_department_self_enrollment_quota.val(main_industries_department_self_enrollment_quota || 0);
+		$international_specialized_program_self_enrollment_quota.val(international_specialized_program_self_enrollment_quota || 0);
 
         if (school_has_self_enrollment) {
             $bachelor_quota_self_enrollment_quota.val(self_enrollment_quota || 0);
@@ -307,7 +387,7 @@ var quotaDistirbutionBache = (function () {
 			var reference = last_year_admission_placement_amount > last_year_admission_placement_quota ? last_year_admission_placement_quota : last_year_admission_placement_amount;
 			var noNeedToWriteReason = +reference <= +admission_placement_quota;
 
-			let extended_department = (is_extended_department == 0) ?false :true;
+			let extended_department = (is_extended_department != 2) ?false :true;
 			var checked = school_has_self_enrollment ? ( has_self_enrollment ? 'checked' : '') : 'disabled';
 			var checked2 = ( (admission_quota_pass && !extended_department) ? 'checked' : '');
 			var checked3 = (school_has_myanmer_teacher_education && !extended_department)? ( myanmar_teacher_education ? 'checked' : '') : 'disabled';
@@ -349,37 +429,37 @@ var quotaDistirbutionBache = (function () {
 			}
 
 			$deptList
-				.find('tbody')
-				.append(`
-					<tr class="dept" data-id="${id}">
-						<td>
-							<div class="input-group">
-								<div class="input-group-prepend flex-column">
-									<button type="button" data-orderNum="${sort_num}" class="btn btn-outline-secondary btn-sm up-arrow">
-										<i class="fa fa-chevron-up" aria-hidden="true"></i>
-									</button>
-									<button type="button" data-orderNum="${sort_num}" class="btn btn-outline-secondary btn-sm down-arrow">
-										<i class="fa fa-chevron-down" aria-hidden="true"></i>
-									</button>
-								</div>
-								<input type="text" class="form-control order-num" size="3" value="${sort_num}">
+			.find('tbody')
+			.append(`
+				<tr class="dept" data-id="${id}" data-type="${is_extended_department}">
+					<td>
+						<div class="input-group">
+							<div class="btn-group-vertical"">
+								<button type="button" data-orderNum="${sort_num}" class="btn btn-outline-secondary btn-sm up-arrow">
+									<i class="fa fa-chevron-up" aria-hidden="true"></i>
+								</button>
+								<button type="button" data-orderNum="${sort_num}" class="btn btn-outline-secondary btn-sm down-arrow">
+									<i class="fa fa-chevron-down" aria-hidden="true"></i>
+								</button>
 							</div>
-						</td>
-						<td>${id}</td>
-						<td>
-							<div>${department_title}</div>
-							<div>${english_title}</div>
-						</td>
-						<td><input type="number" min="0" ${checked4} class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
-						<td class="text-center"><input type="checkbox" class="isDeptPass" data-type="deptPass" ${checked2} ${checked6}></td>
-						<td><input type="number" min="0" ${checked5} class="form-control editableQuota required admission_placement_quota" data-type="admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
-						<td class="reference text-center" data-val="${reference}">${reference}</td>
-						<td><textarea class="form-control decrease_reason_of_admission_placement" cols="50" rows="1" ${noNeedToWriteReason ? 'disabled' : ''} >${decrease_reason_of_admission_placement || ''}</textarea></td>
-						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${checked} ></td>
-						<td class="text-center"><input type="checkbox" class="isMyanmar" data-type="myanmar_teacher_education" ${checked3} ></td>
-						<td class="total text-center">${total}</td>
-					</tr>
-				`);
+							<input type="text" class="form-control order-num" size="3" value="${sort_num}">
+						</div>
+					</td>
+					<td>${id}</td>
+					<td>
+						<div>${department_title}</div>
+						<div>${english_title}</div>
+					</td>
+					<td><input type="number" min="0" ${checked4} class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${admission_selection_quota || 0}" /></td>
+					<td class="text-center"><input type="checkbox" class="isDeptPass" data-type="deptPass" ${checked2} ${checked6}></td>
+					<td><input type="${checked5=="disabled" ?"text" :"number"}" min="0" ${checked5} class="form-control editableQuota required admission_placement_quota" data-type="admission_placement_quota" value="${admission_placement_quota || 0}" /></td>
+					<td class="reference text-center" data-val="${reference}">${reference}</td>
+					<td><textarea class="form-control decrease_reason_of_admission_placement" cols="50" rows="1" ${noNeedToWriteReason ? 'disabled' : ''} >${decrease_reason_of_admission_placement || ''}</textarea></td>
+					<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${checked} ></td>
+					<td class="text-center"><input type="checkbox" class="isMyanmar" data-type="myanmar_teacher_education" ${checked3} ></td>
+					<td class="total text-center">${total}</td>
+				</tr>
+			`);
 
             count++;
 		}
@@ -387,6 +467,14 @@ var quotaDistirbutionBache = (function () {
 		_updateQuotaSum('admission_placement_quota');
 		_updateAdmissionSumSelfSum();
 		_updateWantTotal();
+		_updateDepartmentQuotaSum(0, 'admission_selection_quota');
+		_updateDepartmentQuotaSum(0, 'admission_placement_quota');
+		_updateDepartmentQuotaSum(1, 'admission_selection_quota');
+		_updateDepartmentQuotaSum(1, 'admission_placement_quota');
+		_updateDepartmentQuotaSum(2, 'admission_selection_quota');
+		_updateTypeDepartmentTotal(0);
+		_updateTypeDepartmentTotal(1);
+		_updateTypeDepartmentTotal(2);
 
         const $upArrow = $deptList.find('.up-arrow');
         const $downArrow = $deptList.find('.down-arrow');
@@ -443,6 +531,64 @@ var quotaDistirbutionBache = (function () {
 		var sum = +($quota_admissionSum.val()) +
 			+($quota_selfSum.val());
 		$quota_wantTotal.val(sum);
+	}
+
+	function _updateDepartmentQuotaSum(type, admissionType){
+		let sum = 0;
+		$deptList.find('.dept').each(function (i, deptRow) {
+			let $deptRow = $(deptRow);
+			if($deptRow.data('type') == type){
+				sum += +$deptRow.find(`.${admissionType}`).val();
+			}
+		});
+		if(admissionType == 'admission_selection_quota'){
+			type += '0';
+		} else {
+			type += '1';
+		}
+
+		switch(type){
+			case '00':
+				$general_department_admission_selection_quota.val(sum);
+				break;
+			case '01':
+				$general_department_admission_placement_quota.val(sum);
+				break;
+			case '10':
+				$main_industries_department_admission_selection_quota.val(sum);
+				break;
+			case '11':
+				$main_industries_department_admission_placement_quota.val(sum);
+				break;
+			case '20':
+				$international_specialized_program_admission_selection_quota.val(sum);
+				break;
+		}
+	}
+
+	function _updateTypeDepartmentTotal(type) {
+		switch(type){
+			case 0:
+				$general_department_sum.val(
+					+$general_department_admission_selection_quota.val() +
+					+$general_department_admission_placement_quota.val() +
+					+$general_department_self_enrollment_quota.val()
+				);
+				break;
+			case 1:
+				$main_industries_department_sum.val(
+					+$main_industries_department_admission_selection_quota.val() +
+					+$main_industries_department_admission_placement_quota.val() +
+					+$main_industries_department_self_enrollment_quota.val()
+				)
+				break;
+			case 2:
+				$international_specialized_program_sum.val(
+					+$international_specialized_program_admission_selection_quota.val() +
+					+$international_specialized_program_self_enrollment_quota.val()
+				)	
+				break;			
+		}			
 	}
 
 	function _prevOrder() { //系所排序上移

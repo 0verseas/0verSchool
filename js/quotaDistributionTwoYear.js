@@ -22,10 +22,7 @@ var quotaDistirbutionTwoYear = (function () {
 	var $quota_wantTotal = $page.find('.quota.wantTotal'); // 本年度欲招募總量
 	var $quota_admissionSum = $page.find('.quota.admissionSum'); // 本年度聯招小計
 	var $quota_selfSum = $page.find('.quota.selfSum'); // 本年度自招小計
-	const $div_admssionSum = $page.find('.admissionSumDiv');// 聯招小計Div
-	const $div_selfSum = $page.find('.selfSumDiv');// 聯招小計Div
 	const $symbol_add = $page.find('.sumAddSymbol');
-	const $text_bachelor_self_enrollment = $page.find('.bacheloar_self_enrollment_text');
 	const $text_twoTech_self_enrollment = $page.find('.twoTech_self_enrollment_text');
 
 	// dept list
@@ -61,11 +58,12 @@ var quotaDistirbutionTwoYear = (function () {
 	$page.find('.hide .required').removeClass('required');
 	// 對部份物件做初始化調整
 	$twoTech_self_enrollment_quota.prop('disabled', false).get(0).type = 'number';
-	$div_admssionSum.removeClass('col-2').css('margin-left','15px');
-	$div_selfSum.removeClass('col-2');
+	$('.add_system_text').each(function (index){
+		$(this).text('港二技'+$(this).text());
+	});
 	$symbol_add.text('　　　').removeClass('operator');
-	$text_bachelor_self_enrollment.addClass('text-muted');
-	$text_twoTech_self_enrollment.addClass('text-danger');
+	$text_twoTech_self_enrollment.text('*'+$text_twoTech_self_enrollment.text());
+	$text_twoTech_self_enrollment.addClass('text-danger font-weight-bold');
 
 	_setData();
 
@@ -148,6 +146,7 @@ var quotaDistirbutionTwoYear = (function () {
                 has_special_class: $hasSpecialClass.is(':checked'),
                 approval_no_of_special_class: $approvalNoOfSpecialClass.val(),
                 approval_doc_of_special_class: $deptRow.find('.approvalDocOfSpecialClassfileb64').val(),
+				is_extended_department: $deptRow.data('type'),
 			};
 		}).toArray();
 
@@ -243,7 +242,7 @@ var quotaDistirbutionTwoYear = (function () {
 	}
 
 	function _setQuota(data) {
-		var {
+		const {
 			last_year_admission_amount,
 			last_year_surplus_admission_quota,
 			ratify_expanded_quota,
@@ -327,42 +326,63 @@ var quotaDistirbutionTwoYear = (function () {
 				department_title = department_title+'&nbsp;&nbsp;<span class="badge badge-warning">國際專修部</span>';
 			}
 
+			let check = 'disabled';
+
+			if((has_RiJian || has_special_class) && teacher_quality_passed){
+				check = '';
+			}
+
 			$deptList
-				.find('tbody')
-				.append(`
-					<tr class="dept" data-id="${id}">
-						<td>
-							<div class="input-group">
-								<div class="input-group-prepend flex-column">
-									<button type="button" data-orderNum="${sort_num}" class="btn btn-outline-secondary btn-sm up-arrow">
-										<i class="fa fa-chevron-up" aria-hidden="true"></i>
-									</button>
-									<button type="button" data-orderNum="${sort_num}" class="btn btn-outline-secondary btn-sm down-arrow">
-										<i class="fa fa-chevron-down" aria-hidden="true"></i>
-									</button>
-								</div>
-								<input type="text" class="form-control order-num" size="3" value="${sort_num}">
+			.find('tbody')
+			.append(`
+				<tr class="dept" data-id="${id}" data-type="${is_extended_department}">
+					<td>
+						<div class="input-group">
+							<div class="btn-group-vertical">
+								<button type="button" data-orderNum="${sort_num}" class="btn btn-outline-secondary btn-sm up-arrow">
+									<i class="fa fa-chevron-up" aria-hidden="true"></i>
+								</button>
+								<button type="button" data-orderNum="${sort_num}" class="btn btn-outline-secondary btn-sm down-arrow">
+									<i class="fa fa-chevron-down" aria-hidden="true"></i>
+								</button>
 							</div>
-						</td>
-						<td>${id}</td>
-						<td>
-							<div>${department_title}</div>
-							<small>${english_title}</small>
-						</td>
-						<td class="text-center"><input type="checkbox" class="hasRiJian" ${has_RiJian ? 'checked' : ''}></td>
-						<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${school_has_self_enrollment && has_self_enrollment ? 'checked' : ''} ${has_RiJian ? '' : 'disabled'} ${school_has_self_enrollment ? '' : 'disabled'}></td>
-						<td class="text-center"><input type="checkbox" class="hasSpecialClass" ${has_special_class ? 'checked' : ''}></td>
-						<td class="text-center"><input type="text" class="form-control approvalNoOfSpecialClass" value="${approval_no_of_special_class || ''}" ${has_special_class ? '' : 'disabled'}></td>
-						<td><input type="file" class="approvalDocOfSpecialClass" ${has_special_class ? '' : 'disabled'}><br />已上傳檔案：<a class="approvalDocOfSpecialClassUrl" href="${baseUrl + "/storage/" + approval_doc_of_special_class}">${approval_doc_of_special_class || ''}</a><textarea class="approvalDocOfSpecialClassfileb64" hidden disabled ></textarea></td>
-						<td class="text-center"><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" ${has_RiJian || has_special_class ? '' : 'disabled'} ${teacher_quality_passed ? '' : 'disabled'}/></td>
-					</tr>
-				`);
+							<input type="text" class="form-control order-num" size="3" value="${sort_num}">
+						</div>
+					</td>
+					<td>${id}</td>
+					<td>
+						<div>${department_title}</div>
+						<small>${english_title}</small>
+					</td>
+					<td class="text-center"><input type="checkbox" class="hasRiJian" ${has_RiJian ? 'checked' : ''}></td>
+					<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${school_has_self_enrollment && has_self_enrollment ? 'checked' : ''} ${has_RiJian ? '' : 'disabled'} ${school_has_self_enrollment ? '' : 'disabled'}></td>
+					<td class="text-center"><input type="checkbox" class="hasSpecialClass" ${has_special_class ? 'checked' : ''}></td>
+					<td class="text-center"><input type="text" class="form-control approvalNoOfSpecialClass" value="${approval_no_of_special_class || ''}" ${has_special_class ? '' : 'disabled'}></td>
+					<td>
+						<input type="file" class="filestyle approvalDocOfSpecialClass" ${has_special_class ? '' : 'disabled'}>
+						<br />
+						已上傳檔案：
+						<a class="approvalDocOfSpecialClassUrl" href="${baseUrl + "/storage/" + approval_doc_of_special_class}">
+							${approval_doc_of_special_class || ''}
+						</a><textarea class="approvalDocOfSpecialClassfileb64" hidden disabled ></textarea>
+					</td>
+					<td class="text-center"><input type=${(check == "") ?"number" :'text'} min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" ${check}/></td>
+				</tr>
+			`);
 
             count++;
 		}
 		_updateQuotaSum('admission_selection_quota');
 		_updateAdmissionSumSelfSum();
 		_updateWantTotal();
+		$(":file").filestyle({
+			htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
+			btnClass: "btn-primary",
+			text: " 選擇檔案",
+			input: true,
+			buttonBefore: true,
+			placeholder: '尚未選取任何檔案'
+		});
 
         const $upArrow = $deptList.find('.up-arrow');
         const $downArrow = $deptList.find('.down-arrow');
@@ -393,9 +413,11 @@ var quotaDistirbutionTwoYear = (function () {
 
         if ($hasRiJian.prop('checked') || $hasSpecialClass.prop('checked')) {
             $admission_selection_quota.prop('disabled', false);
+			$admission_selection_quota[0].type = 'number';
         } else {
             $admission_selection_quota.prop('disabled', true);
             $admission_selection_quota.val(0);
+			$admission_selection_quota[0].type = 'text';
             _updateQuotaSum('admission_selection_quota');
             _updateAdmissionSumSelfSum();
             _updateWantTotal();
@@ -409,14 +431,15 @@ var quotaDistirbutionTwoYear = (function () {
         var $approvalNoOfSpecialClass = $this.parents('.dept').find('.approvalNoOfSpecialClass');
         var $approvalDocOfSpecialClass = $this.parents('.dept').find('.approvalDocOfSpecialClass');
         var $admissionSelectionQuota = $this.parents('.dept').find('.editableQuota');
-
         $approvalNoOfSpecialClass.prop('disabled', !$hasSpecialClass.prop('checked'));
         $approvalDocOfSpecialClass.prop('disabled', !$hasSpecialClass.prop('checked'));
         if ($hasRiJian.prop('checked') || $hasSpecialClass.prop('checked')) {
         	$admissionSelectionQuota.prop('disabled', false);
+			$admissionSelectionQuota[0].type = 'number';
         } else {
         	$admissionSelectionQuota.prop('disabled', true);
             $admissionSelectionQuota.val(0);
+			$admissionSelectionQuota[0].type = 'text';
             _updateQuotaSum('admission_selection_quota');
             _updateAdmissionSumSelfSum();
             _updateWantTotal();

@@ -12,72 +12,171 @@
 <div class="row">
 	<div class="col-2" style="display:none">
 		<div class="form-group">
-			<small id="" class="form-text text-muted"><%= year - 1912%> 總量 * 10%</small>
+			<small id="" class="form-text"><%= year - 1912%> 總量 * 10%</small>
 			<input type="text" class="form-control last_year_admission_amount quota" disabled>
 		</div>
 	</div>
-	<div class="col-2">
+	<div style="width: 12%; margin-left: 15px;">
 		<div class="form-group">
-			<small id="" class="form-text text-muted"><%= year - 1911%>總量*10%之欲使用名額</small>
+			<small id="" class="form-text"><%= year - 1911%>總量*10%之欲使用名額</small>
 			<input type="text" class="form-control quota_used quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＋</span>
 	<div class="col-1">
 		<div class="form-group">
-			<small id="" class="form-text text-muted">班別間流用</small>
+			<small id="" class="form-text">班別間流用</small>
 			<input type="text" class="form-control quota_passed quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＋</span>
-	<div class="col-2">
+	<div style="width: 8%">
 		<div class="form-group">
-			<small id="" class="form-text text-muted"><%= year - 1911%> 本地生招生缺額</small>
+			<small id="" class="form-text"><%= year - 1911%> 本地生招生缺額</small>
 			<input type="text" class="form-control last_year_surplus_admission_quota quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＋</span>
 	<div class="col-1">
 		<div class="form-group">
-			<small id="" class="form-text text-muted"><%= year - 1910%> 擴增名額</small>
+			<small id="" class="form-text"><%= year - 1910%> 擴增名額</small>
 			<input type="text" class="form-control ratify_expanded_quota quota" disabled>
 		</div>
 	</div>
-	<span class="operator">＝</span>
-	<div class="col-3">
+	<span class="operator bacheOnly masterOnly phdOnly hide">（</span>
+	<div class="bacheOnly masterOnly phdOnly hide" style="width: 12%;">
 		<div class="form-group">
-			<small id="" class="form-text text-muted"><%= year - 1910%> 僑生招生總量</small>
+			<small id="" class="form-text add_system_text">重點產業系所招生名額</small>
+			<input type="text" class="form-control ratify_quota_for_main_industries_department quota" disabled>
+		</div>
+	</div>
+	<span class="operator bacheOnly hide">、</span>
+	<div class="bacheOnly hide" style="width: 12%;">
+		<div class="form-group">
+			<small id="" class="form-text add_system_text">國際專修部招生名額</small>
+			<input type="text" class="form-control ratify_quota_for_international_specialized_program quota" disabled>
+		</div>
+	</div>
+	<span class="operator bacheOnly masterOnly phdOnly hide">）</span>
+	<span class="operator">＝</span>
+	<div class="col-2">
+		<div class="form-group">
+			<small id="" class="form-text"><%= year - 1910%> 僑生招生總量</small>
 			<input type="text" class="form-control allowTotal quota" disabled>
 		</div>
 	</div>
 </div>
+
+<div class="row bacheOnly masterOnly phdOnly hide">
+	<div class="admission_selection_div">
+		<div class="form-group">
+			<small class="form-text add_system_text">一般系所個人申請名額小計</small>
+			<input type="text"class="bg-info text-white form-control general_department_admission_selection_quota quota" disabled>
+		</div>
+	</div>
+	<span class="operator  bacheOnly hide">＋</span>
+	<div class="bacheOnly hide" style="width:15%;">
+		<div class="form-group">
+			<small class="form-text add_system_text">一般系所聯合分發名額小計</small>
+			<input type="text"class="bg-info text-white form-control general_department_admission_placement_quota quota" disabled>
+		</div>
+	</div>
+	<span class="operator">＋</span>
+	<div style="width:19%;">
+		<div class="form-group">
+			<small class="form-text add_system_text">一般系所單招名額小計</small>
+			<input type="number" min="0" class="bg-success text-white form-control general_department_self_enrollment_quota quota">
+		</div>
+	</div>
+	<span class="operator">＝</span>
+	<div style="width:19%;">
+		<div class="form-group">
+			<small class="form-text add_system_text">一般系所名額合計</small>
+			<input type="text" class="form-control general_department_sum quota" disabled>
+		</div>
+	</div>
+</div>
+
+<div class="row bacheOnly masterOnly phdOnly hide">
+	<div class="admission_selection_div"> <!--class="col-3 "-->
+		<div class="form-group">
+			<small class="form-text add_system_text">重點產業系所個人申請名額小計</small>
+			<input type="text" class="form-control bg-info text-white main_industries_department_admission_selection_quota quota" disabled>
+		</div>
+	</div>
+	<span class="operator bacheOnly hide">＋</span>
+	<div class="bacheOnly hide" style="width:15%;"> <!--class="col-3 "-->
+		<div class="form-group">
+			<small class="form-text add_system_text">重點產業系所聯合分發名額小計</small>
+			<input type="text" class="form-control bg-info text-white main_industries_department_admission_placement_quota quota" disabled>
+		</div>
+	</div>
+	<span class="operator">＋</span>
+	<div style="width:19%;"> <!--class="col-2"-->
+		<div class="form-group">
+			<small class="form-text add_system_text">重點產業系所單獨名額小計</small>
+			<input type="number" min="0" class="form-control bg-success text-white main_industries_department_self_enrollment_quota quota">
+		</div>
+	</div>
+	<span class="operator">＝</span>
+	<div style="width:19%;">
+		<div class="form-group">
+			<small class="form-text add_system_text">重點產業系所名額合計</small>
+			<input type="text" class="form-control main_industries_department_sum quota" disabled>
+		</div>
+	</div>
+</div>
+
+<div class="row bacheOnly hide">
+	<div style="width:33%; margin-left: 15px;"> <!--class="col-3 "-->
+		<div class="form-group">
+			<small class="form-text add_system_text">國際專修部個人申請名額小計</small>
+			<input type="text" class="form-control bg-info text-white international_specialized_program_admission_selection_quota quota" disabled>
+		</div>
+	</div>
+	<span class="operator">＋</span>
+	<div style="width:19%;"> <!--class="col-2"-->
+		<div class="form-group">
+			<small class="form-text add_system_text">國際專修部單獨名額小計</small>
+			<input type="number" min="0" class="form-control bg-success text-white international_specialized_program_self_enrollment_quota quota">
+		</div>
+	</div>
+	<span class="operator">＝</span>
+	<div style="width:19%;">
+		<div class="form-group">
+			<small class="form-text add_system_text">國際專修部名額合計</small>
+			<input type="text" class="form-control international_specialized_program_sum quota" disabled>
+		</div>
+	</div>
+</div>
+
 <!-- 學士學制（含二技）only -->
 <div class="row bacheOnly twoYearOnly hide">
 	<div style="width:9%; margin-left:15px"><!--class="col-1"-->
 		<div class="form-group">
-			<small class="form-text text-muted">學士班個人申請</small>
+			<small class="form-text">學士班個人申請</small>
 			<input type="text" class="form-control bg-info text-white quota bacheloar_admission_selection_quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＋</span>
 	<div style="width:9%;"> <!--class="col-1"-->
 		<div class="form-group">
-			<small id="" class="form-text text-muted">學士班聯合分發</small>
+			<small id="" class="form-text">學士班聯合分發</small>
 			<input type="text" class="form-control bg-info text-white quota bacheloar_admission_placement_quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＋</span>
 	<div style="width:9%;"> <!--class="col-1"-->
 		<div class="form-group">
-			<small id="" class="form-text text-muted">港二技聯招</small>
+			<small id="" class="form-text">港二技聯招</small>
 			<input type="text" class="form-control bg-info text-white quota twoTech_admission_selection_quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＋</span>
 	<div style="width:8%;"> <!--class="col-1"-->
 		<div class="form-group">
-			<small id="" class="form-text bacheloar_self_enrollment_text">學士班單招*</small>
-			<input type="text" min="0" class="form-control bg-success text-white quota bacheloar_self_enrollment_quota required" disabled>
+			<small id="" class="form-text bacheloar_self_enrollment_text">學士班單招</small>
+			<input class="form-control bg-success text-white quota bacheloar_self_enrollment_quota required" disabled>
 		</div>
 	</div>
 	<span class="operator">＋</span>
@@ -88,36 +187,37 @@
 		</div>
 	</div>
 	<span class="operator">＝</span>
-	<div class="col-3">
+	<div style="width:19%;">
 		<div class="form-group">
-			<small id="" class="form-text text-muted">總計</small>
+			<small id="" class="form-text">名額總計</small>
 			<input type="text" class="form-control quota wantTotal" disabled>
 		</div>
 	</div>
 </div>
 
 <div class="row">
-	<div class="col-2 admissionSumDiv" style="width:33%;"> <!--class="col-3 "-->
+	<div class="admissionSumDiv"> <!--class="col-3 "-->
 		<div class="form-group">
-			<small id="" class="form-text text-muted"><%= year - 1910%> 聯招小計</small>
+			<small id="" class="form-text"><%= year - 1910%> 聯合分發合計</small>
 			<input type="text" class="form-control bg-info text-white quota admissionSum" disabled>
 		</div>
 	</div>
 	<span class="operator sumAddSymbol">＋</span>
-	<div class="col-2 selfSumDiv" style="width:19%;"> <!--class="col-2"-->
+	<div class="selfSumDiv"> <!--class="col-2"-->
 		<div class="form-group">
-			<small id="" class="form-text text-muted"><%= year - 1910%> 單招小計</small>
+			<small id="" class="form-text"><%= year - 1910%> 單獨招生合計</small>
 			<input type="text" min="0" class="form-control bg-success text-white quota selfSum" disabled>
 		</div>
 	</div>
 	<span class="operator sumEqualSymbol masterOnly phdOnly hide">＝</span>
-	<div class="col-3 masterOnly phdOnly hide">
+	<div class="masterOnly phdOnly hide" style="width:19%;">
 		<div class="form-group">
-			<small id="" class="form-text text-muted">總計</small>
+			<small id="" class="form-text">名額總計</small>
 			<input type="text" class="form-control quota wantTotal" disabled>
 		</div>
 	</div>
 </div>
+
 <div class="row mt-2">
 	<div class="col-12">
 		<h5>校單招與否：<span id="schoolHasSelf" class="text-danger"></span></h5>
@@ -127,20 +227,22 @@
 <div class="row mt-5 bacheOnly hide">
 	<div class="col-12">
 		<h3>系所列表</h3>
+	</div>
+	<div class="col-12 table-bachelor">
 		<table id="table-bacheDeptList" class="table table-hover">
 			<thead>
-				<tr>
-					<th style="width:110px">簡章順序</th>
-					<th>代碼</th>
+				<tr class="table-warning">
+					<th class="text-center" style="width:7%">簡章順序</th>
+					<th class="text-center" style="width:5%">代碼</th>
 					<th>名稱</th>
-					<th style="width: 100px;">個人申請名額</th>
-					<th style="width: 100px;">餘額流用 <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" data-animation="false" title="個人申請分發後之餘額是否流用至聯合分發？若要流用，請勾選"></i></th>
-					<th style="width: 100px;">聯合分發名額</th>
-					<th style="width: 100px;">參考值 <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" data-animation="false" title="聯合分發名額數不得低於參考值"></i></th>
-					<th style="width: 150px;">減招原因</th>
-					<th style="width: 90px;">是否單招</th>
-					<th style="width: 110px;">是否招生緬甸師培生</th>
-					<th style="width: 100px;">小計</th>
+					<th class="text-center" style="width:6%">個人申請名額</th>
+					<th class="text-center" style="width:6%">餘額流用 <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" data-animation="false" title="個人申請分發後之餘額是否流用至聯合分發？若要流用，請勾選"></i></th>
+					<th class="text-center" style="width:6%">聯合分發名額</th>
+					<th class="text-center" style="width:5%">參考值 <i class="fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" data-animation="false" title="聯合分發名額數不得低於參考值"></i></th>
+					<th class="text-center" style="width:18%">減招原因</th>
+					<th class="text-center" style="width:4%">是否單招</th>
+					<th class="text-center" style="width:7%">是否招生<br/>緬甸師培生</th>
+					<th class="text-center" style="width:7%">小計</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -165,20 +267,20 @@
 </div>
 <!-- 港二技only -->
 <div class="row mt-5 twoYearOnly hide">
-	<div class="col-12">
+	<div class="col-12 table-twoYear">
 		<h3>系所列表</h3>
 		<table id="table-twoYearDeptList" class="table table-hover">
 			<thead>
-				<tr>
-					<th style="width:110px">簡章順序</th>
-					<th>代碼</th>
-					<th>名稱</th>
-                    <th style="width: 95px" class="text-center">是否開設日間二技學制</th>
-                    <th style="width: 95px" class="text-center">是否單招</th>
-                    <th style="width: 95px" class="text-center">是否開設僑生專班</th>
-                    <th style="width: 150px" class="text-center">開設專班文號</th>
-                    <th style="width: 100px" class="text-center">開設專班文件電子檔</th>
-					<th style="width: 120px" class="text-center">聯招名額數</th>
+				<tr class="table-warning">
+					<th style="width:7%">簡章順序</th>
+					<th style="width:5%">代碼</th>
+					<th >名稱</th>
+                    <th style="width: 8%" class="text-center">是否開設<br/>日間二技學制</th>
+                    <th style="width: 4%" class="text-center">是否單招</th>
+                    <th style="width: 6%" class="text-center">是否開設僑生專班</th>
+                    <th class="text-center" style="width:18%">開設專班文號</th>
+                    <th class="text-center" style="width:20%">開設專班文件電子檔</th>
+					<th style="width: 7%" class="text-center">聯招名額</th>
 
 				</tr>
 			</thead>
@@ -201,16 +303,16 @@
 </div>
 <!-- 碩博only -->
 <div class="row mt-5 masterOnly phdOnly hide">
-	<div class="col-12">
+	<div class="col-12 table-graduate">
 		<h3>系所列表</h3>
 		<table id="table-masterPhdDeptList" class="table table-hover">
 			<thead>
-				<tr>
-					<th style="width:110px">簡章順序</th>
-					<th>代碼</th>
-					<th>名稱</th>
-					<th style="width: 150px">聯招名額數</th>
-					<th style="width: 100px;">是否單招</th>
+				<tr class="table-warning">
+					<th style="width: 7%">簡章順序</th>
+					<th style="width: 5%">代碼</th>
+					<th >名稱</th>
+					<th style="width: 7%">聯招名額</th>
+					<th style="width: 6%;">是否單招</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -229,7 +331,7 @@
 		</table>
 	</div>
 </div>
-
+<hr/>
 <div class="row">
 	<div class="col-12 text-center">
 		<button id="btn-save" data-action="save" class="btn btn-primary">

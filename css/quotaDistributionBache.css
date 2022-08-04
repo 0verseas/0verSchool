@@ -1,0 +1,47 @@
+.table-bachelor {
+    height: 800px;  
+    overflow: scroll;
+    position: relative;
+    direction: rtl;
+}
+
+table {
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-bottom: 1px solid;
+    margin-bottom: -1px;
+    width: 100%;
+    direction: ltr;
+}
+
+thead tr th {
+    position: sticky;
+    top:0;
+    z-index: 3;
+}
+
+tbody tr td a{
+    overflow-y: auto;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.input-group {
+    z-index: 2;
+}
+
+.admission_selection_div {
+    width: 15%;
+    margin-left: 15px;
+}
+
+.admissionSumDiv {
+    width: 33%;
+    margin-left: 15px;
+}
+
+.selfSumDiv {
+    width: 19%;
+}
