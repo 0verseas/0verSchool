@@ -38,3 +38,7 @@ thead tr th {
 .selfSumDiv {
     width: 19%;
 }
+
+.need_background > * {
+    background-color: rgb(255,235,235);
+}

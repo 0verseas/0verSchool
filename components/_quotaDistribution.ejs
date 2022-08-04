@@ -43,21 +43,20 @@
 			<input type="text" class="form-control ratify_expanded_quota quota" disabled>
 		</div>
 	</div>
-	<span class="operator bacheOnly masterOnly phdOnly hide">（</span>
+	<span class="operator bacheOnly masterOnly phdOnly hide">＋</span>
 	<div class="bacheOnly masterOnly phdOnly hide" style="width: 12%;">
 		<div class="form-group">
 			<small id="" class="form-text add_system_text">重點產業系所招生名額</small>
 			<input type="text" class="form-control ratify_quota_for_main_industries_department quota" disabled>
 		</div>
 	</div>
-	<span class="operator bacheOnly hide">、</span>
+	<span class="operator bacheOnly hide">＋</span>
 	<div class="bacheOnly hide" style="width: 12%;">
 		<div class="form-group">
 			<small id="" class="form-text add_system_text">國際專修部招生名額</small>
 			<input type="text" class="form-control ratify_quota_for_international_specialized_program quota" disabled>
 		</div>
 	</div>
-	<span class="operator bacheOnly masterOnly phdOnly hide">）</span>
 	<span class="operator">＝</span>
 	<div class="col-2">
 		<div class="form-group">
@@ -67,7 +66,7 @@
 	</div>
 </div>
 
-<div class="row bacheOnly masterOnly phdOnly hide">
+<div class="row bacheOnly masterOnly phdOnly hide need_background">
 	<div class="admission_selection_div">
 		<div class="form-group">
 			<small class="form-text add_system_text">一般系所個人申請名額小計</small>
@@ -97,7 +96,7 @@
 	</div>
 </div>
 
-<div class="row bacheOnly masterOnly phdOnly hide">
+<div class="row bacheOnly masterOnly phdOnly hide need_background">
 	<div class="admission_selection_div"> <!--class="col-3 "-->
 		<div class="form-group">
 			<small class="form-text add_system_text">重點產業系所個人申請名額小計</small>
@@ -114,7 +113,7 @@
 	<span class="operator">＋</span>
 	<div style="width:19%;"> <!--class="col-2"-->
 		<div class="form-group">
-			<small class="form-text add_system_text">重點產業系所單獨名額小計</small>
+			<small class="form-text add_system_text">重點產業系所單招名額小計</small>
 			<input type="number" min="0" class="form-control bg-success text-white main_industries_department_self_enrollment_quota quota">
 		</div>
 	</div>
@@ -127,7 +126,7 @@
 	</div>
 </div>
 
-<div class="row bacheOnly hide">
+<div class="row bacheOnly hide need_background">
 	<div style="width:33%; margin-left: 15px;"> <!--class="col-3 "-->
 		<div class="form-group">
 			<small class="form-text add_system_text">國際專修部個人申請名額小計</small>
@@ -137,7 +136,7 @@
 	<span class="operator">＋</span>
 	<div style="width:19%;"> <!--class="col-2"-->
 		<div class="form-group">
-			<small class="form-text add_system_text">國際專修部單獨名額小計</small>
+			<small class="form-text add_system_text">國際專修部單招名額小計</small>
 			<input type="number" min="0" class="form-control bg-success text-white international_specialized_program_self_enrollment_quota quota">
 		</div>
 	</div>
@@ -198,7 +197,7 @@
 <div class="row">
 	<div class="admissionSumDiv"> <!--class="col-3 "-->
 		<div class="form-group">
-			<small id="" class="form-text"><%= year - 1910%> 聯合分發合計</small>
+			<small id="" class="form-text"><%= year - 1910%> 海外聯招合計</small>
 			<input type="text" class="form-control bg-info text-white quota admissionSum" disabled>
 		</div>
 	</div>
