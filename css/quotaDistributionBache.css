@@ -49,3 +49,15 @@ tbody tr td a{
 .need_background > * {
     background-color: rgb(255,235,235);
 }
+
+.not_extended_department_quota{
+    width: 28%;
+}
+
+.ratify_quota_for_main_industries_department_div{
+    width: 12%;
+}
+
+.allowTotalDiv{
+    width: 16%;
+}

@@ -9,11 +9,7 @@ var quotaDistirbutionTwoYear = (function () {
 
 	//quota
 	var $quota_allowTotal = $page.find('.quota.allowTotal'); // 本年度可招生總量
-	var $quota_last_year_admission_amount = $page.find('.quota.last_year_admission_amount'); // 去年招生名額 * 10%
-	var $quota_last_year_surplus_admission_quota = $page.find('.quota.last_year_surplus_admission_quota'); // 去年本地生招生缺額數*
-	var $quota_ratify_expanded_quota = $page.find('.quota.ratify_expanded_quota'); // 本年度教育部核准擴增名額
 	var $quota_used = $page.find('.quota.quota_used'); // 欲使用名額
-	var $quota_passed = $page.find('.quota.quota_passed'); // 班別間流用
 	var $bachelor_quota_admission_selection_quota = $page.find('.quota.bacheloar_admission_selection_quota'); // 學士班個人申請
 	var $bachelor_quota_admission_placement_quota = $page.find('.quota.bacheloar_admission_placement_quota'); // 學士班聯合分發
 	var $bachelor_quota_self_enrollment_quota = $page.find('.quota.bacheloar_self_enrollment_quota'); // 學士班自招
@@ -24,6 +20,8 @@ var quotaDistirbutionTwoYear = (function () {
 	var $quota_selfSum = $page.find('.quota.selfSum'); // 本年度自招小計
 	const $symbol_add = $page.find('.sumAddSymbol');
 	const $text_twoTech_self_enrollment = $page.find('.twoTech_self_enrollment_text');
+	const $ratify_quota_for_main_industries_department = $page.find('.ratify_quota_for_main_industries_department');
+	const $ratify_quota_for_international_specialized_program = $page.find('.ratify_quota_for_international_specialized_program');
 
 	// dept list
 	var $deptList = $page.find('#table-twoYearDeptList');
@@ -59,7 +57,9 @@ var quotaDistirbutionTwoYear = (function () {
 	// 對部份物件做初始化調整
 	$twoTech_self_enrollment_quota.prop('disabled', false).get(0).type = 'number';
 	$('.add_system_text').each(function (index){
-		$(this).text('港二技'+$(this).text());
+		$(this).text('學士班'+$(this).text());
+		$(this).html($(this).html().replace('重點產業系所',`<a class="font-weight-bold" style="color:#8035E4;">重點產業系所</a>`));
+		$(this).html($(this).html().replace('國際專修部',`<a class="font-weight-bold" style="color:#E47535;">國際專修部</a>`));
 	});
 	$symbol_add.text('　　　').removeClass('operator');
 	$text_twoTech_self_enrollment.text('*'+$text_twoTech_self_enrollment.text());
@@ -246,6 +246,8 @@ var quotaDistirbutionTwoYear = (function () {
 			last_year_admission_amount,
 			last_year_surplus_admission_quota,
 			ratify_expanded_quota,
+			ratify_quota_for_main_industries_department,
+			ratify_quota_for_international_specialized_program,
 			another_department_admission_selection_quota,
 			another_department_admission_placement_quota,
 			another_department_self_enrollment_quota,
@@ -254,13 +256,18 @@ var quotaDistirbutionTwoYear = (function () {
 			quota_used,
 			quota_passed
 		} = data;
-		$quota_last_year_admission_amount.val(last_year_admission_amount || 0);
-		$quota_last_year_surplus_admission_quota.val(last_year_surplus_admission_quota || 0);
-		$quota_ratify_expanded_quota.val(ratify_expanded_quota || 0);
+		let sum = 0;
+		sum += +last_year_admission_amount;
+		sum += +last_year_surplus_admission_quota;
+		sum += +ratify_expanded_quota;
+		sum += +quota_used;
+		sum += +quota_passed;
+		sum -= +ratify_quota_for_main_industries_department;
+		sum -= +ratify_quota_for_international_specialized_program;
 		$bachelor_quota_admission_selection_quota.val(another_department_admission_selection_quota || 0);
-		$quota_used.val(quota_used || 0);
-		$quota_passed.val(quota_passed || 0);
-
+		$quota_used.val(sum);
+		$ratify_quota_for_main_industries_department.val(ratify_quota_for_main_industries_department);
+		$ratify_quota_for_international_specialized_program.val(ratify_quota_for_international_specialized_program);
 
         if (school_has_self_enrollment) {
             $bachelor_quota_self_enrollment_quota.val(another_department_self_enrollment_quota || 0);
@@ -474,10 +481,9 @@ var quotaDistirbutionTwoYear = (function () {
 
 	function _updateAllowTotal() {
 		//var sum = +($quota_last_year_admission_amount.val()) +
-		var sum = +($quota_used.val()) +
-			+($quota_passed.val())+
-			+($quota_last_year_surplus_admission_quota.val()) +
-			+($quota_ratify_expanded_quota.val());
+		let sum = +($quota_used.val()) +
+			+($ratify_quota_for_main_industries_department.val())+
+			+($ratify_quota_for_international_specialized_program.val());
 		$quota_allowTotal.val(sum);
 	}
 

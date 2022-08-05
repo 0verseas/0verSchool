@@ -8,11 +8,7 @@ var quotaDistirbutionBache = (function () {
 
 	//quota
 	var $quota_allowTotal = $page.find('.quota.allowTotal'); // 本年度可招生總量
-	var $quota_last_year_admission_amount = $page.find('.quota.last_year_admission_amount'); // 去年招生名額 * 10%
 	var $quota_used = $page.find('.quota.quota_used'); // 欲使用名額
-	var $quota_passed = $page.find('.quota.quota_passed'); // 班別間流用
-	var $quota_last_year_surplus_admission_quota = $page.find('.quota.last_year_surplus_admission_quota'); // 去年本地生招生缺額數*
-	var $quota_ratify_expanded_quota = $page.find('.quota.ratify_expanded_quota'); // 本年度教育部核准擴增名額
 	var $bachelor_quota_admission_selection_quota = $page.find('.quota.bacheloar_admission_selection_quota'); // 學士班個人申請
 	var $bachelor_quota_admission_placement_quota = $page.find('.quota.bacheloar_admission_placement_quota'); // 學士班聯合分發
 	var $bachelor_quota_self_enrollment_quota = $page.find('.quota.bacheloar_self_enrollment_quota'); // 學士班自招
@@ -328,13 +324,17 @@ var quotaDistirbutionBache = (function () {
 			quota_used,
 			quota_passed
 		} = data;
-		$quota_last_year_admission_amount.val(last_year_admission_amount || 0);
-		$quota_last_year_surplus_admission_quota.val(last_year_surplus_admission_quota || 0);
-		$quota_ratify_expanded_quota.val(ratify_expanded_quota || 0);
+		let sum = 0;
+		sum += +last_year_admission_amount;
+		sum += +last_year_surplus_admission_quota;
+		sum += +ratify_expanded_quota;
+		sum += +quota_used;
+		sum += +quota_passed;
+		sum -= +ratify_quota_for_main_industries_department;
+		sum -= +ratify_quota_for_international_specialized_program;
 		$twoTech_admission_selection_quota.val(another_department_admission_selection_quota || 0);
 		$twoTech_self_enrollment_quota.val(another_department_self_enrollment_quota || 0);
-		$quota_used.val(quota_used || 0);
-		$quota_passed.val(quota_passed || 0);
+		$quota_used.val(sum);
 		$ratify_quota_for_main_industries_department.val(ratify_quota_for_main_industries_department || 0);
 		$ratify_quota_for_international_specialized_program.val(ratify_quota_for_international_specialized_program || 0);
 		$general_department_self_enrollment_quota.val(general_department_self_enrollment_quota || 0);
@@ -507,10 +507,9 @@ var quotaDistirbutionBache = (function () {
 	}
 
 	function _updateAllowTotal() {
-		var sum = +($quota_used.val()) +
-			+($quota_passed.val())+
-			+($quota_last_year_surplus_admission_quota.val()) +
-			+($quota_ratify_expanded_quota.val());
+		let sum = +($quota_used.val()) +
+			+($ratify_quota_for_main_industries_department.val())+
+			+($ratify_quota_for_international_specialized_program.val());
 		$quota_allowTotal.val(sum);
 	}
 

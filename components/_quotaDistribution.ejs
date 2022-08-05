@@ -16,49 +16,28 @@
 			<input type="text" class="form-control last_year_admission_amount quota" disabled>
 		</div>
 	</div>
-	<div style="width: 12%; margin-left: 15px;">
+	<div class="not_extended_department_quota" style="margin-left: 15px;">
 		<div class="form-group">
-			<small id="" class="form-text"><%= year - 1911%>總量*10%之欲使用名額</small>
+			<small id="not_extended_department_quota_title" class="form-text"><%= year - 1911%>可使用名額</small>
 			<input type="text" class="form-control quota_used quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＋</span>
-	<div class="col-1">
-		<div class="form-group">
-			<small id="" class="form-text">班別間流用</small>
-			<input type="text" class="form-control quota_passed quota" disabled>
-		</div>
-	</div>
-	<span class="operator">＋</span>
-	<div style="width: 8%">
-		<div class="form-group">
-			<small id="" class="form-text"><%= year - 1911%> 本地生招生缺額</small>
-			<input type="text" class="form-control last_year_surplus_admission_quota quota" disabled>
-		</div>
-	</div>
-	<span class="operator">＋</span>
-	<div class="col-1">
-		<div class="form-group">
-			<small id="" class="form-text"><%= year - 1910%> 擴增名額</small>
-			<input type="text" class="form-control ratify_expanded_quota quota" disabled>
-		</div>
-	</div>
-	<span class="operator bacheOnly masterOnly phdOnly hide">＋</span>
-	<div class="bacheOnly masterOnly phdOnly hide" style="width: 12%;">
+	<div class="ratify_quota_for_main_industries_department_div">
 		<div class="form-group">
 			<small id="" class="form-text add_system_text">重點產業系所招生名額</small>
 			<input type="text" class="form-control ratify_quota_for_main_industries_department quota" disabled>
 		</div>
 	</div>
-	<span class="operator bacheOnly hide">＋</span>
-	<div class="bacheOnly hide" style="width: 12%;">
+	<span class="operator bacheOnly twoYearOnly hide">＋</span>
+	<div class="bacheOnly twoYearOnly hide" style="width: 12%;">
 		<div class="form-group">
 			<small id="" class="form-text add_system_text">國際專修部招生名額</small>
 			<input type="text" class="form-control ratify_quota_for_international_specialized_program quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＝</span>
-	<div class="col-2">
+	<div class="allowTotalDiv">
 		<div class="form-group">
 			<small id="" class="form-text"><%= year - 1910%> 僑生招生總量</small>
 			<input type="text" class="form-control allowTotal quota" disabled>
@@ -153,35 +132,35 @@
 <div class="row bacheOnly twoYearOnly hide">
 	<div style="width:9%; margin-left:15px"><!--class="col-1"-->
 		<div class="form-group">
-			<small class="form-text">學士班個人申請</small>
+			<small class="form-text">學士班個人申請小計</small>
 			<input type="text" class="form-control bg-info text-white quota bacheloar_admission_selection_quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＋</span>
 	<div style="width:9%;"> <!--class="col-1"-->
 		<div class="form-group">
-			<small id="" class="form-text">學士班聯合分發</small>
+			<small id="" class="form-text">學士班聯合分發小計</small>
 			<input type="text" class="form-control bg-info text-white quota bacheloar_admission_placement_quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＋</span>
 	<div style="width:9%;"> <!--class="col-1"-->
 		<div class="form-group">
-			<small id="" class="form-text">港二技聯招</small>
+			<small id="" class="form-text">港二技聯招小計</small>
 			<input type="text" class="form-control bg-info text-white quota twoTech_admission_selection_quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＋</span>
 	<div style="width:8%;"> <!--class="col-1"-->
 		<div class="form-group">
-			<small id="" class="form-text bacheloar_self_enrollment_text">學士班單招</small>
+			<small id="" class="form-text bacheloar_self_enrollment_text">學士班單招小計</small>
 			<input class="form-control bg-success text-white quota bacheloar_self_enrollment_quota required" disabled>
 		</div>
 	</div>
 	<span class="operator">＋</span>
 	<div style="width:8%;"> <!--class="col-1"-->
 		<div class="form-group">
-			<small id="" class="form-text twoTech_self_enrollment_text">港二技單招</small>
+			<small id="" class="form-text twoTech_self_enrollment_text">港二技單招小計</small>
 			<input type="text" class="form-control bg-success text-white quota twoTech_self_enrollment_quota" disabled>
 		</div>
 	</div>

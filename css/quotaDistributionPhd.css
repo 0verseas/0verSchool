@@ -42,3 +42,15 @@ thead tr th {
 .need_background > * {
     background-color: rgb(255,235,235);
 }
+
+.not_extended_department_quota{
+    width: 15%;
+}
+
+.ratify_quota_for_main_industries_department_div{
+    width: 19%;
+}
+
+.allowTotalDiv{
+    width: 19%;
+}
