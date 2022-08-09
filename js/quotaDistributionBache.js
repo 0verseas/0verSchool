@@ -273,6 +273,12 @@ var quotaDistirbutionBache = (function () {
 			$schoolHasSelfEnrollment = json.school_has_self_enrollment;
 			$schoolHasMyanmarTeacherEducation = json.school_has_myanmer_teacher_education
 
+			if(!$schoolHasSelfEnrollment){
+				$general_department_self_enrollment_quota.attr('disabled',true).get(0).type = 'text';
+				$main_industries_department_self_enrollment_quota.attr('disabled',true).get(0).type = 'text';
+				$international_specialized_program_self_enrollment_quota.attr('disabled',true).get(0).type = 'text';
+			}
+
 			_renderData(json);
 
 			if(json.review_at != null) {

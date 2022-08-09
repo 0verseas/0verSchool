@@ -184,6 +184,11 @@ var quotaDistributionMaster = (function () {
             $allDept = json.departments;
             $schoolHasSelfEnrollment = json.school_has_self_enrollment;
 
+			if(!$schoolHasSelfEnrollment){
+				$general_department_self_enrollment_quota.attr('disabled',true).get(0).type = 'text';
+				$main_industries_department_self_enrollment_quota.attr('disabled',true).get(0).type = 'text';
+			}
+
 			_renderData(json);
 
 			if(json.review_at != null) {
