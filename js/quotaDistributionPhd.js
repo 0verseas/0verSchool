@@ -8,11 +8,7 @@ var quotaDistributionPhd = (function () {
 
 	//quota
 	var $quota_allowTotal = $page.find('.quota.allowTotal'); // 本年度可招生總量
-	var $quota_last_year_admission_amount = $page.find('.quota.last_year_admission_amount'); // 去年招生名額 * 10%
-	var $quota_last_year_surplus_admission_quota = $page.find('.quota.last_year_surplus_admission_quota'); // 去年本地生招生缺額數*
-	var $quota_ratify_expanded_quota = $page.find('.quota.ratify_expanded_quota'); // 本年度教育部核准擴增名額
 	var $quota_used = $page.find('.quota.quota_used'); // 欲使用名額
-	var $quota_passed = $page.find('.quota.quota_passed'); // 班別間流用
 	var $quota_wantTotal = $page.find('.quota.wantTotal'); // 本年度欲招募總量
 	var $quota_admissionSum = $page.find('.quota.admissionSum'); // 本年度聯招小計
 	const $quota_selfSum = $page.find('.quota.selfSum'); // 本年度自招小計
@@ -279,9 +275,7 @@ var quotaDistributionPhd = (function () {
 		if (school_has_self_enrollment) {
             $quota_selfSum.val(self_enrollment_quota || 0);
         } else {
-			$quota_selfSum.get(0).type = 'text';
             $quota_selfSum.val(0);
-            $quota_selfSum.attr('disabled', true);
 		}
 
 		_updateAllowTotal();

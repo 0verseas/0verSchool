@@ -351,9 +351,7 @@ var quotaDistirbutionBache = (function () {
             $bachelor_quota_self_enrollment_quota.val(self_enrollment_quota || 0);
             $twoTech_self_enrollment_quota.val(another_department_self_enrollment_quota || 0);
         } else {
-			$bachelor_quota_self_enrollment_quota.get(0).type = 'text';
 			$bachelor_quota_self_enrollment_quota.val(0);
-            $bachelor_quota_self_enrollment_quota.attr('disabled', true);
             $twoTech_self_enrollment_quota.val(0);
         }
 
