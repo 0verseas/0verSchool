@@ -175,9 +175,9 @@ var quotaDistirbutionBache = (function () {
 
 	function _handleSave() {
 		var $this = $(this);
-		if (!_checkForm()) {
-			return;
-		}
+		// if (!_checkForm()) {
+		// 	return;
+		// }
 
 		openLoading();
 
@@ -479,6 +479,9 @@ var quotaDistirbutionBache = (function () {
 		_updateTypeDepartmentTotal(0);
 		_updateTypeDepartmentTotal(1);
 		_updateTypeDepartmentTotal(2);
+		if($('.table-bachelor').height() >= 800){
+			$('.table-bachelor').height(800);
+		}
 
         const $upArrow = $deptList.find('.up-arrow');
         const $downArrow = $deptList.find('.down-arrow');

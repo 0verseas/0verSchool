@@ -390,6 +390,9 @@ var quotaDistirbutionTwoYear = (function () {
 			buttonBefore: true,
 			placeholder: '尚未選取任何檔案'
 		});
+		if($('.table-twoYear').height() >= 800){
+			$('.table-twoYear').height(800);
+		}
 
         const $upArrow = $deptList.find('.up-arrow');
         const $downArrow = $deptList.find('.down-arrow');

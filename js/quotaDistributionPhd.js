@@ -363,6 +363,10 @@ var quotaDistributionPhd = (function () {
 		_updateTypeDepartmentTotal(0);
 		_updateTypeDepartmentTotal(1);
 
+		if($('.table-graduate').height() >= 800){
+			$('.table-graduate').height(800);
+		}
+
         const $upArrow = $deptList.find('.up-arrow');
         const $downArrow = $deptList.find('.down-arrow');
         const $orderNum = $deptList.find('.order-num');
