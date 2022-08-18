@@ -257,7 +257,6 @@ var quotaDistirbutionTwoYear = (function () {
 			quota_passed
 		} = data;
 		let sum = 0;
-		sum += +last_year_admission_amount;
 		sum += +last_year_surplus_admission_quota;
 		sum += +ratify_expanded_quota;
 		sum += +quota_used;

@@ -261,7 +261,6 @@ var quotaDistributionMaster = (function () {
 			general_department_self_enrollment_quota,
 		} = data;
 		let sum = 0;
-		sum += +last_year_admission_amount;
 		sum += +last_year_surplus_admission_quota;
 		sum += +ratify_expanded_quota;
 		sum += +quota_used;
