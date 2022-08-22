@@ -300,6 +300,7 @@ var quotaDistributionMaster = (function () {
 				admission_selection_quota,
 				has_self_enrollment,
 				self_enrollment_quota,
+				moe_check_failed,
 				teacher_quality_passed,
 				is_extended_department
 			} = dept;
@@ -347,7 +348,7 @@ var quotaDistributionMaster = (function () {
 						<div>${department_title}</div>
 						<small>${english_title}</small>
 					</td>
-					<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" ${teacher_quality_passed ? '' : 'disabled'} /></td>
+					<td><input type="number" min="0" class="form-control editableQuota required admission_selection_quota" data-type="admission_selection_quota" value="${+admission_selection_quota}" ${(teacher_quality_passed && !moe_check_failed) ? '' : 'disabled'} /></td>
 					<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${school_has_self_enrollment && has_self_enrollment ? 'checked' : ''} ${school_has_self_enrollment ? '' : 'disabled="disabled"'} ></td>
 				</tr>
 			`);

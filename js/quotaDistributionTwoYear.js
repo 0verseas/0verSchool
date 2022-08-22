@@ -307,6 +307,7 @@ var quotaDistirbutionTwoYear = (function () {
                 has_special_class,
                 approval_no_of_special_class,
                 approval_doc_of_special_class,
+				moe_check_failed,
 				teacher_quality_passed,
 				is_extended_department
 			} = dept;
@@ -334,7 +335,7 @@ var quotaDistirbutionTwoYear = (function () {
 
 			let check = 'disabled';
 
-			if((has_RiJian || has_special_class) && teacher_quality_passed){
+			if((has_RiJian || has_special_class) && teacher_quality_passed && !moe_check_failed){
 				check = '';
 			}
 
