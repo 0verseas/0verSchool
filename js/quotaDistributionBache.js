@@ -391,23 +391,26 @@ var quotaDistirbutionBache = (function () {
 			var noNeedToWriteReason = +reference <= +admission_placement_quota;
 
 			let extended_department = (is_extended_department != 2) ?false :true;
-			var checked = school_has_self_enrollment ? ( has_self_enrollment ? 'checked' : '') : 'disabled';
-			var checked2 = ( (admission_quota_pass && !extended_department) ? 'checked' : '');
-			var checked3 = (school_has_myanmer_teacher_education && !extended_department)? ( myanmar_teacher_education ? 'checked' : '') : 'disabled';
-			var checked6 = '';
+			let checked = school_has_self_enrollment ? ( has_self_enrollment ? 'checked' : '') : 'disabled';
+			let checked2 = ( (admission_quota_pass && !extended_department) ? 'checked' : '');
+			let checked3 = (school_has_myanmer_teacher_education && !extended_department)? ( myanmar_teacher_education ? 'checked' : '') : 'disabled';
+			let checked4 = '';
+			let checked5 = '';
+			let checked6 = '';
 			// console.log(title);
 			if( title == "醫學系") {
-				var checked4 = "disabled";
-				var checked5 = "disabled";
+				checked4 = "disabled";
+				checked5 = "disabled";
 			}
 			else {
-				var checked4 = "";
-				var checked5 = "";
+				checked4 = "";
+				checked5 = "";
 			}
 
 			// 師資未達標準 => 名額龜苓膏 + 不可修改
 			if (!teacher_quality_passed){
-				var checked4 = "disabled";
+				checked4 = "disabled";
+				checked5 = "disabled";
 			}
 
 			if(extended_department){
