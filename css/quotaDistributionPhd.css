@@ -1,0 +1,55 @@
+.table-graduate{
+    overflow:scroll;
+    position: relative;
+    direction: rtl;
+}
+
+table{
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-bottom: 1px solid;
+    margin-bottom: -1px;
+    width:100%;
+    direction: ltr;
+}
+
+thead tr th {
+    position:sticky;
+    top:0;
+    z-index: 3;
+}
+
+.input-group {
+    z-index: 2;
+}
+
+.admission_selection_div {
+    width: 15%;
+    margin-left: 15px;
+}
+
+.admissionSumDiv {
+    width: 15%;
+    margin-left: 15px;
+}
+
+.selfSumDiv {
+    width: 19%;
+}
+
+.need_background > * {
+    background-color: rgb(255,235,235);
+}
+
+.not_extended_department_quota{
+    width: 15%;
+}
+
+.ratify_quota_for_main_industries_department_div{
+    width: 19%;
+}
+
+.allowTotalDiv{
+    width: 19%;
+}
