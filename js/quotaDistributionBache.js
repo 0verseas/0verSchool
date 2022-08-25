@@ -19,21 +19,21 @@ var quotaDistirbutionBache = (function () {
 	var $quota_selfSum = $page.find('.quota.selfSum'); // 本年度自招小計
 	const $symbol_add = $page.find('.sumAddSymbol');
 	const $text_bachelor_self_enrollment = $page.find('.bacheloar_self_enrollment_text');
-
+	// 一般系所相關物件
 	const $general_department_admission_selection_quota = $page.find('.general_department_admission_selection_quota');
 	const $general_department_admission_placement_quota = $page.find('.general_department_admission_placement_quota');
 	const $general_department_self_enrollment_quota = $page.find('.general_department_self_enrollment_quota');
 	const $general_department_sum = $page.find('.general_department_sum');
-
+	// 重點產業系所相關物件
 	const $main_industries_department_admission_selection_quota = $page.find('.main_industries_department_admission_selection_quota');
 	const $main_industries_department_admission_placement_quota = $page.find('.main_industries_department_admission_placement_quota');
 	const $main_industries_department_self_enrollment_quota = $page.find('.main_industries_department_self_enrollment_quota');
 	const $main_industries_department_sum = $page.find('.main_industries_department_sum');
-
+	// 國際專修部系所相關物件
 	const $international_specialized_program_admission_selection_quota = $page.find('.international_specialized_program_admission_selection_quota');
 	const $international_specialized_program_self_enrollment_quota = $page.find('.international_specialized_program_self_enrollment_quota');
 	const $international_specialized_program_sum = $page.find('.international_specialized_program_sum');
-
+	// 教育部核定額外系所名額
 	const $ratify_quota_for_main_industries_department = $page.find('.ratify_quota_for_main_industries_department');
 	const $ratify_quota_for_international_specialized_program = $page.find('.ratify_quota_for_international_specialized_program');
 
@@ -119,8 +119,6 @@ var quotaDistirbutionBache = (function () {
 		var $this = $(this);
 		var $single_deptPass = $this.parents('.dept').find('.isDeptPass');
 		var $single_admission_placement_quota = $this.parents('.dept').find('.admission_placement_quota').val()
-		// console.log($single_deptPass.is(':checked'));
-		// console.log($single_admission_placement_quota);
 
 		if( $single_deptPass.is(':checked') == true && $single_admission_placement_quota == 0){
 			alert("該系聯合分發名額為 0，確定要流用嘛？");
@@ -175,9 +173,9 @@ var quotaDistirbutionBache = (function () {
 
 	function _handleSave() {
 		var $this = $(this);
-		// if (!_checkForm()) {
-		// 	return;
-		// }
+		if (!_checkForm()) {
+			return;
+		}
 
 		openLoading();
 
