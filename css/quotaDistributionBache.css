@@ -32,7 +32,7 @@ tbody tr td a{
 }
 
 .admission_selection_div {
-    width: 15%;
+    width: 9%;
     margin-left: 15px;
 }
 
@@ -59,4 +59,12 @@ tbody tr td a{
 
 .allowTotalDiv{
     width: 16%;
+}
+
+.general_department_self_enrollment_div{
+    width: 8%;
+}
+
+.main_industries_department_self_enrollment_div{
+    width: 8%;
 }

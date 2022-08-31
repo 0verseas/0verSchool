@@ -45,84 +45,126 @@
 	</div>
 </div>
 
-<div class="row bacheOnly masterOnly phdOnly hide need_background">
+<div class="row need_background">
 	<div class="admission_selection_div">
 		<div class="form-group">
-			<small class="form-text add_system_text">一般系所個人申請名額小計</small>
+			<small class="form-text add_system_text">一般系所個人申請小計</small>
 			<input type="text"class="bg-info text-white form-control general_department_admission_selection_quota quota" disabled>
 		</div>
 	</div>
-	<span class="operator  bacheOnly hide">＋</span>
-	<div class="bacheOnly hide" style="width:15%;">
+	<span class="operator  bacheOnly twoYearOnly hide">＋</span>
+	<div class="bacheOnly twoYearOnly hide" style="width:9%;">
 		<div class="form-group">
-			<small class="form-text add_system_text">一般系所聯合分發名額小計</small>
+			<small class="form-text add_system_text">一般系所聯合分發小計</small>
 			<input type="text"class="bg-info text-white form-control general_department_admission_placement_quota quota" disabled>
 		</div>
 	</div>
-	<span class="operator">＋</span>
-	<div style="width:19%;">
+	<span class="operator bacheOnly twoYearOnly hide">＋</span>
+	<div class="bacheOnly twoYearOnly hide" style="width:9%;"> <!--class="col-3 "-->
 		<div class="form-group">
-			<small class="form-text add_system_text">一般系所單招名額小計</small>
-			<input type="number" min="0" class="bg-success text-white form-control general_department_self_enrollment_quota quota">
+			<small class="form-text">港二技一般系所聯招小計</small>
+			<input type="text" class="form-control bg-info text-white two_year_general_department_admission_selection_quota quota" disabled>
+		</div>
+	</div>
+	<span class="operator">＋</span>
+	<div class="general_department_self_enrollment_div">
+		<div class="form-group">
+			<small class="form-text add_system_text">一般系所單招小計</small>
+			<input type="text" min="0" class="bg-success text-white form-control general_department_self_enrollment_quota quota" disabled>
+		</div>
+	</div>
+	<span class="operator bacheOnly twoYearOnly hide">＋</span>
+	<div class="bacheOnly twoYearOnly hide" style="width:8%;">
+		<div class="form-group">
+			<small class="form-text">港二技一般系所單招小計</small>
+			<input type="text" min="0" class="bg-success text-white form-control two_year_general_department_self_enrollment_quota quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＝</span>
 	<div style="width:19%;">
 		<div class="form-group">
-			<small class="form-text add_system_text">一般系所名額合計</small>
+			<small class="form-text">一般系所名額合計</small>
 			<input type="text" class="form-control general_department_sum quota" disabled>
 		</div>
 	</div>
 </div>
 
-<div class="row bacheOnly masterOnly phdOnly hide need_background">
+<div class="row need_background">
 	<div class="admission_selection_div"> <!--class="col-3 "-->
 		<div class="form-group">
-			<small class="form-text add_system_text">重點產業系所個人申請名額小計</small>
+			<small class="form-text add_system_text">重點產業系所個人申請小計</small>
 			<input type="text" class="form-control bg-info text-white main_industries_department_admission_selection_quota quota" disabled>
 		</div>
 	</div>
-	<span class="operator bacheOnly hide">＋</span>
-	<div class="bacheOnly hide" style="width:15%;"> <!--class="col-3 "-->
+	<span class="operator bacheOnly twoYearOnly hide">＋</span>
+	<div class="bacheOnly twoYearOnly hide" style="width:9%;"> <!--class="col-3 "-->
 		<div class="form-group">
-			<small class="form-text add_system_text">重點產業系所聯合分發名額小計</small>
+			<small class="form-text add_system_text">重點產業系所聯合分發小計</small>
 			<input type="text" class="form-control bg-info text-white main_industries_department_admission_placement_quota quota" disabled>
 		</div>
 	</div>
+	<span class="operator bacheOnly twoYearOnly hide">＋</span>
+	<div class="bacheOnly twoYearOnly hide" style="width:9%;"> <!--class="col-3 "-->
+		<div class="form-group">
+			<small class="form-text">港二技重點產業系所聯招小計</small>
+			<input type="text" class="form-control bg-info text-white two_year_main_industries_department_admission_selection_quota quota" disabled>
+		</div>
+	</div>
 	<span class="operator">＋</span>
-	<div style="width:19%;"> <!--class="col-2"-->
+	<div class="main_industries_department_self_enrollment_div"> <!--class="col-2"-->
 		<div class="form-group">
 			<small class="form-text add_system_text">重點產業系所單招名額小計</small>
-			<input type="number" min="0" class="form-control bg-success text-white main_industries_department_self_enrollment_quota quota">
+			<input type="text" min="0" class="form-control bg-success text-white main_industries_department_self_enrollment_quota quota" disabled>
+		</div>
+	</div>
+	<span class="operator bacheOnly twoYearOnly hide">＋</span>
+	<div class="bacheOnly twoYearOnly hide" style="width:8%;"> <!--class="col-1"-->
+		<div class="form-group">
+			<small id="" class="form-text">港二技重點產業系所單招名額小計</small>
+			<input type="text" class="form-control bg-success text-white quota two_year_main_industries_department_self_enrollment_quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＝</span>
 	<div style="width:19%;">
 		<div class="form-group">
-			<small class="form-text add_system_text">重點產業系所名額合計</small>
+			<small class="form-text">重點產業系所名額合計</small>
 			<input type="text" class="form-control main_industries_department_sum quota" disabled>
 		</div>
 	</div>
 </div>
 
-<div class="row bacheOnly hide need_background">
-	<div style="width:33%; margin-left: 15px;"> <!--class="col-3 "-->
+<div class="row bacheOnly twoYearOnly hide need_background">
+	<div style="width:15%; margin-left: 15px;"> <!--class="col-3 "-->
 		<div class="form-group">
 			<small class="form-text add_system_text">國際專修部個人申請名額小計</small>
 			<input type="text" class="form-control bg-info text-white international_specialized_program_admission_selection_quota quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＋</span>
-	<div style="width:19%;"> <!--class="col-2"-->
+	<div style="width:15%;"> <!--class="col-1"-->
+		<div class="form-group">
+			<small id="" class="form-text">港二技國際專修部聯招小計</small>
+			<input type="text" class="form-control bg-info text-white quota two_year_international_specialized_program_admission_selection_quota" disabled>
+		</div>
+	</div>
+	<span class="operator">＋</span>
+	<div style="width:8%;"> <!--class="col-2"-->
 		<div class="form-group">
 			<small class="form-text add_system_text">國際專修部單招名額小計</small>
-			<input type="number" min="0" class="form-control bg-success text-white international_specialized_program_self_enrollment_quota quota">
+			<input type="text" min="0" class="form-control bg-success text-white international_specialized_program_self_enrollment_quota quota" disabled>
+		</div>
+	</div>
+	<span class="operator">＋</span>
+	<div style="width:8%;"> <!--class="col-1"-->
+		<div class="form-group">
+			<small id="" class="form-text">港二技國際專修部單招名額小計</small>
+			<input type="text" class="form-control bg-success text-white quota two_year_international_specialized_program_self_enrollment_quota" disabled>
 		</div>
 	</div>
 	<span class="operator">＝</span>
 	<div style="width:19%;">
 		<div class="form-group">
-			<small class="form-text add_system_text">國際專修部名額合計</small>
+			<small class="form-text ">國際專修部名額合計</small>
 			<input type="text" class="form-control international_specialized_program_sum quota" disabled>
 		</div>
 	</div>

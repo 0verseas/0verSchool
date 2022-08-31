@@ -22,6 +22,26 @@ var quotaDistirbutionTwoYear = (function () {
 	const $text_twoTech_self_enrollment = $page.find('.twoTech_self_enrollment_text');
 	const $ratify_quota_for_main_industries_department = $page.find('.ratify_quota_for_main_industries_department');
 	const $ratify_quota_for_international_specialized_program = $page.find('.ratify_quota_for_international_specialized_program');
+	// 一般系所相關物件
+	const $general_department_admission_selection_quota = $page.find('.general_department_admission_selection_quota');
+	const $general_department_admission_placement_quota = $page.find('.general_department_admission_placement_quota');
+	const $two_year_general_department_admission_selection_quota = $page.find('.two_year_general_department_admission_selection_quota');
+	const $general_department_self_enrollment_quota = $page.find('.general_department_self_enrollment_quota');
+	const $two_year_general_department_self_enrollment_quota = $page.find('.two_year_general_department_self_enrollment_quota');
+	const $general_department_sum = $page.find('.general_department_sum');
+	// 重點產業系所相關物件
+	const $main_industries_department_admission_selection_quota = $page.find('.main_industries_department_admission_selection_quota');
+	const $main_industries_department_admission_placement_quota = $page.find('.main_industries_department_admission_placement_quota');
+	const $two_year_main_industries_department_admission_selection_quota = $page.find('.two_year_main_industries_department_admission_selection_quota');
+	const $main_industries_department_self_enrollment_quota = $page.find('.main_industries_department_self_enrollment_quota');
+	const $two_year_main_industries_department_self_enrollment_quota = $page.find('.two_year_main_industries_department_self_enrollment_quota');
+	const $main_industries_department_sum = $page.find('.main_industries_department_sum');
+	// 國際專修部系所相關物件
+	const $international_specialized_program_admission_selection_quota = $page.find('.international_specialized_program_admission_selection_quota');
+	const $two_year_international_specialized_program_admission_selection_quota = $page.find('.two_year_international_specialized_program_admission_selection_quota');
+	const $international_specialized_program_self_enrollment_quota = $page.find('.international_specialized_program_self_enrollment_quota');
+	const $two_year_international_specialized_program_self_enrollment_quota = $page.find('.two_year_international_specialized_program_self_enrollment_quota');
+	const $international_specialized_program_sum = $page.find('.international_specialized_program_sum');
 
 	// dept list
 	var $deptList = $page.find('#table-twoYearDeptList');
@@ -30,10 +50,10 @@ var quotaDistirbutionTwoYear = (function () {
 	/**
 	 * bind event
 	 */
-    // 港二技自招 change
-    $twoTech_self_enrollment_quota.on('change', _handleSelfChanged);
-    // 學士班自招 change
-    $bachelor_quota_self_enrollment_quota.on('change', _handleSelfChanged);
+	// 港二技單獨招生名額變動事件
+	$two_year_general_department_self_enrollment_quota.on('change', _handleGeneralDepartmentSelfChanged);
+	$two_year_main_industries_department_self_enrollment_quota.on('change', _handleMainIndustriesDepartmentSelfChanged);
+	$two_year_international_specialized_program_self_enrollment_quota.on('change', _handleInternationalSpecializedProgramSelfChanged);
 	// 填數字算總額
 	$deptList.on('change.sumTotal', '.dept .editableQuota', _handleQuotaChange);
     // hasRiJian 聯動
@@ -55,19 +75,66 @@ var quotaDistirbutionTwoYear = (function () {
 	$page.find('.twoYearOnly').removeClass('hide');
 	$page.find('.hide .required').removeClass('required');
 	// 對部份物件做初始化調整
-	$twoTech_self_enrollment_quota.prop('disabled', false).get(0).type = 'number';
+	// $twoTech_self_enrollment_quota.prop('disabled', false).get(0).type = 'number';
 	$('.add_system_text').each(function (index){
 		$(this).text('學士班'+$(this).text());
+	});
+	$page.find("small").each(function (index){
+		$(this).html($(this).html().replace('一般系所',`<a class="font-weight-bold" style="color:#808080;">一般系所</a>`));
 		$(this).html($(this).html().replace('重點產業系所',`<a class="font-weight-bold" style="color:#8035E4;">重點產業系所</a>`));
 		$(this).html($(this).html().replace('國際專修部',`<a class="font-weight-bold" style="color:#E47535;">國際專修部</a>`));
 	});
 	$symbol_add.text('　　　').removeClass('operator');
 	$text_twoTech_self_enrollment.text('*'+$text_twoTech_self_enrollment.text());
 	$text_twoTech_self_enrollment.addClass('text-danger font-weight-bold');
+	$two_year_general_department_self_enrollment_quota.attr('disabled',false).get(0).type = 'number';
+	$two_year_main_industries_department_self_enrollment_quota.attr('disabled',false).get(0).type = 'number';
+	$two_year_international_specialized_program_self_enrollment_quota.attr('disabled',false).get(0).type = 'number';
 
 	_setData();
 
+	function _handleGeneralDepartmentSelfChanged() {
+		$general_department_sum.val(
+			+$general_department_admission_selection_quota.val() +
+			+$general_department_admission_placement_quota.val() +
+			+$two_year_general_department_admission_selection_quota.val() +
+			+$general_department_self_enrollment_quota.val() +
+			+$two_year_general_department_self_enrollment_quota.val()
+		);
+
+		_handleSelfChanged();
+	}
+
+	function _handleMainIndustriesDepartmentSelfChanged() {
+		$main_industries_department_sum.val(
+			+$main_industries_department_admission_selection_quota.val() +
+			+$main_industries_department_admission_placement_quota.val() +
+			+$two_year_main_industries_department_admission_selection_quota.val() +
+			+$main_industries_department_self_enrollment_quota.val() +
+			+$two_year_main_industries_department_self_enrollment_quota.val()
+		);
+
+		_handleSelfChanged();
+	}
+
+	function _handleInternationalSpecializedProgramSelfChanged() {
+		$international_specialized_program_sum.val(
+			+$international_specialized_program_admission_selection_quota.val() +
+			+$two_year_international_specialized_program_admission_selection_quota.val() +
+			+$international_specialized_program_self_enrollment_quota.val() +
+			+$two_year_international_specialized_program_self_enrollment_quota.val()
+		);
+
+		_handleSelfChanged();
+	}
+
     function _handleSelfChanged() {
+		$twoTech_self_enrollment_quota.val(
+			+$two_year_general_department_self_enrollment_quota.val() +
+			+$two_year_main_industries_department_self_enrollment_quota.val() +
+			+$two_year_international_specialized_program_self_enrollment_quota.val()
+		);
+
         _updateAdmissionSumSelfSum();
         _updateWantTotal();
     }
@@ -82,10 +149,13 @@ var quotaDistirbutionTwoYear = (function () {
 
 		// update sum admission_selection_quota / admission_placement_quota / self_enrollment_quota
 		var quotaType = $this.data('type');
+		const deptType = $this.parents('.dept').data('type');
 		if (quotaType) {
 			_updateQuotaSum(quotaType);
+			_updateDepartmentQuotaSum(deptType);
 			_updateAdmissionSumSelfSum();
 			_updateWantTotal();
+			_updateTypeDepartmentTotal(deptType);
 		}
 	}
 
@@ -154,6 +224,9 @@ var quotaDistirbutionTwoYear = (function () {
             var data = {
                 departments: departments,
                 self_enrollment_quota: +$twoTech_self_enrollment_quota.val(), // 港二技自招
+				general_department_self_enrollment_quota: +$two_year_general_department_self_enrollment_quota.val(),
+				main_industries_department_self_enrollment_quota: +$two_year_main_industries_department_self_enrollment_quota.val(),
+				international_specialized_program_self_enrollment_quota: +$two_year_international_specialized_program_self_enrollment_quota.val(),
             };
 
             $this.attr('disabled', true);
@@ -185,6 +258,18 @@ var quotaDistirbutionTwoYear = (function () {
 
 	function _checkForm() {
 		var valid = true;
+
+		// 本年度主要產業系所欲招募總量必須大於等於教育部核定擴增招收名額
+		if (+$ratify_quota_for_main_industries_department.val() > +$main_industries_department_sum.val()) {
+			valid = false;
+			alert('主要產業系所欲招募總量必須大於等於重點產業系所招生名額');
+		}
+
+		// 本年度國際專修部欲招募總量必須大於等於教育部核定擴增招收名額
+		if (+$ratify_quota_for_international_specialized_program.val() > +$international_specialized_program_sum.val()) {
+			valid = false;
+			alert('國際專修部欲招募總量必須大於等於國際專修部招生名額');
+		}
 
 		// 本年度欲招募總量必須小於等於可招生總量
 		if (+$quota_wantTotal.val() > +$quota_allowTotal.val()) {
@@ -253,8 +338,19 @@ var quotaDistirbutionTwoYear = (function () {
 			another_department_self_enrollment_quota,
             school_has_self_enrollment,
 			self_enrollment_quota,
+			international_specialized_program_self_enrollment_quota,
+			main_industries_department_self_enrollment_quota,
+			general_department_self_enrollment_quota,
 			quota_used,
-			quota_passed
+			quota_passed,
+			bachelor_general_department_admission_selection_quota,
+			bachelor_general_department_admission_placement_quota,
+			bachelor_main_industries_department_admission_selection_quota,
+			bachelor_main_industries_department_admission_placement_quota,
+			bachelor_international_specialized_program_admission_selection_quota,
+			bachelor_general_department_self_enrollment_quota,
+			bachelor_main_industries_department_self_enrollment_quota,
+			bachelor_international_specialized_program_self_enrollment_quota
 		} = data;
 		let sum = 0;
 		sum += +last_year_surplus_admission_quota;
@@ -267,6 +363,17 @@ var quotaDistirbutionTwoYear = (function () {
 		$quota_used.val(sum);
 		$ratify_quota_for_main_industries_department.val(ratify_quota_for_main_industries_department);
 		$ratify_quota_for_international_specialized_program.val(ratify_quota_for_international_specialized_program);
+		$two_year_international_specialized_program_self_enrollment_quota.val(international_specialized_program_self_enrollment_quota || 0);
+		$two_year_main_industries_department_self_enrollment_quota.val(main_industries_department_self_enrollment_quota || 0);
+		$two_year_general_department_self_enrollment_quota.val(general_department_self_enrollment_quota || 0);
+		$general_department_admission_selection_quota.val(bachelor_general_department_admission_selection_quota || 0);
+		$general_department_admission_placement_quota.val(bachelor_general_department_admission_placement_quota || 0);
+		$main_industries_department_admission_selection_quota.val(bachelor_main_industries_department_admission_selection_quota || 0);
+		$main_industries_department_admission_placement_quota.val(bachelor_main_industries_department_admission_placement_quota || 0);
+		$international_specialized_program_admission_selection_quota.val(bachelor_international_specialized_program_admission_selection_quota || 0);
+		$general_department_self_enrollment_quota.val(bachelor_general_department_self_enrollment_quota || 0);
+		$main_industries_department_self_enrollment_quota.val(bachelor_main_industries_department_self_enrollment_quota || 0);
+		$international_specialized_program_self_enrollment_quota.val(bachelor_international_specialized_program_self_enrollment_quota || 0);
 
         if (school_has_self_enrollment) {
             $bachelor_quota_self_enrollment_quota.val(another_department_self_enrollment_quota || 0);
@@ -380,8 +487,14 @@ var quotaDistirbutionTwoYear = (function () {
             count++;
 		}
 		_updateQuotaSum('admission_selection_quota');
+		_updateDepartmentQuotaSum(0);
+		_updateDepartmentQuotaSum(1);
+		_updateDepartmentQuotaSum(2);
 		_updateAdmissionSumSelfSum();
 		_updateWantTotal();
+		_updateTypeDepartmentTotal(0);
+		_updateTypeDepartmentTotal(1);
+		_updateTypeDepartmentTotal(2);
 		$(":file").filestyle({
 			htmlIcon: '<i class="fa fa-folder-open" aria-hidden="true"></i> ',
 			btnClass: "btn-primary",
@@ -494,6 +607,59 @@ var quotaDistirbutionTwoYear = (function () {
 		var sum = +($quota_admissionSum.val()) +
 			+($quota_selfSum.val());
 		$quota_wantTotal.val(sum);
+	}
+
+	function _updateDepartmentQuotaSum(type){
+		let sum = 0;
+		$deptList.find('.dept').each(function (i, deptRow) {
+			let $deptRow = $(deptRow);
+			if($deptRow.data('type') == type){
+				sum += +$deptRow.find(`.admission_selection_quota`).val();
+			}
+		});
+
+		switch(type){
+			case 0:
+				$two_year_general_department_admission_selection_quota.val(sum);
+				break;
+			case 1:
+				$two_year_main_industries_department_admission_selection_quota.val(sum);
+				break;
+			case 2:
+				$two_year_international_specialized_program_admission_selection_quota.val(sum);
+				break;
+		}
+	}
+
+	function _updateTypeDepartmentTotal(type) {
+		switch(type){
+			case 0:
+				$general_department_sum.val(
+					+$general_department_admission_selection_quota.val() +
+					+$general_department_admission_placement_quota.val() +
+					+$two_year_general_department_admission_selection_quota.val() +
+					+$general_department_self_enrollment_quota.val() +
+					+$two_year_general_department_self_enrollment_quota.val()
+				);
+				break;
+			case 1:
+				$main_industries_department_sum.val(
+					+$main_industries_department_admission_selection_quota.val() +
+					+$main_industries_department_admission_placement_quota.val() +
+					+$two_year_main_industries_department_admission_selection_quota.val() +
+					+$main_industries_department_self_enrollment_quota.val() +
+					+$two_year_main_industries_department_self_enrollment_quota.val()
+				)
+				break;
+			case 2:
+				$international_specialized_program_sum.val(
+					+$international_specialized_program_admission_selection_quota.val() +
+					+$two_year_international_specialized_program_admission_selection_quota.val() +
+					+$international_specialized_program_self_enrollment_quota.val() +
+					+$two_year_international_specialized_program_self_enrollment_quota.val()
+				)	
+				break;			
+		}			
 	}
 
     function _prevOrder() { //系所排序上移

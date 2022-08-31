@@ -53,8 +53,13 @@ var quotaDistributionPhd = (function () {
 	// 對部份物件做初始化調整
 	$('.add_system_text').each(function (index){
 		$(this).text('博士班'+$(this).text());
+	});
+	$page.find("small").each(function (index){
+		$(this).html($(this).html().replace('一般系所',`<a class="font-weight-bold" style="color:#808080;">一般系所</a>`));
 		$(this).html($(this).html().replace('重點產業系所',`<a class="font-weight-bold" style="color:#8035E4;">重點產業系所</a>`));
 	});
+	$general_department_self_enrollment_quota.attr('disabled',false).get(0).type = 'number';
+	$main_industries_department_self_enrollment_quota.attr('disabled',false).get(0).type = 'number';
 
 	_setData();
 

@@ -49,3 +49,20 @@ a {
 .allowTotalDiv{
     width: 16%;
 }
+
+.admission_selection_div {
+    width: 9%;
+    margin-left: 15px;
+}
+
+.general_department_self_enrollment_div{
+    width: 8%;
+}
+
+.main_industries_department_self_enrollment_div{
+    width: 8%;
+}
+
+.need_background > * {
+    background-color: rgb(255,235,235);
+}
