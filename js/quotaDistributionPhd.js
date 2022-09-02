@@ -328,7 +328,7 @@ var quotaDistributionPhd = (function () {
 				department_title = department_title+'&nbsp;&nbsp;<span class="badge badge-warning">重點產業系所</span>';
 			}
 			if(is_extended_department == 2){
-				department_title = department_title+'&nbsp;&nbsp;<span class="badge badge-warning">國際專修部</span>';
+				department_title = department_title+'&nbsp;&nbsp;<span class="badge table-primary">國際專修部</span>';
 			}
 
 			$deptList
