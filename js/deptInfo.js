@@ -145,7 +145,7 @@ var DeptInfo = (function () {
 				title = title+'&nbsp;&nbsp;<span class="badge badge-warning">重點產業系所</span>';
 			}
 			if(value.is_extended_department == 2){
-				title = title+'&nbsp;&nbsp;<span class="badge badge-warning">國際專修部</span>';
+				title = title+'&nbsp;&nbsp;<span class="badge table-primary">國際專修部</span>';
 			}
 			$deptList
 				.find('tbody')
