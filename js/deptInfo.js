@@ -224,6 +224,7 @@ var DeptInfo = (function () {
 		}
         $titleMain.val(deptData.title_main);  // 核定系名
         $titleDivision.val(deptData.title_division);  // 招生分組
+		$titleDivision.attr('maxlength', 191 - Array.from($titleMain.val()).length);
 		$title.val(deptData.title);
 		$engTitle.val(deptData.eng_title);
 
