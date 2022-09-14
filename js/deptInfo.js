@@ -216,11 +216,11 @@ var DeptInfo = (function () {
 		$sortOrder.val(deptData.sort_order);
 		$id.val(deptData.id);
 		if(deptData.is_extended_department == 1){
-			$extendedTag.text('重點產業系所')
+			$extendedTag.text('重點產業系所').addClass('badge-warning');
 		} else if(deptData.is_extended_department == 2){
-			$extendedTag.text('國際專修部')
+			$extendedTag.text('國際專修部').addClass('table-primary');
 		} else {
-			$extendedTag.text('')
+			$extendedTag.text('');
 		}
         $titleMain.val(deptData.title_main);  // 核定系名
         $titleDivision.val(deptData.title_division);  // 招生分組
