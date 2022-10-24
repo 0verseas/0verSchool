@@ -75,17 +75,13 @@ var deptInfoPhd = (function () {
 			}
 		})
 		.then(function(data) {
-			if (mode === 'formal') {
-				alert('正在產生正式版 PDF，請在稍後至信箱確認。');
-			} else {
-				alert('正在產生預覽版 PDF，請在稍後至信箱確認。');
-			}
+			swal({title:`正在產生${(mode === 'formal')?'正式版':'預覽版'} PDF，請在稍後至信箱確認。`, confirmButtonText:'確定', type:'info'});
 			stopLoading();
 		})
 		.catch(function(err) {
 			err.json && err.json().then(function(data) {
-				alert(data.messages[0]);
-			})
+				swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
+			});
 			stopLoading();
 		});
 	}
@@ -212,20 +208,18 @@ var deptInfoPhd = (function () {
 						}
 					})
 					.then((json) => {
-						alert("儲存成功");
-
+						swal({title:"儲存成功", confirmButtonText:'確定', type:'success'});
 						stopLoading();
 					})
 					.catch((err) => {
 						err.json && err.json().then((data) => {
 							console.error(data);
-							alert(`ERROR: \n${data.messages[0]}`);
+							swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
 						});
-
 						stopLoading();
 					})
 			} else {
-                alert($validateResult.join("\n"));
+				swal({title:$validateResult.join("\n"), confirmButtonText:'確定', type:'error'});
 			}
 		}
 	}
@@ -281,16 +275,16 @@ var deptInfoPhd = (function () {
 		})
 		.catch((err) => {
 			if (err.status === 404) {
-				alert('沒有這個學制。 即將返回上一頁。');
-				window.history.back();
+				swal({title:"沒有這個學制。 即將返回上一頁。", confirmButtonText:'確定', type:'error'}).then(() => {
+					window.history.back();
+				});
 			} else {
 				err.json && err.json().then((data) => {
 					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
-
-					stopLoading();
+					swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
 				});
 			}
+			stopLoading();
 		})
 	}
 
@@ -309,19 +303,17 @@ var deptInfoPhd = (function () {
 					}
 				})
 				.then((json) => {
-					alert("儲存成功並鎖定");
-					stopLoading();
-					location.reload();
+					swal({title:"儲存成功並鎖定", confirmButtonText:'確定', type:'success'}).then(() => {
+						location.reload();
+					});
 				})
 				.catch((err) => {
 					console.error(data);
 					err.json && err.json().then((data) => {
-						alert(`ERROR: \n${data.messages[0]}`);
+						swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
 					});
-
-					stopLoading();
 				})
 		}
-
+		stopLoading();
 	}
 })();

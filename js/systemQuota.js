@@ -113,16 +113,16 @@ var systemQuota = (function () {
 				stopLoading();
 				}).catch(function (err) {
 				if (err.status === 404) {
-					alert('沒有這個學校。 即將返回上一頁。');
-					window.history.back();
+					swal({title:"沒有這個學校，即將返回上一頁。", confirmButtonText:'確定', type:'error'}).then(() => {
+						window.history.back();
+					});
 				} else {
 					err.json && err.json().then((data) => {
 						console.error(data);
-						alert(`ERROR: \n${data.messages[0]}`);
-
-						stopLoading();
+						swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
 					});
 				}
+				stopLoading();
 			});
 		}).catch(function(err) {
 			if (err == 401) {
@@ -198,7 +198,7 @@ var systemQuota = (function () {
 		$allow_except_medicine.val(parseInt($allowTotal_bache.val()) - parseInt($quota_medicine_selection.val()) - parseInt($quota_medicine_placement.val()) -parseInt($quota_medicine_self.val()));
 	}
 
-	function checkQuotaValidate() {
+	async function checkQuotaValidate() {
 		// 0 <= 欲使用名額 <= 總量10％
 		if( parseInt($quota_used_bache.val()) > parseInt($last_year_admission_amount_bache.val()) ){
 			$quota_used_bache.val( $last_year_admission_amount_bache.val() );
@@ -228,35 +228,35 @@ var systemQuota = (function () {
 			$quota_passed_bache.val(0);
 			$last_year_surplus_admission_quota_bache.val(0);
 			$expanded_quota_bache.val(0);
-			alert("學士班未規劃名額，不得流用名額或申請增量");
+			await swal({title:"學士班未規劃名額，不得流用名額或申請增量", confirmButtonText:'確定', type:'error'});
 		}
 		if( parseInt($last_year_admission_amount_master_multiply_10.val()) == 0 &&
 			(parseInt($quota_passed_master.val()) != 0 || parseInt($last_year_surplus_admission_quota_master.val()) != 0 || parseInt($expanded_quota_master.val()) != 0) ){
 			$quota_passed_master.val(0);
 			$last_year_surplus_admission_quota_master.val(0);
 			$expanded_quota_master.val(0);
-			alert("碩士班未規劃名額，不得流用名額或申請增量");
+			await swal({title:"碩士班未規劃名額，不得流用名額或申請增量", confirmButtonText:'確定', type:'error'});
 		}
 		if( parseInt($last_year_admission_amount_phd_multiply_10.val()) == 0 &&
 			(parseInt($quota_passed_phd.val()) != 0 || parseInt($last_year_surplus_admission_quota_phd.val()) != 0 || parseInt($expanded_quota_phd.val()) != 0) ){
 			$quota_passed_phd.val(0);
 			$last_year_surplus_admission_quota_phd.val(0);
 			$expanded_quota_phd.val(0);
-			alert("博士班未規劃名額，不得流用名額或申請增量");
+			await swal({title:"博士班未規劃名額，不得流用名額或申請增量", confirmButtonText:'確定', type:'error'});
 		}
 
 		// 班別間流用若為負，絕對值不得超出欲使用名額
 		if( parseInt($quota_passed_bache.val()) + parseInt($quota_used_bache.val()) < 0 ){
 			$quota_passed_bache.val( 0 );
-			alert("班別間流用不得流超出欲使用名額");
+			await swal({title:"班別間流用不得流超出欲使用名額", confirmButtonText:'確定', type:'error'});
 		}
 		if( parseInt($quota_passed_master.val()) + parseInt($quota_used_master.val()) < 0 ){
 			$quota_passed_master.val( 0 );
-			alert("班別間流用不得流超出欲使用名額");
+			await swal({title:"班別間流用不得流超出欲使用名額", confirmButtonText:'確定', type:'error'});
 		}
 		if( parseInt($quota_passed_phd.val()) + parseInt($quota_used_phd.val()) < 0){
 			$quota_passed_phd.val( 0 );
-			alert("班別間流用不得流超出欲使用名額");
+			await swal({title:"班別間流用不得流超出欲使用名額", confirmButtonText:'確定', type:'error'});
 		}
 
 		// 欲使用名額 < 總量10％ ，不得填本地生缺額、擴增名額
@@ -268,7 +268,7 @@ var systemQuota = (function () {
 		){
 			$last_year_surplus_admission_quota_bache.val(0);
 			$expanded_quota_bache.val(0);
-			alert("學士班未使用完總量上限，不得填寫本地生缺額、擴增名額");
+			await swal({title:"學士班未使用完總量上限，不得填寫本地生缺額、擴增名額", confirmButtonText:'確定', type:'error'});
 		}
 		if( parseInt($quota_used_master.val()) < parseInt($last_year_admission_amount_master.val()) &&
 			(
@@ -278,7 +278,7 @@ var systemQuota = (function () {
 		){
 			$last_year_surplus_admission_quota_master.val(0);
 			$expanded_quota_master.val(0);
-			alert("碩士班未使用完總量上限，不得填寫本地生缺額、擴增名額");
+			await swal({title:"碩士班未使用完總量上限，不得填寫本地生缺額、擴增名額", confirmButtonText:'確定', type:'error'});
 		}
 		if( parseInt($quota_used_phd.val()) < parseInt($last_year_admission_amount_phd.val()) &&
 			(
@@ -288,11 +288,11 @@ var systemQuota = (function () {
 		){
 			$last_year_surplus_admission_quota_phd.val(0);
 			$expanded_quota_phd.val(0);
-			alert("博士班未使用完總量上限，不得填寫本地生缺額、擴增名額");
+			await swal({title:"博士班未使用完總量上限，不得填寫本地生缺額、擴增名額", confirmButtonText:'確定', type:'error'});
 		}
 	}
 
-	function _handleMedicineQuotaChanged() {
+	async function _handleMedicineQuotaChanged() {
 		if( parseInt($quota_medicine_selection.val()) < 0 || parseInt($quota_medicine_placement.val()) < 0 || parseInt($quota_medicine_self.val()) < 0){
 			$quota_medicine_selection.val(0);
 			$quota_medicine_placement.val(0);
@@ -300,7 +300,7 @@ var systemQuota = (function () {
 		}
 
 		if(  parseInt($quota_medicine_selection.val()) +  parseInt($quota_medicine_placement.val()) +  parseInt($quota_medicine_self.val()) > $allowTotal_bache.val() ){
-			alert("醫學系 + 牙醫系 + 中醫系 之名額 大於 可招收名額！");
+			await swal({title:"醫學系 + 牙醫系 + 中醫系 之名額 大於 可招收名額！", confirmButtonText:'確定', type:'error'});
 			$quota_medicine_selection.val(0);
 			$quota_medicine_placement.val(0);
 			$quota_medicine_self.val(0);
@@ -310,12 +310,12 @@ var systemQuota = (function () {
 
 	}
 
-	function _handleSave(){
+	async function _handleSave(){
 		// 檢查班別間流用相加應為 0
 		if ( (parseInt($quota_passed_bache.val()) || 0 )+
 				(parseInt($quota_passed_master.val()) || 0)+
 				(parseInt($quota_passed_phd.val()) || 0) != 0 ){
-			alert("班別間留用相加總和應為 0 ，請重新填寫");
+			await swal({title:"班別間留用相加總和應為 0 ，請重新填寫", confirmButtonText:'確定', type:'error'});
 			$quota_passed_bache.val(0);
 			$quota_passed_master.val(0);
 			$quota_passed_phd.val(0);
@@ -323,7 +323,7 @@ var systemQuota = (function () {
 		}
 		// 醫學 + 牙醫 + 中醫 應該<= 學士班可用總額
 		if(parseInt($quota_medicine_selection.val()) + parseInt($quota_medicine_placement.val()) + parseInt($quota_medicine_self.val()) > parseInt($allowTotal_bache.val())){
-			alert("醫學系、牙醫系、中醫系名額總和超過學士班名額");
+			await swal({title:"醫學系、牙醫系、中醫系名額總和超過學士班名額", confirmButtonText:'確定', type:'error'});
 			return;
 		}
 		var data= {
@@ -357,25 +357,25 @@ var systemQuota = (function () {
 			} else {
 				throw res;
 			}
-		}).then(function (json) {
-			alert('已儲存');
+		}).then(async function (json) {
+			stopLoading();
+			await swal({title:"已儲存", confirmButtonText:'確定', type:'success'});
 			location.reload();
 		}).catch(function (err) {
 			err.json && err.json().then((data) => {
 				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
-
-				stopLoading();
-			})
+				swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
+			});
+			stopLoading();
 		});
 	}
 
-	function _handleConfirm(){
+	async function _handleConfirm(){
 		// 檢查班別間流用相加應為 0
 		if ( (parseInt($quota_passed_bache.val()) || 0 )+
 				(parseInt($quota_passed_master.val()) || 0)+
 				(parseInt($quota_passed_phd.val()) || 0) != 0 ){
-			alert("班別間留用相加總和應為 0 ，請重新填寫");
+			await swal({title:"班別間留用相加總和應為 0 ，請重新填寫", confirmButtonText:'確定', type:'error'});
 			$quota_passed_bache.val(0);
 			$quota_passed_master.val(0);
 			$quota_passed_phd.val(0);
@@ -422,20 +422,20 @@ var systemQuota = (function () {
 				} else {
 					throw res;
 				}
-			}).then(function (json) {
-				alert('已儲存並鎖定');
+			}).then(async function (json) {
+				stopLoading();
+				await swal({title:"已儲存並鎖定", confirmButtonText:'確定', type:'success'});
 
 				if( parseInt($expanded_quota_bache.val()) > 0 || parseInt($expanded_quota_master.val()) > 0 || parseInt($expanded_quota_phd.val()) > 0){
-					alert("您有申請僑、港澳生名額增量，請記得填列「112招生名額增量申請表」並回傳！ （詳情請看底下說明）");
+					await swal({title:"您有申請僑、港澳生名額增量，請記得填列「112招生名額增量申請表」並回傳！ （詳情請看底下說明）", confirmButtonText:'確定', type:'info'});
 				}
 				location.reload();
 			}).catch(function (err) {
 				err.json && err.json().then((data) => {
 					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
-
-					stopLoading();
-				})
+					swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
+				});
+				stopLoading();
 			});
 		}
 	}

@@ -104,28 +104,28 @@ var DeptInfo = (function () {
             };
 
             openLoading();
-
             School.setSystemInfo(system, data)
-                .then(function (res) {
-                    if (res.ok) {
-                        alert('儲存成功');
-                        return res.json();
-                    } else {
-                        alert('儲存失敗');
-                        throw res
-                    }
-                }).then(function (json) {
-                location.reload();
-            }).catch(function (err) {
+			.then(function (res) {
+				if (res.ok) {
+					swal({title:`儲存成功`, confirmButtonText:'確定', type:'success'}).then(() => {
+						location.reload();
+					});
+				} else {
+					swal({title:`儲存失敗`, confirmButtonText:'確定', type:'error'}).then(() => {
+						throw res;
+					});
+				}
+				stopLoading();
+			})
+			.catch(function (err) {
                 err.json && err.json().then((data) => {
                     console.error(data);
-                    alert(`ERROR: \n${data.messages[0]}`);
-
-                    stopLoading();
+					swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
                 });
+				stopLoading();
             });
         } else {
-            alert("有欄位輸入錯誤，請重新確認。");
+			swal({title:`有欄位輸入錯誤，請重新確認。`, confirmButtonText:'確定', type:'error'});
 		}
 	}
 

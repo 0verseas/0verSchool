@@ -134,8 +134,9 @@
             stopLoading();
 			err.json && err.json().then((data) => {
 				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
-                location.reload();
+                swal({title:data.messages[0], confirmButtonText:'確定', type:'error'}).then(() => {
+                    location.reload();
+				});
 			});
 		});
     }
@@ -410,14 +411,15 @@
             stopLoading();
 			err.json && err.json().then((data) => {
 				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
-                location.reload();
+                swal({title:data.messages[0], confirmButtonText:'確定', type:'error'}).then(() => {
+                    location.reload();
+				});
 			});
 		});
     }
 
     // 請求新增事件
-    function _handleNew() {
+    async function _handleNew() {
         // 取得 選取的文憑類別及年度
         const action_id = $actionSelector.val();
         const system_id = $systemSelector.val();
@@ -426,7 +428,7 @@
         const dept_title = $titleInput.val();
 
         if(action_id == null || system_id == null || dept_type == null || group_code == null || dept_title == ''){
-            alert('請確認是否所有欄位都選擇或輸入完畢。');
+            await swal({title:'請確認是否所有欄位都選擇或輸入完畢。', confirmButtonText:'確定', type:'error'});
             return;
         } else {
             openLoading();
@@ -448,25 +450,28 @@
                 }
             })
             .then((json) => {
-                // console.log(json);
-                alert(json.messages[0]);
-                $actionSelector.val(0);
-                $systemSelector.val(0);
-                $typeSelector.val(-1);
-                $groupSelector.val(0);
-                $titleInput.val('');
-                $actionSelector.attr('disabled',true);
-                $typeSelector.attr('disabled',true);
+                console.log(json);
+                swal({title:json.messages[0], confirmButtonText:'確定', type:'success'}).then(() => {
+                    $actionSelector.val(0);
+                    $systemSelector.val(0);
+                    $typeSelector.val(-1);
+                    $groupSelector.val(0);
+                    $titleInput.val('');
+                    $actionSelector.attr('disabled',true);
+                    $typeSelector.attr('disabled',true);
+                    location.reload();
+				});
                 stopLoading();
-                location.reload();
             })
             .catch((err) => {
+                console.log(err);
                 err.json && err.json().then((data) => {
                     console.error(data);
-                    alert(`ERROR: \n${data.messages[0]}`);
-                    location.reload();
-                    stopLoading();
+                    swal({title:data.messages[0], confirmButtonText:'確定', type:'error'}).then(() => {
+                        location.reload();
+                    });
                 });
+                stopLoading();
             });
         }
     }
@@ -512,16 +517,17 @@
         })
         .then((json) => {
             // console.log(json);
-            alert(json.messages[0]);
+            swal({title:json.messages[0], confirmButtonText:'確定', type:'success'}).then(() => {
+                location.reload();
+            });
             stopLoading();
-            location.reload();
         })
         .catch((err) => {
             err.json && err.json().then((data) => {
                 console.error(data);
-                alert(`ERROR: \n${data.messages[0]}`);
-                stopLoading();
+                swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
             });
+            stopLoading();
         });
     }
 
@@ -539,16 +545,17 @@
             })
             .then((json) => {
                 // console.log(json);
-                alert(json.messages[0]);
+                swal({title:json.messages[0], confirmButtonText:'確定', type:'success'}).then(() => {
+                    location.reload();
+				});
                 stopLoading();
-                location.reload();
             })
             .catch((err) => {
                 err.json && err.json().then((data) => {
                     console.error(data);
-                    alert(`ERROR: \n${data.messages[0]}`);
-                    stopLoading();
+                    swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
                 });
+                stopLoading();
             });
         }
     }
@@ -566,8 +573,9 @@
 		for (let i = 0; i < fileList.length; i++) {
             //偵測是否超過4MB
 			if(sizeConversion(fileList[i].size,4)){
-                alert(`Error: ${fileList[i].name}檔案過大，檔案大小不能超過4MB`)
-				return;
+                swal({title:`${fileList[i].name}檔案過大，檔案大小不能超過4MB`, confirmButtonText:'確定', type:'error'}).then(() => {
+                    return;
+                });
 			}
 			sendData.append('files[]', fileList[i]);
 		}
@@ -594,9 +602,9 @@
         .catch((err) => {
             err.json && err.json().then((data) => {
                 console.error(data);
-                alert(`ERROR: \n${data.messages[0]}`);
-                stopLoading();
+                swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
             });
+            stopLoading();
         });
     }
 
@@ -689,15 +697,16 @@
             })
             .then(()=>{
                 $imgModal.modal('hide');
-                alert('刪除成功');
+                swal({title:`刪除成功`, confirmButtonText:'確定', type:'success'}).then(() => {
+                });
                 stopLoading();
             })
             .catch((err) => {
                 err.json && err.json().then((data) => {
                     console.error(data);
-                    alert(`ERROR: \n${data.messages[0]}`);
-                    stopLoading();
+                    swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
                 });
+                stopLoading();
             });
         }
     }

@@ -250,7 +250,7 @@ var schoolInfo = (function () {
 		var formResult = _validateForm();
 
 		if (!urlResult || !formResult) {
-			alert("有欄位輸入錯誤，請重新確認。");
+			swal({title:"有欄位輸入錯誤，請重新確認。", confirmButtonText:'確定', type:'error'});
 			return;
 		}
 
@@ -263,18 +263,19 @@ var schoolInfo = (function () {
 		.then(function(res) {
 			// console.log(sendData);
 			if(res.ok) {
-				alert('儲存成功');
-				location.reload();
+				swal({title:"儲存成功", confirmButtonText:'確定', type:'success'}).then(() => {
+					location.reload();
+				});
+				stopLoading();
 			} else {
 				throw res
 			}
 		}).catch(function(err) {
 			err.json && err.json().then((data) => {
 				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
-
-				stopLoading();
+				swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
 			});
+			stopLoading();
 		})
 
 	}
@@ -292,8 +293,9 @@ var schoolInfo = (function () {
 			var formResult = _validateForm();
 
 			if (!urlResult || !formResult) {
-				alert("有欄位輸入錯誤，請重新確認。");
-				return;
+				swal({title:"有欄位輸入錯誤，請重新確認。", confirmButtonText:'確定', type:'error'}).then(() => {
+					return;
+				});
 			}
 
 			var sendData = _getFormData();
@@ -304,18 +306,19 @@ var schoolInfo = (function () {
 				.then(function (res) {
 					// console.log(sendData);
 					if (res.ok) {
-						alert('鎖定成功');
-						location.reload();
+						swal({title:"鎖定成功", confirmButtonText:'確定', type:'success'}).then(() => {
+							location.reload();
+						});
+						stopLoading();
 					} else {
-						throw res
+						throw res;
 					}
 				}).catch(function (err) {
 				err.json && err.json().then((data) => {
 					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
-
-					stopLoading();
+					swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
 				});
+				stopLoading();
 			})
 		}
 	}
@@ -414,10 +417,9 @@ var schoolInfo = (function () {
 		}).catch(function(err) {
 			err.json && err.json().then((data) => {
 				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
-
-				stopLoading();
+				swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
 			});
+			stopLoading();
 		})
 	}
 
@@ -495,7 +497,7 @@ var schoolInfo = (function () {
 			window.open (env.baseUrl + '/school-data-exportation');
 		}
 		else {
-			alert(text);
+			swal({title:text, confirmButtonText:'確定', type:'warning'});
 		}
 	}
 })();

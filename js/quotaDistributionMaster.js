@@ -164,15 +164,16 @@ var quotaDistributionMaster = (function () {
 				throw res
 			}
 		}).then(function (json) {
-			alert('已儲存');
-			location.reload();
+			swal({title:"已儲存", confirmButtonText:'確定', type:'success'}).then(() => {
+				location.reload();
+			});
+			stopLoading();
 		}).catch(function (err) {
 			err.json && err.json().then((data) => {
 				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
-
-				stopLoading();
-			})
+				swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
+			});
+			stopLoading();
 		});
 	}
 
@@ -203,16 +204,16 @@ var quotaDistributionMaster = (function () {
             stopLoading();
 		}).catch(function (err) {
 			if (err.status === 404) {
-				alert('沒有這個學制。 即將返回上一頁。');
-				window.history.back();
+				swal({title:"沒有這個學制，即將返回上一頁。", confirmButtonText:'確定', type:'error'}).then(() => {
+					window.history.back();
+				});
 			} else {
 				err.json && err.json().then((data) => {
 					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
-
-					stopLoading();
+					swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
 				});
 			}
+			stopLoading();
 		});
 	}
 
@@ -223,19 +224,19 @@ var quotaDistributionMaster = (function () {
 			if (!$(input).val() || $(input).val() < 0) {
 				$(input).focus();
 				valid = false;
-				alert('輸入有誤');
+				swal({title:"輸入有誤", confirmButtonText:'確定', type:'error'});
 				break;
 			}
 		}
 		// 本年度主要產業系所欲招募總量必須大於等於教育部核定擴增招收名額
 		if (+$ratify_quota_for_main_industries_department.val() > +$main_industries_department_sum.val()) {
 			valid = false;
-			alert('主要產業系所欲招募總量必須大於等於重點產業系所招生名額');
+			swal({title:"主要產業系所欲招募總量必須大於等於重點產業系所招生名額", confirmButtonText:'確定', type:'error'});
 		}
 		// 本年度欲招募總量必須小於等於可招生總量
 		if (+$quota_wantTotal.val() > +$quota_allowTotal.val()) {
 			valid = false;
-			alert('各系所招生名額加總必須小於等於可招生總量');
+			swal({title:"各系所招生名額加總必須小於等於可招生總量", confirmButtonText:'確定', type:'error'});
 		}
 		return valid;
 	}
