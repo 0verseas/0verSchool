@@ -169,11 +169,6 @@ var deptInfoBache = (function () {
 		return commonFormValidateStatus;
 	}
 
-	// 檢查 form 是否為有值
-	function _validateNotEmpty(el) {
-		return el.val() !== "";
-	}
-
 	function _getFormData() {
 		var data = new FormData();
 		var commonFormData = DeptInfo.getCommonFormData("bache");
@@ -211,24 +206,24 @@ var deptInfoBache = (function () {
 			if ($validateResult.length <= 0) {
 				openLoading();
 				School.setDeptInfo(_currentSystem, _currentDeptId, sendData)
-					.then((res) => {
-						if (res.ok) {
-							return res.json;
-						} else {
-							throw res;
-						}
-					})
-					.then((json) => {
-						swal({title:`儲存成功`, confirmButtonText:'確定', type:'success'});
-						stopLoading();
-					})
-					.catch((err) => {
-						err.json && err.json().then((data) => {
-							swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
-						});
-						stopLoading();
-					})
-			} else {
+				.then((res) => {
+					if (res.ok) {
+						return res.json;
+					} else {
+						throw res;
+					}
+				})
+				.then((json) => {
+					swal({title:`儲存成功`, confirmButtonText:'確定', type:'success'});
+					stopLoading();
+				})
+				.catch((err) => {
+					err.json && err.json().then((data) => {
+						swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
+					});
+					stopLoading();
+				});
+		} else {
 				swal({title:$validateResult.join("\n"), confirmButtonText:'確定', type:'error'});
 			}
 		}
@@ -238,13 +233,13 @@ var deptInfoBache = (function () {
 		openLoading();
 
 		School.getSchoolInfo() // 取的校資料以檢視校鎖定了沒
-			.then(function(res) {
-				if(res.ok) {
-					return res.json();
-				} else {
-					throw res
-				}
-			}).then(function(json) {
+		.then(function(res) {
+			if(res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		}).then(function(json) {
 			if (json.review_at == null) { // 校資料未鎖定
 				$('#lockSystem-btn').attr('disabled', true);
 				document.getElementById("lockSystem-btn").style.pointerEvents = "none";
@@ -304,24 +299,24 @@ var deptInfoBache = (function () {
 		if (isAllSet === true) {
 			var data = {"confirmed": true}
 			School.lockSystemInfo(_schoolId, _currentSystemId, data)
-				.then((res) => {
-					if (res.ok) {
-						return res.json;
-					} else {
-						throw res;
-					}
-				})
-				.then((json) => {
-					swal({title:`儲存成功並鎖定`, confirmButtonText:'確定', type:'success'}).then(() => {
-						location.reload();
-					});
-				})
-				.catch((err) => {
-					console.error(data);
-					err.json && err.json().then((data) => {
-						swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
-					});
-				})
+			.then((res) => {
+				if (res.ok) {
+					return res.json;
+				} else {
+					throw res;
+				}
+			})
+			.then((json) => {
+				swal({title:`儲存成功並鎖定`, confirmButtonText:'確定', type:'success'}).then(() => {
+					location.reload();
+				});
+			})
+			.catch((err) => {
+				console.error(data);
+				err.json && err.json().then((data) => {
+					swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
+				});
+			});
 		}
 		stopLoading();
 	}
