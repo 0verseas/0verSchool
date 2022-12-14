@@ -48,7 +48,7 @@ var schoolInfo = (function () {
 	var $schoolLockBtn = $schoolInfoForm.find('#btn-lock-school');
 	var $downloadExcel = $schoolInfoForm.find('#downloadExcel');
 
-	var text = '';
+	var text = '';  // 檢查各學制是否存在
 	// form-group
 	var formGroup = {
 		phoneForm: $schoolInfoForm.find('#phoneForm input'),
@@ -435,7 +435,7 @@ var schoolInfo = (function () {
 			if (json.review_at == null) { // 校資料未鎖定
 				text += "學校資料尚未鎖定！" + '\n';
 			}
-		})
+		}).catch((e) => {});
 
 		School.getSystemInfo(1) // 取得學制資料，沒有該學制則回上一頁
 			.then((res) => {
@@ -448,7 +448,7 @@ var schoolInfo = (function () {
 			if(json.review_at == null) {
 				text += "學士班尚未鎖定！" + '\n';
 			}
-		})
+		}).catch((e) => {});
 
 		School.getSystemInfo(2) // 取得學制資料，沒有該學制則回上一頁
 			.then((res) => {
@@ -461,7 +461,7 @@ var schoolInfo = (function () {
 			if(json.review_at == null) {
 				text += "港二技尚未鎖定！" + '\n';
 			}
-		})
+		}).catch((e) => {});
 
 		School.getSystemInfo(3) // 取得學制資料，沒有該學制則回上一頁
 			.then((res) => {
@@ -474,7 +474,7 @@ var schoolInfo = (function () {
 			if(json.review_at == null) {
 				text += "碩士班尚未鎖定！" + '\n';
 			}
-		})
+		}).catch((e) => {});
 
 		School.getSystemInfo(4) // 取得學制資料，沒有該學制則回上一頁
 			.then((res) => {
@@ -487,13 +487,13 @@ var schoolInfo = (function () {
 			if(json.review_at == null) {
 				text += "博士班尚未鎖定！" + '\n';
 			}
-		})
+		}).catch((e) => {});
 	}
 
 	//下載學校 Excel 清冊
 	function _downloadExcel() {
 
-		if (text =='') {
+		if (text == '') {
 			window.open (env.baseUrl + '/school-data-exportation');
 		}
 		else {
