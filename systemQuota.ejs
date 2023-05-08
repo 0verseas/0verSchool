@@ -59,7 +59,7 @@
 
 <table id="input_quota_table" style="border:4px #CFAA9E solid; width: 100%;" cellpadding="12" border='2'>
 	<tr>
-		<th style="border-right:3px #CFAA9E solid; width: 21%; background: linear-gradient(to top right, #fff calc(50% - 2px), #CFAA9E , #fff calc(50% + 2px) )">
+		<th style="border-right:3px #CFAA9E solid; width: 21%; background: linear-gradient(to top right, #fff calc(50% - 2px), #CFAA9E , #fff calc(50% + 2px) )" colspan="2">
 			<a class="key-right">班別</a>
 			<br/>
 			<a class="key-left">項目</a>
@@ -70,50 +70,48 @@
 		<th style="border-right:3px #CFAA9E solid; width: 25%;">說明</th>
 	</tr>
 	<tr>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid; ">欲使用名額</td>
+		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;" colspan="2">欲使用名額</td>
 		<td class="bachelor" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="bachelor_quota_used" ></td>
 		<td class="master" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="master_quota_used" ></td>
 		<td class="phd" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="phd_quota_used" ></td>
 		<td style="border-top:3px #CFAA9E solid;"></td>
 	</tr>
 	<tr>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid; ">班別間流用（總量10％）</td>
+		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;" colspan="2">班別間流用（總量10％）</td>
 		<td class="bachelor" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" id="bachelor_quota_passed" ></td>
 		<td class="master" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" id="master_quota_passed" ></td>
 		<td class="phd" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" id="phd_quota_passed" ></td>
 		<td style="border-top:3px #CFAA9E solid;">可以填寫負數，班別間流用相加為零即可。</td>
 	</tr>
 	<tr>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid; ">本地生缺額</td>
+		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;" colspan="2">本地生缺額</td>
 		<td class="bachelor" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="bachelor_surplus_quota" ></td>
 		<td class="master" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="master_surplus_quota" ></td>
 		<td class="phd" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="phd_surplus_quota" ></td>
 		<td style="border-top:3px #CFAA9E solid;"></td>
 	</tr>
 	<tr>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid; ">申請<%= year -1910%>增量</td>
+		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;" colspan="2">申請<%= year -1910%>增量</td>
 		<td class="bachelor" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="bachelor_expanded_quota" ></td>
 		<td class="master" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="master_expanded_quota" ></td>
 		<td class="phd" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="phd_expanded_quota" ></td>
 		<td style="border-top:3px #CFAA9E solid;" id="expanded_quota_directions"></td>
 	</tr>
 	<tr>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid; ">實際招生名額總計</td>
+		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;" colspan="2">實際招生名額總計</td>
 		<td class="bachelor" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" id="bachelor_sum" disabled></td>
 		<td class="master" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" id="master_sum" disabled></td>
 		<td class="phd" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" id="phd_sum" disabled></td>
 		<td style="border-top:3px #CFAA9E solid;"></td>
 	</tr>
-</table>
-
-<table id="extended_department_quota_table" style="border:4px #CFAA9E solid; width: 100%;" cellpadding="12" border='2'>
+	<!-- 額外系所名額區域 目前是固定的 不知道哪天想到可能又要可以調整了 所以還是用 input object 來渲染名額-->
 	<tr>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;  width: 7%;" rowspan="2">專案核定之擴大招收境外生系所名額</td>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;  width: 14%;">重點產業系所<br/>教育部核定名額</td>
-		<td class="bachelor" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" id="bachelor_key_industry_quota" disabled></td>
-		<td class="master" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" id="master_key_industry_quota" disabled></td>
-		<td class="phd" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" id="phd_key_industry_quota" disabled></td>
-		<td style="border-top:3px #CFAA9E solid; width: 25%;"></td>
+		<td style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;  width: 7%;" rowspan="2">專案核定之擴大招收境外生系所名額</td>
+		<td style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;  width: 14%;">重點產業系所<br/>教育部核定名額</td>
+		<td class="bachelor" style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;"><input class="form-control" type="number" id="bachelor_key_industry_quota" disabled></td>
+		<td class="master" style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;"><input class="form-control" type="number" id="master_key_industry_quota" disabled></td>
+		<td class="phd" style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;"><input class="form-control" type="number" id="phd_key_industry_quota" disabled></td>
+		<td style="border-top:6px #CFAA9E solid; width: 25%;"></td>
 	</tr>
 	<tr>
 		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;  width: 14%;">國際專修部<br/>教育部核定名額</td>
@@ -174,7 +172,7 @@
 				<br/>
 				<table id="input_quota_table" style="border:4px #CFAA9E solid; width: 100%;" cellpadding="12" border='2'>
 					<tr>
-						<th style="border-right:3px #CFAA9E solid; width: 21%; background: linear-gradient(to top right, #fff calc(50% - 2px), #CFAA9E , #fff calc(50% + 2px) )">
+						<th style="border-right:3px #CFAA9E solid; width: 21%; background: linear-gradient(to top right, #fff calc(50% - 2px), #CFAA9E , #fff calc(50% + 2px) )" colspan="2">
 							<a class="key-right">班別</a>
 							<br/>
 							<a class="key-left">項目</a>
@@ -185,50 +183,48 @@
 						<th style="border-right:3px #CFAA9E solid; width: 25%;">說明</th>
 					</tr>
 					<tr>
-						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid; ">欲使用名額</td>
+						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;" colspan="2">欲使用名額</td>
 						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" value="103" disabled></td>
 						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" value="40" disabled></td>
 						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" value="8" disabled></td>
 						<td style="border-top:3px #CFAA9E solid;"></td>
 					</tr>
 					<tr>
-						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid; ">班別間流用（總量10％）</td>
+						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;" colspan="2">班別間流用（總量10％）</td>
 						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" value="-13" disabled></td>
 						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" value="11" disabled></td>
 						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" value="2" disabled></td>
 						<td style="border-top:3px #CFAA9E solid;">可以填寫負數，班別間流用相加為零即可。</td>
 					</tr>
 					<tr>
-						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid; ">本地生缺額</td>
+						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;" colspan="2">本地生缺額</td>
 						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" value="0" disabled></td>
 						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" value="4" disabled></td>
 						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" value="0" disabled></td>
 						<td style="border-top:3px #CFAA9E solid;"></td>
 					</tr>
 					<tr>
-						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid; ">申請<%= year -1910%>增量</td>
+						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;" colspan="2">申請<%= year -1910%>增量</td>
 						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" value="0" disabled></td>
 						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" value="0" disabled></td>
 						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" value="2" disabled></td>
 						<td style="border-top:3px #CFAA9E solid;"><a class="text-danger">請記得填寫「招生名額增量申請表」並回傳</a></td>
 					</tr>
 					<tr>
-						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid; ">實際招生名額總計</td>
+						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;" colspan="2">實際招生名額總計</td>
 						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" value="90" disabled></td>
 						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" value="55" disabled></td>
 						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" value="12" disabled></td>
 						<td style="border-top:3px #CFAA9E solid;"></td>
 					</tr>
-				</table>
 
-				<table id="extended_department_quota_table" style="border:4px #CFAA9E solid; width: 100%;" cellpadding="12" border='2'>
 					<tr>
-						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;  width: 7%;" rowspan="2">專案核定之擴大招收境外生系所名額</td>
-						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;  width: 14%;">重點產業系所<br/>教育部核定名額</td>
-						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" value="40" disabled></td>
-						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" value="21" disabled></td>
-						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" value="2" disabled></td>
-						<td style="border-top:3px #CFAA9E solid; width: 25%;">依教育部 OOOOOOOOA 函核定</td>
+						<td style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;  width: 7%;" rowspan="2">專案核定之擴大招收境外生系所名額</td>
+						<td style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;  width: 14%;">重點產業系所<br/>教育部核定名額</td>
+						<td style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;"><input class="form-control" type="number" min="0" value="40" disabled></td>
+						<td style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;"><input class="form-control" type="number" min="0" value="21" disabled></td>
+						<td style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;"><input class="form-control" type="number" min="0" value="2" disabled></td>
+						<td style="border-top:6px #CFAA9E solid; width: 25%;">依教育部 OOOOOOOOA 函核定</td>
 					</tr>
 					<tr>
 						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;  width: 14%;">國際專修部<br/>教育部核定名額</td>

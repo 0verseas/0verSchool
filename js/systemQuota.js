@@ -50,8 +50,6 @@ var systemQuota = (function () {
 	const $master_sum = $('#master_sum'); // 碩士班今年實際招收名額
 	const $phd_sum = $('#phd_sum'); // 博士班今年實際招收名額
 
-	const $extendedDepartmentQuotaTable = $('#extended_department_quota_table');
-
 	const $bachelor_key_industry_quota = $('#bachelor_key_industry_quota'); // 學士班今年重點產業系所名額
 	const $master_key_industry_quota = $('#master_key_industry_quota'); // 碩士班今年重點產業系所名額
 	const $phd_key_industry_quota = $('#phd_key_industry_quota'); // 博士班今年重點產業系所名額
@@ -273,17 +271,17 @@ var systemQuota = (function () {
 	// 檢查目前輸入改變後是否不符合規定
 	async function _checkSystemQuota(system){
 		let systemString = ''
-		let quota_amount = $('#'+system+'_admission_amount');
-		let quota_used = $('#'+system+'_quota_used');
-		let quota_passed = $('#'+system+'_quota_passed');
-		let surplus_quota = $('#'+system+'_surplus_quota');
-		let expanded_quota = $('#'+system+'_expanded_quota');
+		const quota_amount = $('#'+system+'_admission_amount');
+		const quota_used = $('#'+system+'_quota_used');
+		const quota_passed = $('#'+system+'_quota_passed');
+		const surplus_quota = $('#'+system+'_surplus_quota');
+		const expanded_quota = $('#'+system+'_expanded_quota');
 
-		let quota_amount_value = +quota_amount.text();
-		let quota_used_value = +quota_used.val();
-		let quota_passed_value = +quota_passed.val();
-		let surplus_quota_value = +surplus_quota.val();
-		let expanded_quota_value = +expanded_quota.val();
+		const quota_amount_value = +quota_amount.text();
+		const quota_used_value = +quota_used.val();
+		const quota_passed_value = +quota_passed.val();
+		const surplus_quota_value = +surplus_quota.val();
+		const expanded_quota_value = +expanded_quota.val();
 
 		switch(system){
 			case "bachelor":
