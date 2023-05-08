@@ -314,7 +314,7 @@ var systemQuota = (function () {
 		if( +quota_used.val() < +quota_amount.val() && (+surplus_quota.val() + +expanded_quota.val()) > 0){
 			$surplus_quota.val(0);
 			$expanded_quota.val(0);
-			await swal({title: systemString+"，未使用完總量上限，不得填寫本地生缺額、擴增名額", confirmButtonText:'確定', type:'error'});
+			await swal({title: systemString+"，未使用完名額上限，不得填寫本地生缺額、擴增名額", confirmButtonText:'確定', type:'error'});
 		}
 
 		// 本地生缺額最小就是0
@@ -364,7 +364,7 @@ var systemQuota = (function () {
 			return;
 		}
 		// 醫學 + 牙醫 + 中醫 應該<= 學士班可用總額
-		if(parseInt($quota_medicine_selection.val()) + parseInt($quota_medicine_placement.val()) + parseInt($quota_medicine_self.val()) > parseInt($bachelor_sum.val())){
+		if(has_medicine_dept && (parseInt($quota_medicine_selection.val()) + parseInt($quota_medicine_placement.val()) + parseInt($quota_medicine_self.val()) > parseInt($bachelor_sum.val()))){
 			await swal({title:"學士班欲使用名額名額應大於等於醫學系各管道名額總和！", confirmButtonText:'確定', type:'error'});
 			return;
 		}
