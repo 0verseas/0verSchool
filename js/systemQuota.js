@@ -27,6 +27,8 @@ var systemQuota = (function () {
 	const $masterKeyIndustryAmount = $('#master_key_industry_amount'); // 碩士班今年重點產業系所招生名額上限
 	const $phdKeyIndustryAmount = $('#phd_key_industry_amount'); // 博士班今年重點產業系所招生名額上限
 
+	const $inputQuotaRable = $('#input_quota_table');
+
 	const $bachelor_quota_used = $('#bachelor_quota_used'); // 學士班今年欲使用名額
 	const $master_quota_used = $('#master_quota_used'); // 碩士班今年欲使用名額
 	const $phd_quota_used = $('#phd_quota_used'); // 博士班今年欲使用名額
@@ -47,6 +49,8 @@ var systemQuota = (function () {
 	const $bachelor_sum = $('#bachelor_sum'); // 學士班今年實際招收名額
 	const $master_sum = $('#master_sum'); // 碩士班今年實際招收名額
 	const $phd_sum = $('#phd_sum'); // 博士班今年實際招收名額
+
+	const $extendedDepartmentQuotaTable = $('#extended_department_quota_table');
 
 	const $bachelor_key_industry_quota = $('#bachelor_key_industry_quota'); // 學士班今年重點產業系所名額
 	const $master_key_industry_quota = $('#master_key_industry_quota'); // 碩士班今年重點產業系所名額
@@ -168,20 +172,20 @@ var systemQuota = (function () {
 
 		function _setQuota(data) {
 			if( data.bachelor == null){
-				$fixedQuotaTable.find('.bachelor').hide(); // 隱藏學士班欄位
+				$('.bachelor').hide(); // 隱藏學士班欄位
 			} else {
 				_renderQuota('bachelor', data.bachelor); // 渲染名額資料
 				$bachelor_IFP_quota.val(+data.bachelor.IFP_quota); // 渲染國際專修部名額資料 只有學士班有
 			}
 
 			if( data.master == null){
-				$fixedQuotaTable.find('.master').hide(); // 隱藏碩士班欄位
+				$('.master').hide(); // 隱藏碩士班欄位
 			} else {
 				_renderQuota('master', data.master); // 渲染名額資料
 			}
 
 			if( data.phd == null){
-				$fixedQuotaTable.find('.phd').hide(); // 隱藏博士班欄位
+				$('.phd').hide(); // 隱藏博士班欄位
 			} else {
 				_renderQuota('phd', data.phd); // 渲染名額資料
 			}

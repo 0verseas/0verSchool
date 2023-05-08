@@ -64,44 +64,44 @@
 			<br/>
 			<a class="key-left">項目</a>
 		</th>
-		<th style="border-right:3px #CFAA9E solid;">學士班<br />（含港二技）</th>
-		<th style="border-right:3px #CFAA9E solid;">碩士班</th>
-		<th style="border-right:3px #CFAA9E solid;">博士班</th>
+		<th class="bachelor" style="border-right:3px #CFAA9E solid;">學士班<br />（含港二技）</th>
+		<th class="master" style="border-right:3px #CFAA9E solid;">碩士班</th>
+		<th class="phd" style="border-right:3px #CFAA9E solid;">博士班</th>
 		<th style="border-right:3px #CFAA9E solid; width: 25%;">說明</th>
 	</tr>
 	<tr>
 		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid; ">欲使用名額</td>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="bachelor_quota_used" ></td>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="master_quota_used" ></td>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="phd_quota_used" ></td>
+		<td class="bachelor" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="bachelor_quota_used" ></td>
+		<td class="master" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="master_quota_used" ></td>
+		<td class="phd" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="phd_quota_used" ></td>
 		<td style="border-top:3px #CFAA9E solid;"></td>
 	</tr>
 	<tr>
 		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid; ">班別間流用（總量10％）</td>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" id="bachelor_quota_passed" ></td>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" id="master_quota_passed" ></td>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" id="phd_quota_passed" ></td>
+		<td class="bachelor" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" id="bachelor_quota_passed" ></td>
+		<td class="master" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" id="master_quota_passed" ></td>
+		<td class="phd" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" id="phd_quota_passed" ></td>
 		<td style="border-top:3px #CFAA9E solid;">可以填寫負數，班別間流用相加為零即可。</td>
 	</tr>
 	<tr>
 		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid; ">本地生缺額</td>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="bachelor_surplus_quota" ></td>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="master_surplus_quota" ></td>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="phd_surplus_quota" ></td>
+		<td class="bachelor" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="bachelor_surplus_quota" ></td>
+		<td class="master" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="master_surplus_quota" ></td>
+		<td class="phd" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="phd_surplus_quota" ></td>
 		<td style="border-top:3px #CFAA9E solid;"></td>
 	</tr>
 	<tr>
 		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid; ">申請<%= year -1910%>增量</td>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="bachelor_expanded_quota" ></td>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="master_expanded_quota" ></td>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="phd_expanded_quota" ></td>
+		<td class="bachelor" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="bachelor_expanded_quota" ></td>
+		<td class="master" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="master_expanded_quota" ></td>
+		<td class="phd" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" id="phd_expanded_quota" ></td>
 		<td style="border-top:3px #CFAA9E solid;" id="expanded_quota_directions"></td>
 	</tr>
 	<tr>
 		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid; ">實際招生名額總計</td>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" id="bachelor_sum" disabled></td>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" id="master_sum" disabled></td>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" id="phd_sum" disabled></td>
+		<td class="bachelor" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" id="bachelor_sum" disabled></td>
+		<td class="master" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" id="master_sum" disabled></td>
+		<td class="phd" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" id="phd_sum" disabled></td>
 		<td style="border-top:3px #CFAA9E solid;"></td>
 	</tr>
 </table>
@@ -110,16 +110,16 @@
 	<tr>
 		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;  width: 7%;" rowspan="2">專案核定之擴大招收境外生系所名額</td>
 		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;  width: 14%;">重點產業系所<br/>教育部核定名額</td>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" id="bachelor_key_industry_quota" disabled></td>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" id="master_key_industry_quota" disabled></td>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" id="phd_key_industry_quota" disabled></td>
+		<td class="bachelor" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" id="bachelor_key_industry_quota" disabled></td>
+		<td class="master" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" id="master_key_industry_quota" disabled></td>
+		<td class="phd" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" id="phd_key_industry_quota" disabled></td>
 		<td style="border-top:3px #CFAA9E solid; width: 25%;"></td>
 	</tr>
 	<tr>
 		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;  width: 14%;">國際專修部<br/>教育部核定名額</td>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" id="bachelor_IFP_quota" disabled></td>
-		<td class="diagonalCrossRight" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><!-- <input class="form-control" type="number" id="master_IFP_quota" disabled> --></td>
-		<td class="diagonalCrossRight" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><!-- <input class="form-control" type="number" id="phd_IFP_quota" disabled> --></td>
+		<td class="bachelor" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" id="bachelor_IFP_quota" disabled></td>
+		<td class="master diagonalCrossRight" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><!-- <input class="form-control" type="number" id="master_IFP_quota" disabled> --></td>
+		<td class="phd diagonalCrossRight" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><!-- <input class="form-control" type="number" id="phd_IFP_quota" disabled> --></td>
 		<td style="border-top:3px #CFAA9E solid;"></td>
 	</tr>
 </table>
