@@ -248,7 +248,7 @@ var systemQuota = (function () {
 		}
 
 		// 確認目前輸入改變後是否不符合規定
-		// await _checkSystemQuota(system);
+		await _checkSystemQuota(system);
 		let quota_used = +$('#'+system+'_quota_used').val();
 		let quota_passed = +$('#'+system+'_quota_passed').val();
 		let surplus_quota = +$('#'+system+'_surplus_quota').val();
