@@ -35,6 +35,22 @@ td {
 	background: linear-gradient(to top left, #fff calc(50% - 2px), #CFAA9E , #fff calc(50% + 2px) );
 }
 
+.crossed {
+	background:
+		linear-gradient(to top left,
+			rgba(0,0,0,0) 0%,
+			rgba(0,0,0,0) calc(50% - 2px),
+			#CFAA9F 50%,
+			rgba(0,0,0,0) calc(50% + 2px),
+			rgba(0,0,0,0) 100%),
+		linear-gradient(to top right,
+			rgba(0,0,0,0) 0%,
+			rgba(0,0,0,0) calc(50% - 2px),
+			#CFAA9F 50%,
+			rgba(0,0,0,0) calc(50% + 2px),
+			rgba(0,0,0,0) 100%);
+}
+
 .key-left {
 	float:left;
 }

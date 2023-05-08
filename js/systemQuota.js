@@ -402,6 +402,13 @@ var systemQuota = (function () {
 		// 	data["Bachelor_quota_chinese_medicine"] = $quota_medicine_self.val();
 		// }
 
+		let alertText = '';
+		if(action == "save"){
+			alertText = "儲存成功";
+		} else {
+			alertText = "已提交並鎖定資料";
+		}
+
 		School.setFirstSystemQuota(schoolid, data).then(function (res) {
 			if(res.ok) {
 				return res.json();
@@ -410,7 +417,7 @@ var systemQuota = (function () {
 			}
 		}).then(async function (json) {
 			stopLoading();
-			await swal({title:"已儲存", confirmButtonText:'確定', type:'success'});
+			await swal({title: alertText, confirmButtonText:'確定', type:'success'});
 			if( parseInt($bachelor_expanded_quota.val()) + parseInt($master_expanded_quota.val()) + parseInt($phd_expanded_quota.val()) > 0 && action == "confirm"){
 				await swal({title:"您有申請僑、港澳生名額增量，請記得填列「113招生名額增量申請表」並回傳。 （詳情請看底下說明）", confirmButtonText:'確定', type:'info'});
 			}
