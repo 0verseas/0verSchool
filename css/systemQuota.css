@@ -18,3 +18,27 @@
 li {
 	padding-bottom: 1%;
 }
+
+th {
+	text-align: center;
+}
+
+td {
+	text-align: center;
+}
+
+.diagonalCrossLeft {
+	background: linear-gradient(to top right, #fff calc(50% - 2px), black , #fff calc(50% + 2px) );
+}
+
+.diagonalCrossRight {
+	background: linear-gradient(to top left, #fff calc(50% - 2px), #CFAA9E , #fff calc(50% + 2px) );
+}
+
+.key-left {
+	float:left;
+}
+
+.key-right {
+	float:right;
+}
