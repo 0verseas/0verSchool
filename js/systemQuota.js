@@ -279,6 +279,12 @@ var systemQuota = (function () {
 		let surplus_quota = $('#'+system+'_surplus_quota');
 		let expanded_quota = $('#'+system+'_expanded_quota');
 
+		let quota_amount_value = +quota_amount.text();
+		let quota_used_value = +quota_used.val();
+		let quota_passed_value = +quota_passed.val();
+		let surplus_quota_value = +surplus_quota.val();
+		let expanded_quota_value = +expanded_quota.val();
+
 		switch(system){
 			case "bachelor":
 				systemString = '學士班（含港二技）';
@@ -291,9 +297,8 @@ var systemQuota = (function () {
 				break;
 		}
 
-
 		// 核定總量為 0（無該班別或停招等），不得流用名額或申請增量
-		if(+quota_amount.text() == 0 && (+quota_passed.val() + +surplus_quota.val() + +expanded_quota.val())!=0){
+		if(quota_amount_value == 0 && (quota_passed_value + surplus_quota_value + expanded_quota_value)!=0){
 			quota_used.val(0);
 			quota_passed.val(0);
 			surplus_quota.val(0);
@@ -302,32 +307,32 @@ var systemQuota = (function () {
 		}
 
 		// 0 <= 欲使用名額 <= 總量10％
-		if(+quota_used.val() > +quota_amount.text()){
-			quota_used.val(+quota_amount.text());
+		if(quota_used_value > quota_amount_value){
+			quota_used.val(quota_amount_value);
 		} else if(quota_used.val() < 0){
 			quota_used.val(0);
 		}
 
 		// 班別間流用若為負，絕對值不得超出欲使用名額
-		if(+quota_used.val() + +quota_passed.val() < 0){
-			quota_passed.val(parseInt('-'+quota_used.val()));
+		if(quota_used_value + quota_passed_value < 0){
+			quota_passed.val(parseInt('-' + quota_used_value));
 			await swal({title: systemString+"，班別間流用不得流超出欲使用名額", confirmButtonText:'確定', type:'error'});
 		}
 
-		// 欲使用名額 < 總量10％ ，不得填本地生缺額、擴增名額
-		if( +quota_used.val() < +quota_amount.val() && (+surplus_quota.val() + +expanded_quota.val()) > 0){
-			$surplus_quota.val(0);
-			$expanded_quota.val(0);
+		// 欲使用名額 < 名額上限（總量10％） ，不得填本地生缺額、擴增名額
+		if( (quota_used_value < quota_amount_value) && (surplus_quota_value + expanded_quota_value) > 0){
+			surplus_quota.val(0);
+			expanded_quota.val(0);
 			await swal({title: systemString+"，未使用完名額上限，不得填寫本地生缺額、擴增名額", confirmButtonText:'確定', type:'error'});
 		}
 
 		// 本地生缺額最小就是0
-		if(+surplus_quota.val() < 0){
+		if(surplus_quota_value < 0){
 			surplus_quota.val(0);
 		}
 
 		// 擴增名額最小就是0
-		if(+expanded_quota.val() < 0){
+		if(expanded_quota_value < 0){
 			expanded_quota.val(0);
 		}
 
@@ -372,21 +377,22 @@ var systemQuota = (function () {
 			await swal({title:"學士班欲使用名額名額應大於等於醫學系各管道名額總和！", confirmButtonText:'確定', type:'error'});
 			return;
 		}
-		var data= {
-			"Bachelor_quota_used": $bachelor_quota_used.val(),
-			"Bachelor_quota_passed": $bachelor_quota_passed.val(),
-			"Bachelor_last_year_surplus_admission_quota": $bachelor_surplus_quota.val(),
-			"Bachelor_expanded_quota": $bachelor_expanded_quota.val(),
+		(parseInt() || 0)
+		let data= {
+			"Bachelor_quota_used": (parseInt($bachelor_quota_used.val()) || 0),
+			"Bachelor_quota_passed": (parseInt($bachelor_quota_passed.val()) || 0),
+			"Bachelor_last_year_surplus_admission_quota": (parseInt($bachelor_surplus_quota.val()) || 0),
+			"Bachelor_expanded_quota": (parseInt($bachelor_expanded_quota.val()) || 0),
 
-			"Master_quota_used": $master_quota_used.val(),
-			"Master_quota_passed": $master_quota_passed.val(),
-			"Master_last_year_surplus_admission_quota": $master_surplus_quota.val(),
-			"Master_expanded_quota": $master_expanded_quota.val(),
+			"Master_quota_used": (parseInt($master_quota_used.val()) || 0),
+			"Master_quota_passed": (parseInt($master_quota_passed.val()) || 0),
+			"Master_last_year_surplus_admission_quota": (parseInt($master_surplus_quota.val()) || 0),
+			"Master_expanded_quota": (parseInt($master_expanded_quota.val()) || 0),
 
-			"PhD_quota_used": $phd_quota_used.val(),
-			"PhD_quota_passed": $phd_quota_passed.val(),
-			"PhD_last_year_surplus_admission_quota": $phd_surplus_quota.val(),
-			"PhD_expanded_quota": $phd_expanded_quota.val(),
+			"PhD_quota_used": (parseInt($phd_quota_used.val()) || 0),
+			"PhD_quota_passed": (parseInt($phd_quota_passed.val()) || 0),
+			"PhD_last_year_surplus_admission_quota": (parseInt($phd_surplus_quota.val()) || 0),
+			"PhD_expanded_quota": (parseInt($phd_expanded_quota.val()) || 0),
 
 			"description": $description.val(),
 			"data_confirm": (action == "save") ?false :true
