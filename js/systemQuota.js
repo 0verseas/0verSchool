@@ -60,6 +60,7 @@ var systemQuota = (function () {
 	const $quota_medicine_selection = $('#quota_medicine_selection'); // 醫學系個人申請名額
 	const $quota_medicine_placement = $('#quota_medicine_placement'); // 醫學系聯合分發名額
 	const $quota_medicine_self = $('#quota_medicine_self'); // 醫學系單獨招生名額
+	const $medicine_quota_sum = $('#medicine_quota_sum') // 醫學系名額小計
 	const $bachelor_except_medicine_quota_sum = $('#bachelor_except_medicine_quota_sum'); // 扣除醫牙可招收名額
 
 	const $IACP_table = $('.IACP_table'); // 產學攜手合作計畫名額表單
@@ -192,8 +193,9 @@ var systemQuota = (function () {
 					$quota_medicine_selection.val(quota_medicine_selection_val);
 					$quota_medicine_placement.val(quota_medicine_placement_val);
 					$quota_medicine_self.val(quota_medicine_self_val);
+					$medicine_quota_sum.val(quota_medicine_selection_val+ quota_medicine_placement_val+ quota_medicine_self_val);
 					// 非醫學系所實際招生名額總計
-					$bachelor_except_medicine_quota_sum.val(+$bachelor_sum.val() - quota_medicine_selection_val - quota_medicine_placement_val - quota_medicine_self_val);
+					$bachelor_except_medicine_quota_sum.val(+$bachelor_sum.val() - +$medicine_quota_sum.val());
 				}
 
 				// 如果有產學攜手合作計畫名額 就處理相關名額資料
