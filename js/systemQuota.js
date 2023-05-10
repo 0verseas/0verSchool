@@ -62,10 +62,17 @@ var systemQuota = (function () {
 	const $quota_medicine_self = $('#quota_medicine_self'); // 醫學系單獨招生名額
 	const $bachelor_except_medicine_quota_sum = $('#bachelor_except_medicine_quota_sum'); // 扣除醫牙可招收名額
 
+	const $IACP_table = $('.IACP_table'); // 產學攜手合作計畫名額表單
+	const $bachelor_quota_sum_for_IACP = $('#bachelor_quota_sum_for_IACP'); // 實際招收名額 for 產學攜手合作計畫表格顯示
+	const $bachelor_IACP_amount = $('#bachelor_IACP_amount'); // 產學攜手合作計畫名額上限
+	const $bachelor_IACP_quota = $('#bachelor_IACP_quota'); // 欲使用的產學攜手合作計畫名額
+	const $bachelor_except_IACP_quota_sum = $('#bachelor_except_IACP_quota_sum'); // 扣除產學攜手合作計畫名額的可招收名額
+
 	const $description = $('#description'); // 學制流用需求描述
 
 	let schoolid;
 	let has_medicine_dept = 0;
+	let has_IACP_amount = 0;
 
 	/**
 	*	bind event
@@ -89,6 +96,8 @@ var systemQuota = (function () {
 	// $quota_medicine_selection.on('change', _handleMedicineQuotaChanged);
 	// $quota_medicine_placement.on('change', _handleMedicineQuotaChanged);
 	// $quota_medicine_self.on('change', _handleMedicineQuotaChanged);
+
+	$bachelor_IACP_quota.on('change', {system:"bachelor", validate: "+"}, _handleQuotaChanged);
 
 	$btnSave.on('click', {action: "save"}, _handleSave);
 	$btnConfirm.on('click', {action: "confirm"}, _handleSave);
@@ -136,8 +145,6 @@ var systemQuota = (function () {
 					$('#btn-pdf').removeClass('btn-success').addClass('btn-danger');
 				}
 				has_medicine_dept = json.has_medicine_dept;
-				if( json.has_medicine_dept == 0)
-					document.getElementById("medicine_quota").style.display="none";
 				return json;
 			}).then(function (json) {
 				_renderData(json);
@@ -174,6 +181,30 @@ var systemQuota = (function () {
 			} else {
 				_renderQuota('bachelor', data.bachelor); // 渲染名額資料
 				$bachelor_IFP_quota.val(+data.bachelor.IFP_quota); // 渲染國際專修部名額資料 只有學士班有
+
+				// 如果有醫學相關系所 就處理相關名額資料
+				if(has_medicine_dept == 1) {
+					$("#medicine_quota").show();
+					let quota_medicine_selection_val = +data.bachelor.quota_medicine_selection; // 醫學系所個申名額
+					let quota_medicine_placement_val = +data.bachelor.quota_medicine_placement; // 醫學系所聯分名額
+					let quota_medicine_self_val = +data.bachelor.quota_medicine_self; // 醫學系所單招名額
+					$bachelor_quota_sum.val(+$bachelor_sum.val()); // 學士班實際招生名額總計
+					$quota_medicine_selection.val(quota_medicine_selection_val);
+					$quota_medicine_placement.val(quota_medicine_placement_val);
+					$quota_medicine_self.val(quota_medicine_self_val);
+					// 非醫學系所實際招生名額總計
+					$bachelor_except_medicine_quota_sum.val(+$bachelor_sum.val() - quota_medicine_selection_val - quota_medicine_placement_val - quota_medicine_self_val);
+				}
+
+				// 如果有產學攜手合作計畫名額 就處理相關名額資料
+				if(+data.bachelor.IACP_amount){
+					$IACP_table.show();
+					$bachelor_quota_sum_for_IACP.val($bachelor_sum.val());
+					$bachelor_IACP_amount.text(+data.bachelor.IACP_amount);
+					$bachelor_IACP_quota.val(+data.bachelor.IACP_quota);
+					$bachelor_except_IACP_quota_sum.val($bachelor_sum.val() - $bachelor_IACP_quota.val());
+					has_IACP_amount = 1;
+				}
 			}
 
 			if( data.master == null){
@@ -193,19 +224,6 @@ var systemQuota = (function () {
 				$expanded_quota_directions.html(`<a class="text-danger">請記得填寫「招生名額增量申請表」並回傳</a>`);
 			} else {
 				$expanded_quota_directions.html('');
-			}
-
-			// 如果有醫學相關系所 就處理相關名額資料
-			if( data.has_medicine_dept == 1) {
-				let quota_medicine_selection_val = +data.bachelor.quota_medicine_selection; // 醫學系所個申名額
-				let quota_medicine_placement_val = +data.bachelor.quota_medicine_placement; // 醫學系所聯分名額
-				let quota_medicine_self_val = +data.bachelor.quota_medicine_self; // 醫學系所單招名額
-				$bachelor_quota_sum.val(+$bachelor_sum.val()); // 學士班實際招生名額總計
-				$quota_medicine_selection.val(quota_medicine_selection_val);
-				$quota_medicine_placement.val(quota_medicine_placement_val);
-				$quota_medicine_self.val(quota_medicine_self_val);
-				// 非醫學系所實際招生名額總計
-				$bachelor_except_medicine_quota_sum.val(+$bachelor_sum.val() - quota_medicine_selection_val - quota_medicine_placement_val - quota_medicine_self_val);
 			}
 
 			$description.val(data.description); // 備註
@@ -252,10 +270,29 @@ var systemQuota = (function () {
 		let surplus_quota = +$('#'+system+'_surplus_quota').val();
 		let expanded_quota = +$('#'+system+'_expanded_quota').val();
 
+		// 計算各學制實際招生名額總計
 		$('#'+system+'_sum').val(quota_used+quota_passed+surplus_quota+expanded_quota);
+
+		// 如果該校有醫學系所 就要計算醫學相關系所名額
 		if(has_medicine_dept){
 			$bachelor_quota_sum.val(+$bachelor_sum.val());
 			$bachelor_except_medicine_quota_sum.val(+$bachelor_sum.val() - +$quota_medicine_selection.val() - +$quota_medicine_placement.val() - +$quota_medicine_self.val());
+		}
+
+		// 如果該校有產學攜手合作計畫名額上限 就要計算跟檢查產學攜手合作計畫名額上限
+		if(has_IACP_amount){
+			if(+$bachelor_IACP_quota.val() > +$bachelor_IACP_amount.text()){
+				$bachelor_IACP_quota.val(+$bachelor_IACP_amount.text());
+			}else if(+$bachelor_IACP_quota.val() < 0){
+				$bachelor_IACP_quota.val(0);
+			}
+			// 產學攜手合作計畫欲使用名額 要 <= 學士班可用總額
+			if(has_IACP_amount && (parseInt($bachelor_IACP_quota.val()) > parseInt($bachelor_sum.val()))){
+				$bachelor_IACP_quota.val($bachelor_sum.val());
+				await swal({title:"學士班實際招生名額應大於等於產學攜手合作計畫名額！", confirmButtonText:'確定', type:'warning'});
+			}
+			$bachelor_quota_sum_for_IACP.val($bachelor_sum.val());
+			$bachelor_except_IACP_quota_sum.val($bachelor_sum.val() - $bachelor_IACP_quota.val());
 		}
 	}
 
@@ -301,7 +338,7 @@ var systemQuota = (function () {
 			quota_passed.val(0);
 			surplus_quota.val(0);
 			expanded_quota.val(0);
-			await swal({title:systemString+"，未規劃名額，不得流用名額或申請增量", confirmButtonText:'確定', type:'error'});
+			await swal({title:systemString+"，未規劃名額，不得流用名額或申請增量", confirmButtonText:'確定', type:'warning'});
 		}
 
 		// 0 <= 欲使用名額 <= 總量10％
@@ -314,14 +351,14 @@ var systemQuota = (function () {
 		// 班別間流用若為負，絕對值不得超出欲使用名額
 		if(quota_used_value + quota_passed_value < 0){
 			quota_passed.val(parseInt('-' + quota_used_value));
-			await swal({title: systemString+"，班別間流用不得流超出欲使用名額", confirmButtonText:'確定', type:'error'});
+			await swal({title: systemString+"，班別間流用不得流超出欲使用名額", confirmButtonText:'確定', type:'warning'});
 		}
 
 		// 欲使用名額 < 名額上限（總量10％） ，不得填本地生缺額、擴增名額
 		if( (quota_used_value < quota_amount_value) && (surplus_quota_value + expanded_quota_value) > 0){
 			surplus_quota.val(0);
 			expanded_quota.val(0);
-			await swal({title: systemString+"，未使用完名額上限，不得填寫本地生缺額、擴增名額", confirmButtonText:'確定', type:'error'});
+			await swal({title: systemString+"，未使用完名額上限，不得填寫本地生缺額、擴增名額", confirmButtonText:'確定', type:'warning'});
 		}
 
 		// 本地生缺額最小就是0
@@ -352,7 +389,7 @@ var systemQuota = (function () {
 		}
 
 		if(  parseInt($quota_medicine_selection.val()) +  parseInt($quota_medicine_placement.val()) +  parseInt($quota_medicine_self.val()) > $allowTotal_bache.val() ){
-			await swal({title:"醫學系 + 牙醫系 + 中醫系 之名額 大於 可招收名額！", confirmButtonText:'確定', type:'error'});
+			await swal({title:"醫學系 + 牙醫系 + 中醫系 之名額 大於 可招收名額！", confirmButtonText:'確定', type:'warning'});
 			$quota_medicine_selection.val(0);
 			$quota_medicine_placement.val(0);
 			$quota_medicine_self.val(0);
@@ -367,20 +404,21 @@ var systemQuota = (function () {
 
 		// 檢查班別間流用相加應為 0
 		if ( (parseInt($bachelor_quota_passed.val()) || 0 ) + (parseInt($master_quota_passed.val()) || 0) + (parseInt($phd_quota_passed.val()) || 0) != 0){
-			await swal({title:"班別間留用相加總和應為 0 ！", confirmButtonText:'確定', type:'error'});
+			await swal({title:"班別間留用相加總和應為 0 ！", confirmButtonText:'確定', type:'warning'});
 			return;
 		}
-		// 醫學 + 牙醫 + 中醫 應該<= 學士班可用總額
+		// 醫學各管道名額總計 要 <= 學士班可用總額
 		if(has_medicine_dept && (parseInt($quota_medicine_selection.val()) + parseInt($quota_medicine_placement.val()) + parseInt($quota_medicine_self.val()) > parseInt($bachelor_sum.val()))){
-			await swal({title:"學士班欲使用名額名額應大於等於醫學系各管道名額總和！", confirmButtonText:'確定', type:'error'});
+			await swal({title:"學士班欲使用名額名額應大於等於醫學系各管道名額總和！", confirmButtonText:'確定', type:'warning'});
 			return;
 		}
-		(parseInt() || 0)
+
 		let data= {
 			"Bachelor_quota_used": (parseInt($bachelor_quota_used.val()) || 0),
 			"Bachelor_quota_passed": (parseInt($bachelor_quota_passed.val()) || 0),
 			"Bachelor_last_year_surplus_admission_quota": (parseInt($bachelor_surplus_quota.val()) || 0),
 			"Bachelor_expanded_quota": (parseInt($bachelor_expanded_quota.val()) || 0),
+			"Bachelor_IACP_quota": (parseInt($bachelor_IACP_quota.val()) || 0),
 
 			"Master_quota_used": (parseInt($master_quota_used.val()) || 0),
 			"Master_quota_passed": (parseInt($master_quota_passed.val()) || 0),

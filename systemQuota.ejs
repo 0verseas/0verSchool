@@ -251,7 +251,7 @@
 
 <br />
 
-<table id="medicine_quota" style="border:4px #D499B9 solid;" cellpadding="10" border='1' align="center">
+<table id="medicine_quota" class="hide" style="border:4px #D499B9 solid;" cellpadding="10" border='1' align="center">
 	<tr>
 		<th style="border-right:3px #D499B9 solid;">學士班總實際招生名額</th>
 		<th>醫學系個人申請名額</th>
@@ -265,6 +265,23 @@
 		<td style="border-top:3px #D499B9 solid;"><input type="number" min="0" class="form-control" id="quota_medicine_placement" disabled></td>
 		<td style="border-right:3px #D499B9 solid; border-top:3px #D499B9 solid;"><input type="number" min="0" class="form-control" id="quota_medicine_self" disabled></td>
 		<td style="border-top:3px #D499B9 solid;"><input class="form-control" id="bachelor_except_medicine_quota_sum" disabled></td>
+	</tr>
+</table>
+
+<br />
+
+<table class="IACP_table hide" style="border:4px #99c8d4 solid;" cellpadding="10" border='1' align="center">
+	<tr>
+		<th style="border-right:3px #99c8d4 solid;">學士班總實際招生名額</th>
+		<th style="border-right:3px #99c8d4 solid;">產學攜手合作計畫名額上限</th>
+		<th style="border-right:3px #99c8d4 solid;">產學攜手合作計畫欲使用名額</th>
+		<th style="border-right:3px #99c8d4 solid;">其他科系可用名額</th>
+	</tr>
+	<tr>
+		<td style="border-right:3px #99c8d4 solid; border-top:3px #99c8d4 solid;"><input class="form-control" id="bachelor_quota_sum_for_IACP" disabled></td>
+		<td style="border-right:3px #99c8d4 solid; border-top:3px #99c8d4 solid;" id="bachelor_IACP_amount"></td>
+		<td style="border-right:3px #99c8d4 solid; border-top:3px #99c8d4 solid;"><input type="number" min="0" class="form-control" id="bachelor_IACP_quota"></td>
+		<td style="border-right:3px #99c8d4 solid;border-top:3px #99c8d4 solid;"><input class="form-control" id="bachelor_except_IACP_quota_sum" disabled></td>
 	</tr>
 </table>
 
