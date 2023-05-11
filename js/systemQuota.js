@@ -138,7 +138,22 @@ var systemQuota = (function () {
 					throw res
 				}
 			}).then(function (json) {
-				if( json.master.confirmed_at != null ) {
+				if(json.bachelor != null){
+					json.updated_by = json.bachelor.updated_by;
+					json.updated_at = json.bachelor.updated_at;
+					json.confirmed_at = json.bachelor.confirmed_at ;
+				} else if(json.master != null){
+					json.updated_by = json.master.updated_by;
+					json.updated_at = json.master.updated_at;
+					json.confirmed_at = json.master.confirmed_at ;
+				} else if(json.phd != null){
+					json.updated_by = json.phd.updated_by;
+					json.updated_at = json.phd.updated_at;
+					json.confirmed_at = json.phd.confirmed_at ;
+				}
+				return json;
+			}).then(function (json) {
+				if( json.confirmed_at != null ) {
 					document.getElementById("btn-confirm").textContent = "已鎖定";
 					document.getElementById("btn-confirm").disabled = true;
 					document.getElementById("btn-save").disabled = true;
@@ -173,7 +188,7 @@ var systemQuota = (function () {
 		})
 
 		function _renderData(json) {
-			_setEditor(json.master.updated_by, json.master.updated_at);
+			_setEditor(json.updated_by, json.updated_at);
 			_setQuota(json);
 			return;
 		}
@@ -256,9 +271,9 @@ var systemQuota = (function () {
 				$IFP_quota_approved_number.append('依'+system_quota_data.IFP_quota_approved_number+'函核定<br/>');
 		}
 
-		function _setEditor(creator, created_at) {
-			$lastEditionInfo.find('.who').text(creator ? creator : 'unknown');
-			$lastEditionInfo.find('.when').text(moment(created_at).format('YYYY/MM/DD HH:mm:ss'));
+		function _setEditor(updated_by, updated_at) {
+			$lastEditionInfo.find('.who').text(updated_by ? updated_by : 'unknown');
+			$lastEditionInfo.find('.when').text(moment(updated_at).format('YYYY/MM/DD HH:mm:ss'));
 		}
 
 	}
