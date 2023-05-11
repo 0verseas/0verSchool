@@ -112,14 +112,14 @@
 		<td class="bachelor" style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;"><input class="form-control" type="number" id="bachelor_key_industry_quota" disabled></td>
 		<td class="master" style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;"><input class="form-control" type="number" id="master_key_industry_quota" disabled></td>
 		<td class="phd" style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;"><input class="form-control" type="number" id="phd_key_industry_quota" disabled></td>
-		<td style="border-top:6px #CFAA9E solid; width: 24%;"></td>
+		<td style="border-top:6px #CFAA9E solid; width: 24%;" id="key_industry_quota_approved_number"></td>
 	</tr>
 	<tr>
 		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;  width: 14%;">國際專修部核定名額數（G）</td>
 		<td class="bachelor" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" id="bachelor_IFP_quota" disabled></td>
 		<td class="master crossed" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><!-- <input class="form-control" type="number" id="master_IFP_quota" disabled> --></td>
 		<td class="phd crossed" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><!-- <input class="form-control" type="number" id="phd_IFP_quota" disabled> --></td>
-		<td style="border-top:3px #CFAA9E solid;"></td>
+		<td style="border-top:3px #CFAA9E solid;" id="IFP_quota_approved_number"></td>
 	</tr>
 </table>
 <!--  名額調查表格填寫範例  所以不能輸入 數值也是寫死的 -->
@@ -184,7 +184,7 @@
 						<th style="border-right:3px #CFAA9E solid; width: 24%;">說明</th>
 					</tr>
 					<tr>
-						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid; width: 7%;" rowspan="5">一般系所</td>
+						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid; width: 7%;" rowspan="5">一<br/>般<br/>系<br/>所</td>
 						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid; width: 14%;">欲使用名額（A）</td>
 						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" value="103" disabled></td>
 						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" value="40" disabled></td>

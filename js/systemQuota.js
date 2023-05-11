@@ -53,8 +53,10 @@ var systemQuota = (function () {
 	const $bachelor_key_industry_quota = $('#bachelor_key_industry_quota'); // 學士班今年重點產業系所名額
 	const $master_key_industry_quota = $('#master_key_industry_quota'); // 碩士班今年重點產業系所名額
 	const $phd_key_industry_quota = $('#phd_key_industry_quota'); // 博士班今年重點產業系所名額
+	const $key_industry_quota_approved_number = $('#key_industry_quota_approved_number'); // 教育部重點產業系所名額核定公文文字號
 
 	const $bachelor_IFP_quota = $('#bachelor_IFP_quota'); // 今年學士班國際專修部名額
+	const $IFP_quota_approved_number = $('#IFP_quota_approved_number'); // 教育部國際專修部名額核定公文文字號
 
 	const $bachelor_quota_sum = $('#bachelor_quota_sum'); // 實際招收名額 for 醫學顯示
 	const $quota_medicine_selection = $('#quota_medicine_selection'); // 醫學系個人申請名額
@@ -177,6 +179,8 @@ var systemQuota = (function () {
 		}
 
 		function _setQuota(data) {
+			$key_industry_quota_approved_number.html('');
+			$IFP_quota_approved_number.html('');
 			if( data.bachelor == null){
 				$('.bachelor').hide(); // 隱藏學士班欄位
 			} else {
@@ -246,6 +250,10 @@ var systemQuota = (function () {
 			$('#'+system+'_sum').val(+system_quota_data.quota_used + +system_quota_data.quota_passed + +system_quota_data.last_year_surplus_admission_quota + +system_quota_data.expanded_quota);
 			// 重點產業系所
 			$('#'+system+'_key_industry_quota').val(+system_quota_data.key_industry_quota);
+			if(system_quota_data.key_industry_quota_approved_number != null)
+				$key_industry_quota_approved_number.append(system_quota_data.key_industry_quota_approved_number+'<br/>');
+			if(system_quota_data.IFP_quota_approved_number != null)
+				$IFP_quota_approved_number.append(system_quota_data.IFP_quota_approved_number+'<br/>');
 		}
 
 		function _setEditor(creator, created_at) {
