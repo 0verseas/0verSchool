@@ -2,21 +2,17 @@
     const $paginationContainer = $('#pagination-container'); // 分頁器區域
     const $applyList = $('#apply-list') // 請求列表
     const $applyModal = $('#editApplyModal'); // 請求編輯模板
-    const $actionSelector = $('#action-selector'); // 動作選擇選項
-    const $systemSelector = $('#system-selector'); // 學制選擇選項
-    const $typeSelector = $('#type-selector'); // 類型選擇選項
-    const $groupSelector = $('#group-selector'); // 類組選擇選項
-    const $titleInput = $('#title-input'); // 核定系名輸入物件
     const $newBtn = $('#new-btn'); // 新增請求按鈕
 
     // 請求編輯模板物件
     const $applyTitle = $('#applyModalHeader'); // 模板的Title
-    const $action = $('#action') // 請求之動作
-    const $system = $('#system') // 請求之系所學制
-    const $departmentType = $('#department-type') // 請求之系所類型
-    const $departmentGroup = $('#department-group') // 請求之系所類組
+    const $actionSelector = $('#action-selector'); // 動作選擇選項
+    const $systemSelector = $('#system-selector'); // 學制選擇選項
+    const $typeSelector = $('#type-selector'); // 類型選擇選項
+    const $groupSelector = $('#group-selector'); // 類組選擇選項
     const $departmentTitle = $('#department-title') // 請求之核定系名
     const $applyDetailedInput = $('.apply-detailed-input'); // 請求之詳細資訊輸入區域
+    const $returnReason = $('.return-reason');
     const $deptIdForm = $('#deptIdForm');
     const $changeDepartmentTitleForm = $('#changeDepartmentTitleForm');
     const $changeGroupCodeForm = $('#changeGroupCodeForm');
@@ -28,6 +24,10 @@
     const $newGroupCodeSelector = $('#new-group-code-selector');
     const $conbineDeptIdInput1 = $('#conbine-dept-id-1');
     const $conbineDeptIdInput2 = $('#conbine-dept-id-2');
+    const $deptList = $('#dept-list');
+    const $applicantName = $('#applicant-name');
+    const $applicantPhone = $('#applicant-phone');
+    const $applicantEmail = $('#applicant-email');
     
     const $saveBtn = $('#save-btn'); // 儲存按鈕
     const $appliedBtn = $('#applied-btn'); // 發送按鈕
@@ -61,7 +61,10 @@
             new_dept_title = null,
             conbine_dept_id_1 = null,
             conbine_dept_id_2 = null,
-            applied = false
+            applied = false,
+            applicant_name = null,
+            applicant_phone = null,
+            applicant_email = null,
         }={}){
             this.id =id;
             this.action_id =action_id;
@@ -77,19 +80,25 @@
             this.conbine_dept_id_1 =conbine_dept_id_1;
             this.conbine_dept_id_2 =conbine_dept_id_2;
             this.applied =applied;
+            this.applicant_name =applicant_name;
+            this.applicant_phone =applicant_phone;
+            this.applicant_email =applicant_email;
         }
     }
 
     let applyListArray = []; // 目前請求有哪些
     let $uploadedFiles = []; // 當前請求有哪些檔案
     let currentApplyID = 0; // 當前請求的ID
+    let isApplied = false; // 當前請求是否送出
 
     $systemSelector.on('change',_handleSystemChoose);
+    $uploadFileBtn.on('change',_handleUploadFile);
+    $actionSelector.on('change',_handleActionChange);
+    $deptList.on('change',_handleSelectDept);
     $newBtn.on('click', _handleNew);
     $saveBtn.on('click', false, _handleSave);
     $appliedBtn.on('click', true, _handleSave);
     $deleteBtn.on('click', _handleDelete);
-    $uploadFileBtn.on('change',_handleUploadFile);
     $deleteFileBtn.on('click', _handleDeleteFile);
     $('body').on('click', '.img-thumbnail', _handleShowFile);
     // 如果關閉已上傳檔案modal 依舊保持focus在文憑成績編輯modal上
@@ -127,15 +136,16 @@
             });
 		})
         .then(() =>{
-            _handleSystemChoose();
+            // _handleSystemChoose();
             stopLoading();
         })
 		.catch((err) => {
             stopLoading();
 			err.json && err.json().then((data) => {
 				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
-                location.reload();
+                swal({title:data.messages[0], confirmButtonText:'確定', type:'error'}).then(() => {
+                    location.reload();
+				});
 			});
 		});
     }
@@ -155,7 +165,7 @@
             let buttonStatus = '';
             let buttonColor = '';
             if(data.applied_at != null){
-                if(data.completed_at == null){
+                if (data.completed_at == null) {
                     status  = '<i class="fa fa-hourglass-half fa-fw" aria-hidden="true"></i> 等候處理';
                     buttonColor = 'btn-warning';
                 } else {
@@ -164,8 +174,13 @@
                 }
                 buttonStatus = 'disabled';
             } else {
-                status = '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> 點擊編輯';
-                buttonColor = 'btn-outline-info';
+                if (data.returned_at != null) {
+                    status = '<i class="fa fa-exclamation-circle" aria-hidden="true"></i> 退回待處理';
+                    buttonColor = 'btn-danger';
+                } else {
+                    status = '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> 點擊編輯';
+                    buttonColor = 'btn-outline-info';
+                }
             }
             
             let listHtml = `<tr class="btn-editApplyInfo" data-id="${data.id}">`;
@@ -192,15 +207,43 @@
         _setApplyData(currentApplyID);
     }
 
+    // 
+    function _handleDeptSelectorRender($system_id) {
+        School.getSystemQuota($system_id).then(function (res) {
+			if(res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		}).then(function (json) {
+            $deptList.selectpicker({title: '以原系名搜尋學系代碼'});
+            let deptHtml = '';
+            json.departments.forEach((el) => {
+                deptHtml += `<option value="${el.id}">${el.title}</option>`;
+            });
+            $deptList.html(deptHtml);
+            $deptList.selectpicker('refresh'); // refresh selector
+            $deptList.parent().find('button').removeClass('bs-placeholder'); // 移除預設樣式
+		}).catch(function (err) {
+            console.log(err);
+			if (err.status === 404) {
+                
+			} else {
+				err.json && err.json().then((data) => {
+					console.error(data);
+					swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
+				});
+			}
+		});
+    }
+
     // 學制選項渲染
     function _handleSystemSelectorRender(data) {
-
-        const system_id = $systemSelector.val();
 
         $systemSelector.html('');
         // 該校不只一個學制
         if(data.length > 1){
-            $systemSelector.append(`<option value="0" selected disabled hidden>請選擇</option>`);
+            $systemSelector.append(`<option value="-1" selected disabled hidden>請選擇</option>`);
         }
 
         // 渲染各學制選項
@@ -221,52 +264,32 @@
             }
         });
 
-        // 如果只有一個學制幫它選，如果已經選過學制也幫它選
-        if(data.length == 1 && system_id == null){
+        // 如果只有一個學制就幫它選
+        if(data.length == 1){
             $systemSelector.val(data[0].type_id);
-        } else if(system_id != null){
-            $systemSelector.val(system_id);
+            _handleSystemChoose();
+        } else {
+            $systemSelector.val("-1");
         }
-
         $systemSelector.attr('disabled',false);
-
-        _handleSystemChoose();
     }
 
     // 學制變換偵測
     function _handleSystemChoose() {
         const system_id = $systemSelector.val();
+        if (!system_id) return;
         const action_id = $actionSelector.val();
         const dept_type = $typeSelector.val();
-
-        if(system_id == null){
-            return;
-        }
 
         $actionSelector.attr('disabled',false);
         $typeSelector.attr('disabled',false);
 
-        if(action_id == null || (system_id > 1 && action_id == 3)){
-            $actionSelector.html(`
-                <option value="0" selected disabled hidden>請選擇</option>
-            `);
-        } else {
-            $actionSelector.html(``);
-        }
-
-        if(dept_type == null || (system_id > 1 && dept_type == 2) || (system_id == 2 && dept_type == 1)){
-            $typeSelector.html(`
-                <option value="-1" selected disabled hidden>請選擇</option>
-            `);
-        } else {
-            $typeSelector.html(``);
-        }
-
-        $actionSelector.append(`
+        $actionSelector.html(`
+            <option value="-1" selected disabled hidden>請選擇</option>
             <option value="1">新增系所</option>
             <option value="2">更改系名</option>
         `);
-        if(system_id==1){
+        if(system_id == 1){
             $actionSelector.append(`
                 <option value="3">更換類組</option>
             `)
@@ -275,7 +298,8 @@
             <option value="4">合併系所</option>
         `);
 
-        $typeSelector.append(`
+        $typeSelector.html(`
+            <option value="-1" selected disabled hidden>請選擇</option>
             <option value="0">一般系所</option>
         `);
 
@@ -285,19 +309,21 @@
             `);
         }
 
-        if(system_id==1){
+        if(system_id == 1){
             $typeSelector.append(`
                 <option value="2">國際專修部</option>
             `);
         }
-
+        
         if(action_id != null && !(system_id > 1 && action_id == 3)){
             $actionSelector.val(action_id);
         }
-
+        
         if(dept_type != null && !(system_id > 1 && dept_type == 2) && !(system_id == 2 && dept_type == 1)){
             $typeSelector.val(dept_type);
         }
+        
+        _handleDeptSelectorRender(system_id);
     }
 
     // 渲染請求資訊到編輯模板
@@ -311,18 +337,12 @@
 				throw res;
 			}
 		})
-        .then((json) => {
-            // console.log(json[1]);
-            const actionText = action_array[json[0].action_id];
-            const systemText = system_array[json[0].system_id];
-            const typeText = type_array[json[0].dept_type];
-            const groupText = group_array[json[0].group_code];
+        .then(async (json) => {
             const departmentTitleText = (json[0].dept_title) ?json[0].dept_title:'';
-
-            $action.val(actionText);
-            $system.val(systemText);
-            $departmentType.val(typeText);
-            $departmentGroup.val(groupText);
+            $systemSelector.val(json[0].system_id);
+            $actionSelector.val(json[0].action_id);
+            $typeSelector.val(json[0].dept_type);
+            $groupSelector.val(json[0].group_code);
             $departmentTitle.val(departmentTitleText);
             $deptIdInput.val(json[0].dept_id);
             $oldDepeTitleInput.val(json[0].old_dept_title);
@@ -331,7 +351,22 @@
             $newGroupCodeSelector.val(json[0].new_group_code);
             $conbineDeptIdInput1.val(json[0].conbine_dept_id_1);
             $conbineDeptIdInput2.val(json[0].conbine_dept_id_2);
+            $applicantName.val(json[0].applicant_name);
+            $applicantPhone.val(json[0].applicant_phone);
+            $applicantEmail.val(json[0].applicant_email);
+            await _handleDeptSelectorRender(json[0].system_id);
+            if(json[0].return_reason) {
+                $returnReason.html(`<strong>退回原因：</strong>` + json[0].return_reason);
+                $returnReason.show();
+            } else {
+                $returnReason.html();
+                $returnReason.hide();
+            }
 
+            $systemSelector.attr('disabled',true);
+            $actionSelector.attr('disabled',true);
+            $typeSelector.attr('disabled',true);
+            $groupSelector.attr('disabled',true);
             $departmentTitle.attr('disabled',true);
             $deptIdInput.attr('disabled',true);
             $oldDepeTitleInput.attr('disabled',true);
@@ -341,14 +376,10 @@
             $conbineDeptIdInput1.attr('disabled',true);
             $conbineDeptIdInput2.attr('disabled',true);
 
-            $deptIdForm.hide();
-            $changeDepartmentTitleForm.hide();
-            $changeGroupCodeForm.hide();
-            $ConbineDeptIdForm.hide();
-
             const $applied = (json[0].applied_at != null);
             $applyDetailedInput.show();
             if($applied){
+                isApplied = true;
                 $saveBtn.attr('disabled',true).hide();
                 $appliedBtn.attr('disabled',true).hide();
                 $deleteBtn.attr('disabled',true).hide();
@@ -361,7 +392,11 @@
                     $applyTitle.html(`<i class="text-warning fa fa-hourglass-half" aria-hidden="true"> 等候處理</i>`);
                 }
             } else {
-                $applyTitle.html(`<i class="text-primary fa fa-file-text" aria-hidden="true"> 尚未發送</i>`);
+                if(json[0].returned_at != null) {
+                    $applyTitle.html(`<i class="text-danger fa fa-exclamation-circle" aria-hidden="true"> 退回待處理</i>`);
+                } else {
+                    $applyTitle.html(`<i class="text-primary fa fa-file-text" aria-hidden="true"> 尚未發送</i>`);
+                }
                 $departmentTitle.attr('disabled',false);
                 $saveBtn.attr('disabled',false).show();
                 $appliedBtn.attr('disabled',false).show();
@@ -370,137 +405,134 @@
                 $deleteFileBtn.attr('disabled',false).show();
                 $('.btn-upload').show();
             }
-            switch(json[0].action_id){
-                case 1:
-                    $applyDetailedInput.hide();
-                    break;
-                case 2:
-                    $deptIdForm.show();
-                    $changeDepartmentTitleForm.show();
-                    if(!$applied){
-                        $deptIdInput.attr('disabled',false);
-                        $oldDepeTitleInput.attr('disabled',false);
-                        $newDepeTitleInput.attr('disabled',false);
-                    }
-                    break;
-                case 3:
-                    $deptIdForm.show();
-                    $changeGroupCodeForm.show();
-                    if(!$applied){
-                        $deptIdInput.attr('disabled',false);
-                        $oldGroupCodeSelector.attr('disabled',false);
-                        $newGroupCodeSelector.attr('disabled',false);
-                    }
-                    break;
-                case 4:
-                    $ConbineDeptIdForm.show();
-                    if(!$applied){
-                        $deptIdInput.attr('disabled',false);
-                        $conbineDeptIdInput1.attr('disabled',false);
-                        $conbineDeptIdInput2.attr('disabled',false);
-                    }
-                    break;
-            }
+            _handleActionChange();
             $uploadedFiles = json[1];            
 		}).then(()=>{
             _handleRenderFile();
             stopLoading();
         })
 		.catch((err) => {
+            // console.log(err);
             stopLoading();
 			err.json && err.json().then((data) => {
 				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
-                location.reload();
+                swal({title:data.messages[0], confirmButtonText:'確定', type:'error'}).then(() => {
+                    location.reload();
+				});
 			});
 		});
     }
 
-    // 請求新增事件
-    function _handleNew() {
-        // 取得 選取的文憑類別及年度
-        const action_id = $actionSelector.val();
-        const system_id = $systemSelector.val();
-        const dept_type = $typeSelector.val();
-        const group_code = $groupSelector.val();
-        const dept_title = $titleInput.val();
+    // 打開請求新增表格
+    async function _handleNew() {
+        // init modal
+        $systemSelector.val("-1");
+        $actionSelector.val("-1");
+        $typeSelector.val("-1");
+        $groupSelector.val("-1");
+        $systemSelector.attr('disabled',false);
+        $groupSelector.attr('disabled',false);
+        $actionSelector.attr('disabled',true);
+        $typeSelector.attr('disabled',true);
 
-        if(action_id == null || system_id == null || dept_type == null || group_code == null || dept_title == ''){
-            alert('請確認是否所有欄位都選擇或輸入完畢。');
-            return;
-        } else {
-            openLoading();
-            // 準備好要傳遞的資料
-            const data = new applyData({
-                action_id: action_id,
-                system_id: system_id,
-                dept_type: dept_type,
-                group_code: group_code,
-                dept_title: dept_title
-            });
+        isApplied = false;
+        currentApplyID = '';
 
-            School.saveAddNewDepartmentApplyInfo(data)
-            .then((res) => {
-                if(res.ok) {
-                    return res.json();
-                } else {
-                    throw res;
+        $departmentTitle.val('');
+        $deptIdInput.val('');
+        $oldDepeTitleInput.val('');
+        $newDepeTitleInput.val('');
+        $oldGroupCodeSelector.val('');
+        $newGroupCodeSelector.val('');
+        $conbineDeptIdInput1.val('');
+        $conbineDeptIdInput2.val('');
+        $returnReason.html('');
+        $applyTitle.html(`<i class="text-primary fa fa-file-text" aria-hidden="true"> 新增請求</i>`);
+        
+        $returnReason.hide();
+        $applyDetailedInput.hide();
+        $saveBtn.attr('disabled',false).show();
+        $appliedBtn.attr('disabled',false).show();
+        // show modal
+        $applyModal.modal();
+    }
+
+    // 切換動作時重新渲染欄位
+    function _handleActionChange() {
+        $applyDetailedInput.show();
+        $deptIdForm.hide();
+        $changeDepartmentTitleForm.hide();
+        $changeGroupCodeForm.hide();
+        $ConbineDeptIdForm.hide();
+        switch($actionSelector.val()){
+            case '1':
+                $applyDetailedInput.hide();
+                break;
+            case '2':
+                $deptIdForm.show();
+                $changeDepartmentTitleForm.show();
+                if(!isApplied){
+                    $deptIdInput.attr('disabled',false);
+                    $oldDepeTitleInput.attr('disabled',false);
+                    $newDepeTitleInput.attr('disabled',false);
                 }
-            })
-            .then((json) => {
-                // console.log(json);
-                alert(json.messages[0]);
-                $actionSelector.val(0);
-                $systemSelector.val(0);
-                $typeSelector.val(-1);
-                $groupSelector.val(0);
-                $titleInput.val('');
-                $actionSelector.attr('disabled',true);
-                $typeSelector.attr('disabled',true);
-                stopLoading();
-                location.reload();
-            })
-            .catch((err) => {
-                err.json && err.json().then((data) => {
-                    console.error(data);
-                    alert(`ERROR: \n${data.messages[0]}`);
-                    location.reload();
-                    stopLoading();
-                });
-            });
+                break;
+            case '3':
+                $deptIdForm.show();
+                $changeGroupCodeForm.show();
+                if(!isApplied){
+                    $deptIdInput.attr('disabled',false);
+                    $oldGroupCodeSelector.attr('disabled',false);
+                    $newGroupCodeSelector.attr('disabled',false);
+                }
+                break;
+            case '4':
+                $ConbineDeptIdForm.show();
+                if(!isApplied){
+                    $deptIdInput.attr('disabled',false);
+                    $conbineDeptIdInput1.attr('disabled',false);
+                    $conbineDeptIdInput2.attr('disabled',false);
+                }
+                break;
         }
     }
 
     // 請求儲存事件
     function _handleSave(event) {
         let data = new applyData({
-            id: currentApplyID,
-            action_id: action_array.indexOf($action.val()),
-            system_id: system_array.indexOf($system.val()),
-            dept_type: type_array.indexOf($departmentType.val()),
-            group_code: group_array.indexOf($departmentGroup.val()),
+            action_id: $actionSelector.val(),
+            system_id: $systemSelector.val(),
+            dept_type: $typeSelector.val(),
+            group_code: $groupSelector.val(),
             dept_title: $departmentTitle.val(),
-            applied: event.data
+            applicant_name: $applicantName.val(),
+            applicant_phone: $applicantPhone.val(),
+            applicant_email: $applicantEmail.val(),
         });
+
+        if (currentApplyID != '') {
+            data.id = currentApplyID;
+            data.applied = event.data;
+        }
         switch(data.action_id){
-            default :
-                break;
-            case 2:
+            case '2':
                 data.dept_id = $deptIdInput.val();
                 data.old_dept_title = $oldDepeTitleInput.val();
                 data.new_dept_title = $newDepeTitleInput.val();
                 break;
-            case 3:
+            case '3':
                 data.dept_id = $deptIdInput.val();
                 data.old_group_code = $oldGroupCodeSelector.val();
                 data.new_group_code = $newGroupCodeSelector.val();
                 break;
-            case 4:
+            case '4':
                 data.conbine_dept_id_1 = $conbineDeptIdInput1.val();
                 data.conbine_dept_id_2 = $conbineDeptIdInput2.val();
                 break;
+            default :
+                break;
         }
-
+        
         openLoading();
         School.saveAddNewDepartmentApplyInfo(data)
         .then((res) => {
@@ -512,16 +544,17 @@
         })
         .then((json) => {
             // console.log(json);
-            alert(json.messages[0]);
+            swal({title:json.messages[0], confirmButtonText:'確定', type:'success'}).then(() => {
+                location.reload();
+            });
             stopLoading();
-            location.reload();
         })
         .catch((err) => {
             err.json && err.json().then((data) => {
                 console.error(data);
-                alert(`ERROR: \n${data.messages[0]}`);
-                stopLoading();
+                swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
             });
+            stopLoading();
         });
     }
 
@@ -539,16 +572,17 @@
             })
             .then((json) => {
                 // console.log(json);
-                alert(json.messages[0]);
+                swal({title:json.messages[0], confirmButtonText:'確定', type:'success'}).then(() => {
+                    location.reload();
+				});
                 stopLoading();
-                location.reload();
             })
             .catch((err) => {
                 err.json && err.json().then((data) => {
                     console.error(data);
-                    alert(`ERROR: \n${data.messages[0]}`);
-                    stopLoading();
+                    swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
                 });
+                stopLoading();
             });
         }
     }
@@ -566,8 +600,9 @@
 		for (let i = 0; i < fileList.length; i++) {
             //偵測是否超過4MB
 			if(sizeConversion(fileList[i].size,4)){
-                alert(`Error: ${fileList[i].name}檔案過大，檔案大小不能超過4MB`)
-				return;
+                swal({title:`${fileList[i].name}檔案過大，檔案大小不能超過4MB`, confirmButtonText:'確定', type:'error'}).then(() => {
+                    return;
+                });
 			}
 			sendData.append('files[]', fileList[i]);
 		}
@@ -594,9 +629,9 @@
         .catch((err) => {
             err.json && err.json().then((data) => {
                 console.error(data);
-                alert(`ERROR: \n${data.messages[0]}`);
-                stopLoading();
+                swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
             });
+            stopLoading();
         });
     }
 
@@ -689,20 +724,32 @@
             })
             .then(()=>{
                 $imgModal.modal('hide');
-                alert('刪除成功');
+                swal({title:`刪除成功`, confirmButtonText:'確定', type:'success'}).then(() => {
+                });
                 stopLoading();
             })
             .catch((err) => {
                 err.json && err.json().then((data) => {
                     console.error(data);
-                    alert(`ERROR: \n${data.messages[0]}`);
-                    stopLoading();
+                    swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
                 });
+                stopLoading();
             });
         }
     }
 
-    //檔案大小計算是否超過 limit MB
+    // 依選取的系名填入學系代碼，若當前為更改系名，同時填入原系所名稱
+    function _handleSelectDept() {
+        if ($(this).find(':selected').val() > -1) {
+            $deptIdInput.val($(this).val());
+            if($actionSelector.val() == '2') {
+                $oldDepeTitleInput.val($(this).find(':selected').text());
+            }
+        }
+        $deptList.val('-1');
+    }
+
+    // 檔案大小計算是否超過 limit MB
 	function sizeConversion(size,limit) {
 		let maxSize = limit*1024*1024;
 

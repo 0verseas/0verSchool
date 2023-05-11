@@ -48,7 +48,7 @@ var schoolInfo = (function () {
 	var $schoolLockBtn = $schoolInfoForm.find('#btn-lock-school');
 	var $downloadExcel = $schoolInfoForm.find('#downloadExcel');
 
-	var text = '';
+	var text = '';  // 檢查各學制是否存在
 	// form-group
 	var formGroup = {
 		phoneForm: $schoolInfoForm.find('#phoneForm input'),
@@ -250,7 +250,7 @@ var schoolInfo = (function () {
 		var formResult = _validateForm();
 
 		if (!urlResult || !formResult) {
-			alert("有欄位輸入錯誤，請重新確認。");
+			swal({title:"有欄位輸入錯誤，請重新確認。", confirmButtonText:'確定', type:'error'});
 			return;
 		}
 
@@ -263,18 +263,19 @@ var schoolInfo = (function () {
 		.then(function(res) {
 			// console.log(sendData);
 			if(res.ok) {
-				alert('儲存成功');
-				location.reload();
+				swal({title:"儲存成功", confirmButtonText:'確定', type:'success'}).then(() => {
+					location.reload();
+				});
+				stopLoading();
 			} else {
 				throw res
 			}
 		}).catch(function(err) {
 			err.json && err.json().then((data) => {
 				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
-
-				stopLoading();
+				swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
 			});
+			stopLoading();
 		})
 
 	}
@@ -292,8 +293,9 @@ var schoolInfo = (function () {
 			var formResult = _validateForm();
 
 			if (!urlResult || !formResult) {
-				alert("有欄位輸入錯誤，請重新確認。");
-				return;
+				swal({title:"有欄位輸入錯誤，請重新確認。", confirmButtonText:'確定', type:'error'}).then(() => {
+					return;
+				});
 			}
 
 			var sendData = _getFormData();
@@ -304,18 +306,19 @@ var schoolInfo = (function () {
 				.then(function (res) {
 					// console.log(sendData);
 					if (res.ok) {
-						alert('鎖定成功');
-						location.reload();
+						swal({title:"鎖定成功", confirmButtonText:'確定', type:'success'}).then(() => {
+							location.reload();
+						});
+						stopLoading();
 					} else {
-						throw res
+						throw res;
 					}
 				}).catch(function (err) {
 				err.json && err.json().then((data) => {
 					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
-
-					stopLoading();
+					swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
 				});
+				stopLoading();
 			})
 		}
 	}
@@ -414,10 +417,9 @@ var schoolInfo = (function () {
 		}).catch(function(err) {
 			err.json && err.json().then((data) => {
 				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
-
-				stopLoading();
+				swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
 			});
+			stopLoading();
 		})
 	}
 
@@ -433,7 +435,7 @@ var schoolInfo = (function () {
 			if (json.review_at == null) { // 校資料未鎖定
 				text += "學校資料尚未鎖定！" + '\n';
 			}
-		})
+		}).catch((e) => {});
 
 		School.getSystemInfo(1) // 取得學制資料，沒有該學制則回上一頁
 			.then((res) => {
@@ -446,7 +448,7 @@ var schoolInfo = (function () {
 			if(json.review_at == null) {
 				text += "學士班尚未鎖定！" + '\n';
 			}
-		})
+		}).catch((e) => {});
 
 		School.getSystemInfo(2) // 取得學制資料，沒有該學制則回上一頁
 			.then((res) => {
@@ -459,7 +461,7 @@ var schoolInfo = (function () {
 			if(json.review_at == null) {
 				text += "港二技尚未鎖定！" + '\n';
 			}
-		})
+		}).catch((e) => {});
 
 		School.getSystemInfo(3) // 取得學制資料，沒有該學制則回上一頁
 			.then((res) => {
@@ -472,7 +474,7 @@ var schoolInfo = (function () {
 			if(json.review_at == null) {
 				text += "碩士班尚未鎖定！" + '\n';
 			}
-		})
+		}).catch((e) => {});
 
 		School.getSystemInfo(4) // 取得學制資料，沒有該學制則回上一頁
 			.then((res) => {
@@ -485,17 +487,17 @@ var schoolInfo = (function () {
 			if(json.review_at == null) {
 				text += "博士班尚未鎖定！" + '\n';
 			}
-		})
+		}).catch((e) => {});
 	}
 
 	//下載學校 Excel 清冊
 	function _downloadExcel() {
 
-		if (text =='') {
+		if (text == '') {
 			window.open (env.baseUrl + '/school-data-exportation');
 		}
 		else {
-			alert(text);
+			swal({title:text, confirmButtonText:'確定', type:'warning'});
 		}
 	}
 })();

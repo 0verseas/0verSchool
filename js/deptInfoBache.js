@@ -85,16 +85,12 @@ var deptInfoBache = (function () {
 			}
 		})
 		.then(function(data) {
-			if (mode === 'formal') {
-				alert('正在產生正式版 PDF，請在稍後至信箱確認。');
-			} else {
-				alert('正在產生預覽版 PDF，請在稍後至信箱確認。');
-			}
+			swal({title:`正在產生${(mode === 'formal')?'正式版':'預覽版'} PDF，請在稍後至信箱確認。`, confirmButtonText:'確定', type:'info'});
 			stopLoading();
 		})
 		.catch(function(err) {
 			err.json && err.json().then(function(data) {
-				alert(data.messages[0]);
+				swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
 			});
 			stopLoading();
 		});
@@ -130,7 +126,6 @@ var deptInfoBache = (function () {
 				backdrop: 'static',
 				keyboard: false
 			});
-
 			stopLoading();
 		})
 	}
@@ -174,11 +169,6 @@ var deptInfoBache = (function () {
 		return commonFormValidateStatus;
 	}
 
-	// 檢查 form 是否為有值
-	function _validateNotEmpty(el) {
-		return el.val() !== "";
-	}
-
 	function _getFormData() {
 		var data = new FormData();
 		var commonFormData = DeptInfo.getCommonFormData("bache");
@@ -216,26 +206,25 @@ var deptInfoBache = (function () {
 			if ($validateResult.length <= 0) {
 				openLoading();
 				School.setDeptInfo(_currentSystem, _currentDeptId, sendData)
-					.then((res) => {
-						if (res.ok) {
-							return res.json;
-						} else {
-							throw res;
-						}
-					})
-					.then((json) => {
-						alert("儲存成功");
-						stopLoading();
-					})
-					.catch((err) => {
-						err.json && err.json().then((data) => {
-							alert(`ERROR: \n${data.messages[0]}`);
-						});
-
-						stopLoading();
-					})
-			} else {
-				alert($validateResult.join("\n"));
+				.then((res) => {
+					if (res.ok) {
+						return res.json;
+					} else {
+						throw res;
+					}
+				})
+				.then((json) => {
+					swal({title:`儲存成功`, confirmButtonText:'確定', type:'success'});
+					stopLoading();
+				})
+				.catch((err) => {
+					err.json && err.json().then((data) => {
+						swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
+					});
+					stopLoading();
+				});
+		} else {
+				swal({title:$validateResult.join("\n"), confirmButtonText:'確定', type:'error'});
 			}
 		}
 	}
@@ -244,13 +233,13 @@ var deptInfoBache = (function () {
 		openLoading();
 
 		School.getSchoolInfo() // 取的校資料以檢視校鎖定了沒
-			.then(function(res) {
-				if(res.ok) {
-					return res.json();
-				} else {
-					throw res
-				}
-			}).then(function(json) {
+		.then(function(res) {
+			if(res.ok) {
+				return res.json();
+			} else {
+				throw res;
+			}
+		}).then(function(json) {
 			if (json.review_at == null) { // 校資料未鎖定
 				$('#lockSystem-btn').attr('disabled', true);
 				document.getElementById("lockSystem-btn").style.pointerEvents = "none";
@@ -290,16 +279,16 @@ var deptInfoBache = (function () {
 		})
 		.catch((err) => {
 			if (err.status === 404) {
-				alert('沒有這個學制。 即將返回上一頁。');
-				window.history.back();
+				swal({title:`沒有這個學制。 即將返回上一頁`, type:"error", showConfirmButton: false, allowOutsideClick: false, timer: 900}).catch(() => {
+					window.history.back();
+				});
 			} else {
 				err.json && err.json().then((data) => {
 					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
-
-					stopLoading();
+					swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
 				});
 			}
+			stopLoading();
 		})
 	}
 
@@ -310,28 +299,26 @@ var deptInfoBache = (function () {
 		if (isAllSet === true) {
 			var data = {"confirmed": true}
 			School.lockSystemInfo(_schoolId, _currentSystemId, data)
-				.then((res) => {
-					if (res.ok) {
-						return res.json;
-					} else {
-						throw res;
-					}
-				})
-				.then((json) => {
-					alert("儲存成功並鎖定");
-					stopLoading();
+			.then((res) => {
+				if (res.ok) {
+					return res.json;
+				} else {
+					throw res;
+				}
+			})
+			.then((json) => {
+				swal({title:`儲存成功並鎖定`, confirmButtonText:'確定', type:'success'}).then(() => {
 					location.reload();
-				})
-				.catch((err) => {
-					console.error(data);
-					err.json && err.json().then((data) => {
-						alert(`ERROR: \n${data.messages[0]}`);
-					});
-
-					stopLoading();
-				})
+				});
+			})
+			.catch((err) => {
+				console.error(data);
+				err.json && err.json().then((data) => {
+					swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
+				});
+			});
 		}
-
+		stopLoading();
 	}
 
 })();

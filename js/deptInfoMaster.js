@@ -76,17 +76,13 @@ var deptInfoMaster = (function () {
 			}
 		})
 		.then(function(data) {
-			if (mode === 'formal') {
-				alert('正在產生正式版 PDF，請在稍後至信箱確認。');
-			} else {
-				alert('正在產生寄送預覽版 PDF，請在稍後至信箱確認。');
-			}
+			swal({title:`正在產生${(mode === 'formal')?'正式版':'預覽版'} PDF，請在稍後至信箱確認。`, confirmButtonText:'確定', type:'info'});
 			stopLoading();
 		})
 		.catch(function(err) {
 			err.json && err.json().then(function(data) {
-				alert(data.messages[0]);
-			})
+				swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
+			});
 			stopLoading();
 		});
 	}
@@ -173,11 +169,6 @@ var deptInfoMaster = (function () {
 		return data;
 	}
 
-	// 檢查 form 是否為有值
-	function _validateNotEmpty(el) {
-		return el.val() !== "";
-	}
-
 	function _saveDeptDetail() {
 		var checkcount = 0;
 		var sendData = _getFormData();
@@ -205,28 +196,26 @@ var deptInfoMaster = (function () {
 			if ($validateResult.length <= 0) {
 				openLoading();
 				School.setDeptInfo(_currentSystem, _currentDeptId, sendData)
-					.then((res) => {
-						if (res.ok) {
-							return res.json;
-						} else {
-							throw res;
-						}
-					})
-					.then((json) => {
-						alert("儲存成功");
-
-						stopLoading();
-					})
-					.catch((err) => {
-						err.json && err.json().then((data) => {
-							console.error(data);
-							alert(`ERROR: \n${data.messages[0]}`);
-
-							stopLoading();
-						});
-					})
+				.then((res) => {
+					if (res.ok) {
+						return res.json;
+					} else {
+						throw res;
+					}
+				})
+				.then((json) => {
+					swal({title:"儲存成功", confirmButtonText:'確定', type:'success'});
+					stopLoading();
+				})
+				.catch((err) => {
+					err.json && err.json().then((data) => {
+						console.error(data);
+						swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
+					});
+					stopLoading();
+				});
 			} else {
-                alert($validateResult.join("\n"));
+				swal({title:$validateResult.join("\n"), confirmButtonText:'確定', type:'error'});
 			}
 		}
 	}
@@ -240,7 +229,7 @@ var deptInfoMaster = (function () {
 				if(res.ok) {
 					return res.json();
 				} else {
-					throw res
+					throw res;
 				}
 			}).then(function(json) {
 			if (json.review_at == null) { // 校資料未鎖定
@@ -283,10 +272,9 @@ var deptInfoMaster = (function () {
 		.catch((err) => {
 			err.json && err.json().then((data) => {
 				console.error(data);
-				alert(`ERROR: \n${data.messages[0]}`);
-
-				stopLoading();
+				swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
 			});
+			stopLoading();
 		})
 	}
 
@@ -297,28 +285,26 @@ var deptInfoMaster = (function () {
 		if (isAllSet === true) {
 			var data = {"confirmed": true}
 			School.lockSystemInfo(_schoolId, _currentSystemId, data)
-				.then((res) => {
-					if (res.ok) {
-						return res.json;
-					} else {
-						throw res;
-					}
-				})
-				.then((json) => {
-					alert("儲存成功並鎖定");
-					stopLoading();
+			.then((res) => {
+				if (res.ok) {
+					return res.json;
+				} else {
+					throw res;
+				}
+			})
+			.then((json) => {
+				swal({title:"儲存成功並鎖定", confirmButtonText:'確定', type:'success'}).then(() => {
 					location.reload();
-				})
-				.catch((err) => {
-					console.error(data);
-					err.json && err.json().then((data) => {
-						alert(`ERROR: \n${data.messages[0]}`);
-					});
-
-					stopLoading();
-				})
+				});
+			})
+			.catch((err) => {
+				console.error(data);
+				err.json && err.json().then((data) => {
+					swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
+				});
+			});
 		}
-
+		stopLoading();
 	}
 
 })();

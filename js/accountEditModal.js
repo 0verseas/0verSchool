@@ -95,15 +95,17 @@ $(document).ready(function () {
 		function _store() {
 			// check dom value
 			if (!_checkForm()) {
-				alert('輸入有誤');
-				return;
+				swal({title:`輸入有誤`, confirmButtonText:'確定', type:'error'}).then(() => {
+					return;
+				});
 			}
 			// check password is changed
 			var storedPassword = null;
 			if (password.val()) {
 				if (!passwordComplexCheck(password.val())){
-					alert('密碼複雜度不足');
-					return;
+					swal({title:`密碼複雜度不足`, confirmButtonText:'確定', type:'error'}).then(() => {
+						return;
+					});
 				}
 				storedPassword = sha256(password.val());
 			}
@@ -135,9 +137,9 @@ $(document).ready(function () {
 			}).catch(function(err) {
 				err.json && err.json().then((data) => {
 					console.error(data);
-					alert(`ERROR: \n${data.messages[0]}`);
-					stopLoading();
+					swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
 				});
+				stopLoading();
 			});
 		}
 

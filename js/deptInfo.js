@@ -104,28 +104,28 @@ var DeptInfo = (function () {
             };
 
             openLoading();
-
             School.setSystemInfo(system, data)
-                .then(function (res) {
-                    if (res.ok) {
-                        alert('儲存成功');
-                        return res.json();
-                    } else {
-                        alert('儲存失敗');
-                        throw res
-                    }
-                }).then(function (json) {
-                location.reload();
-            }).catch(function (err) {
+			.then(function (res) {
+				if (res.ok) {
+					swal({title:`儲存成功`, confirmButtonText:'確定', type:'success'}).then(() => {
+						location.reload();
+					});
+				} else {
+					swal({title:`儲存失敗`, confirmButtonText:'確定', type:'error'}).then(() => {
+						throw res;
+					});
+				}
+				stopLoading();
+			})
+			.catch(function (err) {
                 err.json && err.json().then((data) => {
                     console.error(data);
-                    alert(`ERROR: \n${data.messages[0]}`);
-
-                    stopLoading();
+					swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
                 });
+				stopLoading();
             });
         } else {
-            alert("有欄位輸入錯誤，請重新確認。");
+			swal({title:`有欄位輸入錯誤，請重新確認。`, confirmButtonText:'確定', type:'error'});
 		}
 	}
 
@@ -216,11 +216,11 @@ var DeptInfo = (function () {
 		$sortOrder.val(deptData.sort_order);
 		$id.val(deptData.id);
 		if(deptData.is_extended_department == 1){
-			$extendedTag.text('重點產業系所')
+			$extendedTag.text('重點產業系所').addClass('badge-warning');
 		} else if(deptData.is_extended_department == 2){
-			$extendedTag.text('國際專修部')
+			$extendedTag.text('國際專修部').addClass('table-primary');
 		} else {
-			$extendedTag.text('')
+			$extendedTag.text('');
 		}
         $titleMain.val(deptData.title_main);  // 核定系名
         $titleDivision.val(deptData.title_division);  // 招生分組
