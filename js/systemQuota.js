@@ -251,9 +251,9 @@ var systemQuota = (function () {
 			// 重點產業系所
 			$('#'+system+'_key_industry_quota').val(+system_quota_data.key_industry_quota);
 			if(system_quota_data.key_industry_quota_approved_number != null)
-				$key_industry_quota_approved_number.append(system_quota_data.key_industry_quota_approved_number+'<br/>');
+				$key_industry_quota_approved_number.append('依'+system_quota_data.key_industry_quota_approved_number+'函核定<br/>');
 			if(system_quota_data.IFP_quota_approved_number != null)
-				$IFP_quota_approved_number.append(system_quota_data.IFP_quota_approved_number+'<br/>');
+				$IFP_quota_approved_number.append('依'+system_quota_data.IFP_quota_approved_number+'函核定<br/>');
 		}
 
 		function _setEditor(creator, created_at) {
