@@ -8,6 +8,8 @@ var systemQuota = (function () {
 	const $btnConfirm = $('#btn-confirm');
 	const $btnPdf = $('#btn-pdf');
 
+	const $schoolTypeIsTechArray = ['國立科技大學', '私立科技大學']; // 科大都是技職司的
+
 	//quota
 	const $fixedQuotaTable = $('#fixed_quota_table');
 
@@ -76,6 +78,7 @@ var systemQuota = (function () {
 	let schoolid;
 	let has_medicine_dept = 0;
 	let has_IACP_amount = 0;
+	let isTech = false;
 
 	/**
 	*	bind event
@@ -130,6 +133,9 @@ var systemQuota = (function () {
 			}
 		}).then(function(json) {
 			schoolid=json.school_editor.school_code;
+			if($schoolTypeIsTechArray.indexOf(json.school_editor.school.type) != -1){
+				isTech = true;
+			}
 
 			School.getFirstSystemQuota(schoolid).then(function (res) { //取得各學制總量數據
 				if(res.ok) {
@@ -256,7 +262,7 @@ var systemQuota = (function () {
 			$('#'+system+'_total_amount').text(+system_quota_data.last_year_admission_amount_multiply_10);
 			$('#'+system+'_amount').text(+system_quota_data.last_year_admission_amount);
 			$('#'+system+'_admission_amount').text(+system_quota_data.admission_amount);
-			$('#'+system+'_key_industry_amount').text(+system_quota_data.key_industry_amount);
+			$('#'+system+'_key_industry_amount').text((isTech) ?'不計' :+system_quota_data.key_industry_amount);
 			// 一般系所
 			$('#'+system+'_quota_used').val(+system_quota_data.quota_used);
 			$('#'+system+'_quota_passed').val(+system_quota_data.quota_passed);
