@@ -404,7 +404,7 @@ var systemQuota = (function () {
 
 		// 如果有填寫擴增名額 就出現提示文字 沒有就刪除提示文字
 		if( parseInt($bachelor_expanded_quota.val()) + parseInt($master_expanded_quota.val()) + parseInt($phd_expanded_quota.val()) > 0){
-			$expanded_quota_directions.html(`<a class="text-danger">請記得填寫「招生名額增量申請表」並回傳</a>`);
+			$expanded_quota_directions.html(`<a class="text-danger" target="_blank" href="https://drive.google.com/file/d/1iYnkbjm0gql-5ivaPHVAxsDX5hXdyHFH/view?usp=sharing">請記得填寫「招生名額增量申請表」並回傳</a>`);
 		} else {
 			$expanded_quota_directions.html('');
 		}
