@@ -339,6 +339,7 @@ var systemQuota = (function () {
 	// 檢查目前輸入改變後是否不符合規定
 	async function _checkSystemQuota(system){
 		let systemString = ''
+		const quota_total = $('#'+system+'_total_amount');
 		const quota_amount = $('#'+system+'_admission_amount');
 		const quota_used = $('#'+system+'_quota_used');
 		const quota_passed = $('#'+system+'_quota_passed');
@@ -363,8 +364,8 @@ var systemQuota = (function () {
 				break;
 		}
 
-		// 核定總量為 0（無該班別或停招等），不得流用名額或申請增量
-		if(quota_amount_value == 0 && (quota_passed_value + surplus_quota_value + expanded_quota_value)!=0){
+		// 核定總量（總招生人數）為 0（無該班別或停招等），不得流用名額或申請增量
+		if(quota_total == 0 && (quota_passed_value + surplus_quota_value + expanded_quota_value)!=0){
 			quota_used.val(0);
 			quota_passed.val(0);
 			surplus_quota.val(0);
