@@ -30,7 +30,7 @@
 		<th class="phd" style="border-right:3px #622fa5 solid; width: 20%;">博士班</th>
 	</tr>
 	<tr>
-		<td style="border-right:3px #622fa5 solid; border-top:3px #622fa5 solid; "><%= year -1911%> 學年度<br/>本地生核定總量核定總量</td>
+		<td style="border-right:3px #622fa5 solid; border-top:3px #622fa5 solid; "><%= year -1911%> 學年度<br/>本地生核定總量</td>
 		<td class="bachelor" style="border-right:3px #622fa5 solid; border-top:3px #622fa5 solid;" id="bachelor_total_amount"></td>
 		<td class="master" style="border-right:3px #622fa5 solid; border-top:3px #622fa5 solid;"id="master_total_amount"></td>
 		<td class="phd" style="border-top:3px #622fa5 solid;"id="phd_total_amount"></td>
@@ -42,10 +42,10 @@
 		<td class="phd" style="border-top:3px #622fa5 solid;"id="phd_amount"></td>
 	</tr>
 	<tr>
-		<td style="border-right:3px #622fa5 solid; border-top:3px #622fa5 solid; ">Y：一般系所之外加10%名額數</td>
-		<td class="bachelor" style="border-right:3px #622fa5 solid; border-top:3px #622fa5 solid;"id="bachelor_admission_amount"></td>
-		<td class="master" style="border-right:3px #622fa5 solid; border-top:3px #622fa5 solid;"id="master_admission_amount"></td>
-		<td class="phd" style="border-top:3px #622fa5 solid;"id="phd_admission_amount"></td>
+		<td style="border:4px #ff3c00 solid; font-weight: bold; font-size:1.1rem; color:#ff3c00">Y：一般系所之外加10%名額數</td>
+		<td class="bachelor" style="border:4px #ff3c00 solid; font-size:1.1rem; "id="bachelor_admission_amount"></td>
+		<td class="master" style="border:4px #ff3c00 solid; font-size:1.1rem; "id="master_admission_amount"></td>
+		<td class="phd" style="border:4px #ff3c00 solid; font-size:1.1rem; "id="phd_admission_amount"></td>
 	</tr>
 	<tr>
 		<td style="border-right:3px #622fa5 solid; border-top:3px #622fa5 solid; ">Z：重點產業系所之外加10%名額數</td>
@@ -108,11 +108,17 @@
 	<!-- 額外系所名額區域 目前是固定的 不知道哪天想到可能又要可以調整了 所以還是用 input object 來渲染名額-->
 	<tr>
 		<td style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;  width: 7%;" rowspan="2"><%= year -1910%> 學年度擴大招收僑外生計畫</td>
-		<td style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;  width: 14%;">重點產業系所核定名額數（F）</td>
+		<td style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid; width: 14%;">重點產業系所核定名額數（F）</td>
 		<td class="bachelor" style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;"><input class="form-control" type="number" id="bachelor_key_industry_quota" disabled></td>
 		<td class="master" style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;"><input class="form-control" type="number" id="master_key_industry_quota" disabled></td>
 		<td class="phd" style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;"><input class="form-control" type="number" id="phd_key_industry_quota" disabled></td>
 		<td style="border-top:6px #CFAA9E solid; width: 24%;" id="key_industry_quota_approved_number"></td>
+		<!-- <td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;  width: 7%;" rowspan="2"><%= year -1910%> 學年度擴大招收僑外生計畫</td>
+		<td style="border:4px rgb(255, 60, 0) solid; width: 14%;">重點產業系所核定名額數（F）</td>
+		<td class="bachelor" style="border:4px rgb(255, 60, 0) solid;"><input class="form-control" type="number" id="bachelor_key_industry_quota" disabled></td>
+		<td class="master" style="border:4px rgb(255, 60, 0) solid;"><input class="form-control" type="number" id="master_key_industry_quota" disabled></td>
+		<td class="phd" style="border:4px rgb(255, 60, 0) solid;"><input class="form-control" type="number" id="phd_key_industry_quota" disabled></td>
+		<td style="border:4px rgb(255, 60, 0) solid; width: 24%;" id="key_industry_quota_approved_number"></td> -->
 	</tr>
 	<tr>
 		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;  width: 14%;">國際專修部核定名額數（G）</td>
