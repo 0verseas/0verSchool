@@ -477,6 +477,21 @@ var systemQuota = (function () {
 			alertText = "儲存成功";
 		} else {
 			alertText = "已提交並鎖定資料";
+			await swal({
+				title: '確認後就「無法再次更改資料」，您真的確認送出嗎？',
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#5cb85c',
+				cancelButtonColor: '#dc3454',
+				confirmButtonText: '確定',
+				cancelButtonText: '取消',
+				reverseButtons: true
+			})
+			.then((result)=>{
+				if(!result){
+					return;
+				}
+			})
 		}
 
 		School.setFirstSystemQuota(schoolid, data).then(function (res) {
