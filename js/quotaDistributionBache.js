@@ -630,9 +630,9 @@ var quotaDistirbutionBache = (function () {
 					+$two_year_international_specialized_program_admission_selection_quota.val() +
 					+$international_specialized_program_self_enrollment_quota.val() +
 					+$two_year_international_specialized_program_self_enrollment_quota.val()
-				)	
-				break;			
-		}			
+				)
+				break;
+		}
 	}
 
 	function _prevOrder() { //系所排序上移

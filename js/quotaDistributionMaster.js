@@ -443,8 +443,8 @@ var quotaDistributionMaster = (function () {
 					+$main_industries_department_admission_selection_quota.val() +
 					+$main_industries_department_self_enrollment_quota.val()
 				)
-				break;	
-		}			
+				break;
+		}
 	}
 
     function _prevOrder() { //系所排序上移

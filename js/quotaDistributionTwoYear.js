@@ -275,7 +275,7 @@ var quotaDistirbutionTwoYear = (function () {
 		// 本年度欲招募總量必須小於等於可招生總量
 		if (+$quota_wantTotal.val() > +$quota_allowTotal.val()) {
 			valid = false;
-			swal({title:"各系所招生名額加總必須小於等於可招生總量", confirmButtonText:'確定', type:'success'});
+			swal({title:"各系所招生名額加總必須小於等於可招生總量", confirmButtonText:'確定', type:'error'});
 		}
 		return valid;
 	}
@@ -658,9 +658,9 @@ var quotaDistirbutionTwoYear = (function () {
 					+$two_year_international_specialized_program_admission_selection_quota.val() +
 					+$international_specialized_program_self_enrollment_quota.val() +
 					+$two_year_international_specialized_program_self_enrollment_quota.val()
-				)	
-				break;			
-		}			
+				)
+				break;
+		}
 	}
 
     function _prevOrder() { //系所排序上移
