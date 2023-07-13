@@ -305,7 +305,7 @@ var quotaDistirbutionBache = (function () {
             stopLoading();
 		}).catch(function (err) {
 			if (err.status === 404) {
-				swal({title:"沒有這個學制。 即將返回上一頁。", confirmButtonText:'確定', type:'error'}).then(() => {
+				swal({title:"沒有這個學制，即將返回上一頁。", confirmButtonText:'確定', type:'error'}).then(() => {
 					window.history.back();
 				});
 			} else {

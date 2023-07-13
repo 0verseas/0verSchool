@@ -204,7 +204,7 @@ var quotaDistributionPhd = (function () {
             stopLoading();
 		}).catch(function (err) {
 			if (err.status === 404) {
-				swal({title:"沒有這個學制。 即將返回上一頁。", confirmButtonText:'確定', type:'error'}).then(() => {
+				swal({title:"沒有這個學制，即將返回上一頁。", confirmButtonText:'確定', type:'error'}).then(() => {
 					window.history.back();
 				});
 			} else {
@@ -310,7 +310,7 @@ var quotaDistributionPhd = (function () {
 				teacher_quality_passed,
 				is_extended_department
 			} = dept;
-            var total = (+admission_selection_quota);
+            let total = (+admission_selection_quota);
 
             if (school_has_self_enrollment && has_self_enrollment) {
                 total += (+self_enrollment_quota);
