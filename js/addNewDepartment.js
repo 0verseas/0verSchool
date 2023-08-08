@@ -28,6 +28,7 @@
     const $applicantName = $('#applicant-name');
     const $applicantPhone = $('#applicant-phone');
     const $applicantEmail = $('#applicant-email');
+    const $uploadFileArea = $('#uploadFileArea');
     
     const $saveBtn = $('#save-btn'); // 儲存按鈕
     const $appliedBtn = $('#applied-btn'); // 發送按鈕
@@ -200,6 +201,7 @@
     // 開啟編輯model
     function _handleEditModalShow() {
         // show modal
+        $saveBtn.html($saveBtn.html().replace('新增請求','儲存資訊'));
         $applyModal.modal();
         // 取得 請求的id
         currentApplyID = $(this).data('id');
@@ -375,6 +377,9 @@
             $newGroupCodeSelector.attr('disabled',true);
             $conbineDeptIdInput1.attr('disabled',true);
             $conbineDeptIdInput2.attr('disabled',true);
+            $appliedBtn.attr('disabled',true).hide();
+            $deleteBtn.attr('disabled',true).hide();
+            $saveBtn.html($saveBtn.html().replace('新增請求','儲存資訊'));
 
             const $applied = (json[0].applied_at != null);
             $applyDetailedInput.show();
@@ -385,6 +390,7 @@
                 $deleteBtn.attr('disabled',true).hide();
                 $uploadFileBtn.attr('disabled',true);
                 $deleteFileBtn.attr('disabled',true).hide();
+                
                 $('.btn-upload').hide();
                 if(json[0].completed_at != null){
                     $applyTitle.html(`<i class="text-success fa fa-check" aria-hidden="true"> 處理完畢</i>`);
@@ -403,6 +409,8 @@
                 $deleteBtn.attr('disabled',false).show();
                 $uploadFileBtn.attr('disabled',false);
                 $deleteFileBtn.attr('disabled',false).show();
+                $uploadFileArea.show();
+                $saveBtn.html($saveBtn.html().replace('新增請求','儲存資訊'));
                 $('.btn-upload').show();
             }
             _handleActionChange();
@@ -440,6 +448,10 @@
 
         $departmentTitle.val('');
         $deptIdInput.val('');
+        $applicantName.val('');
+        $applicantPhone.val('');
+        $applicantEmail.val('');
+        $uploadedFileArea.innerHTML = '';
         $oldDepeTitleInput.val('');
         $newDepeTitleInput.val('');
         $oldGroupCodeSelector.val('');
@@ -447,12 +459,15 @@
         $conbineDeptIdInput1.val('');
         $conbineDeptIdInput2.val('');
         $returnReason.html('');
+        $saveBtn.html($saveBtn.html().replace('儲存資訊','新增請求'));
         $applyTitle.html(`<i class="text-primary fa fa-file-text" aria-hidden="true"> 新增請求</i>`);
         
         $returnReason.hide();
         $applyDetailedInput.hide();
+        $uploadFileArea.hide();
         $saveBtn.attr('disabled',false).show();
-        $appliedBtn.attr('disabled',false).show();
+        $appliedBtn.attr('disabled',false).hide();
+        $deleteBtn.attr('disabled',false).hide();
         // show modal
         $applyModal.modal();
     }

@@ -118,7 +118,7 @@
                                                 </div>
                                             </div>
                                             <select class="form-control" id="action-selector" disabled>
-                                                <option value="-1" selected disabled hidden>請選擇</option>
+                                                <option value="-1" selected disabled hidden>請先選擇學制</option>
                                                 <option value="1">新增系所</option>
                                                 <option value="2">更改系名</option>
                                                 <option value="3">更換類組</option>
@@ -136,7 +136,7 @@
                                                 </div>
                                             </div>
                                             <select class="form-control" id="type-selector" disabled>
-                                                <option value="-1" selected disabled hidden>請選擇</option>
+                                                <option value="-1" selected disabled hidden>請先選擇學制</option>
                                                 <option value="0">一般系所</option>
                                                 <option value="1">重點產業系所</option>
                                                 <option value="2">國際專修部</option>
@@ -243,7 +243,7 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <div class="card" id="uploadFileArea">
+                                <div class="card hide" id="uploadFileArea">
                                     <div class="card-header bg-primary text-white">
                                         上傳核定公文區域
                                     </div>
@@ -303,8 +303,8 @@
 
                     <div class="modal-footer">
                         <button class="btn btn-primary" id="save-btn"><i class="fa fa-save" aria-hidden="true"></i> 儲存資訊</button>
-                        <button class="btn btn-success" id="applied-btn"><i class="fa fa-send" aria-hidden="true"></i> 發送請求</button>
-                        <button class="btn btn-danger" id="delete-btn"><i class="fa fa-trash" aria-hidden="true"></i> 刪除請求</button>
+                        <button class="btn btn-success hide" id="applied-btn"><i class="fa fa-send" aria-hidden="true"></i> 發送請求</button>
+                        <button class="btn btn-danger hide" id="delete-btn"><i class="fa fa-trash" aria-hidden="true"></i> 刪除請求</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-sign-out" aria-hidden="true"></i> 離開</button>
                     </div>
                 </div>
