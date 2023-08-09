@@ -70,7 +70,7 @@ var deptInfoBache = (function () {
 	 */
 
 	if(env.stage == 1){
-			location.href = "./systemQuota.html";
+		location.href = "./systemQuota.html";
 	}
 	 _setData();
 

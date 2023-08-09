@@ -179,7 +179,26 @@ var quotaDistirbutionTwoYear = (function () {
 		if (!_checkForm()) {
 			return;
 		}
-        var validateStatus = true;
+        let validateStatus = true;
+
+		let alertString = '';
+		// 本年度欲招募總量必須等於可招生總量
+		if (+$general_department_sum.val() != +$quota_used.val()) {
+			alertString += `一般系所欲招募總量必須等於可使用名額！<br/>`
+		}
+		// 本年度重點產業系所欲招募總量必須等於教育部核定擴增招收名額
+		if (+$ratify_quota_for_main_industries_department.val() != +$main_industries_department_sum.val()) {
+			alertString += `重點產業系所欲招募總量必須等於重點產業系所招生名額！<br/>`
+		}
+		// 本年度國際專修部欲招募總量必須等於教育部核定擴增招收名額
+		if (+$ratify_quota_for_international_specialized_program.val() != +$international_specialized_program_sum.val()) {
+			alertString += `國際專修部欲招募總量必須大於等於國際專修部招生名額！<br/>`
+		}
+		// 本年度欲招募總量必須等於可招生總量
+		if (+$quota_wantTotal.val() != +$quota_allowTotal.val()) {
+			alertString += `各系所招生名額加總必須等於可招生總量！<br/>`
+		}
+
 		openLoading();
 
 		var departments = $deptList.find('.dept').map(function (i, deptRow) {
@@ -239,11 +258,14 @@ var quotaDistirbutionTwoYear = (function () {
                 } else {
                     throw res;
                 }
-            }).then(function (json) {
+            }).then(async function (json) {
+				stopLoading();
+				if(alertString != ''){
+					await swal({title:"請注意！",html: `最後鎖定時<br/>`+alertString, confirmButtonText:'確定', type:'warning'});
+				}
 				swal({title:"已儲存", confirmButtonText:'確定', type:'success'}).then(() => {
 					location.reload();
 				});
-				stopLoading();
             }).catch(function (err) {
                 err.json && err.json().then((data) => {
                     console.error(data);
@@ -258,24 +280,15 @@ var quotaDistirbutionTwoYear = (function () {
 	}
 
 	function _checkForm() {
-		var valid = true;
-
-		// 本年度主要產業系所欲招募總量必須大於等於教育部核定擴增招收名額
-		if (+$ratify_quota_for_main_industries_department.val() > +$main_industries_department_sum.val()) {
-			valid = false;
-			swal({title:"主要產業系所欲招募總量必須大於等於重點產業系所招生名額", confirmButtonText:'確定', type:'error'});
-		}
-
-		// 本年度國際專修部欲招募總量必須大於等於教育部核定擴增招收名額
-		if (+$ratify_quota_for_international_specialized_program.val() > +$international_specialized_program_sum.val()) {
-			valid = false;
-			swal({title:"國際專修部欲招募總量必須大於等於國際專修部招生名額", confirmButtonText:'確定', type:'error'});
-		}
-
-		// 本年度欲招募總量必須小於等於可招生總量
-		if (+$quota_wantTotal.val() > +$quota_allowTotal.val()) {
-			valid = false;
-			swal({title:"各系所招生名額加總必須小於等於可招生總量", confirmButtonText:'確定', type:'error'});
+		let $inputs = $page.find('.required');
+		let valid = true;
+		for (let input of $inputs) {
+			if (!$(input).val() || $(input).val() < 0) {
+				$(input).focus();
+				valid = false;
+				swal({title:"輸入有誤", html:"名額不得為空或負數", confirmButtonText:'確定', type:'error'});
+				break;
+			}
 		}
 		return valid;
 	}
