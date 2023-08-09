@@ -755,7 +755,7 @@
 
     // 依選取的系名填入學系代碼，若當前為更改系名，同時填入原系所名稱
     function _handleSelectDept() {
-        if ($(this).find(':selected').val() > -1) {
+        if ($(this).find(':selected').val() != -1) {
             $deptIdInput.val($(this).val());
             if($actionSelector.val() == '2') {
                 $oldDepeTitleInput.val($(this).find(':selected').text());
