@@ -29,7 +29,7 @@
     const $applicantPhone = $('#applicant-phone');
     const $applicantEmail = $('#applicant-email');
     const $uploadFileArea = $('#uploadFileArea');
-    
+
     const $saveBtn = $('#save-btn'); // 儲存按鈕
     const $appliedBtn = $('#applied-btn'); // 發送按鈕
     const $deleteBtn = $('#delete-btn'); // 刪除按鈕
@@ -183,7 +183,7 @@
                     buttonColor = 'btn-outline-info';
                 }
             }
-            
+
             let listHtml = `<tr class="btn-editApplyInfo" data-id="${data.id}">`;
             listHtml += `<td>${index+1+((page-1)*10)}</td>`;
             listHtml += `<td>${system}</td>`;
@@ -209,7 +209,7 @@
         _setApplyData(currentApplyID);
     }
 
-    // 
+    //
     function _handleDeptSelectorRender($system_id) {
         School.getSystemQuota($system_id).then(function (res) {
 			if(res.ok) {
@@ -221,6 +221,7 @@
             $deptList.selectpicker({title: '以原系名搜尋學系代碼'});
             let deptHtml = '';
             json.departments.forEach((el) => {
+                if(el == null) return;
                 deptHtml += `<option value="${el.id}">${el.title}</option>`;
             });
             $deptList.html(deptHtml);
@@ -229,7 +230,7 @@
 		}).catch(function (err) {
             console.log(err);
 			if (err.status === 404) {
-                
+
 			} else {
 				err.json && err.json().then((data) => {
 					console.error(data);
@@ -316,15 +317,15 @@
                 <option value="2">國際專修部</option>
             `);
         }
-        
+
         if(action_id != null && !(system_id > 1 && action_id == 3)){
             $actionSelector.val(action_id);
         }
-        
+
         if(dept_type != null && !(system_id > 1 && dept_type == 2) && !(system_id == 2 && dept_type == 1)){
             $typeSelector.val(dept_type);
         }
-        
+
         _handleDeptSelectorRender(system_id);
     }
 
@@ -390,7 +391,7 @@
                 $deleteBtn.attr('disabled',true).hide();
                 $uploadFileBtn.attr('disabled',true);
                 $deleteFileBtn.attr('disabled',true).hide();
-                
+
                 $('.btn-upload').hide();
                 if(json[0].completed_at != null){
                     $applyTitle.html(`<i class="text-success fa fa-check" aria-hidden="true"> 處理完畢</i>`);
@@ -414,7 +415,7 @@
                 $('.btn-upload').show();
             }
             _handleActionChange();
-            $uploadedFiles = json[1];            
+            $uploadedFiles = json[1];
 		}).then(()=>{
             _handleRenderFile();
             stopLoading();
@@ -461,7 +462,7 @@
         $returnReason.html('');
         $saveBtn.html($saveBtn.html().replace('儲存資訊','新增請求'));
         $applyTitle.html(`<i class="text-primary fa fa-file-text" aria-hidden="true"> 新增請求</i>`);
-        
+
         $returnReason.hide();
         $applyDetailedInput.hide();
         $uploadFileArea.hide();
@@ -547,7 +548,7 @@
             default :
                 break;
         }
-        
+
         openLoading();
         School.saveAddNewDepartmentApplyInfo(data)
         .then((res) => {
