@@ -278,7 +278,6 @@ var quotaDistributionPhd = (function () {
 		sum += +ratify_expanded_quota;
 		sum += +quota_used;
 		sum += +quota_passed;
-		sum -= +ratify_quota_for_main_industries_department;
 		$quota_used.val(sum);
 		$ratify_quota_for_main_industries_department.val(ratify_quota_for_main_industries_department || 0);
 		$general_department_self_enrollment_quota.val(general_department_self_enrollment_quota || 0);

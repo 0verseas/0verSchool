@@ -362,8 +362,6 @@ var quotaDistirbutionBache = (function () {
 		sum += +ratify_expanded_quota;
 		sum += +quota_used;
 		sum += +quota_passed;
-		sum -= +ratify_quota_for_main_industries_department;
-		sum -= +ratify_quota_for_international_specialized_program;
 		$twoTech_admission_selection_quota.val(another_department_admission_selection_quota || 0);
 		$twoTech_self_enrollment_quota.val(another_department_self_enrollment_quota || 0);
 		$quota_used.val(sum);

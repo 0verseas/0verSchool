@@ -307,18 +307,21 @@ var deptInfoBache = (function () {
 				}
 			})
 			.then((json) => {
+				stopLoading();
 				swal({title:`儲存成功並鎖定`, confirmButtonText:'確定', type:'success'}).then(() => {
 					location.reload();
 				});
 			})
 			.catch((err) => {
+				stopLoading();
 				console.error(data);
 				err.json && err.json().then((data) => {
 					swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
 				});
 			});
+		} else {
+			stopLoading();
 		}
-		stopLoading();
 	}
 
 })();

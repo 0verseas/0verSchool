@@ -371,8 +371,6 @@ var quotaDistirbutionTwoYear = (function () {
 		sum += +ratify_expanded_quota;
 		sum += +quota_used;
 		sum += +quota_passed;
-		sum -= +ratify_quota_for_main_industries_department;
-		sum -= +ratify_quota_for_international_specialized_program;
 		$bachelor_quota_admission_selection_quota.val(another_department_admission_selection_quota || 0);
 		$quota_used.val(sum);
 		$ratify_quota_for_main_industries_department.val(ratify_quota_for_main_industries_department);
