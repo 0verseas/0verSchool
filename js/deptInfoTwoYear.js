@@ -356,6 +356,8 @@ var deptInfoTwoYear = (function () {
 						swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
 					});
 				})
+		} else {
+			stopLoading();
 		}
 	}
 })();
