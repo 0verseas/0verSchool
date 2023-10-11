@@ -443,6 +443,7 @@
         $groupSelector.attr('disabled',false);
         $actionSelector.attr('disabled',true);
         $typeSelector.attr('disabled',true);
+        $departmentTitle.attr('disabled',false);
 
         isApplied = false;
         currentApplyID = '';
