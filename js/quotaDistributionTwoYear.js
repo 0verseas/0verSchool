@@ -182,26 +182,28 @@ var quotaDistirbutionTwoYear = (function () {
         let validateStatus = true;
 
 		let alertString = '';
+		let allowTotalMin = +$quota_used.val() + +$main_industries_department_sum.val() + +$ratify_quota_for_international_specialized_program.val();
+		let allowTotalMax = +$quota_used.val() + (2 * +$main_industries_department_sum.val()) + (3 * +$ratify_quota_for_international_specialized_program.val());
 		// 本年度欲招募總量必須等於可招生總量
 		if (+$general_department_sum.val() != +$quota_used.val()) {
 			alertString += `一般系所欲招募總量必須等於可使用名額！<br/>`
 		}
 		// 本年度重點產業系所欲招募總量必須等於教育部核定擴增招收名額
 		if (
-			+$ratify_quota_for_main_industries_department.val() < +$main_industries_department_sum.val()
-			|| +$ratify_quota_for_main_industries_department.val() > (2 * +$main_industries_department_sum.val())
+			+$main_industries_department_sum.val() < +$ratify_quota_for_main_industries_department.val()
+			|| +$main_industries_department_sum.val() > (2 * +$ratify_quota_for_main_industries_department.val())
 		) {
 			alertString += `重點產業系所欲招募總量，與教育部核定計畫不符（名額倍數；應在 1 ～ 2 倍之間）！<br/>`
 		}
 		if (
-			+$ratify_quota_for_international_specialized_program.val() < +$international_specialized_program_sum.val()
+			+$international_specialized_program_sum.val() < +$ratify_quota_for_international_specialized_program.val()
 			|| +$international_specialized_program_sum.val() > (3 * +$ratify_quota_for_international_specialized_program.val())
 		) {
 			alertString += `國際專修部欲招募總量，與教育部核定計畫不符（名額倍數；應在 1 ～ 3 倍之間）！<br/>`
 		}
 		// 本年度欲招募總量必須等於可招生總量
-		if (+$quota_wantTotal.val() != +$quota_allowTotal.val()) {
-			alertString += `各系所招生名額加總必須等於可招生總量！<br/>`
+		if (+$quota_wantTotal.val() < allowTotalMin || +$quota_wantTotal.val() > allowTotalMax) {
+			alertString += `各系所招生名額加總必須符合可招生總量！<br/>`
 		}
 
 		openLoading();
@@ -613,11 +615,13 @@ var quotaDistirbutionTwoYear = (function () {
 	}
 
 	function _updateAllowTotal() {
-		//var sum = +($quota_last_year_admission_amount.val()) +
-		let sum = +($quota_used.val()) +
+		let min = +($quota_used.val()) +
 			+($ratify_quota_for_main_industries_department.val())+
 			+($ratify_quota_for_international_specialized_program.val());
-		$quota_allowTotal.val(sum);
+		let max = +($quota_used.val()) +
+			+($ratify_quota_for_main_industries_department.val()*2)+
+			+($ratify_quota_for_international_specialized_program.val()*3);
+		$quota_allowTotal.val(min + " ~ " + max);
 	}
 
 	function _updateWantTotal() {

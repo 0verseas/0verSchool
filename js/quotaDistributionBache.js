@@ -196,6 +196,8 @@ var quotaDistirbutionBache = (function () {
 		}
 
 		let alertString = '';
+		let allowTotalMin = +$quota_used.val() + +$main_industries_department_sum.val() + +$ratify_quota_for_international_specialized_program.val();
+		let allowTotalMax = +$quota_used.val() + (2 * +$main_industries_department_sum.val()) + (3 * +$ratify_quota_for_international_specialized_program.val());
 		// 本年度欲招募總量必須等於可招生總量
 		if (+$general_department_sum.val() != +$quota_used.val()) {
 			alertString += `一般系所欲招募總量必須等於可使用名額！<br/>`
@@ -207,7 +209,6 @@ var quotaDistirbutionBache = (function () {
 		) {
 			alertString += `重點產業系所欲招募總量，與教育部核定計畫不符（名額倍數；應在 1 ～ 2 倍之間）！<br/>`
 		}
-		// 本年度國際專修部欲招募總量必須等於教育部核定擴增招收名額
 		if (
 			+$international_specialized_program_sum.val() < +$ratify_quota_for_international_specialized_program.val()
 			|| +$international_specialized_program_sum.val() > (3 * +$ratify_quota_for_international_specialized_program.val())
@@ -215,8 +216,8 @@ var quotaDistirbutionBache = (function () {
 			alertString += `國際專修部欲招募總量，與教育部核定計畫不符（名額倍數；應在 1 ～ 3 倍之間）！<br/>`
 		}
 		// 本年度欲招募總量必須等於可招生總量
-		if (+$quota_wantTotal.val() != +$quota_allowTotal.val()) {
-			alertString += `各系所招生名額加總必須等於可招生總量！<br/>`
+		if (+$quota_wantTotal.val() < allowTotalMin || +$quota_wantTotal.val() > allowTotalMax) {
+			alertString += `各系所招生名額加總必須符合可招生總量！<br/>`
 		}
 
 		openLoading();
@@ -372,7 +373,7 @@ var quotaDistirbutionBache = (function () {
 		$twoTech_self_enrollment_quota.val(another_department_self_enrollment_quota || 0);
 		$quota_used.val(sum);
 		$ratify_quota_for_main_industries_department.val(ratify_quota_for_main_industries_department || 0);
-		$ratify_quota_for_international_specialized_program.val(ratify_quota_for_international_specialized_program || 0);
+		$ratify_quota_for_international_specialized_program.val((ratify_quota_for_international_specialized_program) || 0);
 		$general_department_self_enrollment_quota.val(general_department_self_enrollment_quota || 0);
 		$main_industries_department_self_enrollment_quota.val(main_industries_department_self_enrollment_quota || 0);
 		$international_specialized_program_self_enrollment_quota.val(international_specialized_program_self_enrollment_quota || 0);
@@ -554,10 +555,13 @@ var quotaDistirbutionBache = (function () {
 	}
 
 	function _updateAllowTotal() {
-		let sum = +($quota_used.val()) +
+		let min = +($quota_used.val()) +
 			+($ratify_quota_for_main_industries_department.val())+
 			+($ratify_quota_for_international_specialized_program.val());
-		$quota_allowTotal.val(sum);
+		let max = +($quota_used.val()) +
+			+($ratify_quota_for_main_industries_department.val()*2)+
+			+($ratify_quota_for_international_specialized_program.val()*3);
+		$quota_allowTotal.val(min + " ~ " + max);
 	}
 
 	function _updateAdmissionSumSelfSum() {
