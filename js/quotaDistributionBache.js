@@ -280,7 +280,7 @@ var quotaDistirbutionBache = (function () {
 			if (!$(input).val() || $(input).val() < 0) {
 				$(input).focus();
 				valid = false;
-				swal({title:"輸入有誤", html:"名額不得為空或負數", confirmButtonText:'確定', type:'error'});
+				swal({title:"輸入有誤", html:"不得為空或負數", confirmButtonText:'確定', type:'error'});
 				break;
 			}
 		}
