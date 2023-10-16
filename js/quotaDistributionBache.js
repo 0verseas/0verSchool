@@ -561,7 +561,12 @@ var quotaDistirbutionBache = (function () {
 		let max = +($quota_used.val()) +
 			+($ratify_quota_for_main_industries_department.val()*2)+
 			+($ratify_quota_for_international_specialized_program.val()*3);
-		$quota_allowTotal.val(min + " ~ " + max);
+
+		if(min == max){
+			$quota_allowTotal.val(min);
+		} else {
+			$quota_allowTotal.val(min + " ~ " + max);
+		}
 	}
 
 	function _updateAdmissionSumSelfSum() {

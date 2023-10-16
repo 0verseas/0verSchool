@@ -415,7 +415,11 @@ var quotaDistributionMaster = (function () {
 			+($ratify_quota_for_main_industries_department.val());
 		let max = +($quota_used.val()) +
 			+($ratify_quota_for_main_industries_department.val()*2);
-		$quota_allowTotal.val(min+" ~ "+max);
+		if(min == max){
+			$quota_allowTotal.val(min);
+		} else {
+			$quota_allowTotal.val(min + " ~ " + max);
+		}
 	}
 
 	function _updateWantTotal() {
