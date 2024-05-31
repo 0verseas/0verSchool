@@ -279,10 +279,9 @@ var deptInfoMaster = (function () {
 	}
 
 	function _lockSystem() {
-		openLoading();
-
 		var isAllSet = confirm("確認後就無法再修改 " + _currentSystemName + "相關部分(名額分配、系所資料)，您真的確認送出嗎？");
 		if (isAllSet === true) {
+			openLoading();
 			var data = {"confirmed": true}
 			School.lockSystemInfo(_schoolId, _currentSystemId, data)
 			.then((res) => {
@@ -305,8 +304,6 @@ var deptInfoMaster = (function () {
 					swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
 				});
 			});
-		} else {
-			stopLoading();
 		}
 	}
 
