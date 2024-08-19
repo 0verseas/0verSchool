@@ -3,52 +3,56 @@ var DeptInfo = (function () {
 	// 此為 deptInfoBache, deptInfoTwoYear, deptInfoMaster, deptInfoPhd 共同引入的檔案
 	// 內容為各系所資訊 API
 
-	var _applicationDocumentTypes;
+	let _applicationDocumentTypes;
 
 	/**
 	 * cache DOM
 	 */
 
-	var $deptInfoForm = $('#form-deptInfo'); // 學制資訊
-	var $deptInfoDescription = $deptInfoForm.find('#description'); // 中文備註
-	var $deptInfoEngDescription = $deptInfoForm.find('#engDescription'); // 英文備註
+	const $deptInfoForm = $('#form-deptInfo'); // 學制資訊
+	const $deptInfoDescription = $deptInfoForm.find('#description'); // 中文備註
+	const $deptInfoEngDescription = $deptInfoForm.find('#engDescription'); // 英文備註
 
-	var $deptList = $('#dept-list'); // 系所列表
-	var $deptFilterInput = $('#dept-filter-input'); // 搜尋欄
+	const $deptList = $('#dept-list'); // 系所列表
+	const $deptFilterInput = $('#dept-filter-input'); // 搜尋欄
 
 	// Modal common elements
-	var $modalDeptInfo = $('#modal-deptInfo');
-	var $sortOrder = $modalDeptInfo.find('#sortOrder'); // 簡章順序
-	var $id = $modalDeptInfo.find('#id'); // Can't edit ，系所代碼
-	var $extendedTag = $modalDeptInfo.find('#extendedTag'); // Can't edit，讀卡代碼
-	var $titleMain = $modalDeptInfo.find('#titleMain');  // 核定系名
-	var $titleDivision = $modalDeptInfo.find('#titleDivision');  // 招生分組
-	var $title = $modalDeptInfo.find('#title'); // Can't edit，中文名稱
-	var $engTitle = $modalDeptInfo.find('#engTitle'); // Can't edit unless add at this year is true in the past, but now open to edit，英文名稱
-	var $url = $modalDeptInfo.find('#url'); // 系中文網站網址
-	var $engUrl = $modalDeptInfo.find('#engUrl'); // 系英文網站網址
-	var $mainGroup = $modalDeptInfo.find('#mainGroup'); // select bar，主要隸屬學群
-	var $subGroup = $modalDeptInfo.find('#subGroup'); // select bar，次要隸屬學群
-	var $genderLimit = $modalDeptInfo.find('#genderLimit'); // select bar，招收性別限制
-	var $moeCheckFailed = $modalDeptInfo.find('#moeCheckFailed'); // select bar，是否經教育部查核被列為持續列管或不通過
-    var $teacherQualityPassed = $modalDeptInfo.find('#teacherQualityPassed'); // select bar，師資質量是否達「專科以上學校總量發展規模與資源條件標準」附表五所定基準
-	var $description = $modalDeptInfo.find('#description'); // textarea，選系中文說明
-	var $engDescription = $modalDeptInfo.find('#engDescription'); // textarea，選系英文說明
-	var $hasForeignSpecialClass = $modalDeptInfo.find('#hasForeignSpecialClass'); // checkbox，是否招收外生專班
-	var $hasEngTaught = $modalDeptInfo.find('#hasEngTaught'); // checkbox，是否為全英文授課
-	var $hasDisabilities = $modalDeptInfo.find('#hasDisabilities'); // checkbox，是否招收身障學生
-	var $hasBuHweiHwaWen = $modalDeptInfo.find('#hasBuHweiHwaWen'); // checkbox，是否招收不具華文基礎學生
-	var $hasBirthLimit = $modalDeptInfo.find('#hasBirthLimit'); // checkbox，是否限制出生日期
-	var $birthLimitAfter = $modalDeptInfo.find('#birthLimitAfter'); // 限制出生日期（以後）
-	var $birthLimitBefore = $modalDeptInfo.find('#birthLimitBefore'); // 限制出生日期（以前）
-	var $memo = $modalDeptInfo.find('#memo'); // 給海聯的訊息
-	var $groupCode = $modalDeptInfo.find('#groupCode'); //類組
-    var $admissionSelectionQuota = $modalDeptInfo.find('#admissionSelectionQuota'); // 個人申請人數
+	const $modalDeptInfo = $('#modal-deptInfo');
+	const $sortOrder = $modalDeptInfo.find('#sortOrder'); // 簡章順序
+	const $id = $modalDeptInfo.find('#id'); // Can't edit ，系所代碼
+	const $extendedTag = $modalDeptInfo.find('#extendedTag'); // Can't edit，讀卡代碼
+	const $titleMain = $modalDeptInfo.find('#titleMain');  // 核定系名
+	const $titleDivision = $modalDeptInfo.find('#titleDivision');  // 招生分組
+	const $title = $modalDeptInfo.find('#title'); // Can't edit，中文名稱
+	const $engTitle = $modalDeptInfo.find('#engTitle'); // Can't edit unless add at this year is true in the past, but now open to edit，英文名稱
+	const $url = $modalDeptInfo.find('#url'); // 系中文網站網址
+	const $engUrl = $modalDeptInfo.find('#engUrl'); // 系英文網站網址
+	const $mainGroup = $modalDeptInfo.find('#mainGroup'); // select bar，主要隸屬學群
+	const $subGroup = $modalDeptInfo.find('#subGroup'); // select bar，次要隸屬學群
+	const $genderLimit = $modalDeptInfo.find('#genderLimit'); // select bar，招收性別限制
+	const $moeCheckFailed = $modalDeptInfo.find('#moeCheckFailed'); // select bar，是否經教育部查核被列為持續列管或不通過
+    const $teacherQualityPassed = $modalDeptInfo.find('#teacherQualityPassed'); // select bar，師資質量是否達「專科以上學校總量發展規模與資源條件標準」附表五所定基準
+	const $description = $modalDeptInfo.find('#description'); // textarea，選系中文說明
+	const $engDescription = $modalDeptInfo.find('#engDescription'); // textarea，選系英文說明
+	const $hasForeignSpecialClass = $modalDeptInfo.find('#hasForeignSpecialClass'); // checkbox，是否招收外生專班
+	const $hasEngTaught = $modalDeptInfo.find('#hasEngTaught'); // checkbox，是否為全英文授課
+	const $hasDisabilities = $modalDeptInfo.find('#hasDisabilities'); // checkbox，是否招收身障學生
+	const $hasBuHweiHwaWen = $modalDeptInfo.find('#hasBuHweiHwaWen'); // checkbox，是否招收不具華文基礎學生
+	const $hasBirthLimit = $modalDeptInfo.find('#hasBirthLimit'); // checkbox，是否限制出生日期
+	const $birthLimitAfter = $modalDeptInfo.find('#birthLimitAfter'); // 限制出生日期（以後）
+	const $birthLimitBefore = $modalDeptInfo.find('#birthLimitBefore'); // 限制出生日期（以前）
+	const $memo = $modalDeptInfo.find('#memo'); // 給海聯的訊息
+	const $groupCode = $modalDeptInfo.find('#groupCode'); //類組
+    const $admissionSelectionQuota = $modalDeptInfo.find('#admissionSelectionQuota'); // 個人申請人數
+	const $interviewForm = $modalDeptInfo.find('#form-interviewInfo'); // 面試資訊區域
+	const $hasInterview = $modalDeptInfo.find('#hasInterview'); // checkbox，是否需要面試
+	const $interviewDescription = $modalDeptInfo.find('#interview-description'); // textarea，選系中文說明
+	const $interviewEngDescription = $modalDeptInfo.find('#interview-english-description'); // textarea，選系英文說明
 
 	// 所有審查項目
-	var $reviewDiv = $modalDeptInfo.find('#review-div');
+	const $reviewDiv = $modalDeptInfo.find('#review-div');
 
-	var formGroup = {
+	let formGroup = {
 		sortOrderForm: $modalDeptInfo.find('#sortOrderForm input'),
         engTitleForm: $modalDeptInfo.find('#engTitleForm input'),
 		urlForm: $modalDeptInfo.find('#urlForm input'),
@@ -63,7 +67,8 @@ var DeptInfo = (function () {
 		birthLimitAfterForm: $modalDeptInfo.find('#birthLimitAfterForm input'),
 		birthLimitBeforeForm: $modalDeptInfo.find('#birthLimitBeforeForm input'),
 		memoForm: $modalDeptInfo.find('#memoForm textarea'),
-		groupCodeForm: $modalDeptInfo.find('#groupCodeForm select')
+		groupCodeForm: $modalDeptInfo.find('#groupCodeForm select'),
+		interviewForm: $modalDeptInfo.find('#form-interviewInfo textarea')
 	};
 
 	/**
@@ -74,6 +79,7 @@ var DeptInfo = (function () {
 	$hasBirthLimit.on("change", _switchHasBirthLimit); // 是否限制出生日期
 	$moeCheckFailed.on("change", _switchMoeCheckFailed); // 是否被列管
 	$teacherQualityPassed.on("change" ,_switchTeacherQualityPassed); // 是否師資不合格
+	$hasInterview.on("change" ,_switchHasInterview);
 
 	/**
 	 * events
@@ -85,7 +91,7 @@ var DeptInfo = (function () {
 	}
 
 	function saveDeptDescription(system) { // Description 儲存
-		var check = true;
+		let check = true;
 
 		if (!_validateNotEmpty($deptInfoDescription)) {
             $deptInfoDescription.addClass("is-invalid");
@@ -98,7 +104,7 @@ var DeptInfo = (function () {
         }
 
         if (check === true) {
-            var data = {
+            let data = {
                 'description': $deptInfoDescription.val(),
                 'eng_description': $deptInfoEngDescription.val()
             };
@@ -138,7 +144,7 @@ var DeptInfo = (function () {
 		// 列表初始化
 		$deptList.find('tbody').html('');
 		departments.forEach(function (value, index) {
-			var updateAt = moment(value.created_at).format('YYYY/MM/DD HH:mm:ss');
+			let updateAt = moment(value.created_at).format('YYYY/MM/DD HH:mm:ss');
 			let engTitle = encodeHtmlCharacters(value.eng_title);  // department english title
 			let title = encodeHtmlCharacters(value.title); // department title
 			if(value.is_extended_department == 1){
@@ -169,9 +175,9 @@ var DeptInfo = (function () {
 
 	function _filterDeptInput(e) { // 「系所列表」搜尋過濾列表
 		let filter = $deptFilterInput.val().toUpperCase();
-		var tr = $deptList.find('tr');
+		let tr = $deptList.find('tr');
 
-		var i;
+		let i;
 		for (i = 0; i < tr.length; i++) {
 			let code = tr[i].getElementsByTagName("td")[2]; // 代碼
 			let name = tr[i].getElementsByTagName("td")[3]; // 名稱
@@ -187,11 +193,11 @@ var DeptInfo = (function () {
 	}
 
 	function renderDeptSelect(system) {
-		var item = School.getDeptFormItem(system); // 產生系所詳細資料 Modal 中下拉式選單
+		let item = School.getDeptFormItem(system); // 產生系所詳細資料 Modal 中下拉式選單
 
 		item.then(res => { return res[0].json(); }) // 學群
 		.then(json => {
-			// 列表初始化 
+			// 列表初始化
 			// $mainGroup.html('<option value="">無</option>');
 			$subGroup.html('<option value="">無</option>');
 			json.forEach((value, index) => {
@@ -216,9 +222,9 @@ var DeptInfo = (function () {
 		$sortOrder.val(deptData.sort_order);
 		$id.val(deptData.id);
 		if(deptData.is_extended_department == 1){
-			$extendedTag.text('重點產業系所').addClass('badge-warning');
+			$extendedTag.text('重點產業系所').removeClass('table-primary').addClass('badge-warning');
 		} else if(deptData.is_extended_department == 2){
-			$extendedTag.text('國際專修部').addClass('table-primary');
+			$extendedTag.text('國際專修部').removeClass('badge-warning').addClass('table-primary');
 		} else {
 			$extendedTag.text('');
 		}
@@ -228,7 +234,7 @@ var DeptInfo = (function () {
 		$title.val(deptData.title);
 		$engTitle.val(deptData.eng_title);
 
-        var label = $($engTitle).parent().find('label');
+        const label = $($engTitle).parent().find('label');
 
 		/*if (deptData.add_at_this_year === true) {
             $engTitle.prop('disabled', false);
@@ -277,6 +283,29 @@ var DeptInfo = (function () {
 		_switchHasBirthLimit();
 		_switchMoeCheckFailed();
 		_switchTeacherQualityPassed();
+
+		if(deptData.admission_selection_quota > 0 && system === "bache"){
+			$interviewForm.show();
+			if(deptData.is_extended_department == 2){
+				// 教育部規定 國際專修部一定要面試
+				$hasInterview.attr('disabled',true);
+				$hasInterview.val('1');
+				$hasInterview.prop('checked',true).trigger('change');
+			} else {
+				$hasInterview.attr('disabled',false);
+				$hasInterview.val(+deptData.has_interview);
+				$hasInterview.prop('checked', deptData.has_interview).trigger('change');
+			}
+			if(deptData.has_interview) {
+				$interviewDescription.val(deptData.interview_description);
+				$interviewEngDescription.val(deptData.interview_eng_description);
+			} else {
+				$interviewDescription.val('');
+				$interviewEngDescription.val('');
+			}
+		} else {
+			$interviewForm.hide();
+		}
 
 		reviewItems.initApplicationDocs(deptData.application_docs);
 		// 初始化渲染師長推薦函上傳方法的選項
@@ -344,10 +373,21 @@ var DeptInfo = (function () {
 		else ;
 	}
 
+	function _switchHasInterview(){
+		const checked = document.getElementById('hasInterview').checked;
+		if(checked){
+			$interviewDescription.attr('disabled', false);
+			$interviewEngDescription.attr('disabled', false);
+		} else {
+			$interviewDescription.attr('disabled', true);
+			$interviewEngDescription.attr('disabled', true);
+		}
+	}
+
 	function validateForm() {
-		var check = [];
-		var appDocCheck;
-		var form;
+		let check = [];
+		let appDocCheck;
+		let form;
 		for(form in formGroup) {
 			formGroup[form].removeClass("is-invalid");
 		}
@@ -383,8 +423,8 @@ var DeptInfo = (function () {
 		}
 
 		if ($hasBirthLimit.prop("checked")) {
-			var birthLimitAfterStatus = _validateNotEmpty($birthLimitAfter);
-			var birthLimitBeforeStatus = _validateNotEmpty($birthLimitBefore);
+			let birthLimitAfterStatus = _validateNotEmpty($birthLimitAfter);
+			let birthLimitBeforeStatus = _validateNotEmpty($birthLimitBefore);
 			if (!(birthLimitAfterStatus || birthLimitBeforeStatus)) {
 				formGroup.birthLimitAfterForm.addClass("is-invalid");
 				formGroup.birthLimitBeforeForm.addClass("is-invalid");
@@ -410,6 +450,13 @@ var DeptInfo = (function () {
 			}
 		}
 
+		if($('#admissionSelectionQuota').val() > 0 && $hasInterview.prop('checked')){
+			if($interviewDescription.val() == "" || $interviewEngDescription.val() == ""){
+				check.push('面試說明未填寫');
+				formGroup.interviewForm.addClass("is-invalid");
+			}
+		}
+
 		//return check && appDocCheck;
 		return check.concat(appDocCheck);
 	}
@@ -424,7 +471,8 @@ var DeptInfo = (function () {
 				doc.recieve_deadline = $('#recieveDeadline').val();
 			}
 		}
-		var $teacher_quality_passed_data = false;
+
+		let $teacher_quality_passed_data = false;
 
         if ($teacherQualityPassed.val() === "Y") {
             $teacher_quality_passed_data = true;
@@ -432,7 +480,7 @@ var DeptInfo = (function () {
             $teacher_quality_passed_data = false;
         }
 
-		var data = {
+		let data = {
 			title_division: $titleDivision.val(),
         	eng_title: $engTitle.val(),
 			url: $url.val(),
@@ -451,6 +499,16 @@ var DeptInfo = (function () {
 			memo: $memo.val(),
 			application_docs: JSON.stringify(applicationDocs)
 		};
+
+		if(applicationDocs.length > 0 && system === 'bache'){
+			data.has_interview = +$hasInterview.prop("checked");
+			data.interview_description = $interviewDescription.val();
+			data.interview_eng_description = $interviewEngDescription.val();
+		} else {
+			data.has_interview = 0;
+			data.interview_description = '';
+			data.interview_eng_description = '';
+		}
 
         // 師長推薦函上傳管道
         if ($modalDeptInfo.find('#recommendation-letter-upload-method').val() !== null){  // 有需要推薦函且不是紙本才需要丟
@@ -472,7 +530,7 @@ var DeptInfo = (function () {
 
 	// 檢查 Url 格式是否正確
 	function _validateUrlFormat(el) {
-		var regexp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+		let regexp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
 		return regexp.test(el.val());
 	}
 
@@ -569,7 +627,7 @@ var reviewItems = new Vue({ // 審查項目
 			this.applicationDocs = applicationDocs;
 		},
 		validateReviewItems() {
-			var check = [];
+			let check = [];
 
 			if ($('#admissionSelectionQuota').val() > 0) {
                 for (let type of this.reviewItemsTypes) {
@@ -621,7 +679,7 @@ var reviewItems = new Vue({ // 審查項目
 			return check;
 		},
 		getReviewItems() {
-			var data = this.reviewItemsTypes.filter((type) => {
+			let data = this.reviewItemsTypes.filter((type) => {
 				return type.needed;
 			});
 			return data;
