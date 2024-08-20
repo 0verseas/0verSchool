@@ -362,13 +362,15 @@ var quotaDistirbutionBache = (function () {
 			general_department_self_enrollment_quota,
 			school_has_self_enrollment,
 			quota_used,
-			quota_passed
+			quota_passed,
+			IACP_ratify_quota
 		} = data;
 		let sum = 0;
 		sum += +last_year_surplus_admission_quota;
 		sum += +ratify_expanded_quota;
 		sum += +quota_used;
 		sum += +quota_passed;
+		sum -= +IACP_ratify_quota;
 		$twoTech_admission_selection_quota.val(another_department_admission_selection_quota || 0);
 		$twoTech_self_enrollment_quota.val(another_department_self_enrollment_quota || 0);
 		$quota_used.val(sum);
