@@ -371,13 +371,15 @@ var quotaDistirbutionTwoYear = (function () {
 			bachelor_international_specialized_program_admission_selection_quota,
 			bachelor_general_department_self_enrollment_quota,
 			bachelor_main_industries_department_self_enrollment_quota,
-			bachelor_international_specialized_program_self_enrollment_quota
+			bachelor_international_specialized_program_self_enrollment_quota,
+			IACP_ratify_quota
 		} = data;
 		let sum = 0;
 		sum += +last_year_surplus_admission_quota;
 		sum += +ratify_expanded_quota;
 		sum += +quota_used;
 		sum += +quota_passed;
+		sum -= +IACP_ratify_quota;
 		$bachelor_quota_admission_selection_quota.val(another_department_admission_selection_quota || 0);
 		$quota_used.val(sum);
 		$ratify_quota_for_main_industries_department.val(ratify_quota_for_main_industries_department);

@@ -223,7 +223,7 @@ var deptInfoBache = (function () {
 					});
 					stopLoading();
 				});
-		} else {
+			} else {
 				swal({title:$validateResult.join("\n"), confirmButtonText:'確定', type:'error'});
 			}
 		}
