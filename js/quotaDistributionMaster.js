@@ -60,10 +60,15 @@ var quotaDistributionMaster = (function () {
 	});
 	$general_department_self_enrollment_quota.attr('disabled',false).get(0).type = 'number';
 	$main_industries_department_self_enrollment_quota.attr('disabled',false).get(0).type = 'number';
+	$general_department_self_enrollment_quota.get(0).min = 0;
+	$main_industries_department_self_enrollment_quota.get(0).min = 0;
 
 	_setData();
 
 	function _handleGeneralDepartmentSelfChanged() {
+		if($(this).val()<0) {
+			$(this).val(0);
+		}
 		$general_department_sum.val(
 			+$general_department_admission_selection_quota.val() +
 			+$general_department_self_enrollment_quota.val()
@@ -73,6 +78,9 @@ var quotaDistributionMaster = (function () {
 	}
 
 	function _handleMainIndustriesDepartmentSelfChanged() {
+		if($(this).val()<0) {
+			$(this).val(0);
+		}
 		$main_industries_department_sum.val(
 			+$main_industries_department_admission_selection_quota.val() +
 			+$main_industries_department_self_enrollment_quota.val()
