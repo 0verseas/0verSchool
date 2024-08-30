@@ -169,7 +169,7 @@
 						</div>
 						<div class="row">
 
-						<% if(system == 'bachelor') { -%>
+							<% if(system == 'bachelor') { -%>
 							<div id="groupCodeForm" class="form-group col-6">
 								<label class="form-control-label text-danger" for="">類組*</label>
 								<select class="form-control" id="groupCode" disabled>
@@ -178,7 +178,7 @@
 									<option value="3">第三類組</option>
 								</select>
 							</div>
-						<% } -%>
+							<% } -%>
 
 							<div id="genderLimitForm" class="form-group col-6">
 								<label class="form-control-label text-danger" for="">招收性別限制*</label>
@@ -189,6 +189,31 @@
 								</select>
 							</div>
 						</div>
+
+						<% if(system == 'bachelor') { -%>
+						<div class="row" id="specialDepatmentForm">
+								<div id="groupCodeForm" class="form-group col-6">
+									<label class="form-control-label text-danger" for="">
+										特定領域相關學系*
+										<i class="fa fa-question-circle text-dark"
+											aria-hidden="true" data-toggle="tooltip"
+											data-placement="top"
+											data-animation="false"
+											title="此選項將會影響聯合分發第二梯次馬來西亞獨中統考文憑學生成績採計"
+										></i>
+									</label>
+									<select class="form-control" id="specialDepartment">
+										<option value="">無</option>
+										<option value="藝術相關學系">藝術相關學系</option>
+										<option value="餐飲相關學系">餐飲相關學系</option>
+										<option hidden value="中醫學系">中醫學系</option>
+										<option hidden value="牙醫學系">牙醫學系</option>
+										<option hidden value="醫學系">醫學系</option>
+									</select>
+								</div>
+						</div>
+						<% } -%>
+
 						<div class="row">
 							<div id="moeCheckFailedForm" class="form-group col-6">
 								<label class="form-control-label text-danger" for=""><br />是否經教育部查核被列為持續列管或不通過*</label>

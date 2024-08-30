@@ -500,6 +500,10 @@ var DeptInfo = (function () {
 			application_docs: JSON.stringify(applicationDocs)
 		};
 
+		if(system === 'bache'){
+			data.special_dept_type = $('#specialDepartment').val();
+		}
+
 		if(applicationDocs.length > 0 && system === 'bache'){
 			data.has_interview = +$hasInterview.prop("checked");
 			data.interview_description = $interviewDescription.val();
