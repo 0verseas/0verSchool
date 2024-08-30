@@ -137,7 +137,7 @@ var deptInfoBache = (function () {
 		DeptInfo.renderCommonDeptDetail(deptData, "bache"); // 渲染學制們共用欄位
 		var min = Math.min(deptData.last_year_admission_placement_amount, deptData.last_year_admission_placement_quota);
 		$placementQuotaTip.tooltip({title: '聯合分發人數請大於 ' + min + ' 人，否則請填寫減招原因'});
-		if((deptData.special_dept_type == null || deptData.special_dept_type == '藝術相關學系' || deptData.special_dept_type == '餐飲相關學系')){
+		if(deptData.group_code == 1 && (deptData.special_dept_type == null || deptData.special_dept_type == '藝術相關學系' || deptData.special_dept_type == '餐飲相關學系')){
 			$specialDepartmentForm.show();
 			$specialDepartmentSelect.val(deptData.special_dept_type);
 		} else {
