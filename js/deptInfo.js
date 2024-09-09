@@ -284,7 +284,7 @@ var DeptInfo = (function () {
 		_switchMoeCheckFailed();
 		_switchTeacherQualityPassed();
 
-		if(deptData.admission_selection_quota > 0 && system === "bache"){
+		if(deptData.admission_selection_quota > 0 && (system === "bache" || system === "twoYear")){
 			$interviewForm.show();
 			if(deptData.is_extended_department == 2){
 				// 教育部規定 國際專修部一定要面試
@@ -504,7 +504,7 @@ var DeptInfo = (function () {
 			data.special_dept_type = $('#specialDepartment').val();
 		}
 
-		if(applicationDocs.length > 0 && system === 'bache'){
+		if(applicationDocs.length > 0 && (system === "bache" || system === "twoYear")){
 			data.has_interview = +$hasInterview.prop("checked");
 			data.interview_description = $interviewDescription.val();
 			data.interview_eng_description = $interviewEngDescription.val();
