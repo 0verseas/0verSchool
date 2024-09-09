@@ -204,7 +204,10 @@ var deptInfoMaster = (function () {
 					}
 				})
 				.then((json) => {
-					swal({title:"儲存成功", confirmButtonText:'確定', type:'success'});
+					swal({title:"儲存成功", confirmButtonText:'確定', type:'success'})
+					.then(()=>{
+						$editDeptInfoModal.modal('hide');
+					});
 					stopLoading();
 				})
 				.catch((err) => {
