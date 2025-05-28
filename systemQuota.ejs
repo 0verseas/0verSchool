@@ -48,12 +48,15 @@
 		<td class="phd" style="border:4px #ff3c00 solid; font-size:1.1rem; "id="phd_admission_amount"></td>
 	</tr>
 	<tr>
-		<td style="border-right:3px #622fa5 solid; border-top:3px #622fa5 solid; ">Z：重點產業系所之外加10%名額數</td>
+		<td style="border-right:3px #622fa5 solid; border-top:3px #622fa5 solid; ">Z：「擴大招收僑外生計畫」系所之外加10%名額數</td>
 		<td class="bachelor" style="border-right:3px #622fa5 solid; border-top:3px #622fa5 solid;"id="bachelor_key_industry_amount"></td>
 		<td class="master" style="border-right:3px #622fa5 solid; border-top:3px #622fa5 solid;"id="master_key_industry_amount"></td>
 		<td class="phd" style="border-top:3px #622fa5 solid;"id="phd_key_industry_amount"></td>
 	</tr>
 </table>
+<br />
+
+<div style="text-align: center;"><label class="alert alert-warning" role="alert" id="memo" style="font-weight: bold;"></label></div>
 
 <br />
 
@@ -107,8 +110,8 @@
 	</tr>
 	<!-- 額外系所名額區域 目前是固定的 不知道哪天想到可能又要可以調整了 所以還是用 input object 來渲染名額-->
 	<tr>
-		<td style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;  width: 7%;" rowspan="2"><%= year -1910%> 學年度擴大招收僑外生計畫</td>
-		<td style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid; width: 14%;">重點產業系所核定名額數（F）</td>
+		<td style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;  width: 7%;" rowspan="2"><%= year -1910%> 學年度「擴大招收僑外生計畫」（F）</td>
+		<td style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid; width: 14%;">重點產業系所核定名額數</td>
 		<td class="bachelor" style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;"><input class="form-control" type="number" id="bachelor_key_industry_quota" disabled></td>
 		<td class="master" style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;"><input class="form-control" type="number" id="master_key_industry_quota" disabled></td>
 		<td class="phd" style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;"><input class="form-control" type="number" id="phd_key_industry_quota" disabled></td>
@@ -121,7 +124,7 @@
 		<td style="border:4px rgb(255, 60, 0) solid; width: 24%;" id="key_industry_quota_approved_number"></td> -->
 	</tr>
 	<tr>
-		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;  width: 14%;">國際專修部核定名額數（G）</td>
+		<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;  width: 14%;">國際專修部核定名額數</td>
 		<td class="bachelor" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" id="bachelor_IFP_quota" disabled></td>
 		<td class="master crossed" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><!-- <input class="form-control" type="number" id="master_IFP_quota" disabled> --></td>
 		<td class="phd crossed" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><!-- <input class="form-control" type="number" id="phd_IFP_quota" disabled> --></td>
@@ -170,7 +173,7 @@
 						<td style="border-right:3px #622fa5 solid; border-top:3px #622fa5 solid;">8</td>
 					</tr>
 					<tr>
-						<td style="border-right:3px #622fa5 solid; border-top:3px #622fa5 solid; ">Z：重點產業系所之外加10%名額數</td>
+						<td style="border-right:3px #622fa5 solid; border-top:3px #622fa5 solid; ">Z：「擴大招收僑外生計畫」系所之外加10%名額數</td>
 						<td style="border-right:3px #622fa5 solid; border-top:3px #622fa5 solid;">50</td>
 						<td style="border-right:3px #622fa5 solid; border-top:3px #622fa5 solid;">21</td>
 						<td style="border-right:3px #622fa5 solid; border-top:3px #622fa5 solid;">2</td>
@@ -227,15 +230,15 @@
 					</tr>
 
 					<tr>
-						<td style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;  width: 7%;" rowspan="2"><%= year -1910%> 學年度擴大招收僑外生計畫</td>
-						<td style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;  width: 14%;">重點產業系所核定名額數（F）</td>
+						<td style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;  width: 7%;" rowspan="2"><%= year -1910%> 學年度「擴大招收僑外生計畫」（F）</td>
+						<td style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;  width: 14%;">重點產業系所核定名額數</td>
 						<td style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;"><input class="form-control" type="number" min="0" value="40" disabled></td>
 						<td style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;"><input class="form-control" type="number" min="0" value="21" disabled></td>
 						<td style="border-right:3px #CFAA9E solid; border-top:6px #CFAA9E solid;"><input class="form-control" type="number" min="0" value="2" disabled></td>
 						<!-- <td style="border-top:6px #CFAA9E solid; width: 24%;">依教育部 OOOOOOOOA 函核定</td> -->
 					</tr>
 					<tr>
-						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;  width: 14%;">國際專修部核定名額數（G）</td>
+						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;  width: 14%;">國際專修部核定名額數</td>
 						<td style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><input class="form-control" type="number" min="0" value="50" disabled></td>
 						<td class="diagonalCrossRight" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><!-- <input class="form-control" type="number" disabled> --></td>
 						<td class="diagonalCrossRight" style="border-right:3px #CFAA9E solid; border-top:3px #CFAA9E solid;"><!-- <input class="form-control" type="number" disabled> --></td>
@@ -270,12 +273,12 @@
 	<tr>
 		<th style="border-right:3px #D499B9 solid;" rowspan="2">學士班（含港二技）<br/>總實際需求名額（E）</th>
 		<th style="border-right:3px #D499B9 solid;" colspan="3">醫學系</th>
-		<th rowspan="2">其餘科系可使用名額<br/>（I=E-H）</th>
+		<th rowspan="2">其餘科系可使用名額<br/>（L=E-K）</th>
 	</tr>
 	<tr>
 		<td style="border-right:3px #D499B9 solid; border-top:3px #D499B9 solid;">招生管道</td>
 		<td style="border-right:3px #D499B9 solid; border-top:3px #D499B9 solid;">各管道分配名額</td>
-		<td style="border-right:3px #D499B9 solid; border-top:3px #D499B9 solid;" >招生名額小計（H）</td>
+		<td style="border-right:3px #D499B9 solid; border-top:3px #D499B9 solid;" >招生名額小計（K）</td>
 	</tr>
 	<tr>
 		<td style="border-right:3px #D499B9 solid; border-top:3px #D499B9 solid;" rowspan="3"><input class="form-control" id="bachelor_quota_sum" disabled></td>
@@ -296,15 +299,19 @@
 
 <br />
 
+<div style="text-align: center;" class="IACP_table hide"><label class="alert alert-warning" role="alert" id="IACP_memo" style="font-weight: bold;">經核定辦理113學年度「產學攜手合作計畫僑生專班」者(學生於115學年度升讀合作技專校院)，請併同填報專班欲使用名額。</label></div>
+
+<br />
+
 <table class="IACP_table hide" style="border:4px #99c8d4 solid;" cellpadding="10" border='1' align="center">
 	<tr>
 		<th style="border-right:3px #99c8d4 solid;" rowspan="2">學士班（含港二技）<br/>總實際需求名額（E）</th>
 		<th style="border-right:3px #99c8d4 solid;" colspan="2">產學攜手合作計畫</th>
-		<th style="border-right:3px #99c8d4 solid;" rowspan="2">其餘科系可使用名額<br/>（I=E-H）</th>
+		<th style="border-right:3px #99c8d4 solid;" rowspan="2">其餘科系可使用名額<br/>（L=E-K）</th>
 	</tr>
 	<tr>
 		<td style="border-right:3px #99c8d4 solid; border-top:3px #99c8d4 solid;">核定名額（上限）</td>
-		<td style="border-right:3px #99c8d4 solid; border-top:3px #99c8d4 solid;">欲使用名額（H）</td>
+		<td style="border-right:3px #99c8d4 solid; border-top:3px #99c8d4 solid;">欲使用名額（K）</td>
 	</tr>
 	<tr>
 		<td style="border-right:3px #99c8d4 solid; border-top:3px #99c8d4 solid;"><input class="form-control" id="bachelor_quota_sum_for_IACP" disabled></td>
@@ -326,9 +333,9 @@
 
 <div class="row" style="font-size:18px; width: 95%;">
 	<ul>
-		<li>依據<a href="https://drive.google.com/file/d/109ZCkb6nMv7GYGeHNhmJqJoaxcR93XCz/view?usp=sharing" target="_blank">教育部113年4月25日臺教高通字第1130038000號函（含填表說明）</a>辦理。</li>
-		<li>請於 113 年 6 月 14 日（星期五）下午 5 時前登入本系統填報 114 學年度各班別僑、港澳生招生名額需求（含招生名額增量申請表），確認無誤並列印系統產生之「114學年度僑、港澳生名額總量調查回覆表」，經單位主管簽章確認後，回傳至本會（電子郵件信箱：<a href="mailto:overseassurvey@gmail.com">overseassurvey@gmail.com</a>，傳真：<a href="tel:+886-49-2911182"> 049-2911182</a>），始完成僑生名額填報作業。</li>
-		<li>欲申請僑、港澳生名額增量之學校，務必下載並填列「<a href="https://drive.google.com/file/d/1iYnkbjm0gql-5ivaPHVAxsDX5hXdyHFH/view?usp=sharing" target="_blank">114招生名額增量申請表</a>」，於 113 年 6 月 14 日（星期五）前併同提出增量原因、品質控管策略及配套措施，備文報部核定並副知本會，調查表電子檔併寄至本會電子郵件信箱（<a href="mailto:overseassurvey@gmail.com">overseassurvey@gmail.com</a>）俾利彙整。</li>
+		<li>依據<a href="https://drive.google.com/file/d/109ZCkb6nMv7GYGeHNhmJqJoaxcR93XCz/view?usp=sharing" target="_blank">教育部114年5月15日臺教高（四）字第1140047662號函（含填表說明）</a>辦理。</li>
+		<li>請於 114 年 6 月 13 日（星期五）下午 5 時前登入本系統填報 115 學年度各班別僑、港澳生招生名額需求（含招生名額增量申請表），確認無誤並列印系統產生之「115學年度僑、港澳生名額總量調查回覆表」，經單位主管簽章確認後，回傳至本會（電子郵件信箱：<a href="mailto:overseassurvey@gmail.com">overseassurvey@gmail.com</a>，傳真：<a href="tel:+886-49-2911182"> 049-2911182</a>），始完成僑生名額填報作業。</li>
+		<li>欲申請僑、港澳生名額增量之學校，務必下載並填列「<a href="https://drive.google.com/file/d/1iYnkbjm0gql-5ivaPHVAxsDX5hXdyHFH/view?usp=sharing" target="_blank">115招生名額增量申請表</a>」，於 114 年 6 月 13 日（星期五）前併同提出增量原因、品質控管策略及配套措施，備文報部核定並副知本會，調查表電子檔併寄至本會電子郵件信箱（<a href="mailto:overseassurvey@gmail.com">overseassurvey@gmail.com</a>）俾利彙整。</li>
 	</ul>
 </div>
 
