@@ -212,7 +212,7 @@ var systemQuota = (function () {
 			if ($technical_schoolcodes.includes(schoolid)) {
 				$memo.html('115學年度「擴大招收僑外生計畫」之系所尚待教育部核定');
 			} else {
-				$memo.html('115學年度「擴大招收僑外生計畫」之系所尚待教育部核定，本表Z欄暫以114學年度核定之系所及名額設定。<br/>如有科系擬於115學年度新增/退出「擴大招收僑外生計畫」畫，致需調整本表Y欄及Z欄，敬請填報教育部調查表單：<a href="https://reurl.cc/M3V9xk" target="_blank">https://reurl.cc/M3V9xk</a>');
+				$memo.html('115學年度「擴大招收僑外生計畫」之系所尚待教育部核定，本表Z欄暫以114學年度核定之系所及名額設定。<br/>如有科系擬於115學年度新增/退出「擴大招收僑外生計畫」，致需調整本表Y欄及Z欄，敬請填報教育部調查表單：<a href="https://reurl.cc/M3V9xk" target="_blank">https://reurl.cc/M3V9xk</a>');
 			}
 
 			$key_industry_quota_approved_number.html('');
