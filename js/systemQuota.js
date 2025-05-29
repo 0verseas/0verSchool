@@ -75,19 +75,14 @@ var systemQuota = (function () {
 
 	const $description = $('#description'); // 學制流用需求描述
 
-	const $memo = $('#memo'); // 顯示高教或技職備註
-	const $technical_schoolcodes = [
-		"71", "72", "73", "74", "75", "78", "81", "82", "83", "84", "85", "86", "87",
-		"88", "89", "90", "91", "92", "93", "94", "96", "97", "98", "99", "A0", "A1",
-		"A2", "A3", "A4", "A5", "A6", "A8", "A9", "B0", "B2", "B3", "B7", "B8", "B9",
-		"C0", "C1", "C2", "C3", "C4", "C5", "C7", "C8", "D1", "D2", "D5", "D7", "D8",
-		"D9", "E1", "E2", "E4", "E5", "E6", "F2"
-	];
+	const $alert_expanded_plan = $('.alert_expanded_plan'); // 顯示高教或技職提示
+	const $alert_expanded_plan_text = $('#alert_expanded_plan_text'); // 顯示高教或技職提示文字
 
 	let schoolid;
 	let has_medicine_dept = 0;
 	let has_IACP_amount = 0;
 	let isTech = false;
+	let notFF = '';
 
 	/**
 	*	bind event
@@ -141,7 +136,8 @@ var systemQuota = (function () {
 				throw res.status;
 			}
 		}).then(function(json) {
-			schoolid=json.school_editor.school_code;
+			schoolid = json.school_editor.school_code;
+			notFF = json.school_editor.school.type != '僑生先修部';
 			if($schoolTypeIsTechArray.indexOf(json.school_editor.school.type) != -1){
 				isTech = true;
 			}
@@ -209,10 +205,17 @@ var systemQuota = (function () {
 		}
 
 		function _setQuota(data) {
-			if ($technical_schoolcodes.includes(schoolid)) {
-				$memo.html('115學年度「擴大招收僑外生計畫」之系所尚待教育部核定');
+			// 是否顯示「擴大招收僑外生計畫」提醒文字
+			if (notFF) {
+				$alert_expanded_plan.show();
+				// 顯示「擴大招收僑外生計畫」文字內容
+				if (isTech) {
+					$alert_expanded_plan_text.html('115學年度「擴大招收僑外生計畫」之系所尚待教育部核定');
+				} else {
+					$alert_expanded_plan_text.html('115學年度「擴大招收僑外生計畫」之系所尚待教育部核定，本表Z欄暫以114學年度核定之系所及名額設定。<br/>如有科系擬於115學年度新增/退出「擴大招收僑外生計畫」，致需調整本表Y欄及Z欄，敬請填報教育部調查表單：<a href="https://reurl.cc/M3V9xk" target="_blank">https://reurl.cc/M3V9xk</a>');
+				}
 			} else {
-				$memo.html('115學年度「擴大招收僑外生計畫」之系所尚待教育部核定，本表Z欄暫以114學年度核定之系所及名額設定。<br/>如有科系擬於115學年度新增/退出「擴大招收僑外生計畫」，致需調整本表Y欄及Z欄，敬請填報教育部調查表單：<a href="https://reurl.cc/M3V9xk" target="_blank">https://reurl.cc/M3V9xk</a>');
+				$alert_expanded_plan.hide();
 			}
 
 			$key_industry_quota_approved_number.html('');
