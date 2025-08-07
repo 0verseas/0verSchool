@@ -44,10 +44,10 @@ var quotaDistirbutionBache = (function () {
 	const $ratify_quota_for_international_specialized_program = $page.find('.ratify_quota_for_international_specialized_program');
 
 	// dept list
-	var $deptList = $page.find('#table-bacheDeptList');
-	var $allDept;
-	var $schoolHasSelfEnrollment;
-	var $schoolHasMyanmarTeacherEducation;
+	let $deptList = $page.find('#table-bacheDeptList');
+	let $allDept;
+	let $schoolHasSelfEnrollment;
+	let $schoolHasMyanmarTeacherEducation;
 
 	/**
 	 * bind event
@@ -209,7 +209,7 @@ var quotaDistirbutionBache = (function () {
 
 		let alertString = '';
 		let allowTotalMin = +$quota_used.val() + +$main_industries_department_sum.val() + +$ratify_quota_for_international_specialized_program.val();
-		let allowTotalMax = +$quota_used.val() + (2 * +$main_industries_department_sum.val()) + (3 * +$ratify_quota_for_international_specialized_program.val());
+		let allowTotalMax = +$quota_used.val() + (2 * +$main_industries_department_sum.val()) + +$ratify_quota_for_international_specialized_program.val();
 		// 本年度欲招募總量必須等於可招生總量
 		if (+$general_department_sum.val() != +$quota_used.val()) {
 			alertString += `一般系所欲招募總量必須等於可使用名額！<br/>`
@@ -222,10 +222,9 @@ var quotaDistirbutionBache = (function () {
 			alertString += `重點產業系所欲招募總量，與教育部核定計畫不符（名額倍數；應在 1 ～ 2 倍之間）！<br/>`
 		}
 		if (
-			+$international_specialized_program_sum.val() < +$ratify_quota_for_international_specialized_program.val()
-			|| +$international_specialized_program_sum.val() > (3 * +$ratify_quota_for_international_specialized_program.val())
+			+$international_specialized_program_sum.val() != +$ratify_quota_for_international_specialized_program.val()
 		) {
-			alertString += `國際專修部欲招募總量，與教育部核定計畫不符（名額倍數；應在 1 ～ 3 倍之間）！<br/>`
+			alertString += `國際專修部欲招募總量，必須等於教育部核定計畫國際專修部招生名額！<br/>`
 		}
 		// 本年度欲招募總量必須等於可招生總量
 		if (+$quota_wantTotal.val() < allowTotalMin || +$quota_wantTotal.val() > allowTotalMax) {
@@ -417,11 +416,11 @@ var quotaDistirbutionBache = (function () {
 
 		$deptList.find('tbody').html('');
 
-        var count = 1;
-        var sort_num;
+        let count = 1;
+        let sort_num;
 
 		for (let dept of list) {
-			var {
+			let {
 				id,
 				sort_order,
 				title,
@@ -439,9 +438,9 @@ var quotaDistirbutionBache = (function () {
 				myanmar_teacher_education,
 				is_extended_department
 			} = dept;
-			var total = (+admission_selection_quota) + (+admission_placement_quota) + (+self_enrollment_quota || 0);
-			var reference = last_year_admission_placement_amount > last_year_admission_placement_quota ? last_year_admission_placement_quota : last_year_admission_placement_amount;
-			var noNeedToWriteReason = +reference <= +admission_placement_quota;
+			let total = (+admission_selection_quota) + (+admission_placement_quota) + (+self_enrollment_quota || 0);
+			let reference = last_year_admission_placement_amount > last_year_admission_placement_quota ? last_year_admission_placement_quota : last_year_admission_placement_amount;
+			let noNeedToWriteReason = +reference <= +admission_placement_quota;
 
 			let extended_department = (is_extended_department != 2) ?false :true;
 			let checked = school_has_self_enrollment ? ( has_self_enrollment ? 'checked' : '') : 'disabled';
@@ -557,11 +556,11 @@ var quotaDistirbutionBache = (function () {
 	}
 
 	function _updateQuotaSum(type) {
-		var $ele = {
+		let $ele = {
 			admission_selection_quota: $bachelor_quota_admission_selection_quota,
 			admission_placement_quota: $bachelor_quota_admission_placement_quota
 		};
-		var sum = 0;
+		let sum = 0;
 		$deptList.find('.dept').each(function (i, deptRow) {
 			sum += +$(deptRow).find(`.${type}`).val();
 		});
@@ -574,7 +573,7 @@ var quotaDistirbutionBache = (function () {
 			+($ratify_quota_for_international_specialized_program.val());
 		let max = +($quota_used.val()) +
 			+($ratify_quota_for_main_industries_department.val()*2)+
-			+($ratify_quota_for_international_specialized_program.val()*3);
+			+($ratify_quota_for_international_specialized_program.val());
 
 		if(min == max){
 			$quota_allowTotal.val(min);

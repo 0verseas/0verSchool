@@ -195,7 +195,7 @@ var quotaDistirbutionTwoYear = (function () {
 
 		let alertString = '';
 		let allowTotalMin = +$quota_used.val() + +$main_industries_department_sum.val() + +$ratify_quota_for_international_specialized_program.val();
-		let allowTotalMax = +$quota_used.val() + (2 * +$main_industries_department_sum.val()) + (3 * +$ratify_quota_for_international_specialized_program.val());
+		let allowTotalMax = +$quota_used.val() + (2 * +$main_industries_department_sum.val()) + +$ratify_quota_for_international_specialized_program.val();
 		// 本年度欲招募總量必須等於可招生總量
 		if (+$general_department_sum.val() != +$quota_used.val()) {
 			alertString += `一般系所欲招募總量必須等於可使用名額！<br/>`
@@ -208,10 +208,9 @@ var quotaDistirbutionTwoYear = (function () {
 			alertString += `重點產業系所欲招募總量，與教育部核定計畫不符（名額倍數；應在 1 ～ 2 倍之間）！<br/>`
 		}
 		if (
-			+$international_specialized_program_sum.val() < +$ratify_quota_for_international_specialized_program.val()
-			|| +$international_specialized_program_sum.val() > (3 * +$ratify_quota_for_international_specialized_program.val())
+			+$international_specialized_program_sum.val() != +$ratify_quota_for_international_specialized_program.val()
 		) {
-			alertString += `國際專修部欲招募總量，與教育部核定計畫不符（名額倍數；應在 1 ～ 3 倍之間）！<br/>`
+			alertString += `國際專修部欲招募總量，必須等於教育部核定計畫國際專修部招生名額！<br/>`
 		}
 		// 本年度欲招募總量必須等於可招生總量
 		if (+$quota_wantTotal.val() < allowTotalMin || +$quota_wantTotal.val() > allowTotalMax) {
@@ -640,7 +639,7 @@ var quotaDistirbutionTwoYear = (function () {
 			+($ratify_quota_for_international_specialized_program.val());
 		let max = +($quota_used.val()) +
 			+($ratify_quota_for_main_industries_department.val()*2)+
-			+($ratify_quota_for_international_specialized_program.val()*3);
+			+($ratify_quota_for_international_specialized_program.val());
 		if(min == max){
 			$quota_allowTotal.val(min);
 		} else {
