@@ -49,6 +49,9 @@ var quotaDistirbutionBache = (function () {
 	let $schoolHasSelfEnrollment;
 	let $schoolHasMyanmarTeacherEducation;
 
+	// agree authonization
+	const $agreeAuthCheckbox = $page.find('.agree-authorization-checkbox');
+
 	/**
 	 * bind event
 	 */
@@ -146,12 +149,31 @@ var quotaDistirbutionBache = (function () {
 	}
 
 	function _handleDeptPassChange() {
-		var $this = $(this);
-		var $single_deptPass = $this.parents('.dept').find('.isDeptPass');
-		var $single_admission_placement_quota = $this.parents('.dept').find('.admission_placement_quota').val()
+		let $this = $(this);
+		let $single_deptPass = $this.parents('.dept').find('.isDeptPass');
+		let $single_admission_placement_quota = $this.parents('.dept').find('.admission_placement_quota').val();
 
 		if( $single_deptPass.is(':checked') == true && $single_admission_placement_quota == 0){
 			swal({title:"該系聯合分發名額為 0，確定要流用嗎？", confirmButtonText:'確定', type:'info'});
+		}
+
+		let MI_department_has_quota_pass = false;
+		$deptList.find('.dept').map(function (i, deptRow) {
+			let $deptRow = $(deptRow);
+			let admission_quota_pass = $deptRow.find('.isDeptPass').is(':checked');
+			let admission_selection_quota = +$deptRow.find('.admission_selection_quota').val();
+			let is_extended_department = $deptRow.data('type');
+			if(admission_quota_pass && admission_selection_quota > 0 && is_extended_department == 1){
+				MI_department_has_quota_pass = true;
+			}
+		});
+
+		if(+$main_industries_department_admission_placement_quota.val() > 0 || MI_department_has_quota_pass){
+			$page.find('.agree-authorization-form').show();
+			$agreeAuthCheckbox.attr('disabled', false);
+		} else {
+			$page.find('.agree-authorization-form').hide();
+			$agreeAuthCheckbox.attr('disabled', true);
 		}
 	}
 
@@ -188,6 +210,25 @@ var quotaDistirbutionBache = (function () {
 						.attr('disabled', true);
 				}
 			}
+		}
+
+		let MI_department_has_quota_pass = false;
+		$deptList.find('.dept').map(function (i, deptRow) {
+			let $deptRow = $(deptRow);
+			let admission_quota_pass = $deptRow.find('.isDeptPass').is(':checked');
+			let admission_selection_quota = +$deptRow.find('.admission_selection_quota').val();
+			let is_extended_department = $deptRow.data('type');
+			if(admission_quota_pass && admission_selection_quota > 0 && is_extended_department == 1){
+				MI_department_has_quota_pass = true;
+			}
+		});
+
+		if(+$main_industries_department_admission_placement_quota.val() > 0 || MI_department_has_quota_pass){
+			$page.find('.agree-authorization-form').show();
+			$agreeAuthCheckbox.attr('disabled', false);
+		} else {
+			$page.find('.agree-authorization-form').hide();
+			$agreeAuthCheckbox.attr('disabled', true);
 		}
 	}
 
@@ -231,6 +272,21 @@ var quotaDistirbutionBache = (function () {
 			alertString += `各系所招生名額加總必須符合可招生總量！<br/>`
 		}
 
+		let agreeAuth = false;
+		let MI_department_has_quota_pass = false;
+		$deptList.find('.dept').map(function (i, deptRow) {
+			let $deptRow = $(deptRow);
+			let admission_quota_pass = $deptRow.find('.isDeptPass').is(':checked');
+			let admission_selection_quota = +$deptRow.find('.admission_selection_quota').val();
+			let is_extended_department = $deptRow.data('type');
+			if(admission_quota_pass && admission_selection_quota > 0 && is_extended_department == 1){
+				MI_department_has_quota_pass = true;
+			}
+		});
+		if($main_industries_department_admission_placement_quota.val() > 0 || MI_department_has_quota_pass){
+			agreeAuth = $agreeAuthCheckbox.prop('checked');
+		}
+
 		openLoading();
 
 		var departments = $deptList.find('.dept').map(function (i, deptRow) {
@@ -253,6 +309,7 @@ var quotaDistirbutionBache = (function () {
 			general_department_self_enrollment_quota: +$general_department_self_enrollment_quota.val(),
 			main_industries_department_self_enrollment_quota: +$main_industries_department_self_enrollment_quota.val(),
 			international_specialized_program_self_enrollment_quota: +$international_specialized_program_self_enrollment_quota.val(),
+			agreeAuth: agreeAuth,
 			departments: departments
 		};
 
@@ -344,6 +401,28 @@ var quotaDistirbutionBache = (function () {
 		_setQuota(json);
 		_setDeptList(json.departments, json.school_has_self_enrollment, json.school_has_myanmer_teacher_education);
 		_setEditor(json.creator, json.created_at);
+		let MI_department_has_quota_pass = false;
+		$deptList.find('.dept').map(function (i, deptRow) {
+			let $deptRow = $(deptRow);
+			let admission_quota_pass = $deptRow.find('.isDeptPass').is(':checked');
+			let admission_selection_quota = +$deptRow.find('.admission_selection_quota').val();
+			let is_extended_department = $deptRow.data('type');
+			if(admission_quota_pass && admission_selection_quota > 0 && is_extended_department == 1){
+				MI_department_has_quota_pass = true;
+			}
+		});
+		if(+$main_industries_department_admission_placement_quota.val() > 0 || MI_department_has_quota_pass){
+			$page.find('.agree-authorization-form').show();
+			$agreeAuthCheckbox.attr('disabled', false);
+			if(json.agreeAuth){
+				$agreeAuthCheckbox.prop('checked', true);
+			} else {
+				$agreeAuthCheckbox.prop('checked', false);
+			}
+		} else {
+			$page.find('.agree-authorization-form').hide();
+			$agreeAuthCheckbox.attr('disabled', true);
+		}
 		$page.find('#schoolHasSelf').text(json.school_has_self_enrollment ? '是' : '否');
 	}
 
