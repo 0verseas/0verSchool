@@ -299,7 +299,7 @@ var quotaDistirbutionBache = (function () {
 				admission_selection_quota: +$deptRow.find('.admission_selection_quota').val(),
 				admission_placement_quota: +$deptRow.find('.admission_placement_quota').val(),
 				decrease_reason_of_admission_placement: $deptRow.find('.decrease_reason_of_admission_placement').val() || null,
-				myanmar_teacher_education: +$deptRow.find('.isMyanmar').is(':checked'),
+				// myanmar_teacher_education: +$deptRow.find('.isMyanmar').is(':checked'),
 				is_extended_department: $deptRow.data('type'),
 			};
 		}).toArray();
@@ -514,7 +514,7 @@ var quotaDistirbutionBache = (function () {
 				admission_quota_pass,
 				moe_check_failed,
 				teacher_quality_passed,
-				myanmar_teacher_education,
+				// myanmar_teacher_education,
 				is_extended_department
 			} = dept;
 			let total = (+admission_selection_quota) + (+admission_placement_quota) + (+self_enrollment_quota || 0);
@@ -593,7 +593,7 @@ var quotaDistirbutionBache = (function () {
 					<td class="reference text-center" data-val="${reference}">${reference}</td>
 					<td><textarea class="form-control decrease_reason_of_admission_placement" cols="50" rows="1" ${noNeedToWriteReason ? 'disabled' : ''} >${decrease_reason_of_admission_placement || ''}</textarea></td>
 					<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${checked} ></td>
-					<td class="text-center"><input type="checkbox" class="isMyanmar" data-type="myanmar_teacher_education" ${checked3} ></td>
+					<!-- <td class="text-center"><input type="checkbox" class="isMyanmar" data-type="myanmar_teacher_education" ${checked3} ></td> -->
 					<td class="total text-center">${total}</td>
 				</tr>
 			`);
@@ -621,7 +621,7 @@ var quotaDistirbutionBache = (function () {
         const $orderNum = $deptList.find('.order-num');
 		const $DeptPass = $deptList.find('.isDeptPass');
 		const $single_admission_placement_quota = $deptList.find('.admission_placement_quota');
-		const $myanmar_teacher_education = $deptList.find('.isMyanmar');  // 是否招生緬甸師培生
+		// const $myanmar_teacher_education = $deptList.find('.isMyanmar');  // 是否招生緬甸師培生
 		const $admission_selection_quota = $deptList.find('.admission_selection_quota');  // 個人申請名額
 
         $upArrow.on("click", _prevOrder);
@@ -630,8 +630,8 @@ var quotaDistirbutionBache = (function () {
 		// 餘額留用 change
 		$DeptPass.on('change', _handleDeptPassChange);
 		$single_admission_placement_quota.on('change', _handleDeptPassChange);
-		$myanmar_teacher_education.on('change', _handleMyanmarTeacherEduChange);
-		$admission_selection_quota.on('change', _handleMyanmarTeacherEduChange);
+		// $myanmar_teacher_education.on('change', _handleMyanmarTeacherEduChange);
+		// $admission_selection_quota.on('change', _handleMyanmarTeacherEduChange);
 	}
 
 	function _updateQuotaSum(type) {
