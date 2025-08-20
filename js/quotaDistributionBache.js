@@ -524,7 +524,8 @@ var quotaDistirbutionBache = (function () {
 			let extended_department = (is_extended_department != 2) ?false :true;
 			let checked = school_has_self_enrollment ? ( has_self_enrollment ? 'checked' : '') : 'disabled';
 			let checked2 = ( (admission_quota_pass && !extended_department) ? 'checked' : '');
-			let checked3 = (school_has_myanmer_teacher_education && !extended_department)? ( myanmar_teacher_education ? 'checked' : '') : 'disabled';
+			// let checked3 = (school_has_myanmer_teacher_education && !extended_department)? ( myanmar_teacher_education ? 'checked' : '') : 'disabled';
+			// <td class="text-center"><input type="checkbox" class="isMyanmar" data-type="myanmar_teacher_education" ${checked3} ></td>
 			let checked4 = '';
 			let checked5 = '';
 			let checked6 = '';
@@ -593,7 +594,6 @@ var quotaDistirbutionBache = (function () {
 					<td class="reference text-center" data-val="${reference}">${reference}</td>
 					<td><textarea class="form-control decrease_reason_of_admission_placement" cols="50" rows="1" ${noNeedToWriteReason ? 'disabled' : ''} >${decrease_reason_of_admission_placement || ''}</textarea></td>
 					<td class="text-center"><input type="checkbox" class="isSelf" data-type="self_enrollment_quota" ${checked} ></td>
-					<!-- <td class="text-center"><input type="checkbox" class="isMyanmar" data-type="myanmar_teacher_education" ${checked3} ></td> -->
 					<td class="total text-center">${total}</td>
 				</tr>
 			`);
