@@ -40,6 +40,7 @@ var login = (function () {
 		var password = $password.val();
 
 		if (!username || !password) {
+			swal({title:'請輸入帳號或密碼', confirmButtonText:'確定', type:'error'});
 			return;
 		}
 
@@ -70,15 +71,18 @@ var login = (function () {
 						window.location.href = '/school/index.html';
 					}
                 }).catch(function (err) {
-                    console.log(err);
-                    if (err.status == 401) {
-                        $errMsg.finish().show().text('帳號或密碼錯誤。').fadeOut(5000);
-                    } else if (err.status == 403) {
-                        $errMsg.finish().show().text('Google reCAPTCHA verification failed').fadeOut(5000);
-                    }
-                    else if (err.status == 429) {  // 429 Too Many Requests
-                        $errMsg.finish().show().text('錯誤次數太多，請稍後再試。').fadeOut(5000);
-                    }
+                    // console.log(err);
+					err.json && err.json().then((data) => {
+						// console.error(data);
+						if (err.status == 401) {
+							swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
+						} else if (err.status == 403) {
+							swal({title:'Google reCAPTCHA verification failed', confirmButtonText:'確定', type:'error'});
+						}
+						else if (err.status == 429) {  // 429 Too Many Requests
+							swal({title:'錯誤次數太多，請稍後再試。', confirmButtonText:'確定', type:'error'});
+						}
+					});
                 })
 			});
         });
