@@ -13,6 +13,11 @@ body {
 	text-align: center;
 }
 
+.qr {
+    max-width: 20%;
+    height: auto;
+}
+
 @media screen and (min-width: 48em) {
 	.header {
 		margin-bottom: 2rem;
