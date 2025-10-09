@@ -426,6 +426,7 @@ var quotaDistirbutionTwoYear = (function () {
 
 		$bachelor_quota_admission_placement_quota.val(another_department_admission_placement_quota || 0);
 		_updateAllowTotal();
+		_handleSelfChanged();
 	}
 
 	function _setDeptList(list, school_has_self_enrollment) {
