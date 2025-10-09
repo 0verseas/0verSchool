@@ -303,6 +303,7 @@ var quotaDistributionPhd = (function () {
 		}
 
 		_updateAllowTotal();
+		_handleSelfChanged();
 	}
 
 	function _setDeptList(list, school_has_self_enrollment) {
