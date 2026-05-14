@@ -229,14 +229,28 @@
                                         </div>
 
                                         <div class="row" id="ConbineDeptIdForm">
-                                            <div class="form-group col-6">
-                                                <label for="english">欲合併系所代碼-1</label>
-                                                <input type="text" class="form-control" maxlength="5" id="conbine-dept-id-1">
+
+                                            <div class="form-group col-12">
+                                                <label for="chinese">主要合併學系代碼</label><br/>
+                                                <div class="row ">
+                                                    <div class="form-group col-6">
+                                                        <input type="text" class="form-control" style="margin-right:15px;" maxlength="5" id="main-dept-id" disabled>
+                                                    </div>
+                                                    <div class="form-group col-6">
+                                                        <select id="dept-list-selector" data-html="true" data-width="100%" data-style="btn-white" data-live-search="true">
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
 
-                                            <div class="form-group col-6">
-                                                <label for="english">欲合併系所代碼-2</label>
-                                                <input type="text" class="form-control" maxlength="5" id="conbine-dept-id-2">
+                                            <div class="col-lg-6">
+                                                <strong>所有系所清單</strong>
+                                                <div class="card pt-1 pb-1 bg-light" id="available-dept-list" style="max-height: 250px; min-height: 100px; overflow: auto;"></div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <strong>欲合併系所清單</strong>
+                                                <div class="card pt-1 pb-1 bg-light" id="conbine-dept-list" style="max-height: 250px; min-height: 100px; overflow: auto;"></div>
                                             </div>
                                         </div>
 

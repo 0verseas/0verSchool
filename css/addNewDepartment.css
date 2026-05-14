@@ -43,3 +43,45 @@ li {
 	/*上下都留空增加行距*/
 	margin: 5px auto;
 }
+
+/* 同時控制待選與合併清單的項目 */
+.available-dept-list-item,
+.conbine-dept-list-item {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0; /* 增加一點分隔線感 */
+}
+
+/* 滑鼠移上去的效果 */
+.available-dept-list-item:hover,
+.conbine-dept-list-item:hover {
+    background-color: #e9ecef;
+}
+
+/* 控制箭頭顯示：左邊清單 hover 顯現左箭頭，右邊 hover 顯現右箭頭 */
+.available-dept-list-item .btn-select,
+.conbine-dept-list-item .btn-select {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.available-dept-list-item:hover .btn-select,
+.conbine-dept-list-item:hover .btn-select {
+    opacity: 1;
+}
+
+/* 讓項目失去點擊事件 */
+.disabled-item {
+    pointer-events: none; /* 核心：阻斷所有滑鼠點擊、Hover 事件 */
+    opacity: 0.6;         /* 視覺上呈現半透明灰色 */
+    cursor: not-allowed;  /* 雖然 pointer-events 會讓 cursor 沒用，但這是好習慣 */
+}
+
+/* 確保 disabled 狀態下不會有 Hover 背景色 */
+.disabled-item:hover {
+    background-color: transparent !important;
+}

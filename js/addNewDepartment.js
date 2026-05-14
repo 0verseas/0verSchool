@@ -22,6 +22,10 @@
     const $newDepeTitleInput = $('#new-dept-title');
     const $oldGroupCodeSelector = $('#old-group-code-selector');
     const $newGroupCodeSelector = $('#new-group-code-selector');
+    const $mainDeptIdInput = $('#main-dept-id');
+    const $deptListSelector = $('#dept-list-selector');
+    const $availableDeptList = $('#available-dept-list');
+	const $conbineDeptList = $('#conbine-dept-list');
     const $conbineDeptIdInput1 = $('#conbine-dept-id-1');
     const $conbineDeptIdInput2 = $('#conbine-dept-id-2');
     const $deptList = $('#dept-list');
@@ -62,6 +66,8 @@
             new_dept_title = null,
             conbine_dept_id_1 = null,
             conbine_dept_id_2 = null,
+            conbine_main_dept_id = null,
+            conbine_dept_ids = null,
             applied = false,
             applicant_name = null,
             applicant_phone = null,
@@ -78,8 +84,8 @@
             this.new_group_code =new_group_code;
             this.old_dept_title =old_dept_title;
             this.new_dept_title =new_dept_title;
-            this.conbine_dept_id_1 =conbine_dept_id_1;
-            this.conbine_dept_id_2 =conbine_dept_id_2;
+            this.conbine_main_dept_id =conbine_main_dept_id;
+            this.conbine_dept_ids =conbine_dept_ids;
             this.applied =applied;
             this.applicant_name =applicant_name;
             this.applicant_phone =applicant_phone;
@@ -91,11 +97,19 @@
     let $uploadedFiles = []; // 當前請求有哪些檔案
     let currentApplyID = 0; // 當前請求的ID
     let isApplied = false; // 當前請求是否送出
+    let bachelorDeptList = [];
+    let twoYearTechDeptList = [];
+    let masterDeptList = [];
+    let phdDeptList = [];
+    let conbineDeptIDList = [];
 
     $systemSelector.on('change',_handleSystemChoose);
     $uploadFileBtn.on('change',_handleUploadFile);
     $actionSelector.on('change',_handleActionChange);
     $deptList.on('change',_handleSelectDept);
+    $deptListSelector.on('change',_handleSelectMainDept);
+    $availableDeptList.on('click', '.available-dept-list-item', _handleSelectConbineDept);
+    $conbineDeptList.on('click', '.conbine-dept-list-item', _handleRemoveConbineDept);
     $newBtn.on('click', _handleNew);
     $saveBtn.on('click', false, _handleSave);
     $appliedBtn.on('click', true, _handleSave);
@@ -149,6 +163,25 @@
 				});
 			});
 		});
+    }
+
+    // 取得當前學制的資料列表
+    function _getCurrentDeptList() {
+        const system_id = $systemSelector.val();
+        switch(system_id) {
+            case '1': return bachelorDeptList;
+            case '2': return twoYearTechDeptList;
+            case '3': return masterDeptList;
+            case '4': return phdDeptList;
+            default: return [];
+        }
+    }
+
+    // 取得學校類型 Badge HTML
+    function _getBadgeHtml(type) {
+        if (type == 1) return `<span class="badge badge-warning">重點產業系所</span>`;
+        if (type == 2) return `<span class="badge table-primary">國際專修部</span>`;
+        return '';
     }
 
     // 請求列表轉換並渲染
@@ -209,35 +242,64 @@
         _setApplyData(currentApplyID);
     }
 
-    //
-    function _handleDeptSelectorRender($system_id) {
-        School.getSystemQuota($system_id).then(function (res) {
-			if(res.ok) {
-				return res.json();
-			} else {
-				throw res;
-			}
-		}).then(function (json) {
-            $deptList.selectpicker({title: '以原系名搜尋學系代碼'});
-            let deptHtml = '';
+    function _getDeptList($system_id){
+        _handleDeptSelectorRender();
+        _handleConbineDeptSelectorRender();
+        // 檢查是否已有資料，若有，回傳一個已完成的 Promise
+        switch($system_id){
+            case '1': if(bachelorDeptList.length != 0) return Promise.resolve(); break;
+            case '2': if(twoYearTechDeptList.length != 0) return Promise.resolve(); break;
+            case '3': if(masterDeptList.length != 0) return Promise.resolve(); break;
+            case '4': if(phdDeptList.length != 0) return Promise.resolve(); break;
+        }
+
+        return School.getSystemQuota($system_id).then(function (res) {
+            if(res.ok) return res.json();
+            throw res;
+        }).then(function (json) {
+            let deptList = [];
             json.departments.forEach((el) => {
                 if(el == null) return;
-                deptHtml += `<option value="${el.id}">${el.title}</option>`;
+                deptList.push({ id: String(el.id), title: el.title, type: el.is_extended_department});
             });
-            $deptList.html(deptHtml);
-            $deptList.selectpicker('refresh'); // refresh selector
-            $deptList.parent().find('button').removeClass('bs-placeholder'); // 移除預設樣式
-		}).catch(function (err) {
-            console.log(err);
-			if (err.status === 404) {
 
-			} else {
-				err.json && err.json().then((data) => {
-					console.error(data);
-					swal({title:data.messages[0], confirmButtonText:'確定', type:'error'});
-				});
-			}
-		});
+            switch($system_id){
+                case '1': bachelorDeptList = deptList; break;
+                case '2': twoYearTechDeptList = deptList; break;
+                case '3': masterDeptList = deptList; break;
+                case '4': phdDeptList = deptList; break;
+            }
+            _handleDeptSelectorRender();
+            _handleConbineDeptSelectorRender();
+        });
+    }
+    //
+    function _handleDeptSelectorRender() {
+        const system_id = $systemSelector.val();
+        const deptList = _getCurrentDeptList();
+        $deptList.selectpicker({title: '以原系名搜尋學系代碼'});
+        let deptHtml = '';
+        deptList.forEach((el) => {
+            if(el == null) return;
+            deptHtml += `<option value='${el.id}' data-content='${_getBadgeHtml(el.type)}${el.title}'>${el.title}</option>`;
+        });
+        $deptList.html(deptHtml);
+        $deptList.selectpicker('refresh'); // refresh selector
+        $deptList.parent().find('button').removeClass('bs-placeholder'); // 移除預設樣式
+    }
+
+    function _handleConbineDeptSelectorRender() {
+        const deptList = _getCurrentDeptList();
+        $deptListSelector.selectpicker({title: '請先以系所名稱選擇主要合併系所代碼'});
+        let deptHtml = '';
+
+        deptList.forEach((el) => {
+            if(el == null) return;
+            deptHtml += `<option value='${el.id}' data-content='${_getBadgeHtml(el.type)}${el.title}'>${el.title}</option>`;
+        });
+        $deptListSelector.html(deptHtml);
+        $deptListSelector.selectpicker('refresh'); // refresh selector
+        $deptListSelector.parent().find('button').removeClass('bs-placeholder'); // 移除預設樣式
     }
 
     // 學制選項渲染
@@ -326,7 +388,7 @@
             $typeSelector.val(dept_type);
         }
 
-        _handleDeptSelectorRender(system_id);
+        _getDeptList(system_id);
     }
 
     // 渲染請求資訊到編輯模板
@@ -352,12 +414,13 @@
             $newDepeTitleInput.val(json[0].new_dept_title);
             $oldGroupCodeSelector.val(json[0].old_group_code);
             $newGroupCodeSelector.val(json[0].new_group_code);
-            $conbineDeptIdInput1.val(json[0].conbine_dept_id_1);
-            $conbineDeptIdInput2.val(json[0].conbine_dept_id_2);
+            // $conbineDeptIdInput1.val(json[0].conbine_dept_id_1);
+            // $conbineDeptIdInput2.val(json[0].conbine_dept_id_2);
             $applicantName.val(json[0].applicant_name);
             $applicantPhone.val(json[0].applicant_phone);
             $applicantEmail.val(json[0].applicant_email);
-            await _handleDeptSelectorRender(json[0].system_id);
+            conbineDeptIDList = (json[0].conbine_dept_ids) ? json[0].conbine_dept_ids.split(',') : [];
+            $mainDeptIdInput.val(json[0].conbine_main_dept_id);
             if(json[0].return_reason) {
                 $returnReason.html(`<strong>退回原因：</strong>` + json[0].return_reason);
                 $returnReason.show();
@@ -365,34 +428,13 @@
                 $returnReason.html();
                 $returnReason.hide();
             }
-
-            $systemSelector.attr('disabled',true);
-            $actionSelector.attr('disabled',true);
-            $typeSelector.attr('disabled',true);
-            $groupSelector.attr('disabled',true);
-            $departmentTitle.attr('disabled',true);
-            $deptIdInput.attr('disabled',true);
-            $oldDepeTitleInput.attr('disabled',true);
-            $newDepeTitleInput.attr('disabled',true);
-            $oldGroupCodeSelector.attr('disabled',true);
-            $newGroupCodeSelector.attr('disabled',true);
-            $conbineDeptIdInput1.attr('disabled',true);
-            $conbineDeptIdInput2.attr('disabled',true);
-            $appliedBtn.attr('disabled',true).hide();
-            $deleteBtn.attr('disabled',true).hide();
-            $saveBtn.html($saveBtn.html().replace('新增請求','儲存資訊'));
-
-            const $applied = (json[0].applied_at != null);
+            // 狀態控制
+            isApplied = (json[0].applied_at != null);
+            _toggleFormDisabled(isApplied); // 抽取出來的控制函式
             $applyDetailedInput.show();
-            if($applied){
-                isApplied = true;
-                $saveBtn.attr('disabled',true).hide();
-                $appliedBtn.attr('disabled',true).hide();
-                $deleteBtn.attr('disabled',true).hide();
-                $uploadFileBtn.attr('disabled',true);
-                $deleteFileBtn.attr('disabled',true).hide();
+            $uploadFileArea.show();
 
-                $('.btn-upload').hide();
+            if(isApplied){
                 if(json[0].completed_at != null){
                     $applyTitle.html(`<i class="text-success fa fa-check" aria-hidden="true"> 處理完畢</i>`);
                 } else {
@@ -404,19 +446,14 @@
                 } else {
                     $applyTitle.html(`<i class="text-primary fa fa-file-text" aria-hidden="true"> 尚未發送</i>`);
                 }
-                $departmentTitle.attr('disabled',false);
-                $saveBtn.attr('disabled',false).show();
-                $appliedBtn.attr('disabled',false).show();
-                $deleteBtn.attr('disabled',false).show();
-                $uploadFileBtn.attr('disabled',false);
-                $deleteFileBtn.attr('disabled',false).show();
-                $uploadFileArea.show();
                 $saveBtn.html($saveBtn.html().replace('新增請求','儲存資訊'));
-                $('.btn-upload').show();
             }
-            _handleActionChange();
+
             $uploadedFiles = json[1];
+            return _getDeptList(String($systemSelector.val()));
 		}).then(()=>{
+            _handleActionChange();
+        }).then(()=>{
             _handleRenderFile();
             stopLoading();
         })
@@ -432,6 +469,36 @@
 		});
     }
 
+    function _toggleFormDisabled(isApplied) {
+        // 1. 需要控制的輸入欄位清單
+        const inputs = [
+            $systemSelector, $actionSelector, $typeSelector, $groupSelector,
+            $departmentTitle, $deptIdInput, $oldDepeTitleInput, $newDepeTitleInput,
+            $oldGroupCodeSelector, $newGroupCodeSelector, $applicantName,
+            $applicantPhone, $applicantEmail, $uploadFileBtn
+        ];
+        // 2. 根據狀態統一設定 disabled
+        inputs.forEach($object => {
+            $object.attr('disabled',isApplied);
+        });
+        $deptList.prop('disabled', isApplied).selectpicker('refresh');
+        $deptListSelector.prop('disabled', isApplied).selectpicker('refresh');
+        // 3. 按鈕的顯示與隱藏
+        if (isApplied) {
+            $saveBtn.hide();
+            $appliedBtn.hide();
+            $deleteBtn.hide();
+            $deleteFileBtn.hide();
+            $('.btn-upload').hide();
+        } else {
+            $saveBtn.show();
+            $appliedBtn.show();
+            $deleteBtn.show();
+            $deleteFileBtn.show();
+            $('.btn-upload').show();
+        }
+    }
+
     // 打開請求新增表格
     async function _handleNew() {
         // init modal
@@ -439,14 +506,20 @@
         $actionSelector.val("-1");
         $typeSelector.val("-1");
         $groupSelector.val("-1");
+        $deptList.prop('disabled', false).val('-1').selectpicker('refresh');
+        $deptListSelector.prop('disabled', false).val('-1').selectpicker('refresh');
         $systemSelector.attr('disabled',false);
         $groupSelector.attr('disabled',false);
         $actionSelector.attr('disabled',true);
         $typeSelector.attr('disabled',true);
         $departmentTitle.attr('disabled',false);
+        $applicantName.attr('disabled',false);
+        $applicantEmail.attr('disabled',false);
+        $applicantPhone.attr('disabled',false);
 
         isApplied = false;
         currentApplyID = '';
+        conbineDeptIDList = [];
 
         $departmentTitle.val('');
         $deptIdInput.val('');
@@ -458,8 +531,13 @@
         $newDepeTitleInput.val('');
         $oldGroupCodeSelector.val('');
         $newGroupCodeSelector.val('');
+        $mainDeptIdInput.val('');
         $conbineDeptIdInput1.val('');
         $conbineDeptIdInput2.val('');
+        $mainDeptIdInput.val('');
+
+        $availableDeptList.html('');
+        $conbineDeptList.html('');
         $returnReason.html('');
         $saveBtn.html($saveBtn.html().replace('儲存資訊','新增請求'));
         $applyTitle.html(`<i class="text-primary fa fa-file-text" aria-hidden="true"> 新增請求</i>`);
@@ -505,10 +583,17 @@
                 break;
             case '4':
                 $ConbineDeptIdForm.show();
+                if ($mainDeptIdInput.val() && $mainDeptIdInput.val() !== '') {
+                    renderConbineLists();
+                } else {
+                    $availableDeptList.html(''); // 確保清空
+                    $conbineDeptList.html('');
+                }
                 if(!isApplied){
                     $deptIdInput.attr('disabled',false);
-                    $conbineDeptIdInput1.attr('disabled',false);
-                    $conbineDeptIdInput2.attr('disabled',false);
+                    $deptListSelector.attr('disabled',false);
+                    $availableDeptList.removeClass('bg-light');
+                    $conbineDeptList.removeClass('bg-light');
                 }
                 break;
         }
@@ -543,8 +628,9 @@
                 data.new_group_code = $newGroupCodeSelector.val();
                 break;
             case '4':
-                data.conbine_dept_id_1 = $conbineDeptIdInput1.val();
-                data.conbine_dept_id_2 = $conbineDeptIdInput2.val();
+                const conbineDeptIDS = conbineDeptIDList.join(',');
+                data.conbine_main_dept_id = $mainDeptIdInput.val();
+                data.conbine_dept_ids = conbineDeptIDS;
                 break;
             default :
                 break;
@@ -763,6 +849,68 @@
                 $oldDepeTitleInput.val($(this).find(':selected').text());
             }
         }
+    }
+
+    function _handleSelectMainDept() {
+        const selected_dept_id = $(this).val();
+        if ($(this).find(':selected').val() != -1) {
+            $mainDeptIdInput.val(selected_dept_id);
+            conbineDeptIDList = [];
+            renderConbineLists(); // 統一交給 renderConbineLists 處理
+        }
+    }
+
+    // 合併系所用 渲染兩份系所清單
+    function renderConbineLists() {
+        const deptList = _getCurrentDeptList();
+        if (deptList.length === 0) {
+            console.warn("目前尚無系所清單資料");
+            return;
+        }
+        const main_dept_id = String($mainDeptIdInput.val());
+        const disabledLabel = (isApplied) ?'disabled-item':'';
+        const leftArrowIcon = (isApplied) ?'' :'<span class="btn-select"><i class="fa fa-arrow-left"></i></span>';
+        const rightArrowIcon = (isApplied) ?'' :'<span class="btn-select"><i class="fa fa-arrow-right"></i></span>';
+
+        // --- 渲染合併清單 (右) ---
+        const conbineDepts = deptList.filter(item => conbineDeptIDList.includes(String(item.id)));
+        let leftHtml = '';
+        conbineDepts.forEach(el => {
+            leftHtml += `
+                <div class="p-2 conbine-dept-list-item ${disabledLabel}" data-id="${el.id}">
+                    <span class="title">${_getBadgeHtml(el.type)}${el.title}</span>
+                    ${leftArrowIcon}
+                </div>`;
+        });
+        $conbineDeptList.html(leftHtml);
+
+        // --- 渲染待選清單 (左) ---
+        const availableDepts = deptList.filter(item =>
+            String(item.id) !== main_dept_id && !conbineDeptIDList.includes(String(item.id))
+        );
+        let rightHtml = '';
+        availableDepts.forEach(el => {
+            rightHtml += `
+                <div class="p-2 available-dept-list-item ${disabledLabel}" data-id="${el.id}">
+                    <span class="title">${_getBadgeHtml(el.type)}${el.title}</span>
+                    ${rightArrowIcon}
+                </div>`;
+        });
+        $availableDeptList.html(rightHtml);
+    }
+
+    function _handleSelectConbineDept() {
+        const id = String($(this).data('id'));
+        if (!conbineDeptIDList.includes(id)) {
+            conbineDeptIDList.push(id);
+            renderConbineLists();
+        }
+    }
+
+    function _handleRemoveConbineDept() {
+        const id = String($(this).data('id'));
+        conbineDeptIDList = conbineDeptIDList.filter(dept_id => dept_id !== id);
+        renderConbineLists();
     }
 
     // 檔案大小計算是否超過 limit MB
