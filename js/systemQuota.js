@@ -211,9 +211,9 @@ var systemQuota = (function () {
 				$alert_expanded_plan.show();
 				// 顯示「擴大招收僑外生計畫」文字內容
 				if (isTech) {
-					$alert_expanded_plan_text.html('115學年度「擴大招收僑外生計畫」之系所尚待教育部核定');
+					$alert_expanded_plan_text.html('116學年度「擴大招收僑外生計畫」之系所尚待教育部核定');
 				} else {
-					$alert_expanded_plan_text.html('115學年度「擴大招收僑外生計畫」之系所尚待教育部核定，本表Z欄暫以114學年度核定之系所及名額設定。<br/>如有科系擬於115學年度新增/退出「擴大招收僑外生計畫」，致需調整本表Y欄及Z欄，敬請填報教育部調查表單：<a href="https://reurl.cc/M3V9xk" target="_blank">https://reurl.cc/M3V9xk</a>');
+					$alert_expanded_plan_text.html('116學年度「擴大招收僑外生計畫」之系所尚待教育部核定，本表Z欄暫以115學年度核定之系所及名額設定。<br/>如有科系擬於115學年度新增/退出「擴大招收僑外生計畫」，致需調整本表Y欄及Z欄，敬請填報教育部調查表單：<a href="https://reurl.cc/M3V9xk" target="_blank">https://reurl.cc/M3V9xk</a>');
 				}
 			} else {
 				$alert_expanded_plan.hide();
