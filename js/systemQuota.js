@@ -74,6 +74,7 @@ var systemQuota = (function () {
 	const $bachelor_except_IACP_quota_sum = $('#bachelor_except_IACP_quota_sum'); // 扣除產學攜手合作計畫名額的可招收名額
 
 	const $description = $('#description'); // 學制流用需求描述
+	const $expanded_quota_excel_link = $('.expanded_quota_excel_link') // 招生名額增量申請表下載連結文字
 
 	const $alert_expanded_plan = $('.alert_expanded_plan'); // 顯示高教或技職提示
 	const $alert_expanded_plan_text = $('#alert_expanded_plan_text'); // 顯示高教或技職提示文字
@@ -210,9 +211,9 @@ var systemQuota = (function () {
 				$alert_expanded_plan.show();
 				// 顯示「擴大招收僑外生計畫」文字內容
 				if (isTech) {
-					$alert_expanded_plan_text.html('115學年度「擴大招收僑外生計畫」之系所尚待教育部核定');
+					$alert_expanded_plan_text.html('116學年度「擴大招收僑外生計畫」之系所尚待教育部核定');
 				} else {
-					$alert_expanded_plan_text.html('115學年度「擴大招收僑外生計畫」之系所尚待教育部核定，本表Z欄暫以114學年度核定之系所及名額設定。<br/>如有科系擬於115學年度新增/退出「擴大招收僑外生計畫」，致需調整本表Y欄及Z欄，敬請填報教育部調查表單：<a href="https://reurl.cc/M3V9xk" target="_blank">https://reurl.cc/M3V9xk</a>');
+					$alert_expanded_plan_text.html('116學年度「擴大招收僑外生計畫」之系所尚待教育部核定，本表Z欄暫以115學年度核定之系所及名額設定。<br/>如有科系擬於115學年度新增/退出「擴大招收僑外生計畫」，致需調整本表Y欄及Z欄，敬請填報教育部調查表單：<a href="https://reurl.cc/M3V9xk" target="_blank">https://reurl.cc/M3V9xk</a>');
 				}
 			} else {
 				$alert_expanded_plan.hide();
@@ -264,9 +265,17 @@ var systemQuota = (function () {
 				_renderQuota('phd', data.phd); // 渲染名額資料
 			}
 
+			if(+data.bachelor.expanded_quota == 0 && +data.master.expanded_quota == 0 && +data.phd.expanded_quota == 0){
+				$expanded_quota_excel_link.hide();
+				$expanded_quota_excel_link.html(``);
+			} else {
+				$expanded_quota_excel_link.show();
+				$expanded_quota_excel_link.html(`<a class="text-danger" target="_blank"href="${env.baseUrl}/schools/expanded-quota-apply-excel">點此下載「招生名額增量申請表」</a>請記得填寫並回傳`);
+			}
+
 			// 如果有填寫擴增名額 就出現提示文字 沒有就刪除提示文字
 			if( parseInt($bachelor_expanded_quota.val()) + parseInt($master_expanded_quota.val()) + parseInt($phd_expanded_quota.val()) > 0){
-				$expanded_quota_directions.html(`<a class="text-danger" target="_blank" href="https://drive.google.com/file/d/1iYnkbjm0gql-5ivaPHVAxsDX5hXdyHFH/view?usp=sharing">請記得填寫「招生名額增量申請表」並回傳</a>`);
+				$expanded_quota_directions.html(`<p class="text-danger">如有變更，儲存後記得下載「招生名額增量申請表」填寫並回傳</a>`);
 			} else {
 				$expanded_quota_directions.html('');
 			}
@@ -423,7 +432,7 @@ var systemQuota = (function () {
 
 		// 如果有填寫擴增名額 就出現提示文字 沒有就刪除提示文字
 		if( parseInt($bachelor_expanded_quota.val()) + parseInt($master_expanded_quota.val()) + parseInt($phd_expanded_quota.val()) > 0){
-			$expanded_quota_directions.html(`<a class="text-danger" target="_blank" href="https://drive.google.com/file/d/1iYnkbjm0gql-5ivaPHVAxsDX5hXdyHFH/view?usp=sharing">請記得填寫「招生名額增量申請表」並回傳</a>`);
+			$expanded_quota_directions.html(`<p class="text-danger">如有變更，儲存後記得下載「招生名額增量申請表」填寫並回傳</a>`);
 		} else {
 			$expanded_quota_directions.html('');
 		}
