@@ -272,7 +272,7 @@ var systemQuota = (function () {
 				$expanded_quota_description.html(``);
 			} else {
 				$expanded_quota_description.show();
-				$expanded_quota_description.html(`有增量需求者，務必下載並填列「<a class="text-danger" target="_blank"href="${env.baseUrl}/schools/expanded-quota-apply-excel">${$expanded_excel_name}</a>」，併同增量原因、品質控管策略、配套措施，於115年6月12日前備文函報教育部核定並副知本會，（申請表excel檔併寄至本會電子郵件信箱（<a href="mailto:overseassurvey@gmail.com">overseassurvey@gmail.com</a>）俾利彙整。`);
+				$expanded_quota_description.html(`有增量需求者，務必下載並填列「<a class="text-danger" target="_blank"href="${env.baseUrl}/schools/expanded-quota-apply-excel">${$expanded_excel_name}</a>」，併同增量原因、品質控管策略、配套措施，於115年6月12日前備文函報教育部核定並副知本會，申請表excel檔併寄至本會（電子郵件信箱：<a href="mailto:overseassurvey@gmail.com">overseassurvey@gmail.com</a>）俾利彙整。`);
 			}
 
 			// 如果有填寫擴增名額 就出現提示文字 沒有就刪除提示文字
