@@ -74,10 +74,12 @@ var systemQuota = (function () {
 	const $bachelor_except_IACP_quota_sum = $('#bachelor_except_IACP_quota_sum'); // 扣除產學攜手合作計畫名額的可招收名額
 
 	const $description = $('#description'); // 學制流用需求描述
-	const $expanded_quota_excel_link = $('.expanded_quota_excel_link') // 招生名額增量申請表下載連結文字
+	const $expanded_quota_description = $('.expanded_quota_description') // 招生名額增量提醒文字 含excel 下載連結
 
 	const $alert_expanded_plan = $('.alert_expanded_plan'); // 顯示高教或技職提示
 	const $alert_expanded_plan_text = $('#alert_expanded_plan_text'); // 顯示高教或技職提示文字
+
+	const $expanded_excel_name = '116學年度大學申請僑港澳生招生名額增量調查表'; // 以防萬一 用變數 只需要改一個 就好
 
 	let schoolid;
 	let has_medicine_dept = 0;
@@ -266,16 +268,16 @@ var systemQuota = (function () {
 			}
 
 			if(+data.bachelor.expanded_quota == 0 && +data.master.expanded_quota == 0 && +data.phd.expanded_quota == 0){
-				$expanded_quota_excel_link.hide();
-				$expanded_quota_excel_link.html(``);
+				$expanded_quota_description.hide();
+				$expanded_quota_description.html(``);
 			} else {
-				$expanded_quota_excel_link.show();
-				$expanded_quota_excel_link.html(`<a class="text-danger" target="_blank"href="${env.baseUrl}/schools/expanded-quota-apply-excel">點此下載「招生名額增量申請表」</a>請記得填寫並回傳`);
+				$expanded_quota_description.show();
+				$expanded_quota_description.html(`有增量需求者，務必下載並填列「<a class="text-danger" target="_blank"href="${env.baseUrl}/schools/expanded-quota-apply-excel">${$expanded_excel_name}</a>」，併同增量原因、品質控管策略、配套措施，於115年6月12日前備文函報教育部核定並副知本會，（申請表excel檔併寄至本會電子郵件信箱（<a href="mailto:overseassurvey@gmail.com">overseassurvey@gmail.com</a>）俾利彙整。`);
 			}
 
 			// 如果有填寫擴增名額 就出現提示文字 沒有就刪除提示文字
 			if( parseInt($bachelor_expanded_quota.val()) + parseInt($master_expanded_quota.val()) + parseInt($phd_expanded_quota.val()) > 0){
-				$expanded_quota_directions.html(`<p class="text-danger">如有變更，儲存後記得下載「招生名額增量申請表」填寫並回傳</a>`);
+				$expanded_quota_directions.html(`<p class="text-danger">欲申請僑、港澳生名額增量之學校，請於儲存後下載「${$expanded_excel_name}」。</a>`);
 			} else {
 				$expanded_quota_directions.html('');
 			}
@@ -432,7 +434,7 @@ var systemQuota = (function () {
 
 		// 如果有填寫擴增名額 就出現提示文字 沒有就刪除提示文字
 		if( parseInt($bachelor_expanded_quota.val()) + parseInt($master_expanded_quota.val()) + parseInt($phd_expanded_quota.val()) > 0){
-			$expanded_quota_directions.html(`<p class="text-danger">如有變更，儲存後記得下載「招生名額增量申請表」填寫並回傳</a>`);
+			$expanded_quota_directions.html(`<p class="text-danger">欲申請僑、港澳生名額增量之學校，請於儲存後下載「${$expanded_excel_name}」。</a>`);
 		} else {
 			$expanded_quota_directions.html('');
 		}
@@ -531,7 +533,7 @@ var systemQuota = (function () {
 			stopLoading();
 			await swal({title: alertText, confirmButtonText:'確定', type:'success'});
 			if( parseInt($bachelor_expanded_quota.val()) + parseInt($master_expanded_quota.val()) + parseInt($phd_expanded_quota.val()) > 0 && action == "confirm"){
-				await swal({title:"您有申請僑、港澳生名額增量，請記得填列「114招生名額增量申請表」並回傳。 （詳情請看底下說明）", confirmButtonText:'確定', type:'info'});
+				await swal({title:"您有申請僑、港澳生名額增量，請記得填列「"+$expanded_excel_name+"」並回傳。 （詳情請看底下說明）", confirmButtonText:'確定', type:'info'});
 			}
 			location.reload();
 		}).catch(function (err) {
